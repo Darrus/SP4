@@ -21,6 +21,7 @@
 
 //Scenes
 #include "GameStateManagment\IntroState.h"
+#include "Scenes\SkillTreeScene.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -126,9 +127,10 @@ void Application::Init()
 	GraphicsManager::GetInstance()->Init();
 
 	SceneManager::GetInstance()->AddScene("IntroState", new CIntroState());
+	SceneManager::GetInstance()->AddScene("TestScene", new SkillTreeScene());
 
 	//Set the active scene
-	SceneManager::GetInstance()->SetActiveScene("IntroState");
+	SceneManager::GetInstance()->SetActiveScene("TestScene");
 }
 
 void Application::Run()
@@ -136,6 +138,27 @@ void Application::Run()
 	InitDisplay();
 	//SceneManager::GetInstance()->SetActiveScene("Start");
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
+	if (CLuaInterface::GetInstance()->GetBoolValue("fullscreen"))
+	{
+		GLfloat aspect = 16.0f / 9.0f;
+
+		int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+		int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+
+		int viewWidth = screenWidth;
+		int viewHeight = screenWidth / aspect;
+
+		if (viewHeight > screenHeight) {
+			viewHeight = screenHeight;
+			viewWidth = screenHeight * aspect;
+		}
+
+		int vportX = (screenWidth - viewWidth) / 2;
+		int vportY = (screenHeight - viewHeight) / 2;
+
+		glViewport(vportX, vportY, viewWidth, viewHeight);
+	}
+
 	while (!glfwWindowShouldClose(m_window) && !SceneManager::GetInstance()->quit)
 	{
 		glfwPollEvents();
@@ -262,4 +285,5 @@ void Application::InitDisplay(void)
 	// Tell the graphics manager to use the shader we just loaded
 	GraphicsManager::GetInstance()->SetActiveShader("default");
 	currProg->UpdateInt("numLights", 2);
+	
 }

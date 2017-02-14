@@ -22,6 +22,9 @@
     <ClCompile Include="Source\Entity\TextEntity.cpp" />
     <ClCompile Include="Source\FPSCamera.cpp" />
     <ClCompile Include="Source\GameStateManagment\IntroState.cpp" />
+    <ClCompile Include="Source\Items\Consumable.cpp" />
+    <ClCompile Include="Source\Items\Equipment.cpp" />
+    <ClCompile Include="Source\Items\Item.cpp" />
     <ClCompile Include="Source\Light.cpp" />
     <ClCompile Include="Source\Lua\LuaInterface.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -43,6 +46,9 @@
     <ClInclude Include="Source\Entity\TextEntity.h" />
     <ClInclude Include="Source\FPSCamera.h" />
     <ClInclude Include="Source\GameStateManagment\IntroState.h" />
+    <ClInclude Include="Source\Items\Consumable.h" />
+    <ClInclude Include="Source\Items\Equipment.h" />
+    <ClInclude Include="Source\Items\Item.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\Lua\LuaInterface.h" />
     <ClInclude Include="Source\OBJMesh.h" />
