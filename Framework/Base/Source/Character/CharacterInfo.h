@@ -19,6 +19,10 @@ struct CharacterInfo
 	StatSystem stats;
 	int HP;
 	int MP;
+	int level;
+	int EXP;
+	int maxEXP;
+	int id;
 };
 
 #endif

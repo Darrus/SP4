@@ -21,6 +21,12 @@
     <Filter Include="Animation">
       <UniqueIdentifier>{487b8ecc-d3e3-40d9-8489-e6ca2d6aac00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Party">
+      <UniqueIdentifier>{437c1307-69d9-474a-a5c4-f418d3c19ac9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Party\Character">
+      <UniqueIdentifier>{8e507de7-53af-4485-9522-12e2c9f051bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -71,6 +77,12 @@
     <ClCompile Include="Source\Scenes\IntroState.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Party\PartySystem.cpp">
+      <Filter>Party</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -117,6 +129,18 @@
     </ClInclude>
     <ClInclude Include="Source\Scenes\IntroState.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Character\CharacterInfo.h">
+      <Filter>Party\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Character\Stat.h">
+      <Filter>Party\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Party\PartySystem.h">
+      <Filter>Party</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player\Player.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
