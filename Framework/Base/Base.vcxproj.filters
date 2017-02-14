@@ -68,6 +68,9 @@
     <ClCompile Include="Source\Entity\AssetEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scenes\SkillTreeScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -111,6 +114,9 @@
     </ClInclude>
     <ClInclude Include="Source\Entity\AssetEntity.h">
       <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\SkillTreeScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
