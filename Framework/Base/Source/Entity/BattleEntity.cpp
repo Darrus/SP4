@@ -22,3 +22,13 @@ void BattleEntity::Update()
 	}
 	
 }
+
+void BattleEntity::Render()
+{
+
+}
+
+void BattleEntity::RenderUI()
+{
+
+}
