@@ -1,14 +1,13 @@
 #include "EntityManager.h"
 #include "EntityBase.h"
 #include "Collider/Collider.h"
-#include "../SceneGraph/SceneGraph.h"
 #include "KeyboardController.h"
 
 #include <iostream>
 using namespace std;
 
 // Update all entities
-void EntityManager::Update(double _dt)
+void EntityManager::Update()
 {
 	if (KeyboardController::GetInstance()->IsKeyDown(VK_MENU) && KeyboardController::GetInstance()->IsKeyPressed('C'))
 	{
@@ -16,15 +15,32 @@ void EntityManager::Update(double _dt)
 	}
 
 	// Update all entities
-	std::list<EntityBase*>::iterator it, end;
+	std::list<EntityBase*>::iterator it, it2, end;
 	end = entityList.end();
 	for (it = entityList.begin(); it != end; ++it)
 	{
-		(*it)->Update(_dt);
+		(*it)->Update();
 	}
 
-	// Render the Scene Graph
-	CSceneGraph::GetInstance()->Update();
+	// Collision Check
+	end = entityList.end();
+	for (it = entityList.begin(); it != end; ++it)
+	{
+		if (!(*it)->HasCollider())
+			continue;
+
+		for (it2 = std::next(it); it2 != end; ++it2)
+		{
+			if (!(*it2)->HasCollider())
+				continue;
+
+			if ((*it)->GetCollider()->CheckCollision((*it2)->GetCollider()))
+			{
+				(*it)->HandleCollision(*it2);
+				(*it2)->HandleCollision(*it);
+			}
+		}
+	}
 
 	// Clean up entities that are done
 	it = entityList.begin();
@@ -47,8 +63,14 @@ void EntityManager::Update(double _dt)
 // Render all entities
 void EntityManager::Render()
 {
-	// Render the Scene Graph
-	CSceneGraph::GetInstance()->Render();
+	std::list<EntityBase*>::iterator it, end;
+	end = entityList.end();
+	for (it = entityList.begin(); it != end; ++it)
+	{
+		if ((*it)->GetRenderFlag())
+			(*it)->Render();
+	}
+
 	if (showCollider)
 	{
 		std::list<EntityBase*>::iterator it, end;
@@ -69,7 +91,8 @@ void EntityManager::RenderUI()
 	end = entityList.end();
 	for (it = entityList.begin(); it != end; ++it)
 	{
-		(*it)->RenderUI();
+		if ((*it)->GetRenderFlag())
+			(*it)->RenderUI();
 	}
 }
 
@@ -90,13 +113,6 @@ bool EntityManager::RemoveEntity(EntityBase* _existingEntity)
 	{
 		delete *findIter;
 		findIter = entityList.erase(findIter);
-
-		// Remove from SceneNode too
-		if (CSceneGraph::GetInstance()->DeleteNode(_existingEntity)==false)
-		{
-			cout << "EntityManager::RemoveEntity: Unable to remove this entity from Scene Graph" << endl;
-		}
-
 		return true;	
 	}
 	// Return false if not found

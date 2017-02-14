@@ -1,10 +1,13 @@
 #include "Entity2D.h"
 #include "GraphicsManager.h"
 
+#include "KeyboardController.h"
+
 Entity2D::Entity2D()
 {
-	position.Set(400.f, 300.f, 10.f);
-	scale.Set(50.f, 50.f, 1.f);
+	position.Set(0.f, 0.f, 1.f);
+	scale.Set(1.f, 1.f, 1.f);
+	bRender = true;
 }
 
 
@@ -30,4 +33,8 @@ void Entity2D::Render()
 void Entity2D::RenderUI()
 {
 
+}
+
+void Entity2D::HandleCollision(EntityBase* entity)
+{
 }

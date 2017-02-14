@@ -16,6 +16,8 @@
 
 #include "../Entity/EntityFactory.h"
 
+#include "Collider\Collider_2DAABB.h"
+
 using namespace std;
 
 CIntroState::CIntroState()
@@ -40,6 +42,10 @@ void CIntroState::Init()
 	MeshBuilder::GetInstance()->GenerateText("text", 16, 16);
 	MeshBuilder::GetInstance()->GetMesh("text")->textureID = LoadTGA("Image//calibri.tga");
 	MeshBuilder::GetInstance()->GetMesh("text")->material.kAmbient.Set(1, 0, 0);
+	
+	MeshBuilder::GetInstance()->GenerateQuad("Collider", Color(1.f, 0.f, 0.f));
+
+	EntityFactory::GetInstance()->AttachEntityManager(&EManager);
 
 	Lua->LoadFile("Sound");
 	SoundEngine::GetInstance()->SetMasterVolume(CLuaInterface::GetInstance()->GetFloatValue("BGM_Volume"));
@@ -56,9 +62,6 @@ void CIntroState::Init()
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Character", 4, 9);
 	MeshBuilder::GetInstance()->GetMesh("Character")->textureID = LoadTGA("Image//character.tga");
 
-	entity.GetAnimator()->AddAnimation("WalkUp","Character", 1, 9, 1.f, -1);
-	entity.GetAnimator()->PlayAnimation("WalkUp");
-
 	cout << "CIntroState loaded\n" << endl;
 }
 void CIntroState::Update()
@@ -69,7 +72,7 @@ void CIntroState::Update()
 		//SceneManager::GetInstance()->SetActiveScene("MenuState");
 	}
 
-	entity.Update();
+	EManager.Update();
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
 		SceneManager::GetInstance()->quit = true;
@@ -85,18 +88,18 @@ void CIntroState::Render()
 															  0, 
 															  Application::GetInstance().GetWindowHeight(), 
 															  -10, 10);
-	entity.Render();
+	EManager.Render();
 	GraphicsManager::GetInstance()->DetachCamera();
 
 	// Render the required entities
-	IntroStateBackground->RenderUI();
+	EManager.RenderUI();
 }
 void CIntroState::Exit()
 {
 	// Remove the meshes which are specific to CIntroState
 	MeshBuilder::GetInstance()->RemoveMesh("INTROSTATE_BKGROUND");
 
-	delete IntroStateBackground;
+	EManager.ClearEntityList();
 
 	// Detach camera from other entities
 	GraphicsManager::GetInstance()->DetachCamera();

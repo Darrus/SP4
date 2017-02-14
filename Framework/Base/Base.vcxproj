@@ -26,9 +26,6 @@
     <ClCompile Include="Source\Lua\LuaInterface.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\OBJMesh.cpp" />
-    <ClCompile Include="Source\SceneGraph\SceneGraph.cpp" />
-    <ClCompile Include="Source\SceneGraph\SceneNode.cpp" />
-    <ClCompile Include="Source\SceneGraph\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animation.h" />
@@ -45,9 +42,6 @@
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\Lua\LuaInterface.h" />
     <ClInclude Include="Source\OBJMesh.h" />
-    <ClInclude Include="Source\SceneGraph\SceneGraph.h" />
-    <ClInclude Include="Source\SceneGraph\SceneNode.h" />
-    <ClInclude Include="Source\SceneGraph\Transform.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9B172635-4E2B-46F1-A403-08F4194D00F5}</ProjectGuid>

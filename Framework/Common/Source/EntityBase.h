@@ -3,6 +3,7 @@
 
 #include "Vector3.h"
 #include "Collider\Collider.h"
+#include "Mesh.h"
 
 class EntityBase
 {
@@ -10,9 +11,10 @@ public:
 	EntityBase();
 	virtual ~EntityBase();
 
-	virtual void Update(double _dt);
+	virtual void Update();
 	virtual void Render();
 	virtual void RenderUI();
+	virtual void HandleCollision(EntityBase* entity);
 
 	inline void SetPosition(const Vector3& _value){ position = _value; lastPosition = _value; };
 	inline Vector3 GetPosition(){ return position; };
@@ -23,6 +25,7 @@ public:
 	bool IsDone();
 	void SetIsDone(const bool _value);
 
+	void SetMesh(Mesh* mesh);
 	void SetRenderFlag(bool flag);
 	bool GetRenderFlag();
 
@@ -37,12 +40,13 @@ public:
 	// Remove Collider
 	virtual void RemoveCollider();
 
-	virtual void HandleCollision(EntityBase* entity);
 
 	Vector3 lastPosition;
+
 protected:
 	Vector3 position;
 	Vector3 scale;
+
 	CCollider* collider;
 
 	bool isDone;

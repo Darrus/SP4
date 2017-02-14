@@ -6,6 +6,7 @@
 #include "SingletonTemplate.h"
 #include "SpriteEntity.h"
 #include "TextEntity.h"
+#include "AssetEntity.h"
 
 using std::string;
 
@@ -27,6 +28,7 @@ public:
 
 	SpriteEntity* CreateSprite(const string& meshName, SpriteEntity::SPRITE_RENDERMODE mode);
 	TextEntity* CreateText(const string& text, const Color& _color, TextEntity::TEXT_RENDERMODE mode);
+	AssetEntity* CreateAsset(const string& meshName, Vector3 position, Vector3 scale, bool collider);
 };
 
 #endif

@@ -3,6 +3,8 @@
 #include "MeshBuilder.h"
 #include "EntityManager.h"
 
+#include "Collider\Collider_2DAABB.h"
+
 
 EntityFactory::EntityFactory() :
 manager(nullptr)
@@ -27,6 +29,18 @@ TextEntity* EntityFactory::CreateText(const string& text, const Color& _color, T
 {
 	TextEntity* result = new TextEntity(MeshBuilder::GetInstance()->GetMesh("text"), text, _color);
 	result->SetTextRenderMode(mode);
+	if (manager)
+		manager->AddEntity(result);
+	return result;
+}
+
+AssetEntity* EntityFactory::CreateAsset(const string& meshName, Vector3 position, Vector3 scale, bool collider)
+{
+	AssetEntity* result = new AssetEntity(meshName);
+	result->SetPosition(position);
+	result->SetScale(scale);
+	if (collider)
+		result->SetCollider(new CCollider_2DAABB());
 	if (manager)
 		manager->AddEntity(result);
 	return result;
