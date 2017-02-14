@@ -6,7 +6,7 @@ EntityBase::EntityBase()
 	, isDone(false)
 	, m_bCollider(false)
 	, collider(nullptr)
-	, bRender(true)
+	, bRender(false)
 {
 }
 
@@ -17,7 +17,7 @@ EntityBase::~EntityBase()
 	collider = nullptr;
 }
 
-void EntityBase::Update(double _dt)
+void EntityBase::Update()
 {
 }
 
@@ -50,6 +50,8 @@ void EntityBase::SetCollider(CCollider* collider)
 {
 	m_bCollider = true;
 	this->collider = collider;
+	collider->SetEntity(this);
+	collider->SetScale(scale);
 }
 
 // Set Collider flag

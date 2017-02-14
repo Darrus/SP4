@@ -15,6 +15,7 @@ public:
 	virtual void Update();
 	virtual void Render();
 	virtual void RenderUI();
+	virtual void HandleCollision(EntityBase* entity);
 
 	inline Animator* GetAnimator(){ return &anim;};
 };

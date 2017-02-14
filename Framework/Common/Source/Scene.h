@@ -1,9 +1,13 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include "../../Base/Source/Entity/EntityManager.h"
+
 class Scene
 {
+protected:
 	bool pause = false;
+	EntityManager EManager;
 
 public:
 	Scene() {}

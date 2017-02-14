@@ -10,8 +10,7 @@ public:
 	enum COLLIDER_TYPE
 	{
 		NIL,
-		AABB,
-		SPHERE
+		AABB_2D
 	};
 
 	CCollider(EntityBase* _entity = nullptr);
@@ -28,8 +27,12 @@ public:
 	void SetPosition(Vector3 _position);
 	Vector3 GetPosition();
 
+	inline void SetScale(Vector3 scale) { this->scale = scale; }
+	inline Vector3 GetScale() const { return scale; }
+
 protected:
 	EntityBase* entity;
-	Vector3 position;
+	Vector3 offset;
+	Vector3 scale;
 	COLLIDER_TYPE type;
 };

@@ -13,7 +13,7 @@ public:
 	EntityManager();
 	virtual ~EntityManager();
 
-	void Update(double _dt);
+	void Update();
 	void Render();
 	void RenderUI();
 
@@ -22,6 +22,8 @@ public:
 	bool MarkForDeletion(EntityBase* _existingEntity);
 	void ClearEntityList();
 	std::list<EntityBase*> *GetEntityList();
+
+	inline void ShowCollider(const bool& show){ showCollider = show; }
 
 private:
 	std::list<EntityBase*> entityList;

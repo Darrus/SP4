@@ -4,7 +4,7 @@
 CCollider::CCollider(EntityBase* _entity) :
 entity(_entity), type(NIL)
 {
-	position.SetZero();
+	offset.SetZero();
 }
 
 
@@ -25,14 +25,14 @@ EntityBase* CCollider::GetEntity() const
 
 void CCollider::SetPosition(Vector3 _position)
 {
-	position = _position;
+	offset = _position;
 }
 
 Vector3 CCollider::GetPosition()
 {
 	if (entity)
-		position = entity->GetPosition();
-	return position;
+		offset = entity->GetPosition();
+	return offset;
 }
 
 CCollider::COLLIDER_TYPE CCollider::GetType() const

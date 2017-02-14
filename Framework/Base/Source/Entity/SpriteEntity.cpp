@@ -9,6 +9,7 @@ position(0.0f, 0.0f, 0.0f),
 scale(1.0f, 1.0f, 1.0f),
 mode(MODE_2D)
 {
+	bRender = true;
 }
 
 SpriteEntity::~SpriteEntity()

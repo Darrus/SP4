@@ -13,8 +13,7 @@
   <ItemGroup>
     <ClCompile Include="Source\CameraBase.cpp" />
     <ClCompile Include="Source\Collider\Collider.cpp" />
-    <ClCompile Include="Source\Collider\Collider_AABB.cpp" />
-    <ClCompile Include="Source\Collider\Collider_Sphere.cpp" />
+    <ClCompile Include="Source\Collider\Collider_2DAABB.cpp" />
     <ClCompile Include="Source\EntityBase.cpp" />
     <ClCompile Include="Source\GraphicsManager.cpp" />
     <ClCompile Include="Source\KeyboardController.cpp" />
@@ -41,8 +40,7 @@
   <ItemGroup>
     <ClInclude Include="Source\CameraBase.h" />
     <ClInclude Include="Source\Collider\Collider.h" />
-    <ClInclude Include="Source\Collider\Collider_AABB.h" />
-    <ClInclude Include="Source\Collider\Collider_Sphere.h" />
+    <ClInclude Include="Source\Collider\Collider_2DAABB.h" />
     <ClInclude Include="Source\EntityBase.h" />
     <ClInclude Include="Source\GraphicsManager.h" />
     <ClInclude Include="Source\KeyboardController.h" />

@@ -9,9 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="SceneGraph">
-      <UniqueIdentifier>{8ac2bec7-1ed0-4c0b-9aa8-0cc9515237eb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Entity">
       <UniqueIdentifier>{537cf218-30bd-47cc-9a2e-d7d5c6ac1280}</UniqueIdentifier>
     </Filter>
@@ -24,8 +21,16 @@
     <Filter Include="Animation">
       <UniqueIdentifier>{487b8ecc-d3e3-40d9-8489-e6ca2d6aac00}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
     <Filter Include="Items">
       <UniqueIdentifier>{55c66606-e493-474b-b508-1c223a8f9ce3}</UniqueIdentifier>
+=======
+    <Filter Include="Party">
+      <UniqueIdentifier>{437c1307-69d9-474a-a5c4-f418d3c19ac9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Party\Character">
+      <UniqueIdentifier>{8e507de7-53af-4485-9522-12e2c9f051bf}</UniqueIdentifier>
+>>>>>>> a3b1c35116c0353fad59311f01f550bf1328ea51
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -43,18 +48,6 @@
     </ClCompile>
     <ClCompile Include="Source\Light.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SceneGraph\SceneGraph.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SceneGraph\Transform.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SceneGraph\SceneNode.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GameStateManagment\IntroState.cpp">
-      <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\Lua\LuaInterface.cpp">
       <Filter>Lua</Filter>
@@ -81,11 +74,12 @@
       <Filter>Entity</Filter>
     </ClCompile>
     <ClCompile Include="Source\Entity\AssetEntity.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Entity</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scenes\SkillTreeScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Source\Items\Equipment.cpp">
       <Filter>Items</Filter>
     </ClCompile>
@@ -94,6 +88,16 @@
     </ClCompile>
     <ClCompile Include="Source\Items\Consumable.cpp">
       <Filter>Items</Filter>
+=======
+    <ClCompile Include="Source\Scenes\IntroState.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Party\PartySystem.cpp">
+      <Filter>Party</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player\Player.cpp">
+      <Filter>Source Files</Filter>
+>>>>>>> a3b1c35116c0353fad59311f01f550bf1328ea51
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,18 +112,6 @@
     </ClInclude>
     <ClInclude Include="Source\Light.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneGraph\SceneGraph.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneGraph\Transform.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneGraph\SceneNode.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameStateManagment\IntroState.h">
-      <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Lua\LuaInterface.h">
       <Filter>Lua</Filter>
@@ -146,11 +138,12 @@
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\Entity\AssetEntity.h">
-      <Filter>Header Files</Filter>
+      <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scenes\SkillTreeScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Source\Items\Equipment.h">
       <Filter>Items</Filter>
     </ClInclude>
@@ -159,6 +152,22 @@
     </ClInclude>
     <ClInclude Include="Source\Items\Consumable.h">
       <Filter>Items</Filter>
+=======
+    <ClInclude Include="Source\Scenes\IntroState.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Character\CharacterInfo.h">
+      <Filter>Party\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Character\Stat.h">
+      <Filter>Party\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Party\PartySystem.h">
+      <Filter>Party</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player\Player.h">
+      <Filter>Header Files</Filter>
+>>>>>>> a3b1c35116c0353fad59311f01f550bf1328ea51
     </ClInclude>
   </ItemGroup>
 </Project>
