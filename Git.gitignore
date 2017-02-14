@@ -1,5 +1,6 @@
 # Prerequisites
 *.d
+
 # Compiled Object files
 *.slo
 *.lo
@@ -7,6 +8,12 @@
 *.obj
 *.suo
 *.sdf
+*.log
+*.tlog
+*.idb
+*.pdb
+*.lastbuildstate
+*.opensdf
 
 # Precompiled Headers
 *.gch
