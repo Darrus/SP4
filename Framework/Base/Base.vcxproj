@@ -15,6 +15,7 @@
     <ClCompile Include="Source\Animation\Animator.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Entity\AssetEntity.cpp" />
+    <ClCompile Include="Source\Entity\BattleEntity.cpp" />
     <ClCompile Include="Source\Entity\Entity2D.cpp" />
     <ClCompile Include="Source\Entity\EntityFactory.cpp" />
     <ClCompile Include="Source\Entity\EntityManager.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="Source\Character\CharacterInfo.h" />
     <ClInclude Include="Source\Character\Stat.h" />
     <ClInclude Include="Source\Entity\AssetEntity.h" />
+    <ClInclude Include="Source\Entity\BattleEntity.h" />
     <ClInclude Include="Source\Entity\Entity2D.h" />
     <ClInclude Include="Source\Entity\EntityFactory.h" />
     <ClInclude Include="Source\Entity\EntityManager.h" />
