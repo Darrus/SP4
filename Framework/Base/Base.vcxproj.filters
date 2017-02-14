@@ -38,9 +38,6 @@
     <ClCompile Include="Source\Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GameStateManagment\IntroState.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Lua\LuaInterface.cpp">
       <Filter>Lua</Filter>
     </ClCompile>
@@ -71,6 +68,9 @@
     <ClCompile Include="Source\Scenes\SkillTreeScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scenes\IntroState.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -84,9 +84,6 @@
     </ClInclude>
     <ClInclude Include="Source\Light.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameStateManagment\IntroState.h">
-      <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Lua\LuaInterface.h">
       <Filter>Lua</Filter>
@@ -116,6 +113,9 @@
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scenes\SkillTreeScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\IntroState.h">
       <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>

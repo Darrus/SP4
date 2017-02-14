@@ -20,7 +20,7 @@
 #include "Lua\LuaInterface.h"
 
 //Scenes
-#include "GameStateManagment\IntroState.h"
+#include "Scenes\IntroState.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
