@@ -1,0 +1,89 @@
+#version 330 core
+
+// Interpolated values from the vertex shaders
+in vec3 vertexPosition_cameraspace;
+in vec3 fragmentColor;
+in vec3 vertexNormal_cameraspace;
+
+// Ouput data
+out vec3 color;
+
+struct Light {
+	vec3 position_cameraspace;
+	vec3 color;
+	float power;
+	float kC;
+	float kL;
+	float kQ;
+};
+
+struct Material {
+	vec3 kAmbient;
+	vec3 kDiffuse;
+	vec3 kSpecular;
+	float kShininess;
+};
+
+float getAttenuation(Light light, float distance) {
+	return 1 / max(1, light.kC + light.kL * distance + light.kQ * distance * distance);
+}
+
+// Values that stay constant for the whole mesh.
+uniform bool lightEnabled;
+uniform Light lights[1];
+uniform Material material;
+
+void main(){
+	if(lightEnabled == true)
+	{
+		// Material properties
+		vec3 materialColor = fragmentColor;
+
+		// Eye vector
+		vec3 eyeDirection_cameraspace = - vertexPosition_cameraspace;
+		
+		// Light direction
+		vec3 lightDirection_cameraspace = lights[0].position_cameraspace - vertexPosition_cameraspace;
+		
+		// Distance to the light
+		float distance = length( lightDirection_cameraspace );
+		
+		// Light attenuation
+		float attenuationFactor = getAttenuation(lights[0], distance);
+
+		// Normal of the computed fragment, in camera space
+		vec3 N = normalize( vertexNormal_cameraspace );
+		// Direction of the light (from the fragment to the light)
+		vec3 L = normalize( lightDirection_cameraspace );
+		// Cosine of the angle between the normal and the light direction, 
+		// clamped above 0
+		//  - light is at the vertical of the triangle -> 1
+		//  - light is perpendicular to the triangle -> 0
+		//  - light is behind the triangle -> 0
+		float cosTheta = clamp( dot( N, L ), 0, 1 );
+		
+		// Eye vector (towards the camera)
+		vec3 E = normalize(eyeDirection_cameraspace);
+		// Direction in which the triangle reflects the light
+		vec3 R = reflect(-L, N);
+		// Cosine of the angle between the Eye vector and the Reflect vector,
+		// clamped to 0
+		//  - Looking into the reflection -> 1
+		//  - Looking elsewhere -> < 1
+		float cosAlpha = clamp( dot( E, R ), 0, 1 );
+		
+		color = 
+			// Ambient : simulates indirect lighting
+			materialColor * material.kAmbient +
+			
+			// Diffuse : "color" of the object
+			materialColor * material.kDiffuse * lights[0].color * lights[0].power * cosTheta * attenuationFactor +
+			
+			// Specular : reflective highlight, like a mirror
+			material.kSpecular * lights[0].color * lights[0].power * pow(cosAlpha, material.kShininess) * attenuationFactor;
+	}
+	else
+	{
+		color = fragmentColor;
+	}
+}
