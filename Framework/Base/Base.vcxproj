@@ -21,13 +21,9 @@
     <ClCompile Include="Source\Entity\SpriteEntity.cpp" />
     <ClCompile Include="Source\Entity\TextEntity.cpp" />
     <ClCompile Include="Source\FPSCamera.cpp" />
-<<<<<<< HEAD
-    <ClCompile Include="Source\GameStateManagment\IntroState.cpp" />
     <ClCompile Include="Source\Items\Consumable.cpp" />
     <ClCompile Include="Source\Items\Equipment.cpp" />
     <ClCompile Include="Source\Items\Item.cpp" />
-=======
->>>>>>> a3b1c35116c0353fad59311f01f550bf1328ea51
     <ClCompile Include="Source\Light.cpp" />
     <ClCompile Include="Source\Lua\LuaInterface.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -50,13 +46,9 @@
     <ClInclude Include="Source\Entity\SpriteEntity.h" />
     <ClInclude Include="Source\Entity\TextEntity.h" />
     <ClInclude Include="Source\FPSCamera.h" />
-<<<<<<< HEAD
-    <ClInclude Include="Source\GameStateManagment\IntroState.h" />
     <ClInclude Include="Source\Items\Consumable.h" />
     <ClInclude Include="Source\Items\Equipment.h" />
     <ClInclude Include="Source\Items\Item.h" />
-=======
->>>>>>> a3b1c35116c0353fad59311f01f550bf1328ea51
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\Lua\LuaInterface.h" />
     <ClInclude Include="Source\OBJMesh.h" />

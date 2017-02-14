@@ -20,7 +20,7 @@
 #include "Lua\LuaInterface.h"
 
 //Scenes
-#include "GameStateManagment\IntroState.h"
+#include "Scenes\IntroState.h"
 #include "Scenes\SkillTreeScene.h"
 
 GLFWwindow* m_window;
