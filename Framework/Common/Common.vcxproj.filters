@@ -86,16 +86,13 @@
     <ClCompile Include="Source\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Collider\Collider_AABB.cpp">
-      <Filter>Collider</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SoundEngine\SoundEngine.cpp">
       <Filter>SoundEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\Ray\Ray.cpp">
       <Filter>Ray</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Collider\Collider_Sphere.cpp">
+    <ClCompile Include="Source\Collider\Collider_2DAABB.cpp">
       <Filter>Collider</Filter>
     </ClCompile>
   </ItemGroup>
@@ -181,16 +178,13 @@
     <ClInclude Include="Source\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Collider\Collider_AABB.h">
-      <Filter>Collider</Filter>
-    </ClInclude>
     <ClInclude Include="Source\SoundEngine\SoundEngine.h">
       <Filter>SoundEngine</Filter>
     </ClInclude>
     <ClInclude Include="Source\Ray\Ray.h">
       <Filter>Ray</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Collider\Collider_Sphere.h">
+    <ClInclude Include="Source\Collider\Collider_2DAABB.h">
       <Filter>Collider</Filter>
     </ClInclude>
   </ItemGroup>
