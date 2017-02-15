@@ -73,6 +73,10 @@
     <ClCompile Include="Source\Menu\Menu.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Battle\BattleSystem.cpp" />
+    <ClCompile Include="Source\Scenes\BattleState.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -149,6 +153,10 @@
     </ClInclude>
     <ClInclude Include="Source\Menu\Menu.h">
       <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Battle\BattleSystem.h" />
+    <ClInclude Include="Source\Scenes\BattleState.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
