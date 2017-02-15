@@ -67,6 +67,12 @@
     <ClCompile Include="Source\Player\Player.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Menu\Button.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Menu\Menu.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -138,6 +144,12 @@
     <ClInclude Include="Source\Player\Player.h">
       <Filter>Player</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Menu\Button.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Menu\Menu.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animation">
@@ -169,6 +181,9 @@
     </Filter>
     <Filter Include="Player">
       <UniqueIdentifier>{30ef3d00-559c-4bc7-be35-ed472f892f56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menu">
+      <UniqueIdentifier>{8d06bd55-380e-4fdc-a526-80e6b842d7f4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

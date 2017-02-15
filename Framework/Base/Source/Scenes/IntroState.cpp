@@ -15,6 +15,7 @@
 #include "SoundEngine\SoundEngine.h"
 
 #include "../Entity/EntityFactory.h"
+#include "../Entity/Entity2D.h"
 
 #include "Collider\Collider_2DAABB.h"
 
@@ -32,7 +33,7 @@ CIntroState::~CIntroState()
 void CIntroState::Init()
 {
 	// Create and attach the camera to the scene
-	camera.Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(0, 0, 0), Vector3(0, 0, -1), Vector3(0, 1, 0));
 	GraphicsManager::GetInstance()->AttachCamera(&camera);
 
 	// Load all the meshes
@@ -63,6 +64,29 @@ void CIntroState::Init()
 	MeshBuilder::GetInstance()->GetMesh("Character")->textureID = LoadTGA("Image//character.tga");
 
 	cout << "CIntroState loaded\n" << endl;
+
+	menu = new Menu();
+
+	Button *btn1 = new Button();
+	btn1->SetPosition(10, 10);
+	btn1->SetImage(MeshBuilder::GetInstance()->GetMesh("Character"));
+	btn1->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
+
+	Button *btn2 = new Button();
+	btn2->SetPosition(windowWidth * 0.5f, windowHeight * 0.5f);
+	btn2->SetScale(500, 500);
+	btn2->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
+	btn2->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
+
+	Entity2D* littleFucker = new Entity2D();
+	littleFucker->GetAnimator()->AddAnimation("RUN", new Animation("Character", 0, 8, 1.f, -1));
+	littleFucker->GetAnimator()->PlayAnimation("RUN");
+	littleFucker->SetScale(Vector3(50.f, 50.f, 1.f));
+	littleFucker->SetPosition(Vector3(windowWidth * 0.5f, windowHeight * 0.5f, 1.f));
+	//EManager.AddEntity(littleFucker);
+
+	menu->AddButton(btn1);
+	menu->AddButton(btn2);
 }
 void CIntroState::Update()
 {
@@ -88,11 +112,14 @@ void CIntroState::Render()
 															  0, 
 															  Application::GetInstance().GetWindowHeight(), 
 															  -10, 10);
+	menu->Render();
 	EManager.Render();
+
 	GraphicsManager::GetInstance()->DetachCamera();
 
 	// Render the required entities
-	EManager.RenderUI();
+	//EManager.RenderUI();
+
 }
 void CIntroState::Exit()
 {
@@ -103,4 +130,10 @@ void CIntroState::Exit()
 
 	// Detach camera from other entities
 	GraphicsManager::GetInstance()->DetachCamera();
+}
+
+///Button Funcitons
+void ButtonFunc()
+{
+	std::cout << "Button Function Lmao" << std::endl;
 }

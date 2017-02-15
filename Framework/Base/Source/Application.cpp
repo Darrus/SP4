@@ -130,7 +130,7 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("TestScene", new SkillTreeScene());
 
 	//Set the active scene
-	SceneManager::GetInstance()->SetActiveScene("TestScene");
+	SceneManager::GetInstance()->SetActiveScene("IntroState");
 }
 
 void Application::Run()

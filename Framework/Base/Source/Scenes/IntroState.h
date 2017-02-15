@@ -8,6 +8,8 @@
 #include "../Entity/SpriteEntity.h"
 #include "../Entity/Entity2D.h"
 
+#include "../Menu/Menu.h"
+
 class SceneManager;
 class TextEntity;
 
@@ -26,4 +28,10 @@ private:
 	FPSCamera camera;
 	SpriteEntity* IntroStateBackground;
 	Entity2D entity;
+
+	Menu* menu;
 };
+
+
+//Button Functions
+void ButtonFunc();

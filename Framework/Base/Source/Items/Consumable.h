@@ -2,7 +2,11 @@
 #define CONSUMABLE_H
 
 #include "Item.h"
+#include "../Character/CharacterInfo.h"
 
+//=================================================================================================//
+//									  	  Abstract Base Class									   //
+//=================================================================================================//
 class Item;
 
 class Consumable : public Item
@@ -23,13 +27,16 @@ public:
 	inline bool CanTargetAlly() { return isAllyTargetable; }
 };
 
+//=================================================================================================//
+//									     	Item Classes										   //
+//=================================================================================================//
 class HealthPotion : public Consumable
 {
 private:
 	int m_healValue;
 
 public:
-	virtual void UseOn();
+	virtual void UseOn(CharacterInfo* chara);
 
 	HealthPotion();
 	~HealthPotion(){};
@@ -41,7 +48,7 @@ class MaxHealthPotion : public Consumable
 private:
 
 public:
-	virtual void UseOn();
+	virtual void UseOn(CharacterInfo* chara);
 
 	MaxHealthPotion();
 	~MaxHealthPotion(){};

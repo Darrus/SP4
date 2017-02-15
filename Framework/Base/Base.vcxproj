@@ -28,6 +28,8 @@
     <ClCompile Include="Source\Light.cpp" />
     <ClCompile Include="Source\Lua\LuaInterface.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Menu\Button.cpp" />
+    <ClCompile Include="Source\Menu\Menu.cpp" />
     <ClCompile Include="Source\OBJMesh.cpp" />
     <ClCompile Include="Source\Party\PartySystem.cpp" />
     <ClCompile Include="Source\Player\Player.cpp" />
@@ -53,6 +55,8 @@
     <ClInclude Include="Source\Items\Item.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\Lua\LuaInterface.h" />
+    <ClInclude Include="Source\Menu\Button.h" />
+    <ClInclude Include="Source\Menu\Menu.h" />
     <ClInclude Include="Source\OBJMesh.h" />
     <ClInclude Include="Source\Party\PartySystem.h" />
     <ClInclude Include="Source\Player\Player.h" />
@@ -70,7 +74,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
