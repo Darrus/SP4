@@ -13,23 +13,31 @@ BattleEntity::~BattleEntity()
 
 void BattleEntity::Update()
 {
+	if (info->HP <= 0.f)
+	{
+		isDead = true;
+		return;
+	}
+
 	float dt = (double)StopWatch::GetInstance()->GetDeltaTime();
 
 	if (ATB < maxATB)
 		ATB += info->stats.GetRechargeRate() * dt;
 	else
-	{
 		isReady = true;
-	}
-	
 }
 
-void BattleEntity::Render()
+int BattleEntity::GetDamage()
 {
-
+	return info->stats.GetDamage();
 }
 
-void BattleEntity::RenderUI()
+int BattleEntity::GetHP()
 {
+	return info->HP;
+}
 
+void BattleEntity::TakeDamage(int damage)
+{
+	info->HP -= damage;
 }
