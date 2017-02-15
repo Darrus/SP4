@@ -14,6 +14,7 @@
     <ClCompile Include="Source\Animation\Animation.cpp" />
     <ClCompile Include="Source\Animation\Animator.cpp" />
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\Battle\BattleSystem.cpp" />
     <ClCompile Include="Source\Entity\AssetEntity.cpp" />
     <ClCompile Include="Source\Entity\BattleEntity.cpp" />
     <ClCompile Include="Source\Entity\Entity2D.cpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="Source\Animation\Animation.h" />
     <ClInclude Include="Source\Animation\Animator.h" />
     <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\Battle\BattleSystem.h" />
     <ClInclude Include="Source\Character\CharacterInfo.h" />
     <ClInclude Include="Source\Character\Stat.h" />
     <ClInclude Include="Source\Entity\AssetEntity.h" />
@@ -70,7 +72,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>

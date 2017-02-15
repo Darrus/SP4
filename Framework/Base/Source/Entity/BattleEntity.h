@@ -18,8 +18,6 @@ public:
 	virtual ~BattleEntity();
 
 	virtual void Update();
-	virtual void Render();
-	virtual void RenderUI();
 
     bool GetReady() { return isReady; }
     bool GetDead() { return isDead; }

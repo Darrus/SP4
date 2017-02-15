@@ -40,10 +40,10 @@ void BattleSystem::EntityTurn(BattleEntity* entity)
 
 void BattleSystem::Attack(BattleEntity* entity, BattleEntity* targetEntity)
 {
-    CharacterInfo* myEntity = entity->GetChara();
-    CharacterInfo* targEntity = targetEntity->GetChara();
-
-    targEntity->HP -  myEntity->stats.GetDamage();
+    //CharacterInfo* myEntity = entity->GetChara();
+    //CharacterInfo* targEntity = targetEntity->GetChara();
+    //
+    //targEntity->HP -  myEntity->stats.GetDamage();
 }
 
 void BattleSystem::Render()
