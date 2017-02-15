@@ -20,6 +20,11 @@ public:
 	virtual void Update();
 	virtual void Render();
 	virtual void RenderUI();
+
+    bool GetReady() { return isReady; }
+    bool GetDead() { return isDead; }
+    CharacterInfo* GetChara() { return info; }
+
 };
 
 #endif
