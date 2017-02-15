@@ -10,9 +10,14 @@
 
 #include "../Menu/Menu.h"
 
+#include "../Items/Inventory.h"
+#include "../Items/Item.h"
+#include "../Items/Consumable.h"
+#include "../Items/Equipment.h"
+
 class SceneManager;
 class TextEntity;
-
+static Button *btn2;
 class CIntroState : public Scene
 {
 public:
@@ -23,13 +28,15 @@ public:
 	virtual void Update();
 	virtual void Render();
 	virtual void Exit();
+	Menu* menu;
 
 private:
 	FPSCamera camera;
 	SpriteEntity* IntroStateBackground;
 	Entity2D entity;
 
-	Menu* menu;
+	Inventory* inventory;
+
 };
 
 

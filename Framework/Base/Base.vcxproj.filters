@@ -77,6 +77,9 @@
     <ClCompile Include="Source\Scenes\BattleState.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Items\Inventory.cpp">
+      <Filter>Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -157,6 +160,9 @@
     <ClInclude Include="Source\Battle\BattleSystem.h" />
     <ClInclude Include="Source\Scenes\BattleState.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Items\Inventory.h">
+      <Filter>Items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

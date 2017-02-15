@@ -34,7 +34,5 @@ MaxHealthPotion::MaxHealthPotion()
 
 void MaxHealthPotion::UseOn(CharacterInfo* chara)
 {
-	//TODO Waiting for Darrus to change character info main/sub stat stuff
-
-	//chara->HP = chara->stats.GetMaxHP();
+	chara->HP = chara->stats.GetMaxHP();
 }

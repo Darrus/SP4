@@ -45,6 +45,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 void resize_callback(GLFWwindow* window, int w, int h)
 {
 	glViewport(0, 0, w, h);
+	Application::GetInstance().ResizeWindow(w, h);
 }
 
 bool Application::IsKeyPressed(unsigned short key)
@@ -120,7 +121,8 @@ void Application::Init()
 	}
 
 	// Hide the cursor
-	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	MouseController::GetInstance()->SetKeepMouseCentered(false);
 	glfwSetMouseButtonCallback(m_window, &Application::MouseButtonCallbacks);
 	glfwSetScrollCallback(m_window, &Application::MouseScrollCallbacks);
 

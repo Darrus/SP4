@@ -36,7 +36,8 @@ private:
 	int m_healValue;
 
 public:
-	virtual void UseOn(CharacterInfo* chara);
+	void UseOn(){};
+	void UseOn(CharacterInfo* chara);
 
 	HealthPotion();
 	~HealthPotion(){};
