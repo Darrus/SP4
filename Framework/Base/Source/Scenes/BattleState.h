@@ -10,10 +10,13 @@
 #include "../Entity/Entity2D.h"
 #include "timer.h"
 
+#include "../Battle/BattleSystem.h"
+#include "../Entity/BattleEntity.h"
+
 class SceneManager;
 class TextEntity;
 
-class CBattleState : public Scene
+class CBattleState : public Scene, public BattleSystem
 {
 public:
 	CBattleState();
@@ -27,6 +30,11 @@ public:
 	void AttackBarFill(double dt = 0.033f); ///< Fills Up the Attack Turn Bar of every entity that is in Battle. Stops filling when anyone is full.
     void PlayerCommand(/*Pass in the Entity here to access commands*/); ///< Basically a Popup when it's Player's Turn to Attack.
 
+    BattleSystem stuff;
+
+    BattleSystem* testingBattle;
+    BattleEntity* testEntity;
+    BattleEntity* testEntity2;
 
     ///< DEBUGGING STUFF -- Remove when complete
     // Enemy 1
@@ -69,6 +77,8 @@ private:
     bool turnbarfill; ///< Sets to check if everyone's Bar should start to fill or not.
     SpriteEntity* CommandBox;
     SpriteEntity* TestEnemy, *TestEnemy2;
+
+    bool encounter;
 };
 
 #endif /* BATTLESTATE_H */

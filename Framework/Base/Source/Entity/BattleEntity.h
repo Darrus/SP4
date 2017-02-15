@@ -4,27 +4,30 @@
 #include "Entity2D.h"
 #include "../Character/InfoBase.h"
 
-class BattleEntity : public Entity2D 
+class BattleEntity : public Entity2D
 {
-	InfoBase* info;
-	const float maxATB;
-	float ATB;
+    InfoBase* info;
+    const float maxATB;
+    float ATB;
 
-	bool isDead;
-	bool isReady;
+    bool isDead;
+    bool isReady;
 
 public:
-	BattleEntity();
-	virtual ~BattleEntity();
+    BattleEntity();
+    virtual ~BattleEntity();
 
-	virtual void Update();
+    virtual void Update();
 
     bool GetReady() { return isReady; }
     bool GetDead() { return isDead; }
     InfoBase* GetInfo() { return info; }
-	int GetDamage();
-	int GetHP();
-	void TakeDamage(int damage);
+    int GetDamage();
+    int GetHP();
+    void TakeDamage(int damage);
+    float GetATB() { return ATB; }
+    void SetATB(float ATB) { this->ATB = ATB; }
+    void SetReady(bool ready) { isReady = ready; }
 };
 
 #endif

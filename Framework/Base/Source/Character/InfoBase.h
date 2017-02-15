@@ -6,8 +6,12 @@
 
 using std::string;
 
-struct InfoBase
+class InfoBase
 {
+public:
+    InfoBase(){}
+    ~InfoBase(){}
+
 	// Name of entity
 	string name;
 	
@@ -15,12 +19,12 @@ struct InfoBase
 	StatSystem stats;
 	
 	// Entity HP
-	int HP;
+	int HP = 0;
 	// Entity MP
-	int MP;
+	int MP = 0;
 
 	// ID
-	int id;
+	int id = 0;
 };
 
 #endif

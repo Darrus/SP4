@@ -10,10 +10,14 @@ using std::list;
 
 class Skill;
 
-struct CharacterInfo : public InfoBase
+class CharacterInfo : public InfoBase
 {
+public:
 	//TODO:
 	// Equipment System
+
+    CharacterInfo(){}
+    ~CharacterInfo(){}
 
 	// List of entity's skills
 	typedef list<Skill*> SkillList;

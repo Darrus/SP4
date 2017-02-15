@@ -1,9 +1,10 @@
 #include "BattleEntity.h"
 #include "timer.h"
 
-BattleEntity::BattleEntity() :
-info(nullptr), maxATB(100.f), ATB(0.f)
+BattleEntity::BattleEntity() : maxATB(100.f), ATB(0.f), isReady(false), isDead(false)
 {
+    // Temporary
+    info = new InfoBase();
 }
 
 
