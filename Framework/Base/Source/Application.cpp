@@ -136,7 +136,7 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
 	
 	//Set the active scene
-	SceneManager::GetInstance()->SetActiveScene("Overworld");
+	SceneManager::GetInstance()->SetActiveScene("IntroState");
 }
 
 void Application::Run()

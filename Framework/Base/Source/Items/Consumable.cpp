@@ -1,5 +1,5 @@
 #include "Consumable.h"
-
+#include "MyMath.h"
 //========================================//
 // TODO:								  //
 // Load item values from text file / lua  //
@@ -11,9 +11,9 @@
 //=================================================================================================//
 HealthPotion::HealthPotion()
 {
-	m_healValue = 50;
-	m_goldValue = 10;
 	m_name = "Health Potion";
+	m_healValue = Math::RandIntMinMax(50,100);//50;
+	m_goldValue = 10;
 	m_description = "Heals an Ally Character for " + std::to_string(m_healValue) + " health.";
 }
 
@@ -29,7 +29,7 @@ MaxHealthPotion::MaxHealthPotion()
 {
 	m_goldValue = 500;
 	m_name = "Max Health Potion";
-	m_description = "Heals an Ally Character to full health.";
+	m_description = "Heals an Ally Character back to full health.";
 }
 
 void MaxHealthPotion::UseOn(CharacterInfo* chara)

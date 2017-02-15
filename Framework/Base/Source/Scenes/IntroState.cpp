@@ -73,34 +73,57 @@ void CIntroState::Init()
 	btn1->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
 	menu->AddButton(btn1);*/
 
-	btn2 = new Button();
-	btn2->SetPosition(windowWidth * 0.5f, windowHeight * 0.5f);
-	btn2->SetScale(100, 100);
-	btn2->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
-	btn2->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
-	btn2->SetFunction(ButtonFunc);
-	btn2->SetText("Click me, nigga");
-	menu->AddButton(btn2);
+	//btn2 = new Button();
+	//btn2->SetPosition(windowWidth * 0.5f, windowHeight * 0.5f);
+	//btn2->SetScale(250, 80);
+	//btn2->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
+	//btn2->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
+	//btn2->SetFunction(ButtonFunc);
+	//btn2->SetText("Click me");
+	//menu->AddButton(btn2);
 
-	Entity2D* littleFucker = new Entity2D();
-	littleFucker->GetAnimator()->AddAnimation("RUN", new Animation("Character", 0, 8, 1.f, -1));
-	littleFucker->GetAnimator()->PlayAnimation("RUN");
-	littleFucker->SetScale(Vector3(50.f, 50.f, 1.f));
-	littleFucker->SetPosition(Vector3(windowWidth * 0.5f, windowHeight * 0.5f, 1.f));
-	//EManager.AddEntity(littleFucker);
+	//Entity2D* littleFucker = new Entity2D();
+	//littleFucker->GetAnimator()->AddAnimation("RUN", new Animation("Character", 0, 8, 1.f, -1));
+	//littleFucker->GetAnimator()->PlayAnimation("RUN");
+	//littleFucker->SetScale(Vector3(50.f, 50.f, 1.f));
+	//littleFucker->SetPosition(Vector3(windowWidth * 0.5f, windowHeight * 0.5f, 1.f));
+	////EManager.AddEntity(littleFucker);
 
+	//Initialise inventory
 	inventory = new Inventory();
-	inventory->AddItem(new HealthPotion());
-	inventory->AddItem(new HealthPotion());
-	inventory->AddItem(new HealthPotion());
-	inventory->AddItem(new HealthPotion());
 
+	//Some random items
+	inventory->AddItem(new HealthPotion());
+	inventory->AddItem(new HealthPotion());
+	inventory->AddItem(new HealthPotion());
+	inventory->AddItem(new MaxHealthPotion());
+
+	//A special item
 	HealthPotion* specialPotion = new HealthPotion();
 	specialPotion->SetName("LingLongDingDong");
 
 	inventory->AddItem(specialPotion);
+	std::cout << std::endl;
 
-	std::cout << inventory->m_inventoryMap.size() << " " << inventory->m_inventoryMap.max_size();
+	inventory->PrintInventory();
+
+	CharacterInfo* chara = new CharacterInfo();
+	chara->name = "dogshit";
+	chara->stats.AddAgi(Math::RandIntMinMax(0,10));
+	chara->stats.AddStr(Math::RandIntMinMax(0,10));
+	chara->stats.AddDex(Math::RandIntMinMax(0,10));
+	chara->stats.AddMind(Math::RandIntMinMax(0,10));
+	chara->stats.AddVit(Math::RandIntMinMax(0,10));
+	chara->stats.AddInt(Math::RandIntMinMax(0,10));
+	chara->stats.UpdateStats();
+	chara->HP = 69;
+
+	std::cout << std::endl;
+
+	std::cout << chara->name << "\'s " << "current health: " << chara->HP << " / " << chara->stats.GetMaxHP() << std::endl;
+	inventory->UseItem(3, chara);
+	std::cout << chara->name << "\'s " << "current health: " << chara->HP << " / "<< chara->stats.GetMaxHP() << std::endl;
+
 }
 void CIntroState::Update()
 {
@@ -130,12 +153,13 @@ void CIntroState::Render()
 															  0, 
 															  Application::GetInstance().GetWindowHeight(), 
 															  -10, 10);
-	menu->Render();
 	EManager.Render();
 
 	GraphicsManager::GetInstance()->DetachCamera();
 
 	// Render the required entities
+	menu->Render();
+
 	//EManager.RenderUI();
 
 }
@@ -148,11 +172,12 @@ void CIntroState::Exit()
 
 	// Detach camera from other entities
 	GraphicsManager::GetInstance()->DetachCamera();
+
 }
 
 ///Button Functions
 void ButtonFunc()
 {
 	btn2->SetPosition(Math::RandFloatMinMax(250, 500), Math::RandFloatMinMax(250, 500));
-	btn2->SetScale(Math::RandFloatMinMax(10, 300), Math::RandFloatMinMax(10, 300));
+	//btn2->SetScale(Math::RandFloatMinMax(10, 300), Math::RandFloatMinMax(10, 300));
 }

@@ -25,9 +25,6 @@
     <ClCompile Include="Source\Entity\EntityManager.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Items\Equipment.cpp">
-      <Filter>Equipment</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scenes\IntroState.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -89,6 +86,9 @@
     <ClCompile Include="Source\Items\Inventory.cpp">
       <Filter>Items</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Items\Equipment.cpp">
+      <Filter>Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -117,9 +117,6 @@
     </ClInclude>
     <ClInclude Include="Source\Entity\EntityManager.h">
       <Filter>Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Items\Equipment.h">
-      <Filter>Equipment</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scenes\IntroState.h">
       <Filter>Scenes</Filter>
@@ -182,6 +179,9 @@
     <ClInclude Include="Source\Items\Inventory.h">
       <Filter>Items</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Items\Equipment.h">
+      <Filter>Items</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animation">
@@ -195,9 +195,6 @@
     </Filter>
     <Filter Include="Items">
       <UniqueIdentifier>{fc2f7f90-1c09-4cfe-8085-ad0da5f7b058}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Equipment">
-      <UniqueIdentifier>{8421bce8-2ad0-44c5-bb32-dd27ed55ae7d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{b76fbe66-ab65-4043-a9a7-9fb2961d006c}</UniqueIdentifier>

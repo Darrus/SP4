@@ -6,14 +6,14 @@
 Button::Button() :
 	m_pos_x(0.0f),
 	m_pos_y(0.0f),
-	m_scale_x(1.f),
-	m_scale_y(1.f),
+	m_scale_x(100.f),
+	m_scale_y(100.f),
 	m_isHovered(false),
 	m_text(""),
 	m_text_offset_x(0), 
 	m_text_offset_y(0),
-	m_text_scale_x(1.f),
-	m_text_scale_y(1.f),
+	m_text_scale_x(30),
+	m_text_scale_y(30.f),
 	m_function(nullptr)
 {
 
@@ -63,7 +63,8 @@ void Button::Render()
 	if (m_text != "")
 	{
 		//Offset for text
-		modelStack.Translate(m_text_offset_x, m_text_offset_y, 1);
+		modelStack.Translate(-m_scale_x * 0.5, 0, 1);
+		//modelStack.Translate(m_text_offset_x, m_text_offset_y, 0);
 		modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
 		RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_text, Color(1, 0, 0));	//NOTE::COLOUR DOESN'T WORK. THANKS ALOT TOH.
 	}

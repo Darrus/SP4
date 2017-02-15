@@ -19,6 +19,11 @@ enum BUTTON_MESH
 
 typedef void(*FunctionPointer) (void);
 
+//======================================//
+//TODO:									//
+//Use function pointers to Lua instead	//
+//======================================//
+
 class Button
 {
 private:

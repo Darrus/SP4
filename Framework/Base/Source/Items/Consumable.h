@@ -2,7 +2,6 @@
 #define CONSUMABLE_H
 
 #include "Item.h"
-#include "../Character/CharacterInfo.h"
 
 //=================================================================================================//
 //									  	  Abstract Base Class									   //
@@ -20,7 +19,7 @@ public:
 	~Consumable(){};
 
 	//Virtual function when player uses the item
-	virtual void UseOn() = 0;
+	virtual void UseOn(CharacterInfo* chara) = 0;
 
 	//Getters and Setters
 	inline bool CanTargetEnemy() { return isEnemyTargetable; }
@@ -36,8 +35,8 @@ private:
 	int m_healValue;
 
 public:
-	void UseOn(){};
 	void UseOn(CharacterInfo* chara);
+	//void UseOn(CharacterInfo* chara);
 
 	HealthPotion();
 	~HealthPotion(){};
