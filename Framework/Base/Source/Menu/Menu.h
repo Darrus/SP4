@@ -10,11 +10,14 @@ using std::vector;
 class Menu
 {
 private:
-	vector <Button*> m_buttonList;
-	float m_windowWidth;
-	float m_windowHeight;
+
+	double m_mouse_x;
+	double m_mouse_y;
 
 public:
+
+	//HACK
+	vector <Button*> m_buttonList;
 
 	//Adds a new button to the list
 	inline void AddButton(Button* addButton) { m_buttonList.push_back(addButton); }

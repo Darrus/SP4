@@ -28,6 +28,8 @@ public:
 	inline int GetGoldValue(){ return m_goldValue; }
 	//inline void SetValue(int value){ m_value = value; } //Value shouldn't change
 
+	virtual void UseOn() = 0;
+
 	Item() : m_name(""), m_description(""), m_goldValue(0){}
 	virtual ~Item(){}
 };

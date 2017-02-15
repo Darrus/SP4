@@ -6,8 +6,14 @@
 Button::Button() :
 	m_pos_x(0.0f),
 	m_pos_y(0.0f),
-	m_scale_x(1.0f),
-	m_scale_y(1.0f),
+	m_scale_x(1.f),
+	m_scale_y(1.f),
+	m_isHovered(false),
+	m_text(""),
+	m_text_offset_x(0), 
+	m_text_offset_y(0),
+	m_text_scale_x(1.f),
+	m_text_scale_y(1.f),
 	m_function(nullptr)
 {
 
@@ -45,15 +51,22 @@ void Button::Render()
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
 	modelStack.Translate(m_pos_x, m_pos_y, 0);
+
+	modelStack.PushMatrix();
 	modelStack.Scale(m_scale_x, m_scale_y, 1);
-	
-	//if (m_isHovered)
+	if (m_isHovered)
+		RenderHelper::RenderMesh(m_meshList[HIGHLIGHTED_IMAGE]);
+	else
 		RenderHelper::RenderMesh(m_meshList[NORMAL_IMAGE]);
-	//else
-		//RenderHelper::RenderMesh(m_meshList[HIGHLIGHTED_IMAGE]);
+	modelStack.PopMatrix();
 
 	if (m_text != "")
-		RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_text,Color(1, 1, 1));
-
+	{
+		//Offset for text
+		modelStack.Translate(m_text_offset_x, m_text_offset_y, 1);
+		modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
+		RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_text, Color(1, 0, 0));	//NOTE::COLOUR DOESN'T WORK. THANKS ALOT TOH.
+	}
+	
 	modelStack.PopMatrix();
 }

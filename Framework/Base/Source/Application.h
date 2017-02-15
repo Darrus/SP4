@@ -26,6 +26,8 @@ public:
 
 	int GetWindowHeight();
 	int GetWindowWidth();
+
+	inline void ResizeWindow(int width, int height) { m_window_width = width; m_window_height = height; }
 	
 private:
 	Application();

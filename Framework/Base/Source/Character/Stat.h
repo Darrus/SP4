@@ -7,33 +7,33 @@
 #define SPELL_DAMAGE_MULTIPLIER 10
 #define DEFENCE_MULTIPLIER 5
 #define MAX_EXP_MULTIPLIER 10
-#define CRIT_RATE_MULTIPLIER 0.5f
-#define DODGE_RATE_MULTIPLIER 0.2f
-#define RECHARGE_RATE_MULTIPLIER 1.f
+#define CRIT_RATE_MULTIPLIER 0.5
+#define DODGE_RATE_MULTIPLIER 0.2
+#define RECHARGE_RATE_MULTIPLIER 1
 
 struct MainStat
 {
-	int Str;
-	int Vit;
-	int Int;
-	int Mind;
-	int Dex;
-	int Agi;
-	int Level;
-	int statPoints;
+    int Str = 0; 
+	int Vit = 0;
+	int Int = 0;
+	int Mind = 0;
+	int Dex = 0;
+	int Agi = 0;
+	int Level = 1;
+	int statPoints = 0;
 };
 
 struct SubStat
 {
-	int Damage;
-	int SpellDamage;
-	int MaxHP;
-	int MaxMP;
-	int MaxEXP;
-	int Defence;
-	float DodgeRate;
-	float CritRate;
-	float RechargeRate;
+	int Damage = 0;
+	int SpellDamage = 0;
+	int MaxHP = 0;
+	int MaxMP = 0;
+	int MaxEXP = 0;
+	int Defence = 0;
+	float DodgeRate = 0.f;
+	float CritRate = 0.f;
+	float RechargeRate = 0.f;
 };
 
 class StatSystem
@@ -42,8 +42,8 @@ class StatSystem
 	SubStat sub;
 
 public:
-	StatSystem();
-	~StatSystem();
+    StatSystem(){}
+    ~StatSystem(){}
 	
 	inline void AddLevel(int amt) { main.Level += amt; }
 	inline void AddStr(int amt){ main.Str += amt; }

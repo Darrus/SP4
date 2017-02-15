@@ -31,7 +31,9 @@ health2_(100),
 attack2_(30),
 defense2_(10),
 atkbar2_(0),
-fillrate2(20)
+fillrate2(20),
+
+encounter(false)
 {
 }
 CBattleState::~CBattleState()
@@ -93,18 +95,65 @@ void CBattleState::Init()
 	entity.GetAnimator()->PlayAnimation("WalkUp");
 
 	cout << "CBattleState loaded\n" << endl;
+
+    /*
+    	int Str;
+	int Vit;
+	int Int;
+	int Mind;
+	int Dex;
+	int Agi;
+	int Level;
+	int statPoints;
+    */
+    testEntity = new BattleEntity();
+    testEntity->GetInfo()->stats.AddVit(5);
+    testEntity->GetInfo()->stats.AddStr(10);
+    testEntity->GetInfo()->stats.AddInt(5);
+    testEntity->GetInfo()->stats.AddMind(20);
+    testEntity->GetInfo()->stats.AddDex(10);
+    testEntity->GetInfo()->stats.AddAgi(20);
+    testEntity->GetInfo()->stats.AddLevel(2);
+    testEntity->GetInfo()->stats.UpdateStats();
+    testEntity->GetInfo()->HP = testEntity->GetInfo()->stats.GetMaxHP();
+    testEntity->GetInfo()->stats.GetRechargeRate();
+
+    testEntity2 = new BattleEntity();
+    //testEntity2->GetInfo()->HP = 100;
+    testEntity2->GetInfo()->stats.AddVit(10);
+    testEntity2->GetInfo()->stats.AddStr(20);
+    testEntity2->GetInfo()->stats.AddInt(15);
+    testEntity2->GetInfo()->stats.AddMind(50);
+    testEntity2->GetInfo()->stats.AddDex(5);
+    testEntity2->GetInfo()->stats.AddAgi(10);
+    testEntity2->GetInfo()->stats.AddLevel(2);
+    testEntity2->GetInfo()->stats.UpdateStats();
+    testEntity2->GetInfo()->HP = testEntity2->GetInfo()->stats.GetMaxHP();
+
+    testingBattle = new BattleSystem();
+
+    testingBattle->BattleList.push_back(testEntity);
+    testingBattle->BattleList.push_back(testEntity2);
+    //BattleList.push_back(testEntity);
+    //BattleList.push_back(testEntity2);
+    //testEntity->GetInfo()->stats.UpdateStats();
 }
 void CBattleState::Update()
 {
     // Fills up the Attack bar until a unit hits it first
-    if (turnbarfill)
-        AttackBarFill();
 
     //if (atkbar_ >= 100)
-        PlayerCommand();
+    //PlayerCommand();
+
+    if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
+        encounter = true;
 
     //if (state != NULL)
     //    DetermineAction();
+    if (encounter)
+    {
+        testingBattle->Update();
+    }
 
 	entity.Update();
 }
@@ -115,7 +164,7 @@ void CBattleState::DetermineAction()
     if (health_ <= 50)
         state = DEFEND;
     else
-        state = ATTACK;                                                                     
+        state = ATTACK;
 }
 
 void CBattleState::DetermineAction2()
@@ -231,6 +280,11 @@ void CBattleState::Render()
     TestEnemy->RenderUI();
     if (!turnbarfill)
         CommandBox->RenderUI();
+
+    if (encounter)
+    {
+        testingBattle->Render();
+    }
 }
 void CBattleState::Exit()
 {

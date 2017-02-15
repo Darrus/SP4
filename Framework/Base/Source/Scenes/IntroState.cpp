@@ -51,7 +51,7 @@ void CIntroState::Init()
 	Lua->LoadFile("Sound");
 	SoundEngine::GetInstance()->SetMasterVolume(CLuaInterface::GetInstance()->GetFloatValue("BGM_Volume"));
 	SoundEngine::GetInstance()->AddRepeatSound("splash_bgm", "Sound/splash_bgm.mp3", 1.f);
-	SoundEngine::GetInstance()->Play("splash_bgm");
+	//SoundEngine::GetInstance()->Play("splash_bgm");
 
 	float windowWidth = Application::GetInstance().GetWindowWidth();
 	float windowHeight = Application::GetInstance().GetWindowHeight();
@@ -67,16 +67,20 @@ void CIntroState::Init()
 
 	menu = new Menu();
 
-	Button *btn1 = new Button();
+	/*Button *btn1 = new Button();
 	btn1->SetPosition(10, 10);
 	btn1->SetImage(MeshBuilder::GetInstance()->GetMesh("Character"));
 	btn1->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
+	menu->AddButton(btn1);*/
 
-	Button *btn2 = new Button();
+	btn2 = new Button();
 	btn2->SetPosition(windowWidth * 0.5f, windowHeight * 0.5f);
-	btn2->SetScale(500, 500);
+	btn2->SetScale(100, 100);
 	btn2->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
 	btn2->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
+	btn2->SetFunction(ButtonFunc);
+	btn2->SetText("Click me, nigga");
+	menu->AddButton(btn2);
 
 	Entity2D* littleFucker = new Entity2D();
 	littleFucker->GetAnimator()->AddAnimation("RUN", new Animation("Character", 0, 8, 1.f, -1));
@@ -85,8 +89,18 @@ void CIntroState::Init()
 	littleFucker->SetPosition(Vector3(windowWidth * 0.5f, windowHeight * 0.5f, 1.f));
 	//EManager.AddEntity(littleFucker);
 
-	menu->AddButton(btn1);
-	menu->AddButton(btn2);
+	inventory = new Inventory();
+	inventory->AddItem(new HealthPotion());
+	inventory->AddItem(new HealthPotion());
+	inventory->AddItem(new HealthPotion());
+	inventory->AddItem(new HealthPotion());
+
+	HealthPotion* specialPotion = new HealthPotion();
+	specialPotion->SetName("LingLongDingDong");
+
+	inventory->AddItem(specialPotion);
+
+	std::cout << inventory->m_inventoryMap.size() << " " << inventory->m_inventoryMap.max_size();
 }
 void CIntroState::Update()
 {
@@ -99,6 +113,7 @@ void CIntroState::Update()
 	float dt = StopWatch::GetInstance()->GetDeltaTime();
 	camera.Update(dt);
 
+	menu->Update();
 	EManager.Update();
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
@@ -135,8 +150,9 @@ void CIntroState::Exit()
 	GraphicsManager::GetInstance()->DetachCamera();
 }
 
-///Button Funcitons
+///Button Functions
 void ButtonFunc()
 {
-	std::cout << "Button Function Lmao" << std::endl;
+	btn2->SetPosition(Math::RandFloatMinMax(250, 500), Math::RandFloatMinMax(250, 500));
+	btn2->SetScale(Math::RandFloatMinMax(10, 300), Math::RandFloatMinMax(10, 300));
 }
