@@ -16,7 +16,7 @@
 
 #include "../Entity/EntityFactory.h"
 
-using namespace std;
+using namespace std;    
 
 CBattleState::CBattleState() :
 state(IDLE),

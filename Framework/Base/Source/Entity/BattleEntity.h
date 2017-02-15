@@ -2,11 +2,11 @@
 #define BATTLE_ENTITY_H
 
 #include "Entity2D.h"
-#include "../Character/CharacterInfo.h"
+#include "../Character/InfoBase.h"
 
 class BattleEntity : public Entity2D 
 {
-	CharacterInfo* info;
+	InfoBase* info;
 	const float maxATB;
 	float ATB;
 
@@ -18,8 +18,13 @@ public:
 	virtual ~BattleEntity();
 
 	virtual void Update();
-	virtual void Render();
-	virtual void RenderUI();
+
+    bool GetReady() { return isReady; }
+    bool GetDead() { return isDead; }
+    InfoBase* GetInfo() { return info; }
+	int GetDamage();
+	int GetHP();
+	void TakeDamage(int damage);
 };
 
 #endif
