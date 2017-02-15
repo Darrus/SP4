@@ -42,7 +42,7 @@ CBattleState::~CBattleState()
 void CBattleState::Init()
 {
 	// Create and attach the camera to the scene
-	camera.Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(0, 0, 0), Vector3(0, 0, -1), Vector3(0, 1, 0));
 	GraphicsManager::GetInstance()->AttachCamera(&camera);
 
 	// Load all the meshes

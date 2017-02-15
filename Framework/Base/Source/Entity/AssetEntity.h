@@ -9,6 +9,7 @@ using std::string;
 
 class AssetEntity : public EntityBase
 {
+protected:
 	Mesh* mesh;
 
 public:

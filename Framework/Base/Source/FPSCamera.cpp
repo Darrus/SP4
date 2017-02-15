@@ -153,36 +153,3 @@ void FPSCamera::Update(double dt)
 		Reset();
 	}
 }
-
-Vector3 FPSCamera::GetCameraPos() const
-{
-	return position;
-}
-
-void FPSCamera::SetCameraPos(Vector3 pos)
-{
-	position = pos;
-}
-Vector3 FPSCamera::GetCameraTarget() const
-{
-	return target;
-}
-void FPSCamera::SetCameraTarget(Vector3 target)
-{
-	this->target = target;
-}
-Vector3 FPSCamera::GetCameraUp() const
-{
-	return up;
-}
-void FPSCamera::SetCameraUp(Vector3 up)
-{
-	this->up = up;
-}
-
-void FPSCamera::Reset()
-{
-	position = defaultPosition;
-	target = defaultTarget;
-	up = defaultUp;
-}

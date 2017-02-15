@@ -23,6 +23,7 @@
 #include "Scenes\IntroState.h"
 #include "Scenes\SkillTreeScene.h"
 #include "Scenes\BattleState.h"
+#include "Scenes\Overworld.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -130,9 +131,10 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("IntroState", new CIntroState());
 	SceneManager::GetInstance()->AddScene("TestScene", new SkillTreeScene());
     SceneManager::GetInstance()->AddScene("BattleScene", new CBattleState());
+	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
+	
 	//Set the active scene
-	SceneManager::GetInstance()->SetActiveScene("IntroState");
-
+	SceneManager::GetInstance()->SetActiveScene("Overworld");
 }
 
 void Application::Run()
