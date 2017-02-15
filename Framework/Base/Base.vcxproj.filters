@@ -77,6 +77,15 @@
     <ClCompile Include="Source\Scenes\BattleState.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Overworld\OverworldAsset.cpp">
+      <Filter>Overworld</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\Overworld.cpp">
+      <Filter>Overworld</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Items\Inventory.cpp">
       <Filter>Items</Filter>
     </ClCompile>
@@ -161,6 +170,15 @@
     <ClInclude Include="Source\Scenes\BattleState.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Overworld\OverworldAsset.h">
+      <Filter>Overworld</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\Overworld.h">
+      <Filter>Overworld</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera.h">
+      <Filter>Main</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Items\Inventory.h">
       <Filter>Items</Filter>
     </ClInclude>
@@ -198,6 +216,9 @@
     </Filter>
     <Filter Include="Menu">
       <UniqueIdentifier>{8d06bd55-380e-4fdc-a526-80e6b842d7f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Overworld">
+      <UniqueIdentifier>{6ece08dd-a50a-467e-82e2-2cd1593d3f9d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
