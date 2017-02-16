@@ -30,6 +30,9 @@ public:
 	inline void SetScale(Vector3 scale) { this->scale = scale; }
 	inline Vector3 GetScale() const { return scale; }
 
+	inline void SetOffset(Vector3 offset){ this->offset = offset; }
+	inline Vector3 GetOffset() { return offset; }
+
 protected:
 	EntityBase* entity;
 	Vector3 offset;

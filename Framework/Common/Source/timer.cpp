@@ -31,13 +31,15 @@ void StopWatch::startTimer( )
     QueryPerformanceCounter(&prevTime) ;
 }
  
-double StopWatch::GetDeltaTime()
+double StopWatch::GetElapsedTime()
 {
     LARGE_INTEGER time;
     QueryPerformanceCounter(&currTime) ;
     time.QuadPart = currTime.QuadPart - prevTime.QuadPart;
     prevTime = currTime;
-    return LIToSecs( time) ;
+	dt = LIToSecs(time);
+    
+	return dt;
 }
 
 void StopWatch::waitUntil(long long time)

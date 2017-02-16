@@ -136,7 +136,9 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
 	
 	//Set the active scene
-	SceneManager::GetInstance()->SetActiveScene("IntroState");
+	SceneManager::GetInstance()->SetActiveScene("Overworld");
+
+	StopWatch::GetInstance()->startTimer();
 }
 
 void Application::Run()
@@ -167,6 +169,7 @@ void Application::Run()
 
 	while (!glfwWindowShouldClose(m_window) && !SceneManager::GetInstance()->quit)
 	{
+		StopWatch::GetInstance()->GetElapsedTime();
 		glfwPollEvents();
 		UpdateInput();
 		

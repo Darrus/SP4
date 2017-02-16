@@ -6,7 +6,9 @@
 #include "../RenderHelper.h"
 #include "../MeshBuilder.h"
 
-CCollider_2DAABB::CCollider_2DAABB()
+CCollider_2DAABB::CCollider_2DAABB() :
+top(false), down(false),
+left(false), right(false)
 {
 	type = AABB_2D;
 }
@@ -26,7 +28,7 @@ void CCollider_2DAABB::RenderCollider()
 
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
-	modelStack.Translate(position.x, position.y, 10.f);
+	modelStack.Translate(position.x, position.y, 2.f);
 	modelStack.Scale(scale.x, scale.y, 1.f);
 	RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Collider"));
 	modelStack.PopMatrix();
@@ -34,6 +36,9 @@ void CCollider_2DAABB::RenderCollider()
 
 bool CCollider_2DAABB::CheckCollision(CCollider* other)
 {
+	top = down = left = right = 0.f;
+	bool result = false;
+
 	CCollider_2DAABB* otherAABB;
 	if (other->GetType() == AABB_2D)
 		otherAABB = (CCollider_2DAABB*)other;
@@ -43,11 +48,27 @@ bool CCollider_2DAABB::CheckCollision(CCollider* other)
 	Vector3 otherMin = otherAABB->GetMin();
 	Vector3 otherMax = otherAABB->GetMax();
 
-	return 
-		(thisMin.x < otherMax.x &&
+	if (thisMin.x < otherMax.x &&
 		thisMax.x > otherMin.x &&
 		thisMin.y < otherMax.y &&
-		thisMax.y > otherMin.y);
+		thisMax.y > otherMin.y)
+	{
+		result = true;
+
+		if (thisMin.x < otherMax.x && thisMin.x > otherMin.x && thisMax.x > otherMax.x)
+			left = otherMax.x - thisMin.x;
+
+		if (thisMax.x > otherMin.x && thisMax.x < otherMax.x && thisMin.x < otherMin.x)
+			right = thisMax.x - otherMin.x;
+
+		if (thisMin.y < otherMax.y && thisMin.y > otherMin.y && thisMax.y > otherMax.y)
+			down = otherMax.y - thisMin.y;
+
+		if (thisMax.y > otherMin.y && thisMax.y < otherMax.y && thisMin.y < otherMin.y)
+			top = thisMax.y - otherMin.y;
+	}
+
+	return result;
 }
 
 bool CCollider_2DAABB::CheckIntersection(Ray& ray)

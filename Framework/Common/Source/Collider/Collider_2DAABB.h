@@ -6,6 +6,8 @@
 
 class CCollider_2DAABB : public CCollider
 {
+	float top, down, left, right;
+
 public:
 	CCollider_2DAABB();
 	virtual ~CCollider_2DAABB();
@@ -19,6 +21,11 @@ public:
 
 	Vector3 GetMin();
 	Vector3 GetMax();
+
+	inline float GetTop(){ return top; }
+	inline float GetDown(){ return down; }
+	inline float GetRight(){ return right; }
+	inline float GetLeft(){ return left; }
 };
 
 #endif

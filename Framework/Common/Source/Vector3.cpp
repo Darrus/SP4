@@ -453,6 +453,16 @@ Vector3& Vector3::Normalize( void ) throw( DivideByZero )
 	return *this;
 }
 
+Vector3& Vector3::Lerp(Vector3 other, float time, float deltaTime)
+{
+	float t = deltaTime / time;
+	x = (1.f - t) * x + t * other.x;
+	y = (1.f - t) * y + t * other.y;
+	z = (1.f - t) * z + t * other.z;
+
+	return *this;
+}
+
 std::ostream& operator<< (std::ostream& os, Vector3& rhs)
 {
 	os << "[" << rhs.x << "," << rhs.y << "," << rhs.z << "]";

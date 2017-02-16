@@ -137,6 +137,8 @@ void CBattleState::Init()
     //BattleList.push_back(testEntity);
     //BattleList.push_back(testEntity2);
     //testEntity->GetInfo()->stats.UpdateStats();
+
+
 }
 void CBattleState::Update()
 {
