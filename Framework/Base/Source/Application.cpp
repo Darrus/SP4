@@ -144,6 +144,8 @@ void Application::Init()
 
 	//Load Font Data
 	LoadFontData("FontData//pixelFontData.csv");
+
+	StopWatch::GetInstance()->startTimer();
 }
 
 void Application::Run()
@@ -175,6 +177,7 @@ void Application::Run()
 
 	while (!glfwWindowShouldClose(m_window) && !SceneManager::GetInstance()->quit)
 	{
+		StopWatch::GetInstance()->GetElapsedTime();
 		glfwPollEvents();
 		UpdateInput();
 		

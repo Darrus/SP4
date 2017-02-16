@@ -72,6 +72,8 @@ struct Vector3
 	//Normalize this vector and return a reference to it
 	//Throw a divide by zero exception if normalizing a zero vector
 	Vector3& Normalize( void ) throw( DivideByZero );
+
+	Vector3& Lerp(Vector3 other, float time, float deltaTime);
 	
 	friend std::ostream& operator<<( std::ostream& os, Vector3& rhs); //print to ostream
 

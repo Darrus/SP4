@@ -1,13 +1,12 @@
 #pragma once
 #include "../Entity/AssetEntity.h"
-#include "../Camera.h"
+#include "CameraFollow.h"
 
 class OverworldAsset : public AssetEntity
 {
 	float rotX;
-	float rotY;
-	bool battle;
-	Camera* camera;
+	float rotZ;
+	CameraFollow* camera;
 
 public:
 	OverworldAsset(const string& meshName);
@@ -15,7 +14,8 @@ public:
 
 	virtual void Update();
 	virtual void Render();
+	virtual void HandleCollision(EntityBase* entity);
 
-	inline void SetCamera(Camera* camera){ this->camera = camera; }
+	inline void SetCamera(CameraFollow* camera){ this->camera = camera; }
 };
 

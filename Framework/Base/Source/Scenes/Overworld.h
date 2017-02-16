@@ -2,9 +2,10 @@
 #define OVERWORLD_H
 
 #include "Scene.h"
-#include "../Camera.h"
-#include "../Entity/SpriteEntity.h"
+#include "../Overworld/CameraFollow.h"
+#include "../Overworld/OverworldEntity.h"
 #include "../Overworld/OverworldAsset.h"
+#include "../Entity/SpriteEntity.h"
 
 class Overworld : public Scene
 {
@@ -17,12 +18,13 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	float temp;
+	bool battle;
 
 private:
-	Camera camera;
+	CameraFollow camera;
 	SpriteEntity* background;
-	OverworldAsset* twee;
+	OverworldEntity* player;
+	OverworldAsset* assets[2];
 };
 
 #endif

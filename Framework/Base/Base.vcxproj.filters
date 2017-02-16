@@ -70,7 +70,6 @@
     <ClCompile Include="Source\Menu\Menu.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Battle\BattleSystem.cpp" />
     <ClCompile Include="Source\Scenes\BattleState.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -88,6 +87,18 @@
     </ClCompile>
     <ClCompile Include="Source\Items\Equipment.cpp">
       <Filter>Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\ShopScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\OverworldEntity.cpp">
+      <Filter>Overworld</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\CameraFollow.cpp">
+      <Filter>Overworld</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Battle\BattleSystem.cpp">
+      <Filter>BattleSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,7 +174,6 @@
     <ClInclude Include="Source\Menu\Menu.h">
       <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Battle\BattleSystem.h" />
     <ClInclude Include="Source\Scenes\BattleState.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -181,6 +191,18 @@
     </ClInclude>
     <ClInclude Include="Source\Items\Equipment.h">
       <Filter>Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\ShopScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\OverworldEntity.h">
+      <Filter>Overworld</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\CameraFollow.h">
+      <Filter>Overworld</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Battle\BattleSystem.h">
+      <Filter>BattleSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +238,9 @@
     </Filter>
     <Filter Include="Overworld">
       <UniqueIdentifier>{6ece08dd-a50a-467e-82e2-2cd1593d3f9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BattleSystem">
+      <UniqueIdentifier>{f485caba-f763-47fa-9f37-1175902a133f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
