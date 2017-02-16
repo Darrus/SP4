@@ -5,6 +5,8 @@
 #include "../Application.h"
 #include <string>
 
+#include "../../Common/Source/MyMath.h"
+
 #include <iostream>
 
 using std::string;
@@ -19,6 +21,18 @@ enum BUTTON_MESH
 
 typedef void(*FunctionPointer) (void);
 
+struct RandomPos
+{
+	inline void operator() (float &x, float &y, float &screen_x, float &screen_y)
+	{
+		x = Math::RandFloatMinMax(250, 500);
+		y = Math::RandFloatMinMax(250, 500);
+
+		screen_x = x / Application::GetInstance().GetWindowWidth();
+		screen_y = y / Application::GetInstance().GetWindowHeight();
+	}
+};
+
 //======================================//
 //TODO:									//
 //Use function pointers to Lua instead	//
@@ -27,9 +41,6 @@ typedef void(*FunctionPointer) (void);
 class Button
 {
 private:
-	//To determine which mesh is rendered
-	bool m_isHovered;
-
 	//Position and scale of button in world space
 	float m_pos_x, m_pos_y;
 	float m_scale_x, m_scale_y;
@@ -49,7 +60,13 @@ private:
 	float m_text_offset_x, m_text_offset_y;
 	float m_text_scale_x, m_text_scale_y;
 
+	//TEST:
+	RandomPos randompos;
+
 public:
+	//To determine which mesh is rendered
+	bool m_isHovered;
+
 	//Getters and Setters
 	inline float GetPositionX() { return m_pos_x; }
 	inline float GetPositionY() { return m_pos_y; }
@@ -95,7 +112,5 @@ public:
 
 	~Button();
 };
-
-
 
 #endif

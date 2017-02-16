@@ -43,7 +43,8 @@ Button::~Button()
 
 void Button::RunFunction()
 {
-	m_function();
+	//m_function();
+	randompos(m_pos_x, m_pos_y, m_screen_pos_x, m_screen_pos_y);
 }
 
 void Button::Render()
@@ -54,10 +55,7 @@ void Button::Render()
 
 	modelStack.PushMatrix();
 	modelStack.Scale(m_scale_x, m_scale_y, 1);
-	if (m_isHovered)
-		RenderHelper::RenderMesh(m_meshList[HIGHLIGHTED_IMAGE]);
-	else
-		RenderHelper::RenderMesh(m_meshList[NORMAL_IMAGE]);
+	RenderHelper::RenderMesh(m_meshList[m_isHovered]);
 	modelStack.PopMatrix();
 
 	if (m_text != "")
@@ -66,7 +64,7 @@ void Button::Render()
 		modelStack.Translate(-m_scale_x * 0.5, 0, 1);
 		//modelStack.Translate(m_text_offset_x, m_text_offset_y, 0);
 		modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
-		RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_text, Color(1, 0, 0));	//NOTE::COLOUR DOESN'T WORK. THANKS ALOT TOH.
+		RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_text, Color(1, 0, 0));	//NOTE::COLOUR DOESN'T WORK. THANKS ALOT, TOH.
 	}
 	
 	modelStack.PopMatrix();

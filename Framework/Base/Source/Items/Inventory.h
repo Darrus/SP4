@@ -5,6 +5,7 @@
 #include "../Character/CharacterInfo.h"
 #include <Map>
 #include <vector>
+#include <List>
 
 #define INVENTORY_VERSION 2
 
@@ -45,7 +46,7 @@ private:
 
 public:
 	void AddItem(Item* itemToAdd);
-	void UseItem(int index, CharacterInfo* chara);
+	bool UseItem(int index, CharacterInfo* chara);
 	void PrintInventory();
 
 	Inventory();

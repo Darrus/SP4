@@ -73,14 +73,32 @@ void CIntroState::Init()
 	btn1->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
 	menu->AddButton(btn1);*/
 
-	//btn2 = new Button();
-	//btn2->SetPosition(windowWidth * 0.5f, windowHeight * 0.5f);
-	//btn2->SetScale(250, 80);
-	//btn2->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
-	//btn2->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
-	//btn2->SetFunction(ButtonFunc);
-	//btn2->SetText("Click me");
-	//menu->AddButton(btn2);
+	btn2 = new Button();
+	btn2->SetPosition(windowWidth * 0.5f, windowHeight * 0.5f);
+	btn2->SetScale(250, 80);
+	btn2->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
+	btn2->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
+	btn2->SetFunction(ButtonFunc);
+	btn2->SetText("Click me");
+	menu->AddButton(btn2);
+
+	Button* btn1= new Button();
+	btn1->SetPosition(Math::RandFloatMinMax(250, 500), Math::RandFloatMinMax(250, 500));
+	btn1->SetScale(250, 80);
+	btn1->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
+	btn1->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
+	btn1->SetFunction(ButtonFunc);
+	btn1->SetText("Click me");
+	menu->AddButton(btn1);
+
+	Button* btn3 = new Button();
+	btn3->SetPosition(Math::RandFloatMinMax(250, 500), Math::RandFloatMinMax(250, 500));
+	btn3->SetScale(250, 80);
+	btn3->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
+	btn3->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
+	btn3->SetFunction(ButtonFunc);
+	btn3->SetText("Click me");
+	menu->AddButton(btn3);
 
 	//Entity2D* littleFucker = new Entity2D();
 	//littleFucker->GetAnimator()->AddAnimation("RUN", new Animation("Character", 0, 8, 1.f, -1));
@@ -92,7 +110,7 @@ void CIntroState::Init()
 	//Initialise inventory
 	inventory = new Inventory();
 
-	//Some random items
+	//Some random potions
 	inventory->AddItem(new HealthPotion());
 	inventory->AddItem(new HealthPotion());
 	inventory->AddItem(new HealthPotion());
@@ -101,13 +119,21 @@ void CIntroState::Init()
 	//A special item
 	HealthPotion* specialPotion = new HealthPotion();
 	specialPotion->SetName("LingLongDingDong");
-
 	inventory->AddItem(specialPotion);
-	std::cout << std::endl;
+
+	Equipment *swordy = new Equipment(TYPE_WEAPON, 10, 0, 0, 0);
+	swordy->SetName("Sword of Niggers");
+	swordy->SetDescription("This sword is going to steal shit topkeku.");
+	inventory->AddItem(swordy);
 
 	inventory->PrintInventory();
 
-	CharacterInfo* chara = new CharacterInfo();
+	std::cout << inventory->UseItem(5, new CharacterInfo()) << std::endl;
+
+	inventory->PrintInventory();
+
+
+	/*CharacterInfo* chara = new CharacterInfo();
 	chara->name = "dogshit";
 	chara->stats.AddAgi(Math::RandIntMinMax(0,10));
 	chara->stats.AddStr(Math::RandIntMinMax(0,10));
@@ -122,7 +148,7 @@ void CIntroState::Init()
 
 	std::cout << chara->name << "\'s " << "current health: " << chara->HP << " / " << chara->stats.GetMaxHP() << std::endl;
 	inventory->UseItem(3, chara);
-	std::cout << chara->name << "\'s " << "current health: " << chara->HP << " / "<< chara->stats.GetMaxHP() << std::endl;
+	std::cout << chara->name << "\'s " << "current health: " << chara->HP << " / "<< chara->stats.GetMaxHP() << std::endl;*/
 
 }
 void CIntroState::Update()

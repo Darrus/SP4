@@ -10,9 +10,11 @@ using std::vector;
 class Menu
 {
 private:
-
+	Mesh* m_backgroundImage;
 	double m_mouse_x;
 	double m_mouse_y;
+
+	bool checkForHover(Button* btn);
 
 public:
 

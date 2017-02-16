@@ -1,4 +1,5 @@
 #include "Inventory.h"
+#include "Consumable.h"
 
 #if INVENTORY_VERSION == 1
 
@@ -55,6 +56,10 @@ Inventory::Inventory()
 
 Inventory::~Inventory()
 {
+	for (auto it = m_inventoryList.begin(); it != m_inventoryList.end(); ++it)
+		delete *it;
+	
+	m_inventoryList.clear();
 }
 
 
@@ -63,15 +68,26 @@ void Inventory::AddItem(Item* itemToAdd)
 	m_inventoryList.push_back(itemToAdd);
 }
 
-void Inventory::UseItem(int index, CharacterInfo* chara)
+bool Inventory::UseItem(int index, CharacterInfo* chara)
 {
-	std::cout << "Using " << m_inventoryList[index]->GetName() << " on " << chara->name << std::endl;
-	m_inventoryList[index]->UseOn(chara);
+	//Check if the item is a consumable
+	Consumable* cnsm = dynamic_cast<Consumable*>(m_inventoryList[index]);
+
+	//Returns false if it's not a consumable
+	if (cnsm == nullptr)
+		return false;
+	else
+	{
+		//Use the item and remove it after
+		cnsm->UseOn(chara);
+		m_inventoryList.erase(m_inventoryList.begin() + index);
+		return true;
+	}
 }
 
 void Inventory::PrintInventory()
 {
-	std::cout << "Inventory has " << m_inventoryList.size() << " items."<< std::endl << "===============================================" << std::endl;
+	std::cout << "Inventory has " << m_inventoryList.size() << " items."<< std::endl << "=============================================================" << std::endl;
 
 	for (unsigned i = 0; i < m_inventoryList.size(); ++i)
 		std::cout << i + 1 << ": " << m_inventoryList[i]->GetName() << " -> " << m_inventoryList[i]->GetDescription() << std::endl;

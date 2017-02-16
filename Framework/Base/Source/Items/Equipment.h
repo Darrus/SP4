@@ -36,6 +36,7 @@ public:
 	inline int GetPhysicalDefense(){ return m_physical_def; }
 	inline int GetMagicDefense(){ return m_magic_def; }
 
+	//TODO:
 	//Do I make setters for equipment?
 
 	//Equipment(){};
