@@ -19,20 +19,6 @@
 using namespace std;    
 
 CBattleState::CBattleState() :
-state(IDLE),
-health_(100),
-attack_(20),
-defense_(5),
-atkbar_(0),
-fillrate(17),
-
-state2(IDLE),
-health2_(100),
-attack2_(30),
-defense2_(10),
-atkbar2_(0),
-fillrate2(20),
-
 encounter(false)
 {
 }
@@ -49,7 +35,7 @@ void CBattleState::Init()
 
 	// Load all the meshes
 	MeshBuilder::GetInstance()->GenerateQuad("BattleState_BKGROUND", Color(1, 1, 1), 1.f);
-	MeshBuilder::GetInstance()->GetMesh("BattleState_BKGROUND")->textureID = LoadTGA("Image//splash.tga");
+	MeshBuilder::GetInstance()->GetMesh("BattleState_BKGROUND")->textureID = LoadTGA("Image//battlebg.tga");
 
     MeshBuilder::GetInstance()->GenerateQuad("Commandselect", Color(1, 1, 1), 1.f);
     MeshBuilder::GetInstance()->GetMesh("Commandselect")->textureID = LoadTGA("Image//optionbox.tga");
@@ -77,17 +63,6 @@ void CBattleState::Init()
     CommandBox->SetPosition(Vector3(windowWidth * 0.85f, windowHeight * 0.3f, 1.f));
     CommandBox->SetScale(Vector3(windowWidth * 0.2, windowHeight * 0.4, 0.f));
 
-    position_.Set(windowWidth * 0.1, windowHeight * 0.8, 0);
-    position2_.Set(windowWidth * 0.9, windowHeight * 0.8, 0);
-
-    TestEnemy = EntityFactory::GetInstance()->CreateSprite("enemysprite", SpriteEntity::MODE_2D);
-    TestEnemy->SetPosition(Vector3(position_.x, position_.y, 1.f));
-    TestEnemy->SetScale(Vector3(windowWidth * 0.1, windowHeight * 0.1, 0.f));
-
-    TestEnemy2 = EntityFactory::GetInstance()->CreateSprite("enemysprite", SpriteEntity::MODE_2D);
-    TestEnemy2->SetPosition(Vector3(position2_.x, position2_.y, 1.f));
-    TestEnemy2->SetScale(Vector3(windowWidth * 0.1, windowHeight * 0.1, 0.f));
-
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Character", 4, 9);
 	MeshBuilder::GetInstance()->GetMesh("Character")->textureID = LoadTGA("Image//character.tga");
 
@@ -107,27 +82,29 @@ void CBattleState::Init()
 	int statPoints;
     */
     testEntity = new BattleEntity();
-    testEntity->GetInfo()->stats.AddVit(5);
-    testEntity->GetInfo()->stats.AddStr(10);
+    testEntity->GetInfo()->stats.AddVit(50);
+    testEntity->GetInfo()->stats.AddStr(40);
     testEntity->GetInfo()->stats.AddInt(5);
     testEntity->GetInfo()->stats.AddMind(20);
     testEntity->GetInfo()->stats.AddDex(10);
     testEntity->GetInfo()->stats.AddAgi(20);
     testEntity->GetInfo()->stats.AddLevel(2);
+    testEntity->GetInfo()->name = "Triple H";
     testEntity->GetInfo()->stats.UpdateStats();
+    testEntity->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.5f, 1.f));
     testEntity->GetInfo()->HP = testEntity->GetInfo()->stats.GetMaxHP();
-    testEntity->GetInfo()->stats.GetRechargeRate();
 
     testEntity2 = new BattleEntity();
-    //testEntity2->GetInfo()->HP = 100;
-    testEntity2->GetInfo()->stats.AddVit(10);
-    testEntity2->GetInfo()->stats.AddStr(20);
+    testEntity2->GetInfo()->stats.AddVit(50);
+    testEntity2->GetInfo()->stats.AddStr(50);
     testEntity2->GetInfo()->stats.AddInt(15);
     testEntity2->GetInfo()->stats.AddMind(50);
-    testEntity2->GetInfo()->stats.AddDex(5);
-    testEntity2->GetInfo()->stats.AddAgi(10);
+    testEntity2->GetInfo()->stats.AddDex(40);
+    testEntity2->GetInfo()->stats.AddAgi(30);
     testEntity2->GetInfo()->stats.AddLevel(2);
+    testEntity2->GetInfo()->name = "John Cena";
     testEntity2->GetInfo()->stats.UpdateStats();
+    testEntity2->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.25f, 1.f));
     testEntity2->GetInfo()->HP = testEntity2->GetInfo()->stats.GetMaxHP();
 
     testingBattle = new BattleSystem();
@@ -137,8 +114,52 @@ void CBattleState::Init()
     //BattleList.push_back(testEntity);
     //BattleList.push_back(testEntity2);
     //testEntity->GetInfo()->stats.UpdateStats();
+    //party = new PartySystem();
+    charahehe = new CharacterInfo();
+    party = new PartySystem();
 
+    charahehe->stats.AddVit(50);
+    charahehe->stats.AddStr(20);
+    charahehe->stats.AddInt(65);
+    charahehe->stats.AddMind(50);
+    charahehe->stats.AddDex(40);
+    charahehe->stats.AddAgi(70);
+    charahehe->stats.AddLevel(5);
+    charahehe->name = "Randall";
+    charahehe->id = 0;
+    charahehe->stats.UpdateStats();
+    charahehe->HP = charahehe->stats.GetMaxHP();
+    party->AddMember(charahehe);
 
+    charahehe = new CharacterInfo();
+    charahehe->stats.AddVit(40);
+    charahehe->stats.AddStr(35);
+    charahehe->stats.AddInt(70);
+    charahehe->stats.AddMind(150);
+    charahehe->stats.AddDex(30);
+    charahehe->stats.AddAgi(50);
+    charahehe->stats.AddLevel(5);
+    charahehe->name = "Darrus";
+    charahehe->id = 1;
+    charahehe->stats.UpdateStats();
+    charahehe->HP = charahehe->stats.GetMaxHP();
+    party->AddMember(charahehe);
+
+    charahehe = new CharacterInfo();
+    charahehe->stats.AddVit(86);
+    charahehe->stats.AddStr(45);
+    charahehe->stats.AddInt(40);
+    charahehe->stats.AddMind(30);
+    charahehe->stats.AddDex(50);
+    charahehe->stats.AddAgi(60);
+    charahehe->stats.AddLevel(5);
+    charahehe->name = "Reuben";
+    charahehe->id = 2;
+    charahehe->stats.UpdateStats();
+    charahehe->HP = charahehe->stats.GetMaxHP();
+    party->AddMember(charahehe);
+
+    testingBattle->AssignPlayerParty(party);
 }
 void CBattleState::Update()
 {
@@ -155,112 +176,13 @@ void CBattleState::Update()
     if (encounter)
     {
         testingBattle->Update();
+        //if (testingBattle->getBattleStatus())
+        //{
+        //    encounter = false;
+        //}
     }
 
 	entity.Update();
-}
-
-void CBattleState::DetermineAction()
-{
-    turnbarfill = false;
-    if (health_ <= 50)
-        state = DEFEND;
-    else
-        state = ATTACK;
-}
-
-void CBattleState::DetermineAction2()
-{
-    turnbarfill = false;
-    if (health2_ <= 20)
-        state2 = DEFEND;
-    else
-        state2 = ATTACK;
-}
-
-// When battle start, start filling everyone's attack turn bar base on their rate
-void CBattleState::AttackBarFill(double dt)
-{
-    // Iterate Through Entity List to fill up each and every Attack Bar
-    atkbar_ += dt * (float)fillrate;
-    atkbar2_ += dt *(float)fillrate2;
-    //std::cout << atkbar_ << std::endl;
-    //std::cout << atkbar2_ << std::endl;
-    // checks if player, player then pop up the command, else monster will pewpew directly
-}
-
-// If it's Player's Turn
-void CBattleState::PlayerCommand()
-{
-    if (atkbar_ >= 100)
-        DetermineAction();
-
-    if (atkbar2_ >= 100)
-        DetermineAction2();
-
-    if (state == ATTACK)
-    {
-        if (state2 != IDLE)
-            health2_ -= (attack_ - (defense2_ * state2));
-        else
-            health2_ -= (attack_ - defense2_);
-
-        if (health2_ <= 0)
-            state2 = DEAD;
-        state = IDLE;
-        atkbar_ = 0;
-        turnbarfill = true;
-    }
-    else if (state == DEFEND)
-    {
-        state = DEFEND;
-        atkbar_ = 0;
-        turnbarfill = true;
-    }
-    //else if (state == SKILL)
-    //{
-
-    //}
-    if (state2 == ATTACK)
-    {
-        if (state != IDLE)
-            health_ -= (attack2_ - (defense_ * state));
-        else
-            health_ -= (attack2_ - defense_);
-
-        if (health_ <= 0)
-            state = DEAD;
-        state2 = IDLE;
-        atkbar2_ = 0;
-        turnbarfill = true;
-    }
-    else if (state2 == DEFEND)
-    {
-        state = DEFEND;
-        atkbar2_ = 0;
-        turnbarfill = true;
-    }
-
-    std::cout << health_ << std::endl;
-    std::cout << health2_ << std::endl;
-
-    //if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
-    //{
-    //    state = ATTACK;
-    //    atkbar_ = 0;
-    //    position_.Set(100, 20);
-    //    TestEnemy->SetPosition(Vector3(position_.x, position_.y, 1.f));
-    //}
-    //if (KeyboardController::GetInstance()->IsKeyPressed(VK_NUMPAD2))
-    //{
-    //    state = DEFEND;
-    //    atkbar_ = 0;
-    //}
-    //if (KeyboardController::GetInstance()->IsKeyPressed(VK_NUMPAD3))
-    //{
-    //    state = PASS;
-    //    atkbar_ = 0;
-    //}
 }
 
 void CBattleState::Render()
@@ -279,9 +201,6 @@ void CBattleState::Render()
 
 	// Render the required entities
 	BattleStateBackground->RenderUI();
-    TestEnemy->RenderUI();
-    if (!turnbarfill)
-        CommandBox->RenderUI();
 
     if (encounter)
     {
@@ -297,7 +216,6 @@ void CBattleState::Exit()
 
 	delete BattleStateBackground;
     delete CommandBox;
-    delete TestEnemy;
 	// Detach camera from other entities
 	GraphicsManager::GetInstance()->DetachCamera();
 }

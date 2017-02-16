@@ -1,7 +1,7 @@
 #include "BattleEntity.h"
 #include "timer.h"
 
-BattleEntity::BattleEntity() : maxATB(100.f), ATB(0.f), isReady(false), isDead(false)
+BattleEntity::BattleEntity() : maxATB(100.f), ATB(0.f), isReady(false), isDead(false), defendRatio(1), AttkTurnPt(0)
 {
     // Temporary
     info = new InfoBase();
@@ -23,7 +23,7 @@ void BattleEntity::Update()
 	float dt = (double)StopWatch::GetInstance()->GetDeltaTime();
 
 	if (ATB < maxATB)
-		ATB += info->stats.GetRechargeRate() * dt;
+		ATB += info->stats.GetRechargeRate() * 0.03;
 	else
 		isReady = true;
 }
