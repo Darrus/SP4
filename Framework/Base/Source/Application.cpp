@@ -6,6 +6,8 @@
 #include "ShaderProgram.h"
 #include "SoundEngine\SoundEngine.h"
 
+#include <fstream>
+
 //Include GLEW
 #include <GL/glew.h>
 
@@ -24,6 +26,7 @@
 #include "Scenes\SkillTreeScene.h"
 #include "Scenes\BattleState.h"
 #include "Scenes\Overworld.h"
+#include "Scenes\ShopScene.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -55,8 +58,8 @@ bool Application::IsKeyPressed(unsigned short key)
 }
 
 Application::Application()
-	: m_window_width(640)
-	, m_window_height(480)
+	: m_window_width(1920)
+	, m_window_height(1080)
 {
 }
 
@@ -134,9 +137,13 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("TestScene", new SkillTreeScene());
     SceneManager::GetInstance()->AddScene("BattleScene", new CBattleState());
 	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
+	SceneManager::GetInstance()->AddScene("Shop", new ShopScene());
 	
 	//Set the active scene
-	SceneManager::GetInstance()->SetActiveScene("IntroState");
+	SceneManager::GetInstance()->SetActiveScene("Shop");
+
+	//Load Font Data
+	LoadFontData("FontData//pixelFontData.csv");
 }
 
 void Application::Run()
@@ -146,7 +153,7 @@ void Application::Run()
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	if (CLuaInterface::GetInstance()->GetBoolValue("fullscreen"))
 	{
-		GLfloat aspect = 16.0f / 9.0f;
+		GLfloat aspect = (float)m_window_width / m_window_height;
 
 		int screenWidth = GetSystemMetrics(SM_CXSCREEN);
 		int screenHeight = GetSystemMetrics(SM_CYSCREEN);
@@ -154,13 +161,14 @@ void Application::Run()
 		int viewWidth = screenWidth;
 		int viewHeight = screenWidth / aspect;
 
-		if (viewHeight > screenHeight) {
+		if (viewHeight > screenHeight) 
+		{
 			viewHeight = screenHeight;
 			viewWidth = screenHeight * aspect;
 		}
 
-		int vportX = (screenWidth - viewWidth) / 2;
-		int vportY = (screenHeight - viewHeight) / 2;
+		int vportX = (screenWidth - viewWidth) * 0.5;
+		int vportY = (screenHeight - viewHeight) * 0.5;
 
 		glViewport(vportX, vportY, viewWidth, viewHeight);
 	}
@@ -291,5 +299,37 @@ void Application::InitDisplay(void)
 	// Tell the graphics manager to use the shader we just loaded
 	GraphicsManager::GetInstance()->SetActiveShader("default");
 	currProg->UpdateInt("numLights", 2);
-	
+}
+
+void Application::LoadFontData(std::string path)
+{
+	string line;
+	vector<string> data;
+	std::ifstream myfile;
+	myfile.open(path);
+	if (myfile.is_open())
+	{
+		std::cout << "File Opened" << std::endl;
+		while (!myfile.eof()) {
+			while (getline(myfile, line, '\n'))
+			{
+				data.push_back(line);
+			}
+		}
+		myfile.close();
+	}
+	else
+	{
+		std::cout << "Cannot open .csv file" << std::endl;
+		return;
+	}
+
+	for (unsigned i = 0; i < data.size(); ++i)
+		fontData[i] = std::stoi(data[i]);
+
+}
+
+float Application::GetCharacterOffset(char chara)
+{
+	return fontData[(int)chara];
 }

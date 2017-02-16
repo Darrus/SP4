@@ -14,7 +14,7 @@ HealthPotion::HealthPotion()
 	m_name = "Health Potion";
 	m_healValue = Math::RandIntMinMax(50,100);//50;
 	m_goldValue = 10;
-	m_description = "Heals an Ally Character for " + std::to_string(m_healValue) + " health.";
+	m_description = "HEALS AN ALLY CHARACTER FOR " + std::to_string(m_healValue) + " HEALTH.";
 }
 
 void HealthPotion::UseOn(CharacterInfo* chara)

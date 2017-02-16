@@ -3,6 +3,7 @@
 #include "GraphicsManager.h"
 #include "ShaderProgram.h"
 #include "MatrixStack.h"
+#include "../../Base/Source/Application.h"
 
 void RenderHelper::RenderMesh(Mesh* _mesh)
 {
@@ -98,11 +99,12 @@ void RenderHelper::RenderText(Mesh* _mesh, const std::string& _text, Color _colo
 	GraphicsManager::GetInstance()->UpdateTexture(0, _mesh->textureID);
 	currProg->UpdateInt("colorTexture", 0);
 
-	for (unsigned i = 0; i < _text.length(); ++i)
+	for (float i = 0; i < _text.length(); ++i)
 	{
 		Mtx44 characterSpacing, MVP;
-		//characterSpacing.SetToTranslation((i+0.5f) * 1.0f, 0, 0); // 1.0f is the spacing of each character, you may change this value
-		characterSpacing.SetToTranslation((float)(1 + (int)i), 0.0f, 0.0f); // 1.0f is the spacing of each character, you may change this value
+		float offset = Application::GetInstance().GetCharacterOffset(_text[i]);
+		offset *= 0.01;
+		characterSpacing.SetToTranslation((i + offset) * 0.6f, 0, 1.f); //1.0f is the spacing of each character, you may change this value
 		MVP = GraphicsManager::GetInstance()->GetProjectionMatrix() * GraphicsManager::GetInstance()->GetViewMatrix() * GraphicsManager::GetInstance()->GetModelStack().Top() * characterSpacing;
 		currProg->UpdateMatrix44("MVP", &MVP.a[0]);
 
@@ -145,4 +147,14 @@ void RenderHelper::RenderSprite(Mesh* _mesh, unsigned frame)
 	{
 		GraphicsManager::GetInstance()->UnbindTexture(0);
 	}
+}
+
+void RenderHelper::RenderItem(Mesh* _item, float pos_x, float pos_y, float scale_x, float scale_y)
+{
+	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
+	modelStack.PushMatrix();
+	modelStack.Translate(pos_x, pos_y, 0.0f);
+	modelStack.Scale(scale_x, scale_y, 1.f);
+	RenderMesh(_item);
+	modelStack.PopMatrix();
 }

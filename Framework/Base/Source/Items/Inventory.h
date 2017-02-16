@@ -42,9 +42,11 @@ public:
 class Inventory
 {
 private:
-	vector<Item*> m_inventoryList;
 
 public:
+	//HACK:
+	vector<Item*> m_inventoryList;
+
 	void AddItem(Item* itemToAdd);
 	bool UseItem(int index, CharacterInfo* chara);
 	void PrintInventory();

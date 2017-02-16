@@ -31,7 +31,7 @@ void Menu::Update()
 			if (MouseController::GetInstance()->IsButtonReleased(MouseController::LMB))
 				m_buttonList[i]->RunFunction();
 
-			break;	//you don't hover over more than one button at a time so we can break here
+			//break;	//you don't hover over more than one button at a time so we can break here
 		}
 		else
 			m_buttonList[i]->m_isHovered = false;

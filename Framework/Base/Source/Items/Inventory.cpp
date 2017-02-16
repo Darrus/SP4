@@ -71,15 +71,15 @@ void Inventory::AddItem(Item* itemToAdd)
 bool Inventory::UseItem(int index, CharacterInfo* chara)
 {
 	//Check if the item is a consumable
-	Consumable* cnsm = dynamic_cast<Consumable*>(m_inventoryList[index]);
+	Consumable* cnsmble = dynamic_cast<Consumable*>(m_inventoryList[index]);
 
 	//Returns false if it's not a consumable
-	if (cnsm == nullptr)
+	if (cnsmble == nullptr)
 		return false;
 	else
 	{
 		//Use the item and remove it after
-		cnsm->UseOn(chara);
+		cnsmble->UseOn(chara);
 		m_inventoryList.erase(m_inventoryList.begin() + index);
 		return true;
 	}

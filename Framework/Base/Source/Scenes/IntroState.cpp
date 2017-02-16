@@ -41,7 +41,7 @@ void CIntroState::Init()
 	MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND")->textureID = LoadTGA("Image//splash.tga");
 
 	MeshBuilder::GetInstance()->GenerateText("text", 16, 16);
-	MeshBuilder::GetInstance()->GetMesh("text")->textureID = LoadTGA("Image//calibri.tga");
+	MeshBuilder::GetInstance()->GetMesh("text")->textureID = LoadTGA("FontData//pixelFont.tga");
 	MeshBuilder::GetInstance()->GetMesh("text")->material.kAmbient.Set(1, 0, 0);
 	
 	MeshBuilder::GetInstance()->GenerateQuad("Collider", Color(1.f, 0.f, 0.f));
@@ -73,39 +73,44 @@ void CIntroState::Init()
 	btn1->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
 	menu->AddButton(btn1);*/
 
+	HealthPotion* nigga = new HealthPotion();
+
+	string lmao = "   [IMAGE]  |  ";//[	 ITEM NAME	] | [6969] | Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ";
+	lmao = lmao + nigga->GetName() + "  |  " + std::to_string(nigga->GetGoldValue()) + "  |  " + nigga->GetDescription();
+
 	btn2 = new Button();
 	btn2->SetPosition(windowWidth * 0.5f, windowHeight * 0.5f);
+	btn2->SetTextOffset(50, 0);
 	btn2->SetScale(250, 80);
 	btn2->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
 	btn2->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
-	btn2->SetFunction(ButtonFunc);
-	btn2->SetText("Click me");
+	btn2->SetText(lmao);
 	menu->AddButton(btn2);
 
 	Button* btn1= new Button();
-	btn1->SetPosition(Math::RandFloatMinMax(250, 500), Math::RandFloatMinMax(250, 500));
+	btn1->SetPosition(Math::RandFloatMinMax(250, 0), Math::RandFloatMinMax(250, 500));
+	btn1->SetTextOffset(50, 0);
 	btn1->SetScale(250, 80);
 	btn1->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
 	btn1->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
-	btn1->SetFunction(ButtonFunc);
-	btn1->SetText("Click me");
+	btn1->SetText(lmao);
 	menu->AddButton(btn1);
 
 	Button* btn3 = new Button();
 	btn3->SetPosition(Math::RandFloatMinMax(250, 500), Math::RandFloatMinMax(250, 500));
+	btn3->SetTextOffset(50, 0);
 	btn3->SetScale(250, 80);
 	btn3->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
 	btn3->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
-	btn3->SetFunction(ButtonFunc);
-	btn3->SetText("Click me");
+	btn3->SetText(lmao);
 	menu->AddButton(btn3);
 
-	//Entity2D* littleFucker = new Entity2D();
-	//littleFucker->GetAnimator()->AddAnimation("RUN", new Animation("Character", 0, 8, 1.f, -1));
-	//littleFucker->GetAnimator()->PlayAnimation("RUN");
-	//littleFucker->SetScale(Vector3(50.f, 50.f, 1.f));
-	//littleFucker->SetPosition(Vector3(windowWidth * 0.5f, windowHeight * 0.5f, 1.f));
-	////EManager.AddEntity(littleFucker);
+	Entity2D* littleFucker = new Entity2D();
+	littleFucker->GetAnimator()->AddAnimation("RUN", new Animation("Character", 0, 8, 1.f, -1));
+	littleFucker->GetAnimator()->PlayAnimation("RUN");
+	littleFucker->SetScale(Vector3(50.f, 50.f, 1.f));
+	littleFucker->SetPosition(Vector3(windowWidth * 0.5f, windowHeight * 0.5f, 1.f));
+	EManager.AddEntity(littleFucker);
 
 	//Initialise inventory
 	inventory = new Inventory();
@@ -179,9 +184,9 @@ void CIntroState::Render()
 															  0, 
 															  Application::GetInstance().GetWindowHeight(), 
 															  -10, 10);
-	EManager.Render();
 
 	GraphicsManager::GetInstance()->DetachCamera();
+	EManager.Render();
 
 	// Render the required entities
 	menu->Render();

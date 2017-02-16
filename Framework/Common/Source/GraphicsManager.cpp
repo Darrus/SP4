@@ -242,6 +242,7 @@ ShaderProgram* GraphicsManager::GetActiveShader()
 void GraphicsManager::SetOrthographicProjection(double _left, double _right, double _bottom, double _top, double _nearVal, double _farVal)
 {
 	projectionMatrix.SetToOrtho(_left, _right, _bottom, _top, _nearVal, _farVal);
+	glDisable(GL_DEPTH_TEST);
 }
 
 void GraphicsManager::SetPerspectiveProjection(double _aspect, double _zNear, double _zFar)

@@ -13,24 +13,10 @@ using std::string;
 
 enum BUTTON_MESH
 {
-	NORMAL_IMAGE = 0,
+	NORMAL_IMAGE = false,
 	HIGHLIGHTED_IMAGE,
 
 	NUM_IMAGES
-};
-
-typedef void(*FunctionPointer) (void);
-
-struct RandomPos
-{
-	inline void operator() (float &x, float &y, float &screen_x, float &screen_y)
-	{
-		x = Math::RandFloatMinMax(250, 500);
-		y = Math::RandFloatMinMax(250, 500);
-
-		screen_x = x / Application::GetInstance().GetWindowWidth();
-		screen_y = y / Application::GetInstance().GetWindowHeight();
-	}
 };
 
 //======================================//
@@ -40,7 +26,7 @@ struct RandomPos
 
 class Button
 {
-private:
+protected:
 	//Position and scale of button in world space
 	float m_pos_x, m_pos_y;
 	float m_scale_x, m_scale_y;
@@ -48,9 +34,6 @@ private:
 	//Position and scale of button in screen space
 	float m_screen_pos_x, m_screen_pos_y;
 	float m_screen_scale_x, m_screen_scale_y;
-
-	//Holds the fuction to run when button is pressed
-	FunctionPointer m_function;
 
 	//Holds the image and highlighted image
 	Mesh* m_meshList[NUM_IMAGES];
@@ -60,10 +43,8 @@ private:
 	float m_text_offset_x, m_text_offset_y;
 	float m_text_scale_x, m_text_scale_y;
 
-	//TEST:
-	RandomPos randompos;
-
 public:
+
 	//To determine which mesh is rendered
 	bool m_isHovered;
 
@@ -94,23 +75,61 @@ public:
 		m_screen_scale_x = m_scale_x / Application::GetInstance().GetWindowWidth();
 		m_screen_scale_y = m_scale_y / Application::GetInstance().GetWindowHeight();
 	}
+	inline void SetTextOffset(float text_x, float text_y){ m_text_offset_x = text_x; m_text_offset_y = text_y; };
+	inline void SetTextScale(float text_x, float text_y){ m_text_scale_x = text_x; m_text_scale_y= text_y; };
 	inline void SetImage(Mesh* image) { m_meshList[NORMAL_IMAGE] = image; }
 	inline void SetHighlightedImage(Mesh* image) { m_meshList[HIGHLIGHTED_IMAGE] = image; }
 	inline void SetText(string text) { m_text = text; }
-	inline void SetFunction(FunctionPointer funcPtr) { m_function = funcPtr; };
 
-	//Runs the held function
-	virtual void RunFunction();
+	//Button runs what its supposed to do
+	virtual void RunFunction(){};
 
 	//Renders the button
 	virtual void Render();
 
-	//Function must be initialised upon Button object creation
-	Button(FunctionPointer functionToRun);
-	Button(float pos_x, float pos_y, float scale_x, float scale_y, FunctionPointer &functionToRun);
 	Button();
+	Button(float pos_x, float pos_y, float scale_x, float scale_y);
 
-	~Button();
+	virtual ~Button();//TODO: DELETE MESH POINTER
+};
+
+class ToggleButton : public Button
+{
+protected:
+	bool *toToggle;
+
+public:
+	inline void SetSwitch(bool &to_toggle){ toToggle = &to_toggle; }
+	inline void RunFunction(){ *toToggle = !&toToggle; }
+
+	ToggleButton() : toToggle(nullptr){};
+	~ToggleButton(){};
+};
+
+class IncrementButton : public Button
+{
+protected:
+	int *toIncrease;
+
+public:
+	inline void SetSwitch(int &to_increase){ toIncrease = &to_increase; }
+	inline void RunFunction(){ ++toIncrease; }
+
+	IncrementButton() : toIncrease(nullptr){};
+	~IncrementButton(){};
+};
+
+class DecrementButton : public Button
+{
+protected:
+	int *toDecrease;
+
+public:
+	inline void SetSwitch(int &to_increase){ toDecrease = &to_increase; }
+	inline void RunFunction(){ --toDecrease; }
+
+	DecrementButton() : toDecrease(nullptr){}; 
+	~DecrementButton(){};
 };
 
 #endif

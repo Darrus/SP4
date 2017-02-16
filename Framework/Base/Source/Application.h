@@ -2,6 +2,7 @@
 #define APPLICATION_H
 
 #include "timer.h"
+#include <string>
 
 struct GLFWwindow;
 class ShaderProgram;
@@ -28,10 +29,15 @@ public:
 	int GetWindowWidth();
 
 	inline void ResizeWindow(int width, int height) { m_window_width = width; m_window_height = height; }
-	
+
+	void LoadFontData(std::string path);
+	float GetCharacterOffset(char chara);
+
 private:
 	Application();
 	~Application();
+
+	int fontData[256];
 
 	static bool IsKeyPressed(unsigned short key);
 	void InitDisplay(void);
