@@ -12,6 +12,8 @@ class BattleEntity : public Entity2D
 
     bool isDead;
     bool isReady;
+    float defendRatio;
+    char AttkTurnPt;
 
 public:
     BattleEntity();
@@ -28,6 +30,13 @@ public:
     float GetATB() { return ATB; }
     void SetATB(float ATB) { this->ATB = ATB; }
     void SetReady(bool ready) { isReady = ready; }
+    void SetDefending(float def) { defendRatio = def; }
+    float GetDefending() { return defendRatio; }
+
+    char GetAttkTurnPt() { return AttkTurnPt; }
+    void AddAttkTurnPt(char pt) { AttkTurnPt += pt; }
+    void DecreaseAttkTurnPt(char pt) { AttkTurnPt -= pt; }
+    void SetInfo(InfoBase* info_) { info = info_; }
 };
 
 #endif
