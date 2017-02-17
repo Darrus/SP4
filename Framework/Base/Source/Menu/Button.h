@@ -3,11 +3,12 @@
 
 #include "Mesh.h"
 #include "../Application.h"
-#include <string>
+#include "../Items/Inventory.h"
 
 #include "../../Common/Source/MyMath.h"
 
 #include <iostream>
+#include <string>
 
 using std::string;
 
@@ -81,8 +82,8 @@ public:
 	inline void SetHighlightedImage(Mesh* image) { m_meshList[HIGHLIGHTED_IMAGE] = image; }
 	inline void SetText(string text) { m_text = text; }
 
-	//Button runs what its supposed to do
-	virtual void RunFunction(){};
+	//Virtual function that runs specified button functionality
+	inline virtual void RunFunction(){};
 
 	//Renders the button
 	virtual void Render();
@@ -90,46 +91,68 @@ public:
 	Button();
 	Button(float pos_x, float pos_y, float scale_x, float scale_y);
 
-	virtual ~Button();//TODO: DELETE MESH POINTER
+	inline virtual ~Button()
+	{
+		for (unsigned i = 0; i < NUM_IMAGES; ++i)
+			if (m_meshList[i] != nullptr)
+				delete m_meshList[i];
+	};
 };
 
 class ToggleButton : public Button
 {
 protected:
-	bool *toToggle;
+	//Pointer that points to the address of the boolean to toggle
+	bool *m_toToggle;
 
 public:
-	inline void SetSwitch(bool &to_toggle){ toToggle = &to_toggle; }
-	inline void RunFunction(){ *toToggle = !&toToggle; }
+	//Setters
+	inline void SetSwitch(bool &to_toggle){ m_toToggle = &to_toggle; }
 
-	ToggleButton() : toToggle(nullptr){};
+	//Virtual function from button class that runs specified button functionality
+	inline void RunFunction(){ *m_toToggle = !*m_toToggle; }
+
+	ToggleButton() : m_toToggle(nullptr){};
 	~ToggleButton(){};
 };
 
 class IncrementButton : public Button
 {
 protected:
-	int *toIncrease;
+	//Pointer that points to the address of the value to increment
+	int *m_toIncrease;
+	//Amount to increament 
+	int m_increment;
 
 public:
-	inline void SetSwitch(int &to_increase){ toIncrease = &to_increase; }
-	inline void RunFunction(){ ++toIncrease; }
+	//Setters
+	inline void SetNumber(int &to_increase){ m_toIncrease = &to_increase; }
+	inline void SetIncrementAmount(int value){ m_increment = value; }
 
-	IncrementButton() : toIncrease(nullptr){};
+	//Virtual function from button class that runs specified button functionality
+	inline void RunFunction(){ *m_toIncrease += m_increment; }
+
+	IncrementButton() : m_toIncrease(nullptr), m_increment(19){};
 	~IncrementButton(){};
 };
 
-class DecrementButton : public Button
+class Shop_ItemButton : public Button
 {
 protected:
-	int *toDecrease;
+	Item *m_item;
+	Inventory *m_targetInventory;
+	
+	const float ICON_SCALE_X = 50;
+	const float ICON_SCALE_Y = 50;
 
 public:
-	inline void SetSwitch(int &to_increase){ toDecrease = &to_increase; }
-	inline void RunFunction(){ --toDecrease; }
+	inline void SetTargetInventory(Inventory &target_inven){ m_targetInventory = &target_inven; }
+	inline void SetItem(Item &target_item){ m_item = &target_item; }
+	inline void RunFunction(){ m_targetInventory->AddItem(m_item); }
+	//void Render(){};
 
-	DecrementButton() : toDecrease(nullptr){}; 
-	~DecrementButton(){};
+	Shop_ItemButton(){};
+	~Shop_ItemButton(){};
 };
 
 #endif

@@ -17,6 +17,7 @@ private:
     bool isPassTurn;
     bool battleEnded;
     BattleEntity* pewpewpew;
+    SpriteEntity* Arrow;
     //PartySystem party;
 
 public:
@@ -27,28 +28,50 @@ public:
     virtual void Update();
     virtual void Render();
 
+    // Choosing Target and finding stuff
     BattleEntity* ChooseAtkTarget(BattleEntity* entity);
+    BattleEntity* ChooseAtkTarget(int selection);
+    BattleEntity* FindTarget(int selection);
 
+    // Battle Command Moves
     void EntityTurn(BattleEntity* entity);      ///< Give an Entity the Turn
-
     void Attack(BattleEntity* entity, BattleEntity* targetEntity);  ///< Attack the targetEntity
     void SpellCast(BattleEntity* entity, BattleEntity* targetEntity);  ///< Attack the targetEntity
     void Defend(BattleEntity* entity);
     void PassTurn(BattleEntity* entity);
-    
+
     void ResetATB(BattleEntity* entity);
 
-    void CheckCrit(float critRate);
-    void CheckDodge(float dodgeRate);
-
+    // Battle Checks
+    void CheckCrit(float critRate);             ///< Function to check if player crits
+    void CheckDodge(float dodgeRate);           ///< Function to check if player dodges
     bool getBattleStatus() { return battleEnded; }
 
+    // Assigning Party
     void AssignPlayerParty(PartySystem* party);
 
     PartySystem* playerParty;                   ///< Get the player's Party
-    std::list<BattleEntity*> BattleList;
-    SpriteEntity* BattleSprites;
-    std::list<SpriteEntity*> SpriteList;
+    SpriteEntity* BattleSprites;                ///< Battle Sprites
+
+    std::list<BattleEntity*> BattleList;        ///< List to store all battle entities
+    std::list<BattleEntity*> EnemyList;         ///< Store Enemy Data
+    std::list<BattleEntity*> PlayerList;        ///< Store Player Data
+    std::list<SpriteEntity*> SpriteList;        ///< Store Battle Sprites
+
+    // U.I. Stuff, in testintg
+    int selection[5];
+    int playerselect;
+    int attkselect;
+
+    enum SELECTIONAT
+    {
+        NOTHING = 0,
+        CHOOSEPLAYER,
+        CHOOSETARGET,
+        CHOOSEDOWAT,
+    };
+    SELECTIONAT whichScreen;
+    void GetInputSelection(BattleEntity* entity, SELECTIONAT screen, int selection);
 }; 
 
 #endif /* BATTLESYSTEM_H */

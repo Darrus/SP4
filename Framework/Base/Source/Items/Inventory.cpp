@@ -1,5 +1,8 @@
 #include "Inventory.h"
 #include "Consumable.h"
+#include "GraphicsManager.h"
+#include "RenderHelper.h"
+#include "MeshBuilder.h"
 
 #if INVENTORY_VERSION == 1
 
@@ -91,6 +94,21 @@ void Inventory::PrintInventory()
 
 	for (unsigned i = 0; i < m_inventoryList.size(); ++i)
 		std::cout << i + 1 << ": " << m_inventoryList[i]->GetName() << " -> " << m_inventoryList[i]->GetDescription() << std::endl;
+}
+
+void Inventory::RenderItem(int index, float pos_x, float pos_y, float scale_x, float scale_y)
+{
+	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
+	modelStack.PushMatrix();
+	modelStack.Translate(pos_x, pos_y, 0);
+	modelStack.PushMatrix();
+	modelStack.Scale(scale_x, scale_y, 1);
+	RenderHelper::RenderMesh(m_inventoryList[index]->GetMesh());
+	modelStack.PopMatrix();
+	modelStack.Translate(-scale_x * 0.5f, 0, 0);
+	modelStack.Scale(20, 20, 1);
+	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_inventoryList[index]->GetName(), Color(1, 0, 0));
+	modelStack.PopMatrix();
 }
 
 #endif

@@ -327,12 +327,44 @@ void Application::LoadFontData(std::string path)
 		return;
 	}
 
+	//iterate through vector of strings
 	for (unsigned i = 0; i < data.size(); ++i)
-		fontData[i] = std::stoi(data[i]);
+	{
+		std::string whatIWantHolder;
+		std::string whatIWantInt;
+		bool store = false;
 
+		whatIWantHolder = data[i];
+
+		//Iterate through string
+		for (int i = 0; i < whatIWantHolder.size(); i++)
+		{
+			if (whatIWantHolder[i] == ','){
+				store = true;
+			}
+			else if (store){
+				whatIWantInt += whatIWantHolder[i];
+			}
+		}
+
+		fontData[i] = std::stoi(whatIWantInt);
+	}
 }
 
 float Application::GetCharacterOffset(char chara)
 {
-	return fontData[(int)chara];
+	int index = static_cast<int>(chara);
+
+	float offset = fontData[index];
+
+	if (offset == 28)
+		offset += 14;
+	else if (offset == 21)
+		offset += 21;
+	else if (offset == 35)
+		offset += 7;
+	else if (offset == 14)
+		offset += 26;
+
+	return offset;
 }
