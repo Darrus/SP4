@@ -28,7 +28,7 @@ void CCollider_2DAABB::RenderCollider()
 
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
-	modelStack.Translate(position.x, position.y, 2.f);
+	modelStack.Translate(position.x, position.y, position.z + 0.1f);
 	modelStack.Scale(scale.x, scale.y, 1.f);
 	RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Collider"));
 	modelStack.PopMatrix();
@@ -66,6 +66,7 @@ bool CCollider_2DAABB::CheckCollision(CCollider* other)
 
 		if (thisMax.y > otherMin.y && thisMax.y < otherMax.y && thisMin.y < otherMin.y)
 			top = thisMax.y - otherMin.y;
+
 	}
 
 	return result;

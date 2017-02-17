@@ -6,6 +6,7 @@
 
 class Entity2D : public EntityBase
 {
+protected:
 	Animator anim;
 
 public:

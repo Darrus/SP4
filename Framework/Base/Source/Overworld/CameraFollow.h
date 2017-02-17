@@ -28,6 +28,9 @@ public:
 	virtual void Init(float dist, float followSpeed);
 	virtual void Update();
 
+	void TransitionIn();
+	void TransitionOut();
+
 	inline void SetEntityPos(Vector3 pos) { entityPos = pos; }
 	inline void SetDist(float dist){ this->dist = dist; }
 	inline void SetDistSpeed(float distSpeed){ this->distSpeed = distSpeed; }

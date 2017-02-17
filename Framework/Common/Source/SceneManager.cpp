@@ -16,25 +16,26 @@ void SceneManager::Update()
 	{
 		if (!overlay && activeScene.size() >= 1)
 		{
-			activeScene.back()->Exit();
+			//activeScene.back()->Exit();
 			activeScene.pop_back();
 		}
 
 		activeScene.push_back(nextScene);
 		activeScene.back()->Init();
 		nextScene = nullptr;
+		overlay = false;
 	}
 
 	if (back)
 	{
 		if (activeScene.size() > 1)
 		{
-			activeScene.back()->Exit();
+			//activeScene.back()->Exit();
 			activeScene.pop_back();
 			back = false;
 		}
 		else
-			std::cout << "There is not previous scene to go back to." << std::endl;
+			std::cout << "There is no previous scene to go back to." << std::endl;
 	}
 
 	activeScene.back()->Update();
@@ -110,7 +111,8 @@ void SceneManager::SetActiveScene(const std::string& _name, bool overlay)
 
 bool SceneManager::CheckSceneExist(const std::string& _name)
 {
-	return sceneMap.count(_name) != 0;
+	std::map<std::string, Scene*>::iterator it = sceneMap.find(_name);
+	return (it != sceneMap.end());
 }
 
 void SceneManager::PreviousScene()

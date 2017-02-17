@@ -2,10 +2,16 @@
 #define OVERWORLD_H
 
 #include "Scene.h"
+#include <vector>
+
 #include "../Overworld/CameraFollow.h"
 #include "../Overworld/OverworldEntity.h"
 #include "../Overworld/OverworldAsset.h"
+#include "../Overworld/TriggerArea.h"
+
 #include "../Entity/SpriteEntity.h"
+
+using std::vector;
 
 class Overworld : public Scene
 {
@@ -22,9 +28,9 @@ public:
 
 private:
 	CameraFollow camera;
+	float lastRotX;
 	SpriteEntity* background;
 	OverworldEntity* player;
-	OverworldAsset* assets[2];
 };
 
 #endif

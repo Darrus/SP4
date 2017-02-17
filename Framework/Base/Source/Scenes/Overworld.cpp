@@ -19,7 +19,7 @@
 #include "MatrixStack.h"
 
 Overworld::Overworld() :
-battle(false)
+battle(false), lastRotX(0.f)
 {
 }
 
@@ -43,9 +43,11 @@ void Overworld::Init()
 	float windowHeight = Application::GetInstance().GetWindowHeight();
 
 	// Camera Init
-	camera.Init(100.f, 0.5f);
-	camera.SetRotSpeed(80.f);
-	camera.SetDistSpeed(55.f);
+	camera.Init(1.f, 0.5f);
+	camera.SetFollowSpeed(0.3f);
+	camera.SetRotSpeed(200.f);
+	camera.SetDistSpeed(100.f);
+	camera.SetDist(80.f);
 
 	// Player Init
 	player = new OverworldEntity();
@@ -59,24 +61,40 @@ void Overworld::Init()
 
 
 	// Background Init
-	background = EntityFactory::GetInstance()->CreateSprite("background", SpriteEntity::MODE_3D);
-	background->SetPosition(Vector3(0.f, 0.f, -3.f));
+	background = new SpriteEntity(MeshBuilder::GetInstance()->GetMesh("background"));
+	background->SetTextRenderMode(SpriteEntity::MODE_3D);
+	background->SetPosition(Vector3(0.f, 0.f, 0.f));
 	background->SetScale(Vector3(300, 300, 1.f));
+	EManager.AddEntity(background);
 
+	TriggerArea* trigger = new TriggerArea();
+	trigger->SetPosition(Vector3(30.f, 10.f, 0.1f));
+	trigger->SetScale(Vector3(10.f, 10.f, 1.f));
+	trigger->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(trigger);
+
+	OverworldAsset* asset;
+	Math::InitRNG();
 	// Assets Init
-	assets[0] = new OverworldAsset("twee");
-	assets[0]->SetPosition(Vector3(0.f, 0.f, 0.1f));
-	assets[0]->SetScale(Vector3(10.f, 10.f, 1.f));
-	assets[0]->SetCamera(&camera);
-	assets[0]->SetCollider(new CCollider_2DAABB());
-	EManager.AddEntity(assets[0]);
+	for (int i = 0; i < 50; ++i)
+	{
+		float posX = Math::RandFloatMinMax(-150.f, 150.f);
+		float posY = Math::RandFloatMinMax(-150.f, 150.f);
+		asset = new OverworldAsset("twee");
+		asset->SetPosition(Vector3(posX, posY, 0.1f));
+		asset->SetScale(Vector3(10.f, 10.f, 1.f));
+		asset->SetCamera(&camera);
+		asset->SetCollider(new CCollider_2DAABB());
+		EManager.AddEntity(asset);
+	}
+	
 
-	assets[1] = new OverworldAsset("mountain");
-	assets[1]->SetPosition(Vector3(30.f, 30.f, 0.1f));
-	assets[1]->SetScale(Vector3(70.f, 50.f, 1.f));
-	assets[1]->SetCamera(&camera);
-	assets[1]->SetCollider(new CCollider_2DAABB());
-	EManager.AddEntity(assets[1]);
+	asset = new OverworldAsset("mountain");
+	asset->SetPosition(Vector3(30.f, 30.f, 0.1f));
+	asset->SetScale(Vector3(70.f, 50.f, 1.f));
+	asset->SetCamera(&camera);
+	asset->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(asset);
 }
 
 void Overworld::Update()
@@ -87,9 +105,9 @@ void Overworld::Update()
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
 		SceneManager::GetInstance()->quit = true;
 
-	if (KeyboardController::GetInstance()->IsKeyDown(VK_SPACE))
+	if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
 	{
-		battle = true;
+		battle = !battle;
 	}
 
 	if (battle)
@@ -118,5 +136,5 @@ void Overworld::Render()
 
 void Overworld::Exit()
 {
-
+	EManager.ClearEntityList();
 }

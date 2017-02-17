@@ -128,14 +128,26 @@ void CameraFollow::Control()
 		MouseController::GetInstance()->GetMousePosition(currMouseX, currMouseY);
 		float windowWidth = Application::GetInstance().GetWindowWidth();
 		if (currMouseX > windowWidth * 0.5f)
-		{
-			rotZ += 90;
-			//curRotZ += 90;
-		}
-		else
-		{
 			rotZ -= 90;
-			//curRotZ -= 90;
-		}
+		else
+			rotZ += 90;
 	}
+}
+
+void CameraFollow::TransitionIn()
+{
+	SetRotX(0.f);
+	SetRotZ(360.f);
+	SetDist(1.f);
+	SetRotSpeed(440.f);
+	SetDistSpeed(100.f);
+}
+
+void CameraFollow::TransitionOut()
+{
+	SetRotX(0.f);
+	SetRotZ(0.f);
+	SetDist(100.f);
+	SetRotSpeed(440.f);
+	SetDistSpeed(100.f);
 }

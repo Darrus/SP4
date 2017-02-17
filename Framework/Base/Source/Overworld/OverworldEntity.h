@@ -17,8 +17,13 @@ public:
 
 	virtual void Update();
 	virtual void HandleCollision(EntityBase* entity);
+	virtual void Render();
 
-	inline void AttachCamera(CameraFollow* camera) { this->camera = camera; }
+	inline void AttachCamera(CameraFollow* camera) { 
+		this->camera = camera;
+		this->camera->SetCameraPos(position + Vector3(0.f, 0.f, 1.f));
+		this->camera->SetCameraTarget(position);
+	}
 	inline void DeattachCamera() { this->camera = nullptr; }
 };
 
