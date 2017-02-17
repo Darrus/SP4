@@ -100,6 +100,12 @@
     <ClCompile Include="Source\Battle\BattleSystem.cpp">
       <Filter>BattleSystem</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Overworld\TriggerArea.cpp">
+      <Filter>Overworld</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\ParticleEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -203,6 +209,12 @@
     </ClInclude>
     <ClInclude Include="Source\Battle\BattleSystem.h">
       <Filter>BattleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\TriggerArea.h">
+      <Filter>Overworld</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\ParticleEntity.h">
+      <Filter>Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
