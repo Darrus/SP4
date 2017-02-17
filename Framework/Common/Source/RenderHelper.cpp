@@ -101,10 +101,14 @@ void RenderHelper::RenderText(Mesh* _mesh, const std::string& _text, Color _colo
 
 	for (float i = 0; i < _text.length(); ++i)
 	{
+		float char_width = 0;
 		Mtx44 characterSpacing, MVP;
-		float offset = Application::GetInstance().GetCharacterOffset(_text[i]);
-		offset *= 0.01;
-		characterSpacing.SetToTranslation((i + offset) * 0.6f, 0, 1.f); //1.0f is the spacing of each character, you may change this value
+
+		char_width = Application::GetInstance().GetCharacterOffset(_text[i]);
+		char_width *= 0.01;
+		char_width = 1.0f - char_width;
+
+		characterSpacing.SetToTranslation(i * char_width, 0, 1.f); //1.0f is the spacing of each character, you may change this value
 		MVP = GraphicsManager::GetInstance()->GetProjectionMatrix() * GraphicsManager::GetInstance()->GetViewMatrix() * GraphicsManager::GetInstance()->GetModelStack().Top() * characterSpacing;
 		currProg->UpdateMatrix44("MVP", &MVP.a[0]);
 

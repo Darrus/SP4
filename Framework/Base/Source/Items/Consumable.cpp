@@ -11,6 +11,7 @@
 //=================================================================================================//
 HealthPotion::HealthPotion()
 {
+	Item();
 	m_name = "Health Potion";
 	m_healValue = Math::RandIntMinMax(50,100);//50;
 	m_goldValue = 10;

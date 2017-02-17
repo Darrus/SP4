@@ -3,7 +3,8 @@
 
 #include <string>
 #include "../Character/CharacterInfo.h"
-#include "Mesh.h"
+//#include "Mesh.h"
+#include "MeshBuilder.h"
 
 using std::string;
 
@@ -31,11 +32,12 @@ public:
 	inline void SetDescription(string desc) { m_description = desc; }
 
 	inline void SetMesh(Mesh* mesh){ m_icon = mesh; }
+	inline Mesh* GetMesh(){ return m_icon; }
 
 	inline int GetGoldValue(){ return m_goldValue; }
 	//inline void SetValue(int value){ m_value = value; } //Value shouldn't change
 
-	Item() : m_name(""), m_description(""), m_goldValue(0){}
+	Item() : m_name(""), m_description(""), m_goldValue(0), m_icon(MeshBuilder::GetInstance()->GetMesh("button_background")){}
 	virtual ~Item(){}
 };
 

@@ -15,8 +15,8 @@ Button::Button() :
 	m_text_scale_x(30),
 	m_text_scale_y(30.f)
 {
-	m_meshList[0] = nullptr;
-	m_meshList[1] = nullptr;
+	for (unsigned i = 0; i < NUM_IMAGES; ++i)
+		m_meshList[i] = nullptr;
 }
 
 Button::Button(float pos_x, float pos_y, float scale_x, float scale_y) : 
@@ -31,10 +31,8 @@ Button::Button(float pos_x, float pos_y, float scale_x, float scale_y) :
 	m_text_scale_x(30),
 	m_text_scale_y(30.f)
 {
-}
-
-Button::~Button()
-{
+	for (unsigned i = 0; i < NUM_IMAGES; ++i)
+		m_meshList[i] = nullptr;
 }
 
 void Button::Render()
@@ -60,3 +58,8 @@ void Button::Render()
 	
 	modelStack.PopMatrix();
 }
+
+//void Button::Render()
+//{
+//
+//}

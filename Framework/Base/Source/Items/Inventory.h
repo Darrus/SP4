@@ -51,6 +51,8 @@ public:
 	bool UseItem(int index, CharacterInfo* chara);
 	void PrintInventory();
 
+	void RenderItem(int index, float pos_x, float pos_y, float scale_x, float scale_y);
+
 	Inventory();
 	~Inventory();
 };

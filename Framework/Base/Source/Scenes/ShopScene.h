@@ -14,6 +14,7 @@
 #include "../Items/Item.h"
 #include "../Items/Consumable.h"
 #include "../Items/Equipment.h"
+#include "../Entity/ParticleEntity.h"
 
 class SceneManager;
 class TextEntity;
@@ -36,7 +37,9 @@ private:
 	Entity2D entity;
 
 	Inventory* inventory;
+	Inventory* cart;
 
+	ParticleEntity* particle;
 };
 
 
