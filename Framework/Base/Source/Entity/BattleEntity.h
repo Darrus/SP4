@@ -37,6 +37,14 @@ public:
     void AddAttkTurnPt(char pt) { AttkTurnPt += pt; }
     void DecreaseAttkTurnPt(char pt) { AttkTurnPt -= pt; }
     void SetInfo(InfoBase* info_) { info = info_; }
+
+    enum ENEMYTYPE
+    {
+        ENEMY = 0,
+        ALLY
+    };
+
+    ENEMYTYPE enemyType;
 };
 
 #endif

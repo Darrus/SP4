@@ -33,6 +33,7 @@ void GraphicsManager::Init()
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
 	glGenVertexArrays(1, &vertexArrayID);
 	glBindVertexArray(vertexArrayID);
@@ -242,7 +243,6 @@ ShaderProgram* GraphicsManager::GetActiveShader()
 void GraphicsManager::SetOrthographicProjection(double _left, double _right, double _bottom, double _top, double _nearVal, double _farVal)
 {
 	projectionMatrix.SetToOrtho(_left, _right, _bottom, _top, _nearVal, _farVal);
-	glDisable(GL_DEPTH_TEST);
 }
 
 void GraphicsManager::SetPerspectiveProjection(double _aspect, double _zNear, double _zFar)

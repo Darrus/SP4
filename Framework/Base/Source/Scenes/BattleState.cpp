@@ -38,13 +38,25 @@ void CBattleState::Init()
 	MeshBuilder::GetInstance()->GetMesh("BattleState_BKGROUND")->textureID = LoadTGA("Image//battlebg.tga");
 
     MeshBuilder::GetInstance()->GenerateQuad("Commandselect", Color(1, 1, 1), 1.f);
-    MeshBuilder::GetInstance()->GetMesh("Commandselect")->textureID = LoadTGA("Image//optionbox.tga");
+    MeshBuilder::GetInstance()->GetMesh("Commandselect")->textureID = LoadTGA("Image//Buttons//button_background.tga");
 
     MeshBuilder::GetInstance()->GenerateQuad("enemysprite", Color(1, 1, 1), 1.f);
     MeshBuilder::GetInstance()->GetMesh("enemysprite")->textureID = LoadTGA("Image//enemy.tga");
 
+    MeshBuilder::GetInstance()->GenerateQuad("player1", Color(1, 1, 1), 1.f);
+    MeshBuilder::GetInstance()->GetMesh("player1")->textureID = LoadTGA("Image//Player//player1.tga");
+
+    MeshBuilder::GetInstance()->GenerateQuad("player2", Color(1, 1, 1), 1.f);
+    MeshBuilder::GetInstance()->GetMesh("player2")->textureID = LoadTGA("Image//Player//player2.tga");
+
+    MeshBuilder::GetInstance()->GenerateQuad("player3", Color(1, 1, 1), 1.f);
+    MeshBuilder::GetInstance()->GetMesh("player3")->textureID = LoadTGA("Image//Player//player3.tga");
+
+    MeshBuilder::GetInstance()->GenerateQuad("arrow", Color(1, 1, 1), 1.f);
+    MeshBuilder::GetInstance()->GetMesh("arrow")->textureID = LoadTGA("Image//arrow.tga");
+
 	MeshBuilder::GetInstance()->GenerateText("text", 16, 16);
-	MeshBuilder::GetInstance()->GetMesh("text")->textureID = LoadTGA("Image//calibri.tga");
+    MeshBuilder::GetInstance()->GetMesh("text")->textureID = LoadTGA("FontData//pixelFont.tga");
 	MeshBuilder::GetInstance()->GetMesh("text")->material.kAmbient.Set(1, 0, 0);
 
 	Lua->LoadFile("Sound");
@@ -87,9 +99,11 @@ void CBattleState::Init()
     testEntity->GetInfo()->stats.AddInt(5);
     testEntity->GetInfo()->stats.AddMind(20);
     testEntity->GetInfo()->stats.AddDex(10);
-    testEntity->GetInfo()->stats.AddAgi(20);
+    testEntity->GetInfo()->stats.AddAgi(7);
     testEntity->GetInfo()->stats.AddLevel(2);
     testEntity->GetInfo()->name = "Triple H";
+    testEntity->GetInfo()->id = 3;
+    testEntity->enemyType = BattleEntity::ENEMY;
     testEntity->GetInfo()->stats.UpdateStats();
     testEntity->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.5f, 1.f));
     testEntity->GetInfo()->HP = testEntity->GetInfo()->stats.GetMaxHP();
@@ -100,9 +114,11 @@ void CBattleState::Init()
     testEntity2->GetInfo()->stats.AddInt(15);
     testEntity2->GetInfo()->stats.AddMind(50);
     testEntity2->GetInfo()->stats.AddDex(40);
-    testEntity2->GetInfo()->stats.AddAgi(30);
+    testEntity2->GetInfo()->stats.AddAgi(2);
     testEntity2->GetInfo()->stats.AddLevel(2);
     testEntity2->GetInfo()->name = "John Cena";
+    testEntity2->GetInfo()->id = 4;
+    testEntity2->enemyType = BattleEntity::ENEMY;
     testEntity2->GetInfo()->stats.UpdateStats();
     testEntity2->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.25f, 1.f));
     testEntity2->GetInfo()->HP = testEntity2->GetInfo()->stats.GetMaxHP();
@@ -111,6 +127,10 @@ void CBattleState::Init()
 
     testingBattle->BattleList.push_back(testEntity);
     testingBattle->BattleList.push_back(testEntity2);
+
+    testingBattle->EnemyList.push_back(testEntity);
+    testingBattle->EnemyList.push_back(testEntity2);
+
     //BattleList.push_back(testEntity);
     //BattleList.push_back(testEntity2);
     //testEntity->GetInfo()->stats.UpdateStats();
@@ -123,7 +143,7 @@ void CBattleState::Init()
     charahehe->stats.AddInt(65);
     charahehe->stats.AddMind(50);
     charahehe->stats.AddDex(40);
-    charahehe->stats.AddAgi(70);
+    charahehe->stats.AddAgi(3);
     charahehe->stats.AddLevel(5);
     charahehe->name = "Randall";
     charahehe->id = 0;
@@ -137,7 +157,7 @@ void CBattleState::Init()
     charahehe->stats.AddInt(70);
     charahehe->stats.AddMind(150);
     charahehe->stats.AddDex(30);
-    charahehe->stats.AddAgi(50);
+    charahehe->stats.AddAgi(1);
     charahehe->stats.AddLevel(5);
     charahehe->name = "Darrus";
     charahehe->id = 1;
@@ -151,7 +171,7 @@ void CBattleState::Init()
     charahehe->stats.AddInt(40);
     charahehe->stats.AddMind(30);
     charahehe->stats.AddDex(50);
-    charahehe->stats.AddAgi(60);
+    charahehe->stats.AddAgi(5);
     charahehe->stats.AddLevel(5);
     charahehe->name = "Reuben";
     charahehe->id = 2;

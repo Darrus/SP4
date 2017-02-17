@@ -60,7 +60,7 @@ void Overworld::Init()
 
 	// Background Init
 	background = EntityFactory::GetInstance()->CreateSprite("background", SpriteEntity::MODE_3D);
-	background->SetPosition(Vector3(0.f, 0.f, 0.f));
+	background->SetPosition(Vector3(0.f, 0.f, -3.f));
 	background->SetScale(Vector3(300, 300, 1.f));
 
 	// Assets Init
