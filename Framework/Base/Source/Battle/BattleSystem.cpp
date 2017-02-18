@@ -8,6 +8,7 @@
 #include "MeshBuilder.h"
 #include "MatrixStack.h"
 #include "GraphicsManager.h"
+#include "..\EnemyAI.h"
 
 /***************************************
 ///< Default constructor
@@ -103,7 +104,10 @@ void BattleSystem::Update()
             BattleEntity* test = FindTarget(Math::RandIntMinMax(0, 2));
 
             if (test != nullptr)
-                Attack((*itr), test);
+            {
+                //EnemyAI::DetermineAction((*itr), test);
+            }
+                //Attack((*itr), test);
             //ResetATB((*itr)); // Temp to reset the thing
             // perform the A.I. Attacks
         }
@@ -134,7 +138,7 @@ void BattleSystem::Update()
             GetInputSelection(FindTarget(playerselect), whichScreen, playerselect);
         }
     }
-    if (whichScreen != CHOOSEPLAYER)
+    if (whichScreen != CHOOSEPLAYER && whichScreen != CHOOSETARGET)
     {
         if (KeyboardController::GetInstance()->IsKeyPressed(VK_DOWN))
         {
@@ -428,6 +432,26 @@ void BattleSystem::Render()
         {
             Arrow->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.25f, 10.f));
         }
+    }
+    if (anEntityTurn)
+    {
+        modelStack.PushMatrix();
+        modelStack.Translate(windowWidth * 0.9, windowHeight * 0.4, 5.f);
+        modelStack.Scale(windowWidth *0.2, windowHeight *0.2, 1.f);
+        RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
+        modelStack.PopMatrix();
+
+        modelStack.PushMatrix();
+        modelStack.Translate(windowWidth * 0.85, windowHeight * 0.45, 5.f);
+        modelStack.Scale(20.f, 20.f, 1.f);
+        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "F1 - Attack", Color(0, 1, 0));
+        modelStack.PopMatrix();
+
+        modelStack.PushMatrix();
+        modelStack.Translate(windowWidth * 0.85, windowHeight * 0.4, 5.f);
+        modelStack.Scale(20.f, 20.f, 1.f);
+        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "F2 - Defend", Color(0, 1, 0));
+        modelStack.PopMatrix();
     }
 
     modelStack.PushMatrix();

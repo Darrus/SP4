@@ -7,6 +7,7 @@
 #include "..\Player\Player.h"
 #include "..\Entity\BattleEntity.h"
 #include "..\Entity\SpriteEntity.h"
+#include "..\EnemyAI.h"
 
 class BattleSystem
 {
