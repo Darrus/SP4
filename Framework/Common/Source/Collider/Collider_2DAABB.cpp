@@ -77,21 +77,3 @@ bool CCollider_2DAABB::CheckIntersection(Ray& ray)
 	// Ray to 2D AABB code goes here.
 	return false;
 }
-
-Vector3 CCollider_2DAABB::GetMin()
-{
-	Vector3 position;
-	if (entity)
-		position = entity->GetPosition();
-
-	return Vector3((position.x + offset.x) - scale.x * 0.5f, (position.y + offset.y) - scale.y * 0.5f, 0.f);
-}
-
-Vector3 CCollider_2DAABB::GetMax()
-{
-	Vector3 position;
-	if (entity)
-		position = entity->GetPosition();
-
-	return Vector3((position.x + offset.x) + scale.x * 0.5f, (position.y + offset.y) + scale.y * 0.5f, 0.f);
-}

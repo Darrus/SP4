@@ -19,9 +19,6 @@ public:
 	inline void SetScale(Vector3 scale){ this->scale = scale; }
 	inline Vector3 GetScale(){ return this->scale; }
 
-	Vector3 GetMin();
-	Vector3 GetMax();
-
 	inline float GetTop(){ return top; }
 	inline float GetDown(){ return down; }
 	inline float GetRight(){ return right; }

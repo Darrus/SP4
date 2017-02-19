@@ -33,6 +33,9 @@ public:
 	inline void SetOffset(Vector3 offset){ this->offset = offset; }
 	inline Vector3 GetOffset() { return offset; }
 
+	Vector3 GetMin();
+	Vector3 GetMax();
+
 protected:
 	EntityBase* entity;
 	Vector3 offset;

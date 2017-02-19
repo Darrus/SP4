@@ -39,3 +39,22 @@ CCollider::COLLIDER_TYPE CCollider::GetType() const
 {
 	return type;
 }
+
+
+Vector3 CCollider::GetMin()
+{
+	Vector3 position;
+	if (entity)
+		position = entity->GetPosition();
+
+	return Vector3((position.x + offset.x) - scale.x * 0.5f, (position.y + offset.y) - scale.y * 0.5f, 0.f);
+}
+
+Vector3 CCollider::GetMax()
+{
+	Vector3 position;
+	if (entity)
+		position = entity->GetPosition();
+
+	return Vector3((position.x + offset.x) + scale.x * 0.5f, (position.y + offset.y) + scale.y * 0.5f, 0.f);
+}

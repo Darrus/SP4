@@ -16,5 +16,7 @@ public:
 	~TriggerArea();
 
 	virtual void HandleCollision(EntityBase* entity);
+
+	inline void SetScene(string scene){ this->targetScene = scene; }
 };
 
