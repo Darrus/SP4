@@ -16,5 +16,5 @@ TriggerArea::~TriggerArea()
 void TriggerArea::HandleCollision(EntityBase* entity)
 {
 	OverworldEntity* player = dynamic_cast<OverworldEntity*>(entity);
-	SceneManager::GetInstance()->SetActiveScene(targetScene);
+	//SceneManager::GetInstance()->SetActiveScene(targetScene);
 }

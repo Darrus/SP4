@@ -46,6 +46,8 @@
     <ClCompile Include="Source\Scenes\Overworld.cpp" />
     <ClCompile Include="Source\Scenes\ShopScene.cpp" />
     <ClCompile Include="Source\Scenes\SkillTreeScene.cpp" />
+    <ClCompile Include="Source\SpatialPartition\Grid.cpp" />
+    <ClCompile Include="Source\SpatialPartition\SpatialPartition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animation.h" />
@@ -84,6 +86,8 @@
     <ClInclude Include="Source\Scenes\Overworld.h" />
     <ClInclude Include="Source\Scenes\ShopScene.h" />
     <ClInclude Include="Source\Scenes\SkillTreeScene.h" />
+    <ClInclude Include="Source\SpatialPartition\Grid.h" />
+    <ClInclude Include="Source\SpatialPartition\SpatialPartition.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9B172635-4E2B-46F1-A403-08F4194D00F5}</ProjectGuid>

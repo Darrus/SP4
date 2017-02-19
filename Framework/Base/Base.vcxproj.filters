@@ -106,6 +106,12 @@
     <ClCompile Include="Source\Entity\ParticleEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SpatialPartition\Grid.cpp">
+      <Filter>SpatialPartition</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpatialPartition\SpatialPartition.cpp">
+      <Filter>SpatialPartition</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -216,6 +222,12 @@
     <ClInclude Include="Source\Entity\ParticleEntity.h">
       <Filter>Entity</Filter>
     </ClInclude>
+    <ClInclude Include="Source\SpatialPartition\Grid.h">
+      <Filter>SpatialPartition</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpatialPartition\SpatialPartition.h">
+      <Filter>SpatialPartition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animation">
@@ -253,6 +265,9 @@
     </Filter>
     <Filter Include="BattleSystem">
       <UniqueIdentifier>{f485caba-f763-47fa-9f37-1175902a133f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SpatialPartition">
+      <UniqueIdentifier>{a436bfdf-5f1b-45be-9db1-94d9976d0a66}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
