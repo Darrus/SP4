@@ -179,7 +179,7 @@ void ShopScene::Init()
 	particle->GetAnimator()->AddAnimation("walk", new Animation("character", 0, 8, 1.f, -1));
 	particle->GetAnimator()->PlayAnimation("walk");
 	particle->SetScale(Vector3(50.f, 50.f, 1.f));
-	particle->SetSpeed(10.f);
+//	particle->SetSpeed(10.f);
 	particle->SetPosition(Vector3(500, 500, 0));
 
 	EManager.AddEntity(particle);
