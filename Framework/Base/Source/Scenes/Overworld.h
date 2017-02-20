@@ -10,6 +10,8 @@
 #include "../Overworld/TriggerArea.h"
 
 #include "../Entity/SpriteEntity.h"
+#include "../Scenes/BattleState.h"
+#include "../SpatialPartition/SpatialPartition.h"
 
 using std::vector;
 
@@ -31,6 +33,8 @@ private:
 	float lastRotX;
 	SpriteEntity* background;
 	OverworldEntity* player;
+    CBattleState* battlestate;
+	CSpatialPartition spatial;
 };
 
 #endif

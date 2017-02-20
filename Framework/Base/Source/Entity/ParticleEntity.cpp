@@ -79,7 +79,7 @@ namespace Create
 		//TODO:
 		//Use a fetchGO instead
 		ParticleEntity* particle = new ParticleEntity(lifetime);
-		particle->GetAnimator()->AddAnimation("travelling_sprite", new Animation(anim_sprite, 0, 8, 1.f, -1));
+		//particle->GetAnimator()->AddAnimation("travelling_sprite", new Animation(anim_sprite, 0, 8, 1.f, -1));
 		particle->SetPosition(spawn_position);
 		return particle;
 	};
@@ -87,7 +87,7 @@ namespace Create
 	Moving_ParticleEntity* MovingParticle(EntityManager* entitymanger, string anim_traveling_sprite, string anim_destination_sprite, Vector3 spawn_position, Vector3 target_destination, float speed = 1.f, double lifetime = LIFETIME_INFINITE)
 	{
 		Moving_ParticleEntity* particle = dynamic_cast<Moving_ParticleEntity*>(StaticParticle(entitymanger, anim_traveling_sprite, spawn_position, lifetime));
-		particle->GetAnimator()->AddAnimation("destination_sprite", new Animation(anim_destination_sprite, 0, 8, 1.f, -1));
+		//particle->GetAnimator()->AddAnimation("destination_sprite", new Animation(anim_destination_sprite, 0, 8, 1.f, -1));
 		particle->SetTarget(target_destination);
 		particle->SetSpeed(speed);
 		return particle;

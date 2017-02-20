@@ -26,7 +26,6 @@ void OverworldEntity::Update()
 {
 	float dt = StopWatch::GetInstance()->GetDeltaTime();
 	
-	Entity2D::Update();
 	position += velocity;
 	velocity.SetZero();
 	
@@ -51,19 +50,22 @@ void OverworldEntity::Update()
 		velocity = velocity.Normalized() * moveSpeed * dt;
 
 	collider->SetOffset(velocity);
+
+	Entity2D::Update();
 }
 
 void OverworldEntity::HandleCollision(EntityBase* entity)
 {
-	CCollider_2DAABB* check = (CCollider_2DAABB*)collider;
-	float horizontal, vertical;
-	if (velocity.x > 0.f && check->GetRight() > 0.f)
+	CCollider_2DAABB check;
+	check.SetScale(collider->GetScale());
+
+	check.SetOffset(Vector3(position.x + velocity.x, position.y, position.z));
+
+	if (check.CheckCollision(entity->GetCollider()))
 		velocity.x = 0.f;
-	else if (velocity.x < 0.f && check->GetLeft() > 0.f)
-		velocity.x = 0.f;
-	if (velocity.y > 0.f && check->GetTop() > 0.f)
-		velocity.y = 0.f;
-	else if (velocity.y < 0.f && check->GetDown() > 0.f)
+
+	check.SetOffset(Vector3(position.x, position.y + velocity.y, position.z));
+	if (check.CheckCollision(entity->GetCollider()))
 		velocity.y = 0.f;
 }
 

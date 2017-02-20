@@ -55,6 +55,7 @@ bool CCollider_2DAABB::CheckCollision(CCollider* other)
 	{
 		result = true;
 
+
 		if (thisMin.x < otherMax.x && thisMin.x > otherMin.x && thisMax.x > otherMax.x)
 			left = otherMax.x - thisMin.x;
 
@@ -66,10 +67,19 @@ bool CCollider_2DAABB::CheckCollision(CCollider* other)
 
 		if (thisMax.y > otherMin.y && thisMax.y < otherMax.y && thisMin.y < otherMin.y)
 			top = thisMax.y - otherMin.y;
-
 	}
 
 	return result;
+}
+
+bool CCollider_2DAABB::CheckCollision(const Vector3& point)
+{
+	Vector3 min = GetMin();
+	Vector3 max = GetMax();
+	return (point.x < max.x &&
+		point.x > min.x &&
+		point.y < max.y &&
+		point.y > min.y);
 }
 
 bool CCollider_2DAABB::CheckIntersection(Ray& ray)

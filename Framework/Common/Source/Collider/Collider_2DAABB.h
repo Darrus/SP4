@@ -14,6 +14,7 @@ public:
 
 	virtual void RenderCollider();
 	virtual bool CheckCollision(CCollider* other);
+	virtual bool CheckCollision(const Vector3& point);
 	virtual bool CheckIntersection(Ray& ray);
 
 	inline void SetScale(Vector3 scale){ this->scale = scale; }

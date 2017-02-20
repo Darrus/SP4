@@ -112,6 +112,15 @@
     <ClCompile Include="Source\SpatialPartition\SpatialPartition.cpp">
       <Filter>SpatialPartition</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Animation\AnimationsContainer.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BattleLog.cpp">
+      <Filter>BattleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EnemyAI.cpp">
+      <Filter>BattleSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -227,6 +236,15 @@
     </ClInclude>
     <ClInclude Include="Source\SpatialPartition\SpatialPartition.h">
       <Filter>SpatialPartition</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Animation\AnimationsContainer.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BattleLog.h">
+      <Filter>BattleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EnemyAI.h">
+      <Filter>BattleSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,52 +1,83 @@
 #include "Animator.h"
 #include "RenderHelper.h"
+#include "timer.h"
+#include "MyMath.h"
 
-Animator::Animator()
+#include "AnimationsContainer.h"
+
+Animator::Animator() :
+currentFrame(0),
+currentTime(0.f),
+playCount(0),
+isDone(false)
 {
 }
 
 
 Animator::~Animator()
 {
-	AnimMap::iterator it = animations.begin();
-	while (it != animations.end())
-	{
-		delete it->second;
-		it = animations.erase(it);
-	}
+	
 }
 
 void Animator::Update()
 {
 	if (activeAnim)
-		activeAnim->Update();
+	{
+		float dt = (float)StopWatch::GetInstance()->GetDeltaTime();
+		currentTime += dt;
+		if (currentTime >= activeAnim->playTime)
+		{
+			if (activeAnim->repeatCount > 0 && playCount != activeAnim->repeatCount)
+			{
+				playCount++;
+				currentTime = 0.f;
+			}
+			else if (activeAnim->repeatCount < 0)
+				currentTime = 0.f;
+			else
+			{
+				currentTime = 0.f;
+				playCount = 0;
+				isDone = true;
+			}
+		}
+
+		int numOfFrame = activeAnim->endFrame - activeAnim->startFrame;
+		int frame = numOfFrame * (currentTime / activeAnim->playTime);
+
+		currentFrame = Math::Min(activeAnim->endFrame, activeAnim->startFrame + frame);
+	}
 }
 
 void Animator::Render()
 {
-	RenderHelper::RenderSprite(activeAnim->GetSprite(), activeAnim->GetCurrentFrame());
+	//if (activeAnim)
+		RenderHelper::RenderSprite(activeAnim->spriteSheet, currentFrame);
 }
 
-void Animator::AddAnimation(string name, Animation* anim)
+void Animator::AddAnimation(string name)
 {
-	animations.insert(std::make_pair(name, anim));
-}
-
-void Animator::AddAnimation(string name, string meshName, int startFrame, int endFrame, float playTime, int repeatcount)
-{
-	Animation* anim = new Animation(meshName, startFrame, endFrame, playTime, repeatcount);
-	animations.insert(std::make_pair(name, anim));
+	Animation* anim = AnimationsContainer::GetInstance()->GetAnimation(name);
+	if (anim)
+		animations.insert(std::make_pair(name, anim));
 }
 
 void Animator::RemoveAnimation(string name)
 {
 	AnimMap::iterator it = animations.find(name);
-	delete it->second;
 	animations.erase(it);
 }
 
-void  Animator::PlayAnimation(string name)
+void Animator::PlayAnimation(string name)
 {
 	activeAnim = animations.find(name)->second;
-	activeAnim->SetActive(true);
+	Reset();
+}
+
+void Animator::Reset()
+{
+	currentFrame = activeAnim->startFrame;
+	currentTime = 0.f;
+	isDone = false;
+	playCount = 0;
 }
