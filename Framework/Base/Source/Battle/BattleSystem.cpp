@@ -104,6 +104,8 @@ It gives the Unit who filled their bar up first, and stops all other bar updates
 *****************************************/
 void BattleSystem::Update()
 {
+    if (!battlelog->Update())
+        enemyAI->battlelog->Update();
     // Loops through the entire EnemyList and do stuff
     for (std::list<BattleEntity*>::iterator itr = EnemyList.begin(); itr != EnemyList.end(); itr++)
     {

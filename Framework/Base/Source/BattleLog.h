@@ -12,6 +12,8 @@ private:
     BattleEntity* entity_;
     std::string enemyname_;
     int damagereceived_, damagedealt_;
+    float displayTime;
+    bool playerRender, enemyRender;
 public:
     BattleLog();
     BattleLog(BattleEntity* entity, std::string enemyname, int damagedealt, int damagereceived, bool dodged, bool critical);
@@ -19,6 +21,7 @@ public:
     ~BattleLog();
 
     void Render();
+    bool Update(double dt = 0.033);
     std::list<BattleLog*> battleloglist;
 
     enum ACTION

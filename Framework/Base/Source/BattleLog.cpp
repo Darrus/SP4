@@ -6,6 +6,8 @@
 #include "MatrixStack.h"
 #include "GraphicsManager.h"
 
+#include "timer.h"
+
 BattleLog::BattleLog()
 {
 
@@ -19,6 +21,12 @@ damagereceived_(damagereceived),
 dodged_(dodged),
 critical_(critical)
 {
+    if (entity->enemyType == BattleEntity::ENEMY)
+        enemyRender = true;
+    else if (entity->enemyType == BattleEntity::ALLY)
+        playerRender = true;
+
+    displayTime = 3;
     if (damagereceived_ > 0)
         DMGRecv = true;
     if (damagedealt_ > 0)
@@ -29,6 +37,12 @@ BattleLog::BattleLog(BattleEntity* entity, bool defend):
 entity_(entity),
 defend_(defend)
 {
+    if (entity->enemyType == BattleEntity::ENEMY)
+        enemyRender = true;
+    else if (entity->enemyType == BattleEntity::ALLY)
+        playerRender = true;
+
+    displayTime = 3;
     DMGRecv = false;
     DMGDeal = false;
 }
@@ -36,6 +50,14 @@ defend_(defend)
 BattleLog::~BattleLog()
 {
 
+}
+
+bool BattleLog::Update(double dt)
+{
+    if (displayTime > 0)
+        displayTime -= StopWatch::GetInstance()->GetDeltaTime();
+    else
+        return false;
 }
 
 void BattleLog::Render()
@@ -52,26 +74,29 @@ void BattleLog::Render()
 
     for (std::list<BattleLog*>::iterator itr = battleloglist.begin(); itr != battleloglist.end(); itr++)
     {
-        if ((*itr)->DMGRecv)
+        if (displayTime > 0)
         {
-            modelStack.PushMatrix();
-            modelStack.Translate(windowWidth * 0.35, windowHeight * 0.9, 8);
-            modelStack.Scale(25.f, 25.f, 1.f);
-            if ((*itr)->critical_)
-                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->enemyname_ + " has crit for " + std::to_string((*itr)->damagedealt_) + " to " + (*itr)->entity_->GetInfo()->name, Color(0, 1, 0));
-            else if ((*itr)->dodged_)
-                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->entity_->GetInfo()->name + " has dodged the atk by " + (*itr)->enemyname_, Color(0, 1, 0));
-            else
-                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->enemyname_ + " has dealt " + std::to_string((*itr)->damagedealt_) + " damage to " + (*itr)->entity_->GetInfo()->name, Color(0, 1, 0));
-            modelStack.PopMatrix();
-        }
-        else if ((*itr)->defend_)
-        {
-            modelStack.PushMatrix();
-            modelStack.Translate(windowWidth * 0.35, windowHeight * 0.9, 8);
-            modelStack.Scale(25.f, 25.f, 1.f);
-            RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->entity_->GetInfo()->name + " defended" , Color(0, 1, 0));
-            modelStack.PopMatrix();
+            if ((*itr)->DMGRecv)
+            {
+                modelStack.PushMatrix();
+                modelStack.Translate(windowWidth * 0.35, windowHeight * 0.9, 8);
+                modelStack.Scale(25.f, 25.f, 1.f);
+                if ((*itr)->critical_)
+                    RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->enemyname_ + " has crit for " + std::to_string((*itr)->damagedealt_) + " to " + (*itr)->entity_->GetInfo()->name, Color(0, 1, 0));
+                else if ((*itr)->dodged_)
+                    RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->entity_->GetInfo()->name + " has dodged the atk by " + (*itr)->enemyname_, Color(0, 1, 0));
+                else
+                    RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->enemyname_ + " has dealt " + std::to_string((*itr)->damagedealt_) + " damage to " + (*itr)->entity_->GetInfo()->name, Color(0, 1, 0));
+                modelStack.PopMatrix();
+            }
+            else if ((*itr)->defend_)
+            {
+                modelStack.PushMatrix();
+                modelStack.Translate(windowWidth * 0.35, windowHeight * 0.9, 8);
+                modelStack.Scale(25.f, 25.f, 1.f);
+                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->entity_->GetInfo()->name + " defended", Color(0, 1, 0));
+                modelStack.PopMatrix();
+            }
         }
     }
 }
