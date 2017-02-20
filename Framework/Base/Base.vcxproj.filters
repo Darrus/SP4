@@ -121,6 +121,9 @@
     <ClCompile Include="Source\EnemyAI.cpp">
       <Filter>BattleSystem</Filter>
     </ClCompile>
+    <ClCompile Include="Source\NPC\NPC.cpp">
+      <Filter>NPC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -246,6 +249,9 @@
     <ClInclude Include="Source\EnemyAI.h">
       <Filter>BattleSystem</Filter>
     </ClInclude>
+    <ClInclude Include="Source\NPC\NPC.h">
+      <Filter>NPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animation">
@@ -286,6 +292,9 @@
     </Filter>
     <Filter Include="SpatialPartition">
       <UniqueIdentifier>{a436bfdf-5f1b-45be-9db1-94d9976d0a66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NPC">
+      <UniqueIdentifier>{8042e24c-c67c-4b51-9c83-b7423eeee905}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
