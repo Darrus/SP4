@@ -22,26 +22,6 @@ void EntityManager::Update()
 		(*it)->Update();
 	}
 
-	// Collision Check
-	end = entityList.end();
-	for (it = entityList.begin(); it != end; ++it)
-	{
-		if (!(*it)->HasCollider())
-			continue;
-
-		for (it2 = std::next(it); it2 != end; ++it2)
-		{
-			if (!(*it2)->HasCollider())
-				continue;
-
-			if ((*it)->GetCollider()->CheckCollision((*it2)->GetCollider()))
-			{
-				(*it)->HandleCollision(*it2);
-				(*it2)->HandleCollision(*it);
-			}
-		}
-	}
-
 	// Clean up entities that are done
 	it = entityList.begin();
 	while (it != end)
