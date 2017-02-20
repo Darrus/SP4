@@ -41,7 +41,19 @@ void Exploding_ParticleEntity::Update()
 	double dt = StopWatch::GetInstance()->GetDeltaTime();
 
 	//If has not reached target destination
-	if (!m_at_destination)
+	if (m_at_destination)
+	{
+		if (m_expire_time_at_destination != LIFETIME_INFINITE)
+		{
+			if (m_lifetime_at_destination >= m_expire_time_at_destination)
+				isDone = true;
+			else
+				m_lifetime_at_destination += dt;
+		}
+		else
+			isDone = true;
+	}
+	else
 	{
 		if ((m_target - position).LengthSquared() < 50)
 		{
@@ -54,18 +66,6 @@ void Exploding_ParticleEntity::Update()
 			Vector3 direction = (m_target - position).Normalized();
 			position += direction * m_speed * (float)dt;
 		}
-	}
-	else
-	{
-		if (m_expire_time_at_destination != LIFETIME_INFINITE)
-		{
-			if (m_lifetime_at_destination >= m_expire_time_at_destination)
-				isDone = true;
-			else
-				m_lifetime_at_destination += dt;
-		}
-		else
-			isDone = true;
 	}
 }
 

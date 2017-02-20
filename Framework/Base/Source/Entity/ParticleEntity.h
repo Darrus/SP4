@@ -61,15 +61,13 @@ class Exploding_ParticleEntity : public Moving_ParticleEntity
 {
 protected:
 	//TODO:
-	//Add animation to parent animator or create another one
-	Animator* m_animator_at_destination;
+	//Add animation to parent animator to do the other animation
 	bool m_at_destination;
 	double m_lifetime_at_destination;
 	double m_expire_time_at_destination;
 
 public:
 	//Getters and Setters
-	inline Animator* GetExplosionAnimator(){ return m_animator_at_destination; }
 	virtual void Update();
 
 	Exploding_ParticleEntity(){};

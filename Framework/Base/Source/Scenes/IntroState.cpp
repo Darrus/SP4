@@ -78,7 +78,7 @@ void CIntroState::Init()
 	string lmao = "   [IMAGE]  |  ";//[	 ITEM NAME	] | [6969] | Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ";
 	lmao = lmao + nigga->GetName() + "  |  " + std::to_string(nigga->GetGoldValue()) + "  |  " + nigga->GetDescription();
 
-	btn2 = new Button();
+	/*btn2 = new Button();
 	btn2->SetPosition(windowWidth * 0.5f, windowHeight * 0.5f);
 	btn2->SetTextOffset(50, 0);
 	btn2->SetScale(250, 80);
@@ -103,7 +103,7 @@ void CIntroState::Init()
 	btn3->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
 	btn3->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
 	btn3->SetText(lmao);
-	menu->AddButton(btn3);
+	menu->AddButton(btn3);*/
 
 	Entity2D* littleFucker = new Entity2D();
 	littleFucker->GetAnimator()->AddAnimation("RUN", new Animation("Character", 0, 8, 1.f, -1));

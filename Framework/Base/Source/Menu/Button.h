@@ -20,11 +20,9 @@ enum BUTTON_MESH
 	NUM_IMAGES
 };
 
-//======================================//
-//TODO:									//
-//Use function pointers to Lua instead	//
-//======================================//
-
+//===============================================================//
+//Brief: A button object that does something on Press			 //
+//===============================================================//
 class Button
 {
 protected:
@@ -44,6 +42,12 @@ protected:
 	float m_text_offset_x, m_text_offset_y;
 	float m_text_scale_x, m_text_scale_y;
 
+	//boolean to set if the button is active
+	bool m_isActive;
+
+	//boolean to set if the button is clickable
+	bool m_isClickable;
+
 public:
 
 	//To determine which mesh is rendered
@@ -59,6 +63,9 @@ public:
 	inline float GetScreenPositionY() { return m_screen_pos_y; }
 	inline float GetScreenScaleX() { return m_screen_scale_x; }
 	inline float GetScreenScaleY() { return m_screen_scale_y; }
+
+	inline bool GetIsActive(){ return m_isActive; }
+	inline bool GetIsClickable(){ return m_isClickable; }
 
 	inline void SetPosition(float x, float y) 
 	{
@@ -81,9 +88,11 @@ public:
 	inline void SetImage(Mesh* image) { m_meshList[NORMAL_IMAGE] = image; }
 	inline void SetHighlightedImage(Mesh* image) { m_meshList[HIGHLIGHTED_IMAGE] = image; }
 	inline void SetText(string text) { m_text = text; }
+	inline void SetActive(bool active){ m_isActive = active; }
+	inline void SetClickable(bool clickable) { m_isClickable = clickable; }
 
 	//Virtual function that runs specified button functionality
-	inline virtual void RunFunction(){};
+	inline virtual void RunFunction() = 0;
 
 	//Renders the button
 	virtual void Render();
@@ -91,15 +100,13 @@ public:
 	Button();
 	Button(float pos_x, float pos_y, float scale_x, float scale_y);
 
-	inline virtual ~Button()
-	{
-		for (unsigned i = 0; i < NUM_IMAGES; ++i)
-			if (m_meshList[i] != nullptr)
-				delete m_meshList[i];
-	};
+	inline virtual ~Button(){};
 };
 
-class ToggleButton : public Button
+//===============================================================//
+//Brief: A button object that toggles a boolean		             //
+//===============================================================//
+class Toggle_Button : public Button
 {
 protected:
 	//Pointer that points to the address of the boolean to toggle
@@ -111,12 +118,35 @@ public:
 
 	//Virtual function from button class that runs specified button functionality
 	inline void RunFunction(){ *m_toToggle = !*m_toToggle; }
+	virtual void Render();
 
-	ToggleButton() : m_toToggle(nullptr){};
-	~ToggleButton(){};
+	Toggle_Button() : m_toToggle(nullptr){};
+	~Toggle_Button(){};
 };
 
-class IncrementButton : public Button
+//===============================================================//
+//Brief: A button object that sets a boolean to a specific value //
+//===============================================================//
+class SetBool_Button : public Toggle_Button
+{
+protected:
+	//Boolean to set to
+	bool m_desired_bool;
+
+public:
+	//Always set the boolean to true
+	inline void SetBoolean(bool setbool){ m_desired_bool = setbool; }
+	inline void RunFunction(){ *m_toToggle = m_desired_bool; }
+	void Render();
+
+	SetBool_Button() : Toggle_Button(){};
+	~SetBool_Button(){};
+};
+
+//===============================================================//
+//Brief: A button object that increases an integer				 //
+//===============================================================//
+class Increment_Button : public Button
 {
 protected:
 	//Pointer that points to the address of the value to increment
@@ -132,27 +162,36 @@ public:
 	//Virtual function from button class that runs specified button functionality
 	inline void RunFunction(){ *m_toIncrease += m_increment; }
 
-	IncrementButton() : m_toIncrease(nullptr), m_increment(19){};
-	~IncrementButton(){};
+	Increment_Button() : m_toIncrease(nullptr), m_increment(19){};
+	~Increment_Button(){};
 };
 
-class Shop_ItemButton : public Button
+//============================================================================//
+//Brief: A button object that adds a copy of a set item into target inventory //
+//============================================================================//
+class ShopItem_Button : public Button
 {
 protected:
 	Item *m_item;
 	Inventory *m_targetInventory;
-	
-	const float ICON_SCALE_X = 50;
-	const float ICON_SCALE_Y = 50;
 
 public:
 	inline void SetTargetInventory(Inventory &target_inven){ m_targetInventory = &target_inven; }
 	inline void SetItem(Item &target_item){ m_item = &target_item; }
-	inline void RunFunction(){ m_targetInventory->AddItem(m_item); }
-	//void Render(){};
+	inline void RunFunction()
+	{ 
+		Item* itemToAdd = new Item();
+		*itemToAdd = *m_item;
+		m_targetInventory->AddItem(itemToAdd);
+	}
+	virtual void Render();
 
-	Shop_ItemButton(){};
-	~Shop_ItemButton(){};
+	ShopItem_Button()
+	{
+		//Scale ratio of about 3:1 is ideal
+		SetScale(650, 150);
+	};
+	~ShopItem_Button(){};
 };
 
 #endif

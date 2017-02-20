@@ -24,6 +24,9 @@ void Menu::Update()
 
 	for (unsigned i = 0; i < m_buttonList.size(); ++i)
 	{
+		if (!m_buttonList[i]->GetIsActive())
+			continue;
+
 		if (checkForHover(m_buttonList[i]))
 		{
 			m_buttonList[i]->m_isHovered = true;
@@ -41,7 +44,7 @@ void Menu::Update()
 void Menu::Render()
 {
 	for (unsigned i = 0; i < m_buttonList.size(); ++i)
-		m_buttonList[i]->Render();
+			m_buttonList[i]->Render();
 }
 
 bool Menu::checkForHover(Button* btn)
@@ -55,4 +58,62 @@ bool Menu::checkForHover(Button* btn)
 		return true;
 	else
 		return false;
+}
+
+void Shop_Menu::Update()
+{
+	Menu::Update();
+	//Loops back to start or end when out of bounds
+	/*if (*m_current_page < 0)
+		*m_current_page = m_buttonList.size() / m_num_item_per_page;
+	else if (*m_current_page >= m_buttonList.size() / m_num_item_per_page)
+		*m_current_page = 0;*/
+
+	for (unsigned i = 0; i < m_buttonList.size(); ++i)
+		m_buttonList[i]->SetActive(false);
+
+	if (m_buttonList.size() / m_num_item_per_page == 0)
+	{
+		for (unsigned i = 0; i < m_buttonList.size(); ++i)
+			m_buttonList[i]->SetActive(true);
+	}
+	else
+	{
+		//Start rendering "start" of page
+		if (*m_current_page * m_num_item_per_page >= m_buttonList.size() / m_num_item_per_page)
+		{
+			for (unsigned i = *m_current_page * m_num_item_per_page; i < m_buttonList.size(); ++i)
+				m_buttonList[i]->SetActive(true);
+		}
+		else
+		{
+			for (unsigned i = *m_current_page * m_num_item_per_page; i < *m_current_page * m_num_item_per_page + m_num_item_per_page; ++i)
+				m_buttonList[i]->SetActive(true);
+		}
+	}
+}
+
+//Renders the menu
+void Shop_Menu::Render()
+{
+	//If all items can be fit in one page
+	if (m_buttonList.size() / m_num_item_per_page == 0)
+	{
+		for (unsigned i = 0; i < m_buttonList.size(); ++i)
+				m_buttonList[i]->Render();
+	}
+	else
+	{	
+		//Start rendering "start" of page
+		if (*m_current_page * m_num_item_per_page >= m_buttonList.size() / m_num_item_per_page)
+		{
+			for (unsigned i = *m_current_page * m_num_item_per_page; i < m_buttonList.size(); ++i)
+					m_buttonList[i]->Render();
+		}
+		else
+		{
+			for (unsigned i = *m_current_page * m_num_item_per_page; i < *m_current_page * m_num_item_per_page + m_num_item_per_page; ++i)
+					m_buttonList[i]->Render();
+		}
+	}
 }

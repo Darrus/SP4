@@ -29,19 +29,23 @@ public:
 	virtual void Update();
 	virtual void Render();
 	virtual void Exit();
-	Menu* menu;
+	Shop_Menu* itemtabs;
+	Menu* utilitybuttons;
 
 private:
 	FPSCamera camera;
 	SpriteEntity* IntroStateBackground;
 	Entity2D entity;
 
-	Inventory* inventory;
-	Inventory* cart;
+	Inventory* shop_inventory;
+	Inventory* cart_inventory;
+	Inventory* player_inventory;
+
+	bool acceptpurchase;
+	void SendToPlayerInventory();
+
+	bool buyingTab;
+	int currentPage = 0;
 
 	ParticleEntity* particle;
 };
-
-
-//Button Functions
-void ButtonFunc();

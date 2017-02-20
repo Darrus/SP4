@@ -47,6 +47,9 @@ void ShopScene::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("button_background_alt", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GetMesh("button_background_alt")->textureID = LoadTGA("Image//Buttons//button_background_alt.tga");
 
+	MeshBuilder::GetInstance()->GenerateQuad("Gold", Color(1, 1, 1), 1.f);
+	MeshBuilder::GetInstance()->GetMesh("Gold")->textureID = LoadTGA("Image//Gold.tga");
+
 	MeshBuilder::GetInstance()->GenerateText("text", 16, 16);
 	MeshBuilder::GetInstance()->GetMesh("text")->textureID = LoadTGA("FontData//pixelFont.tga");
 	MeshBuilder::GetInstance()->GetMesh("text")->material.kAmbient.Set(1, 0, 0);
@@ -74,112 +77,115 @@ void ShopScene::Init()
 
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("character", 4, 9)->textureID = LoadTGA("Image//character.tga");
 
-	menu = new Menu();
+	//init Menus
+	itemtabs = new Shop_Menu();
+	utilitybuttons = new Menu();
 
-	/*Button *btn1 = new Button();
-	btn1->SetPosition(10, 10);
-	btn1->SetImage(MeshBuilder::GetInstance()->GetMesh("Character"));
-	btn1->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
-	menu->AddButton(btn1);*/
-
-	HealthPotion* nigga = new HealthPotion();
-
-	//string lmao = "   [IMAGE]  |  ";//[	 ITEM NAME	] | [6969] | Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ";
-	string lmao = "|  Item  |      Name     |  Gold  |          Description          |";
-
-	Button* btn = new Button();
-	btn->SetPosition(windowWidth * 0.5f, windowHeight - 80);
-	//btn->SetTextOffset(50, 0);
-	btn->SetScale(0, 0);
-	//btn->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
-	//btn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
-	btn->SetText(lmao);
-	menu->AddButton(btn);
-
-	/*Button* btn1= new Button();
-	btn1->SetPosition(Math::RandFloatMinMax(250, 0), Math::RandFloatMinMax(250, 500));
-	btn1->SetTextOffset(50, 0);
-	btn1->SetScale(250, 80);
-	btn1->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
-	btn1->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
-	btn1->SetFunction(ButtonFunc);
-	btn1->SetText(lmao);
-	menu->AddButton(btn1);
-
-	Button* btn3 = new Button();
-	btn3->SetPosition(Math::RandFloatMinMax(250, 500), Math::RandFloatMinMax(250, 500));
-	btn3->SetTextOffset(50, 0);
-	btn3->SetScale(250, 80);
-	btn3->SetImage(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
-	btn3->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("Character"));
-	btn3->SetFunction(ButtonFunc);
-	btn3->SetText(lmao);
-	menu->AddButton(btn3);*/
+	
+	acceptpurchase = false;
+	buyingTab = true;
 
 	//Initialise inventory
-	inventory = new Inventory();
-	cart = new Inventory();
+	shop_inventory = new Inventory();
+	cart_inventory = new Inventory();
+	player_inventory = new Inventory();
 
 	//Some random potions
-	inventory->AddItem(new HealthPotion());
-	inventory->AddItem(new HealthPotion());
-	inventory->AddItem(new HealthPotion());
-	inventory->AddItem(new MaxHealthPotion());
+	Item* kek = new HealthPotion();
+	shop_inventory->AddItem(kek);
+	shop_inventory->AddItem(new HealthPotion());
+	shop_inventory->AddItem(new HealthPotion());
+	shop_inventory->AddItem(new MaxHealthPotion());
+	shop_inventory->AddItem(new HealthPotion());
 
-	//A special item
-	HealthPotion* specialPotion = new HealthPotion();
-	specialPotion->SetName("LingLongDingDong");
-	//specialPotion->SetMesh();
-	inventory->AddItem(specialPotion);
+	////A special item
+	//HealthPotion* specialPotion = new HealthPotion();
+	//specialPotion->SetName("LingLongDingDong");
+	//specialPotion->SetMesh(MeshBuilder::GetInstance()->GetMesh("character"));
+	//shop_inventory->AddItem(specialPotion);
 
-	Equipment *swordy = new Equipment(TYPE_WEAPON, 10, 0, 0, 0);
-	swordy->SetName("Black Sword");
-	swordy->SetDescription("What a black sword.");
-	inventory->AddItem(swordy);
+	//Equipment *swordy = new Equipment(TYPE_WEAPON, 10, 0, 0, 0);
+	//swordy->SetName("Black Sword");
+	//swordy->SetDescription("What a black sword.");
+	//swordy->SetMesh(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
+	//shop_inventory->AddItem(swordy);
 
 	//inventory->PrintInventory();
 	//std::cout << inventory->UseItem(5, new CharacterInfo()) << std::endl;
 	//inventory->PrintInventory();
 
-	for (unsigned i = 0; i < inventory->m_inventoryList.size(); ++i)
+	Toggle_Button* buyingsellingtabbtn = new Toggle_Button();
+	buyingsellingtabbtn->SetSwitch(buyingTab);
+	buyingsellingtabbtn->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	buyingsellingtabbtn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+	buyingsellingtabbtn->SetText("Buying");
+	buyingsellingtabbtn->SetScale(400, 200);
+	buyingsellingtabbtn->SetPosition(200, 1000);
+	utilitybuttons->AddButton(buyingsellingtabbtn);
+
+	Toggle_Button* buyingsellingtabbtn1 = new Toggle_Button();
+	buyingsellingtabbtn1->SetSwitch(buyingTab);
+	buyingsellingtabbtn1->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	buyingsellingtabbtn1->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+	buyingsellingtabbtn1->SetText("Selling");
+	buyingsellingtabbtn1->SetScale(400, 200);
+	buyingsellingtabbtn1->SetPosition(200, 800);
+	utilitybuttons->AddButton(buyingsellingtabbtn1);
+
+	SetBool_Button* acceptpurchasebtn = new SetBool_Button();
+	acceptpurchasebtn->SetSwitch(acceptpurchase);
+	acceptpurchasebtn->SetBoolean(true);
+	acceptpurchasebtn->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	acceptpurchasebtn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+	acceptpurchasebtn->SetText("Accept Purchase");
+	acceptpurchasebtn->SetScale(400, 200);
+	acceptpurchasebtn->SetPosition(1750, 1000);
+	utilitybuttons->AddButton(acceptpurchasebtn);
+
+	Increment_Button* nextpage = new Increment_Button();
+	nextpage->SetNumber(currentPage);
+	nextpage->SetIncrementAmount(1);
+	nextpage->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	nextpage->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+	nextpage->SetText("Next page");
+	nextpage->SetScale(400, 200);
+	nextpage->SetPosition(1750, 750);
+	utilitybuttons->AddButton(nextpage);
+
+	itemtabs->SetCurrentPage(currentPage);
+
+	Increment_Button* prevpage = new Increment_Button();
+	prevpage->SetNumber(currentPage);
+	prevpage->SetIncrementAmount(-1);
+	prevpage->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	prevpage->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+	prevpage->SetText("Previous page");
+	prevpage->SetScale(400, 200);
+	prevpage->SetPosition(1750, 500);
+	utilitybuttons->AddButton(prevpage);
+
+	int offset = 0;
+	for (unsigned i = 0; i < shop_inventory->m_inventoryList.size(); ++i)
 	{
-		Shop_ItemButton* btn1 = new Shop_ItemButton();
-		btn1->SetPosition(windowWidth * 0.5f, windowHeight - 120 - i * 50);
-		//btn1->SetTextOffset(50, 0);
-		btn1->SetScale(1200, 40);
+		if (offset % itemtabs->GetNumberOfItemsPerPage() == 0)
+			offset = 0;
+
+		ShopItem_Button* btn1 = new ShopItem_Button();
+		btn1->SetPosition(windowWidth * 0.5f, (windowHeight - offset * 170) - 80);
+		btn1->SetActive(true);
 		btn1->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 		btn1->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
-		string lmaoooo = inventory->m_inventoryList[i]->GetName() + " | " + std::to_string(inventory->m_inventoryList[i]->GetGoldValue()) + " | " + inventory->m_inventoryList[i]->GetDescription();
-		//string lmaoooo = "abcdefghijklmnopqrstuvwxyz";
-		btn1->SetText(lmaoooo);
-		btn1->SetTargetInventory(*cart);
-		btn1->SetItem(*inventory->m_inventoryList[i]);
-		//btn1->RunFunction();
-		menu->AddButton(btn1);
+		btn1->SetTargetInventory(*cart_inventory);
+		btn1->SetItem(*shop_inventory->m_inventoryList[i]);
+		itemtabs->AddButton(btn1);
+
+		offset++;
 	}
 
-	//pointer and reference 
-	/*bool changeMe = true;
-	bool *ptr = nullptr;
-
-	std::cout << ptr << std::endl;
-	std::cout << changeMe << std::endl;
-
-	ptr = &changeMe;
-
-	std::cout << ptr << std::endl;
-	std::cout << changeMe << std::endl;
-
-	*ptr = false;
-
-	std::cout << ptr << std::endl;
-	std::cout << changeMe << std::endl;*/
-
-	particle = new ParticleEntity(10.0);
+	particle = new ParticleEntity(LIFETIME_INFINITE);
 	particle->GetAnimator()->AddAnimation("walk", new Animation("character", 0, 8, 1.f, -1));
 	particle->GetAnimator()->PlayAnimation("walk");
 	particle->SetScale(Vector3(50.f, 50.f, 1.f));
-//	particle->SetSpeed(10.f);
 	particle->SetPosition(Vector3(500, 500, 0));
 
 	EManager.AddEntity(particle);
@@ -188,15 +194,25 @@ void ShopScene::Update()
 {
 	float dt = StopWatch::GetInstance()->GetDeltaTime();
 	camera.Update(dt);
-
-	menu->Update();
+	itemtabs->Update();
+	utilitybuttons->Update();
 	EManager.Update();
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
 		SceneManager::GetInstance()->quit = true;
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
-		std::cout << cart->m_inventoryList.size() << std::endl;
+		std::cout << player_inventory->m_inventoryList.size() << std::endl;
+
+	if (acceptpurchase)
+	{
+		for (unsigned i = 0; i < cart_inventory->m_inventoryList.size(); ++i)
+			player_inventory->AddItem(cart_inventory->m_inventoryList[i]);
+
+		cart_inventory->m_inventoryList.clear();
+
+		acceptpurchase = false;
+	}
 }
 void ShopScene::Render()
 {
@@ -214,15 +230,32 @@ void ShopScene::Render()
 	EManager.Render();
 
 	// Render the required entities
-	menu->Render();
+	itemtabs->Render();
+	utilitybuttons->Render();
 
-	for (unsigned i = 0; i < cart->m_inventoryList.size(); ++i)
-		cart->RenderItem(
-		i,
-		i * 200,
-		500,
-		200, 
-		200);
+	if (buyingTab)
+	{
+		for (unsigned i = 0; i < cart_inventory->m_inventoryList.size(); ++i)
+			cart_inventory->RenderItem(
+			i,
+			i * 200,
+			500,
+			200,
+			200);
+
+		itemtabs->SetActive(true);
+	}
+	else
+	{
+		for (unsigned i = 0; i < player_inventory->m_inventoryList.size(); ++i)
+			player_inventory->RenderItem(
+			i,
+			i * 200,
+			1000,
+			200,
+			200);
+		itemtabs->SetActive(false);
+	}
 
 	//EManager.RenderUI();
 
@@ -236,10 +269,4 @@ void ShopScene::Exit()
 
 	// Detach camera from other entities
 	GraphicsManager::GetInstance()->DetachCamera();
-}
-
-///Button Functions
-void ButtonFunction()
-{
-	
 }
