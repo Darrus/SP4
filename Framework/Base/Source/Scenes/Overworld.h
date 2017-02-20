@@ -10,6 +10,7 @@
 #include "../Overworld/TriggerArea.h"
 
 #include "../Entity/SpriteEntity.h"
+#include "../Scenes/BattleState.h"
 #include "../SpatialPartition/SpatialPartition.h"
 
 #include "../NPC/NPC.h"
@@ -34,6 +35,7 @@ private:
 	float lastRotX;
 	SpriteEntity* background;
 	OverworldEntity* player;
+    CBattleState* battlestate;
 	CSpatialPartition spatial;
 	NPC* npc;
 };

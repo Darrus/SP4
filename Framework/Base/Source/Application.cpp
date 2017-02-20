@@ -140,7 +140,7 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("Shop", new ShopScene());
 	
 	//Set the active scene
-	SceneManager::GetInstance()->SetActiveScene("Overworld");
+	SceneManager::GetInstance()->SetActiveScene("Shop");
 
 	//Load Font Data
 	LoadFontData("FontData//pixelFontData.csv");

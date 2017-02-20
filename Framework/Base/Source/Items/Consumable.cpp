@@ -1,11 +1,5 @@
 #include "Consumable.h"
 #include "MyMath.h"
-//========================================//
-// TODO:								  //
-// Load item values from text file / lua  //
-//========================================//
-
-
 //=================================================================================================//
 //									  	  Health Potion											   //
 //=================================================================================================//
@@ -13,9 +7,10 @@ HealthPotion::HealthPotion()
 {
 	Item();
 	m_name = "Health Potion";
-	m_healValue = Math::RandIntMinMax(50,100);//50;
-	m_goldValue = 10;
-	m_description = "HEALS AN ALLY CHARACTER FOR " + std::to_string(m_healValue) + " HEALTH.";
+	m_healValue = Math::RandIntMinMax(0, 1000);
+	m_goldValue = Math::RandIntMinMax(0, 1000);
+	m_description = "Heals an ally character\nfor " + std::to_string(m_healValue) + " Health.";
+	m_icon = MeshBuilder::GetInstance()->GetMesh("button_background_alt");
 }
 
 void HealthPotion::UseOn(CharacterInfo* chara)
@@ -28,9 +23,9 @@ void HealthPotion::UseOn(CharacterInfo* chara)
 //=================================================================================================//
 MaxHealthPotion::MaxHealthPotion()
 {
-	m_goldValue = 500;
+	m_goldValue = Math::RandIntMinMax(0, 1000);
 	m_name = "Max Health Potion";
-	m_description = "Heals an Ally Character back to full health.";
+	m_description = "Heals an Ally Character\nback to full health.";
 }
 
 void MaxHealthPotion::UseOn(CharacterInfo* chara)

@@ -96,7 +96,7 @@ void Overworld::Init()
 	Math::InitRNG();
 
 	// Assets Init
-	for (int i = 0; i < 500; ++i)
+	for (int i = 0; i < 100; ++i)
 	{
 		float posX = Math::RandFloatMinMax(-150.f, 150.f);
 		float posY = Math::RandFloatMinMax(-150.f, 150.f);
@@ -117,6 +117,8 @@ void Overworld::Init()
 	asset->SetCollider(new CCollider_2DAABB());
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
+
+    //battlestate = new CBattleState();
 }
 
 void Overworld::Update()
@@ -137,7 +139,17 @@ void Overworld::Update()
 	{
 		camera.SetRotX(70.f);
 		camera.SetDist(50.f);
+        
+        if (camera.GetRotX() == 70.f)
+        {
+          player->SetRenderFlag(false);
+          camera.SetRotX(50.f);
+          SceneManager::GetInstance()->SetActiveScene("BattleScene", true);
+          battle = false;
+        }
 	}
+    else
+        player->SetRenderFlag(true);
 }
 
 void Overworld::Render()

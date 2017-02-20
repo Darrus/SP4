@@ -36,7 +36,6 @@ private:
 
 public:
 	void UseOn(CharacterInfo* chara);
-	//void UseOn(CharacterInfo* chara);
 
 	HealthPotion();
 	~HealthPotion(){};

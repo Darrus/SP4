@@ -1,7 +1,10 @@
-#include "Entity\BattleEntity.h"
-
 #ifndef ENEMYAI_H
 #define ENEMYAI_H
+
+#include "Entity\BattleEntity.h"
+#include "BattleLog.h"
+
+#include <list>
 
 class EnemyAI : public BattleEntity
 {
@@ -12,6 +15,16 @@ public:
     EnemyAI();
     ~EnemyAI();
 
+    enum AGGRESSIONLVL
+    {
+        NEUTRAL = 0,
+        LOW,
+        MODERATE,
+        HIGH,
+    };
+
+    AGGRESSIONLVL aggroLvl;
+
     void DetermineAction(BattleEntity* entityAI, BattleEntity* player);
     void AttackPlayer(BattleEntity* entityAI, BattleEntity* targetPlayer);
     void CastSpell(BattleEntity* entityAI);
@@ -21,6 +34,10 @@ public:
     void ResetAIBar(BattleEntity* entityAI);
     void CheckCrit(float crit);
     void CheckDodge(float dodge);
+    int CheckDamage(int dmg, int def);
+
+    ///< BattleLog
+    BattleLog* battlelog;
 };
 
 #endif /* ENEMYAI_H */
