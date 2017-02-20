@@ -21,12 +21,12 @@ protected:
 	Vector3 offset;
 	// We use a Vector3 to store the x- and z-offset of this Grid.
 	Vector3 min, max;
-
+	// List of objects in this grid
+	vector<EntityBase*> ListOfObjects;
 	// The mesh to represent the grid
 	Mesh* theMesh;
 
-	// List of objects in this grid
-	vector<EntityBase*> ListOfObjects;
+	
 
 public:
 	// Constructor

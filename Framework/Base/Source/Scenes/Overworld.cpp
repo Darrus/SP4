@@ -37,6 +37,7 @@ void Overworld::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("mountain", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//mountain.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("Collider", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//collider.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("Grid", Color(0.f, 1.f, 0.f));
+	MeshBuilder::GetInstance()->GenerateText("text", 16, 16)->textureID = LoadTGA("FontData//pixelFont.tga");
 
 	EntityFactory::GetInstance()->AttachEntityManager(&EManager);
 	EManager.ShowCollider(true);
@@ -57,6 +58,7 @@ void Overworld::Init()
 
 	// Player Init
 	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 1, 8, 1.f, -1));
+	AnimationsContainer::GetInstance()->AddAnimation("npc", new Animation("character", 9, 17, 1.f, -1));
 
 	player = new OverworldEntity();
 	player->GetAnimator()->AddAnimation("walk");
@@ -68,6 +70,14 @@ void Overworld::Init()
 	player->GetCollider()->SetScale(Vector3(3.f, 3.f, 1.f));
 	EManager.AddEntity(player);
 	spatial.Add(player);
+
+	npc = new NPC();
+	npc->GetAnimator()->AddAnimation("npc");
+	npc->GetAnimator()->PlayAnimation("npc");
+	npc->SetScale(Vector3(5.f, 5.f, 1.f));
+	npc->SetPosition(Vector3(0.f, 0.f, 1.f));
+	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
+	EManager.AddEntity(npc);
 
 	// Background Init
 	background = new SpriteEntity(MeshBuilder::GetInstance()->GetMesh("background"));
@@ -91,7 +101,7 @@ void Overworld::Init()
 		float posX = Math::RandFloatMinMax(-150.f, 150.f);
 		float posY = Math::RandFloatMinMax(-150.f, 150.f);
 		asset = new OverworldAsset("twee");
-		asset->SetPosition(Vector3(posX, posY, 0.1f));
+		asset->SetPosition(Vector3(posX, posY, 1.1f));
 		asset->SetScale(Vector3(10.f, 10.f, 1.f));
 		asset->SetCamera(&camera);
 		asset->SetCollider(new CCollider_2DAABB());

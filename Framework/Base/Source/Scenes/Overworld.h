@@ -12,6 +12,8 @@
 #include "../Entity/SpriteEntity.h"
 #include "../SpatialPartition/SpatialPartition.h"
 
+#include "../NPC/NPC.h"
+
 using std::vector;
 
 class Overworld : public Scene
@@ -33,6 +35,7 @@ private:
 	SpriteEntity* background;
 	OverworldEntity* player;
 	CSpatialPartition spatial;
+	NPC* npc;
 };
 
 #endif

@@ -21,7 +21,7 @@ Animator::~Animator()
 
 void Animator::Update()
 {
-	if (activeAnim)
+	if (activeAnim && !isDone)
 	{
 		float dt = (float)StopWatch::GetInstance()->GetDeltaTime();
 		currentTime += dt;
@@ -51,8 +51,7 @@ void Animator::Update()
 
 void Animator::Render()
 {
-	//if (activeAnim)
-		RenderHelper::RenderSprite(activeAnim->spriteSheet, currentFrame);
+	RenderHelper::RenderSprite(activeAnim->spriteSheet, currentFrame);
 }
 
 void Animator::AddAnimation(string name)
