@@ -67,17 +67,20 @@ void CBattleState::Init()
 	float windowWidth = Application::GetInstance().GetWindowWidth();
 	float windowHeight = Application::GetInstance().GetWindowHeight();
 
-	BattleStateBackground = EntityFactory::GetInstance()->CreateSprite("BattleState_BKGROUND", SpriteEntity::MODE_2D);
+    BattleStateBackground = new SpriteEntity(MeshBuilder::GetInstance()->GetMesh("BattleState_BKGROUND"));
+    BattleStateBackground->SetTextRenderMode(SpriteEntity::MODE_2D);
 	BattleStateBackground->SetPosition(Vector3(windowWidth * 0.5f, windowHeight * 0.5f, 0.f));
 	BattleStateBackground->SetScale(Vector3(windowWidth, windowHeight, 0.f));
 
-    CommandBox = EntityFactory::GetInstance()->CreateSprite("Commandselect", SpriteEntity::MODE_2D);
+    CommandBox = new SpriteEntity(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
+    CommandBox->SetTextRenderMode(SpriteEntity::MODE_2D);
     CommandBox->SetPosition(Vector3(windowWidth * 0.85f, windowHeight * 0.3f, 1.f));
     CommandBox->SetScale(Vector3(windowWidth * 0.2, windowHeight * 0.4, 0.f));
 
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Character", 4, 9);
 	MeshBuilder::GetInstance()->GetMesh("Character")->textureID = LoadTGA("Image//character.tga");
 
+    //  REMEMBER TO REMOVE
 	entity.GetAnimator()->AddAnimation("WalkUp", "Character", 1, 9, 1.f, -1);
 	entity.GetAnimator()->PlayAnimation("WalkUp");
 
@@ -139,7 +142,7 @@ void CBattleState::Init()
     party = new PartySystem();
 
     charahehe->stats.AddVit(50);
-    charahehe->stats.AddStr(20);
+    charahehe->stats.AddStr(100);
     charahehe->stats.AddInt(65);
     charahehe->stats.AddMind(50);
     charahehe->stats.AddDex(40);
@@ -183,49 +186,19 @@ void CBattleState::Init()
 }
 void CBattleState::Update()
 {
-    // Fills up the Attack bar until a unit hits it first
-
-    //if (atkbar_ >= 100)
-    //PlayerCommand();
-
-    if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
-        encounter = true;
-
-    //if (state != NULL)
-    //    DetermineAction();
-    if (encounter)
-    {
-        testingBattle->Update();
-        //if (testingBattle->getBattleStatus())
-        //{
-        //    encounter = false;
-        //}
-    }
-
+    testingBattle->Update();
 	entity.Update();
 }
 
 void CBattleState::Render()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	GraphicsManager::GetInstance()->AttachCamera(&camera);
-	// Setup 2D pipeline then render 2D
 	GraphicsManager::GetInstance()->SetOrthographicProjection(0,
 		Application::GetInstance().GetWindowWidth(),
 		0,
 		Application::GetInstance().GetWindowHeight(),
 		-10, 10);
-	entity.Render();
-	GraphicsManager::GetInstance()->DetachCamera();
 
-	// Render the required entities
-	BattleStateBackground->RenderUI();
-
-    if (encounter)
-    {
         testingBattle->Render();
-    }
 }
 void CBattleState::Exit()
 {

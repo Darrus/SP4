@@ -8,6 +8,7 @@
 #include "..\Entity\BattleEntity.h"
 #include "..\Entity\SpriteEntity.h"
 #include "..\EnemyAI.h"
+#include "..\BattleLog.h"
 
 class BattleSystem
 {
@@ -19,34 +20,47 @@ private:
     bool battleEnded;
     BattleEntity* pewpewpew;
     SpriteEntity* Arrow;
+    EnemyAI* enemyAI;
     //PartySystem party;
 
 public:
     BattleSystem();
+    BattleSystem(BattleEntity* entity);
     //BattleSystem();
     ~BattleSystem();
 
     virtual void Update();
     virtual void Render();
+    virtual void Exit();
+
+    void RenderEntities();
+    void RenderUIStuff();
 
     // Choosing Target and finding stuff
     BattleEntity* ChooseAtkTarget(BattleEntity* entity);
     BattleEntity* ChooseAtkTarget(int selection);
     BattleEntity* FindTarget(int selection);
 
-    // Battle Command Moves
+    ///< Battle Command Moves
     void EntityTurn(BattleEntity* entity);      ///< Give an Entity the Turn
     void Attack(BattleEntity* entity, BattleEntity* targetEntity);  ///< Attack the targetEntity
     void SpellCast(BattleEntity* entity, BattleEntity* targetEntity);  ///< Attack the targetEntity
     void Defend(BattleEntity* entity);
     void PassTurn(BattleEntity* entity);
-
+    void FleeBattle();
     void ResetATB(BattleEntity* entity);
 
-    // Battle Checks
+    ///< Battle Checks
     void CheckCrit(float critRate);             ///< Function to check if player crits
     void CheckDodge(float dodgeRate);           ///< Function to check if player dodges
     bool getBattleStatus() { return battleEnded; }
+    void checkEnemyDead();
+
+    ///< BattleLog
+    BattleLog* battlelog;
+
+    ///< User Inputs
+    void ChoosePlayerInput();
 
     // Assigning Party
     void AssignPlayerParty(PartySystem* party);
@@ -63,6 +77,7 @@ public:
     int selection[5];
     int playerselect;
     int attkselect;
+    int commandselect;
 
     enum SELECTIONAT
     {

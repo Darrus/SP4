@@ -95,6 +95,8 @@ void Overworld::Init()
 	asset->SetCamera(&camera);
 	asset->SetCollider(new CCollider_2DAABB());
 	EManager.AddEntity(asset);
+
+    //battlestate = new CBattleState();
 }
 
 void Overworld::Update()
@@ -114,7 +116,17 @@ void Overworld::Update()
 	{
 		camera.SetRotX(70.f);
 		camera.SetDist(50.f);
+        
+        if (camera.GetRotX() == 70.f)
+        {
+          player->SetRenderFlag(false);
+          camera.SetRotX(50.f);
+          SceneManager::GetInstance()->SetActiveScene("BattleScene", true);
+          battle = false;
+        }
 	}
+    else
+        player->SetRenderFlag(true);
 }
 
 void Overworld::Render()
