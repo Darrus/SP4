@@ -24,9 +24,6 @@ public:
 	EntityBase* GetEntity() const;
 	COLLIDER_TYPE GetType() const;
 
-	void SetPosition(Vector3 _position);
-	Vector3 GetPosition();
-
 	inline void SetScale(Vector3 scale) { this->scale = scale; }
 	inline Vector3 GetScale() const { return scale; }
 

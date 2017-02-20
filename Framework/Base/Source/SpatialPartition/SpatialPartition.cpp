@@ -44,8 +44,8 @@ CSpatialPartition::~CSpatialPartition(void)
 bool CSpatialPartition::Init(	const int xGridSize, const int yGridSize, 
 								const int xNumOfGrid, const int yNumOfGrid)
 {
-	if ((xGridSize>0) && (yGridSize>0)
-		&& (xNumOfGrid>0) && (yNumOfGrid>0))
+	if ((xGridSize > 0) && (yGridSize > 0)
+		&& (xNumOfGrid > 0) && (yNumOfGrid > 0))
 	{
 		this->xNumOfGrid = xNumOfGrid;
 		this->yNumOfGrid = yNumOfGrid;
@@ -58,9 +58,9 @@ bool CSpatialPartition::Init(	const int xGridSize, const int yGridSize,
 		theGrid = new CGrid[ xNumOfGrid * yNumOfGrid ];
 
 		// Initialise the array of grids
-		for (int i=0; i<xNumOfGrid; i++)
+		for (int i = 0; i < xNumOfGrid; i++)
 		{
-			for (int j=0; j<yNumOfGrid; j++)
+			for (int j = 0; j < yNumOfGrid; j++)
 			{
 				theGrid[i * yNumOfGrid + j].Init(i, j, xGridSize, yGridSize, (xSize >> 1), (ySize >> 1));
 			}
@@ -136,6 +136,15 @@ void CSpatialPartition::Update(void)
 
 		MigrationList.clear();
 	}
+
+	for (int i = 0; i < xNumOfGrid; i++)
+	{
+		for (int j = 0; j < yNumOfGrid; j++)
+		{
+			theGrid[i * yNumOfGrid + j].CheckForCollision();
+		}
+	}
+
 }
 
 /********************************************************************************
@@ -154,6 +163,7 @@ void CSpatialPartition::Render(Vector3* theCameraPosition)
 				modelStack.PushMatrix();
 				modelStack.Translate(xGridSize * i - (xSize >> 1), yGridSize * j - (ySize >> 1), 1.f);
 				modelStack.Scale(xGridSize, yGridSize, 1.f);
+				modelStack.Translate(0.5f, 0.5f, 0.f);
 				theGrid[i * yNumOfGrid + j].Render();
 				modelStack.PopMatrix();
 			}
@@ -262,22 +272,91 @@ vector<EntityBase*> CSpatialPartition::GetObjects(Vector3 position, const float 
 void CSpatialPartition::Add(EntityBase* theObject)
 {
 	// Check if the entity has a collider
-	if (theObject->HasCollider())
-	{
-		Vector3 colliderMax = theObject->GetCollider()->GetMax();
-		Vector3 colliderMin = theObject->GetCollider()->GetMin();
-		int xIndex, yIndex;
-		//if ()
-	}
-	else
-	{
-		int xIndex = (((int)theObject->GetPosition().x - (-xSize >> 1)) / (xSize / xNumOfGrid));
-		int yIndex = (((int)theObject->GetPosition().z - (-ySize >> 1)) / (ySize / yNumOfGrid));
+	int xIndex = (int)(theObject->GetPosition().x - (-xSize >> 1)) / xGridSize;
+	int yIndex = (int)(theObject->GetPosition().y - (-ySize >> 1)) / yGridSize;
 
-		// Add them to each grid
-		if (((xIndex >= 0) && (xIndex<xNumOfGrid)) && ((yIndex >= 0) && (yIndex<yNumOfGrid)))
+	// Add them to each grid
+	if (((xIndex >= 0) && (xIndex < xNumOfGrid)) && ((yIndex >= 0) && (yIndex < yNumOfGrid)))
+	{
+		theGrid[xIndex * yNumOfGrid + yIndex].Add(theObject);
+
+		if (theObject->HasCollider())
 		{
-			theGrid[xIndex*yNumOfGrid + yIndex].Add(theObject);
+			Vector3 colliderMax = theObject->GetCollider()->GetMax();
+			Vector3 colliderMin = theObject->GetCollider()->GetMin();
+			int maxX = (int)(colliderMax.x - (-xSize >> 1)) / xGridSize;
+			int maxY = (int)(colliderMax.y - (-ySize >> 1)) / yGridSize;
+			int minX = (int)(colliderMin.x - (-xSize >> 1)) / xGridSize;
+			int minY = (int)(colliderMin.y - (-ySize >> 1)) / yGridSize;
+
+			if (maxX != xIndex)
+			{
+				if ((maxX >= 0) && (maxX < xNumOfGrid))
+				{
+					theGrid[maxX * yNumOfGrid + yIndex].Add(theObject);
+				}
+			}
+
+			if (minX != xIndex)
+			{
+				if ((minX >= 0) && (minX < xNumOfGrid))
+				{
+					theGrid[minX * yNumOfGrid + yIndex].Add(theObject);
+				}
+			}
+
+			if (maxY != yIndex)
+			{
+				if ((maxY >= 0) && (maxY < yNumOfGrid))
+				{
+					theGrid[xIndex * yNumOfGrid + maxY].Add(theObject);
+				}
+			}
+
+			if (minY != yIndex)
+			{
+				if ((minY >= 0) && (minY < yNumOfGrid))
+				{
+					theGrid[xIndex * yNumOfGrid + minY].Add(theObject);
+				}
+			}
+
+			if ((maxX != xIndex) && (maxY != yIndex))
+			{
+				if (((maxX >= 0) && (maxX < xNumOfGrid)) &&
+					((maxY >= 0) && (maxY < yNumOfGrid)))
+				{
+					theGrid[maxX * yNumOfGrid + maxY].Add(theObject);
+				}
+			}
+
+			if ((minX != xIndex) && (maxY != yIndex))
+			{
+				if (((minX >= 0) && (minX < xNumOfGrid)) &&
+					((maxY >= 0) && (maxY < yNumOfGrid)))
+				{
+					theGrid[minX * yNumOfGrid + maxY].Add(theObject);
+				}
+			}
+
+			if ((maxX != xIndex) && (minY != yIndex))
+			{
+				if (((maxX >= 0) && (maxX < xNumOfGrid)) &&
+					((minY >= 0) && (minY < yNumOfGrid)))
+				{
+					theGrid[maxX * yNumOfGrid + minY].Add(theObject);
+				}
+			}
+
+			if ((minX != xIndex) && (minY != yIndex))
+			{
+				if (((minX >= 0) && (minX < xNumOfGrid)) &&
+					((minY >= 0) && (minY < yNumOfGrid)))
+				{
+					theGrid[minX * yNumOfGrid + minY].Add(theObject);
+				}
+			}
+
 		}
 	}
 }

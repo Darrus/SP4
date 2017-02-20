@@ -11,6 +11,7 @@
 
 #include "../Entity/SpriteEntity.h"
 #include "../Scenes/BattleState.h"
+#include "../SpatialPartition/SpatialPartition.h"
 
 using std::vector;
 
@@ -33,6 +34,7 @@ private:
 	SpriteEntity* background;
 	OverworldEntity* player;
     CBattleState* battlestate;
+	CSpatialPartition spatial;
 };
 
 #endif

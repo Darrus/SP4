@@ -27,7 +27,7 @@ CGrid::~CGrid(void)
 {
 	if (theMesh)
 	{
-		delete theMesh;
+		//delete theMesh;
 		theMesh = NULL;
 	}
 	Remove();
@@ -43,8 +43,8 @@ void CGrid::Init(	const int xIndex, const int yIndex,
 	index.Set(xIndex, yIndex, 0);
 	size.Set(xGridSize, yGridSize, 0);
 	offset.Set(xOffset, yOffset, 0);
-	min.Set(index.x * size.x - offset.x, 0.0f, index.y * size.y - offset.y);
-	max.Set(index.x * size.x - offset.x + xGridSize, 0.0f, index.y * size.y - offset.y + yGridSize);
+	min.Set(index.x * size.x - offset.x, index.y * size.y - offset.y, 0.f);
+	max.Set(index.x * size.x - offset.x + xGridSize, index.y * size.y - offset.y + yGridSize, 0.f);
 }
 
 /********************************************************************************
@@ -81,20 +81,41 @@ void CGrid::Update(vector<EntityBase*>* migrationList)
 				colliderMin.y < max.y &&
 				colliderMax.y > min.y)
 			{
+				// Checks if any part of the bounding box is leaving the grid.
+				bool check = false;
 				if (colliderMin.x < min.x)
+				{
 					migrationList->push_back((*it));
+					check = true;
+				}
 				if (colliderMax.x > max.x)
+				{
 					migrationList->push_back((*it));
+					check = true;
+				}
 				if (colliderMin.y < min.y)
+				{
 					migrationList->push_back((*it));
+					check = true;
+				}
 				if (colliderMax.y > max.y)
+				{
 					migrationList->push_back((*it));
+					check = true;
+				}
 
-				++it;
+				if (check)
+				{
+					it = ListOfObjects.erase(it);
+				}
+				else
+					++it;
 			}
 			else
 			{
 				// Bounding box has completely left grid
+				static int i = 0;
+				std::cout << i++ << std::endl;
 				migrationList->push_back((*it));
 				it = ListOfObjects.erase(it);
 			}
@@ -226,21 +247,26 @@ void CGrid::PrintSelf()
 
 void CGrid::CheckForCollision()
 {
-	std::vector<EntityBase*>::iterator it, otherIt;
-	for (it = ListOfObjects.begin(); it != ListOfObjects.end(); ++it)
+	if (ListOfObjects.size() <= 0)
+		return;
+
+	std::vector<EntityBase*>::iterator it, it2, end;
+	// Collision Check
+	end = ListOfObjects.end();
+	for (it = ListOfObjects.begin(); it != end; ++it)
 	{
-		if ((*it)->HasCollider() && !(*it)->IsDone())
+		if (!(*it)->HasCollider())
+			continue;
+
+		for (it2 = std::next(it); it2 != end; ++it2)
 		{
-			for (otherIt = it + 1; otherIt != ListOfObjects.end(); ++otherIt)
+			if (!(*it2)->HasCollider())
+				continue;
+
+			if ((*it)->GetCollider()->CheckCollision((*it2)->GetCollider()))
 			{
-				if ((*otherIt)->HasCollider() && !(*otherIt)->IsDone())
-				{
-					if ((*it)->GetCollider()->CheckCollision((*otherIt)->GetCollider()))
-					{
-						(*it)->HandleCollision(*otherIt);
-						(*otherIt)->HandleCollision(*it);
-					}
-				}
+				(*it)->HandleCollision(*it2);
+				(*it2)->HandleCollision(*it);
 			}
 		}
 	}

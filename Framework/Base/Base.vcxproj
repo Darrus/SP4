@@ -12,10 +12,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Animation\Animation.cpp" />
+    <ClCompile Include="Source\Animation\AnimationsContainer.cpp" />
     <ClCompile Include="Source\Animation\Animator.cpp" />
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\BattleLog.cpp" />
     <ClCompile Include="Source\Battle\BattleSystem.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\EnemyAI.cpp" />
     <ClCompile Include="Source\Entity\AssetEntity.cpp" />
     <ClCompile Include="Source\Entity\BattleEntity.cpp" />
     <ClCompile Include="Source\Entity\Entity2D.cpp" />
@@ -51,12 +54,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animation.h" />
+    <ClInclude Include="Source\Animation\AnimationsContainer.h" />
     <ClInclude Include="Source\Animation\Animator.h" />
     <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\BattleLog.h" />
     <ClInclude Include="Source\Battle\BattleSystem.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Character\CharacterInfo.h" />
     <ClInclude Include="Source\Character\Stat.h" />
+    <ClInclude Include="Source\EnemyAI.h" />
     <ClInclude Include="Source\Entity\AssetEntity.h" />
     <ClInclude Include="Source\Entity\BattleEntity.h" />
     <ClInclude Include="Source\Entity\Entity2D.h" />
