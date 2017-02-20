@@ -81,16 +81,35 @@ void CGrid::Update(vector<EntityBase*>* migrationList)
 				colliderMin.y < max.y &&
 				colliderMax.y > min.y)
 			{
+				// Checks if any part of the bounding box is leaving the grid.
+				bool check = false;
 				if (colliderMin.x < min.x)
+				{
 					migrationList->push_back((*it));
+					check = true;
+				}
 				if (colliderMax.x > max.x)
+				{
 					migrationList->push_back((*it));
+					check = true;
+				}
 				if (colliderMin.y < min.y)
+				{
 					migrationList->push_back((*it));
+					check = true;
+				}
 				if (colliderMax.y > max.y)
+				{
 					migrationList->push_back((*it));
+					check = true;
+				}
 
-				++it;
+				if (check)
+				{
+					it = ListOfObjects.erase(it);
+				}
+				else
+					++it;
 			}
 			else
 			{

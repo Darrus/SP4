@@ -15,6 +15,7 @@
 
 // Utility
 #include "SceneManager.h"
+#include "../Animation/AnimationsContainer.h"
 #include "KeyboardController.h"
 #include "MatrixStack.h"
 
@@ -50,8 +51,10 @@ void Overworld::Init()
 	camera.SetDist(80.f);
 
 	// Player Init
+	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 1, 8, 1.f, -1));
+
 	player = new OverworldEntity();
-	player->GetAnimator()->AddAnimation("walk", new Animation("character", 0, 8, 1.f, -1));
+	player->GetAnimator()->AddAnimation("walk");
 	player->GetAnimator()->PlayAnimation("walk");
 	player->SetScale(Vector3(5.f, 5.f, 1.f));
 	player->SetPosition(Vector3(0.f, -50.f, 1.f));
@@ -76,7 +79,7 @@ void Overworld::Init()
 	OverworldAsset* asset;
 	Math::InitRNG();
 	// Assets Init
-	for (int i = 0; i < 50; ++i)
+	for (int i = 0; i < 20; ++i)
 	{
 		float posX = Math::RandFloatMinMax(-150.f, 150.f);
 		float posY = Math::RandFloatMinMax(-150.f, 150.f);
@@ -87,7 +90,6 @@ void Overworld::Init()
 		asset->SetCollider(new CCollider_2DAABB());
 		EManager.AddEntity(asset);
 	}
-	
 
 	asset = new OverworldAsset("mountain");
 	asset->SetPosition(Vector3(30.f, 30.f, 0.1f));

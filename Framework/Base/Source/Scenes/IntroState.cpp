@@ -105,12 +105,12 @@ void CIntroState::Init()
 	btn3->SetText(lmao);
 	menu->AddButton(btn3);
 
-	Entity2D* littleFucker = new Entity2D();
+	/*Entity2D* littleFucker = new Entity2D();
 	littleFucker->GetAnimator()->AddAnimation("RUN", new Animation("Character", 0, 8, 1.f, -1));
 	littleFucker->GetAnimator()->PlayAnimation("RUN");
 	littleFucker->SetScale(Vector3(50.f, 50.f, 1.f));
 	littleFucker->SetPosition(Vector3(windowWidth * 0.5f, windowHeight * 0.5f, 1.f));
-	EManager.AddEntity(littleFucker);
+	EManager.AddEntity(littleFucker);*/
 
 	//Initialise inventory
 	inventory = new Inventory();

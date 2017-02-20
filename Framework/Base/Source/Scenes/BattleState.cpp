@@ -16,6 +16,9 @@
 
 #include "../Entity/EntityFactory.h"
 
+// Utilities
+#include "../Animation/AnimationsContainer.h"
+
 using namespace std;    
 
 CBattleState::CBattleState() :
@@ -78,8 +81,10 @@ void CBattleState::Init()
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Character", 4, 9);
 	MeshBuilder::GetInstance()->GetMesh("Character")->textureID = LoadTGA("Image//character.tga");
 
-	entity.GetAnimator()->AddAnimation("WalkUp", "Character", 1, 9, 1.f, -1);
-	entity.GetAnimator()->PlayAnimation("WalkUp");
+	AnimationsContainer::GetInstance()->AddAnimation("walk", "walk", 1, 9, 1.f, -1);
+
+	entity.GetAnimator()->AddAnimation("walk");
+	entity.GetAnimator()->PlayAnimation("walk");
 
 	cout << "CBattleState loaded\n" << endl;
 

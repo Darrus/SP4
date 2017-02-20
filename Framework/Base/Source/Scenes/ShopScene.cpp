@@ -19,6 +19,8 @@
 
 #include "Collider\Collider_2DAABB.h"
 
+#include "../Animation/AnimationsContainer.h"
+
 using namespace std;
 
 ShopScene::ShopScene()
@@ -175,8 +177,10 @@ void ShopScene::Init()
 	std::cout << ptr << std::endl;
 	std::cout << changeMe << std::endl;*/
 
+	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 0, 8, 1.f, -1));
+
 	particle = new ParticleEntity(10.0);
-	particle->GetAnimator()->AddAnimation("walk", new Animation("character", 0, 8, 1.f, -1));
+	particle->GetAnimator()->AddAnimation("walk");
 	particle->GetAnimator()->PlayAnimation("walk");
 	particle->SetScale(Vector3(50.f, 50.f, 1.f));
 //	particle->SetSpeed(10.f);

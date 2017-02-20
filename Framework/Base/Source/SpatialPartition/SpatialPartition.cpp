@@ -267,7 +267,7 @@ void CSpatialPartition::Add(EntityBase* theObject)
 		Vector3 colliderMax = theObject->GetCollider()->GetMax();
 		Vector3 colliderMin = theObject->GetCollider()->GetMin();
 		int xIndex, yIndex;
-		//if ()
+		//xIndex = ()
 	}
 	else
 	{
