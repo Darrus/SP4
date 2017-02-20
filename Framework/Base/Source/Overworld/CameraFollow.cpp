@@ -11,7 +11,8 @@ dist(0.f), curDist(0.f), distSpeed(1.f),
 rotSpeed(1.f),
 curRotX(0.f), curRotZ(0.f),
 rotX(0.f), rotZ(0.f),
-mouseX(0.0), mouseY(0.0)
+mouseX(0.0), mouseY(0.0),
+state(IDLE)
 {
 }
 
@@ -39,16 +40,19 @@ void CameraFollow::Init(float dist, float followSpeed)
 void CameraFollow::Update()
 {
 	float dt = (float)StopWatch::GetInstance()->GetDeltaTime();
+	state = IDLE;
 	Control();
 
 	if (curDist < dist)
 	{
+		state = TRANSITION;
 		curDist += distSpeed * dt;
 		if (curDist > dist)
 			curDist = dist;
 	}
 	else if (curDist > dist)
 	{
+		state = TRANSITION;
 		curDist -= distSpeed * dt;
 		if (curDist < dist)
 			curDist = dist;
@@ -61,12 +65,14 @@ void CameraFollow::Update()
 	Mtx44 mx;
 	if (curRotX < rotX)
 	{
+		state = TRANSITION;
 		curRotX += rotSpeed * dt;
 		if (curRotX > rotX)
 			curRotX = rotX;
 	}
 	else if (curRotX > rotX)
 	{
+		state = TRANSITION;
 		curRotX -= rotSpeed * dt;
 		if (curRotX < rotX)
 			curRotX = rotX;
@@ -76,16 +82,19 @@ void CameraFollow::Update()
 
 	if (curRotZ < rotZ)
 	{
+		state = TRANSITION;
 		curRotZ += rotSpeed * dt;
 		if (curRotZ > rotZ)
 			curRotZ = rotZ;
 	}
 	else if (curRotZ > rotZ)
 	{
+		state = TRANSITION;
 		curRotZ -= rotSpeed * dt;
 		if (curRotZ < rotZ)
 			curRotZ = rotZ;
 	}
+
 	mx.SetToRotation(curRotZ, 0.f, 0.f, 1.f);
 	front = mx * front;
 	right = mx * right;
@@ -134,20 +143,10 @@ void CameraFollow::Control()
 	}
 }
 
-void CameraFollow::TransitionIn()
+void CameraFollow::Transition(float rotX, float rotZ, float dist)
 {
-	SetRotX(0.f);
-	SetRotZ(360.f);
-	SetDist(1.f);
-	SetRotSpeed(440.f);
-	SetDistSpeed(100.f);
-}
-
-void CameraFollow::TransitionOut()
-{
-	SetRotX(0.f);
-	SetRotZ(0.f);
-	SetDist(100.f);
-	SetRotSpeed(440.f);
-	SetDistSpeed(100.f);
+	SetRotX(rotX);
+	SetRotZ(rotZ);
+	SetDist(dist);
+	state = TRANSITION;
 }

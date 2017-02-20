@@ -31,6 +31,8 @@ Overworld::~Overworld()
 
 void Overworld::Init()
 {
+	SetInit(true);
+
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("character", 4, 9)->textureID = LoadTGA("Image//character.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("background", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//overworldBG.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("twee", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//twee.tga");
@@ -89,14 +91,17 @@ void Overworld::Init()
 	TriggerArea* trigger = new TriggerArea();
 	trigger->SetPosition(Vector3(30.f, 10.f, 0.1f));
 	trigger->SetScale(Vector3(10.f, 10.f, 1.f));
-	trigger->SetCollider(new CCollider_2DAABB());
+	//trigger->SetCollider(new CCollider_2DAABB());
+	trigger->SetCamera(&camera);
+	//trigger->SetScene("Overworld");
 	EManager.AddEntity(trigger);
+	spatial.Add(trigger);
 
 	OverworldAsset* asset;
 	Math::InitRNG();
 
 	// Assets Init
-	for (int i = 0; i < 100; ++i)
+	for (int i = 0; i < 200; ++i)
 	{
 		float posX = Math::RandFloatMinMax(-150.f, 150.f);
 		float posY = Math::RandFloatMinMax(-150.f, 150.f);
@@ -174,4 +179,11 @@ void Overworld::Render()
 void Overworld::Exit()
 {
 	EManager.ClearEntityList();
+}
+
+void Overworld::UnPause()
+{
+	camera.SetFollowSpeed(0.3f);
+	camera.SetRotSpeed(200.f);
+	camera.Transition(0.f, 0.f, 80.f);
 }

@@ -16,12 +16,15 @@ void SceneManager::Update()
 	{
 		if (!overlay && activeScene.size() >= 1)
 		{
-			//activeScene.back()->Exit();
+			activeScene.back()->Pause();
 			activeScene.pop_back();
 		}
 
 		activeScene.push_back(nextScene);
-		activeScene.back()->Init();
+		if (activeScene.back()->GetInit())
+			activeScene.back()->UnPause();
+		else
+			activeScene.back()->Init();
 		nextScene = nullptr;
 		overlay = false;
 	}
@@ -30,7 +33,7 @@ void SceneManager::Update()
 	{
 		if (activeScene.size() > 1)
 		{
-			//activeScene.back()->Exit();
+			activeScene.back()->Pause();
 			activeScene.pop_back();
 			back = false;
 		}
