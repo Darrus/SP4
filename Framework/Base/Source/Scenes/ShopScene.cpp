@@ -184,15 +184,11 @@ void ShopScene::Init()
 		offset++;
 	}
 
-<<<<<<< HEAD
 	particle = new ParticleEntity(LIFETIME_INFINITE);
-	particle->GetAnimator()->AddAnimation("walk", new Animation("character", 0, 8, 1.f, -1));
-=======
 	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 0, 8, 1.f, -1));
 
 	particle = new ParticleEntity(10.0);
 	particle->GetAnimator()->AddAnimation("walk");
->>>>>>> 4bf759471e8ddc058d216aa034c62a21bb6d4cdb
 	particle->GetAnimator()->PlayAnimation("walk");
 	particle->SetScale(Vector3(50.f, 50.f, 1.f));
 	particle->SetPosition(Vector3(500, 500, 0));
