@@ -80,10 +80,10 @@ void CBattleState::Init()
     CommandBox->SetPosition(Vector3(windowWidth * 0.85f, windowHeight * 0.3f, 1.f));
     CommandBox->SetScale(Vector3(windowWidth * 0.2, windowHeight * 0.4, 0.f));
 
-	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Character", 4, 9);
-	MeshBuilder::GetInstance()->GetMesh("Character")->textureID = LoadTGA("Image//character.tga");
+	MeshBuilder::GetInstance()->GenerateSpriteAnimation("character", 4, 9);
+	MeshBuilder::GetInstance()->GetMesh("character")->textureID = LoadTGA("Image//character.tga");
 
-	AnimationsContainer::GetInstance()->AddAnimation("walk", "walk", 1, 9, 1.f, -1);
+	AnimationsContainer::GetInstance()->AddAnimation("walk", "character", 1, 9, 1.f, -1);
 
 	entity.GetAnimator()->AddAnimation("walk");
 	entity.GetAnimator()->PlayAnimation("walk");

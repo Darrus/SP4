@@ -12,9 +12,7 @@ class NPC : public Entity2D
 {
 private:
 	vector<string> dialogue;
-	Mesh* textMesh;
 	int speechPointer;
-
 
 public:
 	NPC();
@@ -22,7 +20,6 @@ public:
 
 	virtual void Update();
 	virtual void Render();
-	virtual void RenderUI();
 
 	void LoadDialogue(string name);
 };
