@@ -24,6 +24,7 @@ private:
     EnemyAI* enemyAI;
     Skill* skills;
     PartySystem* partypew;
+    bool addEXP;
 
 public:
     BattleSystem();
@@ -42,6 +43,7 @@ public:
     BattleEntity* ChooseAtkTarget(BattleEntity* entity);
     BattleEntity* ChooseAtkTarget(int selection);
     BattleEntity* FindTarget(int selection);
+    BattleEntity* CheckAnyAlive();
 
     ///< Battle Command Moves
     void EntityTurn(BattleEntity* entity);      ///< Give an Entity the Turn

@@ -157,7 +157,7 @@ void CBattleState::Init()
     party = new PartySystem();
 
     charahehe->stats.AddVit(50);
-    charahehe->stats.AddStr(100);
+    charahehe->stats.AddStr(999);
     charahehe->stats.AddInt(65);
     charahehe->stats.AddMind(50);
     charahehe->stats.AddDex(40);
@@ -171,7 +171,7 @@ void CBattleState::Init()
 
     charahehe = new CharacterInfo();
     charahehe->stats.AddVit(40);
-    charahehe->stats.AddStr(35);
+    charahehe->stats.AddStr(999);
     charahehe->stats.AddInt(70);
     charahehe->stats.AddMind(150);
     charahehe->stats.AddDex(30);
@@ -185,7 +185,7 @@ void CBattleState::Init()
 
     charahehe = new CharacterInfo();
     charahehe->stats.AddVit(86);
-    charahehe->stats.AddStr(45);
+    charahehe->stats.AddStr(999);
     charahehe->stats.AddInt(40);
     charahehe->stats.AddMind(30);
     charahehe->stats.AddDex(50);

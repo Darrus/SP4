@@ -25,6 +25,9 @@ public:
 
 	// ID
 	int id = 0;
+
+    // Entity EXP
+    int EXP = 0;
 };
 
 #endif
