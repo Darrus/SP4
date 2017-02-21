@@ -47,11 +47,12 @@ class Shop_Menu : public Menu
 {
 protected:
 	int *m_current_page;
-	int m_num_item_per_page = 3;
+	int m_num_item_per_page;
 
 public:
 	//Getters and Setters
 	inline void SetCurrentPage(int &currentPage) { m_current_page = &currentPage; }
+	inline void SetItemsPerPage(int item_per_page){ m_num_item_per_page = item_per_page; }
 	inline int GetCurrentPage() { return *m_current_page; }
 	inline int GetNumberOfItemsPerPage() { return m_num_item_per_page; }
 

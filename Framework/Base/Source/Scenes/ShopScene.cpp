@@ -31,7 +31,6 @@ ShopScene::~ShopScene()
 {
 
 }
-int number = 0;
 
 void ShopScene::Init()
 {
@@ -60,11 +59,6 @@ void ShopScene::Init()
 
 	EntityFactory::GetInstance()->AttachEntityManager(&EManager);
 
-	Lua->LoadFile("Sound");
-	//SoundEngine::GetInstance()->SetMasterVolume(CLuaInterface::GetInstance()->GetFloatValue("BGM_Volume"));
-	//SoundEngine::GetInstance()->AddRepeatSound("splash_bgm", "Sound/splash_bgm.mp3", 1.f);
-	//SoundEngine::GetInstance()->Play("splash_bgm");
-
 	float windowWidth = Application::GetInstance().GetWindowWidth();
 	float windowHeight = Application::GetInstance().GetWindowHeight();
 
@@ -81,10 +75,10 @@ void ShopScene::Init()
 
 	//init Menus
 	itemtabs = new Shop_Menu();
+	itemtabs->SetItemsPerPage(2);
 	utilitybuttons = new Menu();
-
 	
-	acceptpurchase = false;
+	acceptpurchase = false;  
 	buyingTab = true;
 
 	//Initialise inventory
@@ -93,28 +87,30 @@ void ShopScene::Init()
 	player_inventory = new Inventory();
 
 	//Some random potions
-	Item* kek = new HealthPotion();
-	shop_inventory->AddItem(kek);
 	shop_inventory->AddItem(new HealthPotion());
+	shop_inventory->AddItem(new HealthPotion());	shop_inventory->AddItem(new MaxHealthPotion());
+
 	shop_inventory->AddItem(new HealthPotion());
+	shop_inventory->AddItem(new HealthPotion());	shop_inventory->AddItem(new MaxHealthPotion());
+
+	shop_inventory->AddItem(new HealthPotion());
+
 	shop_inventory->AddItem(new MaxHealthPotion());
-	shop_inventory->AddItem(new HealthPotion());
+	shop_inventory->AddItem(new MaxHealthPotion());	shop_inventory->AddItem(new MaxHealthPotion());
 
-	////A special item
-	//HealthPotion* specialPotion = new HealthPotion();
-	//specialPotion->SetName("LingLongDingDong");
-	//specialPotion->SetMesh(MeshBuilder::GetInstance()->GetMesh("character"));
-	//shop_inventory->AddItem(specialPotion);
+	shop_inventory->AddItem(new MaxHealthPotion());
 
-	//Equipment *swordy = new Equipment(TYPE_WEAPON, 10, 0, 0, 0);
-	//swordy->SetName("Black Sword");
-	//swordy->SetDescription("What a black sword.");
-	//swordy->SetMesh(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
-	//shop_inventory->AddItem(swordy);
+	//A special item
+	HealthPotion* specialPotion = new HealthPotion();
+	specialPotion->SetName("LingLongDingDong");
+	specialPotion->SetMesh(MeshBuilder::GetInstance()->GetMesh("character"));
+	shop_inventory->AddItem(specialPotion);
 
-	//inventory->PrintInventory();
-	//std::cout << inventory->UseItem(5, new CharacterInfo()) << std::endl;
-	//inventory->PrintInventory();
+	Equipment *swordy = new Equipment(TYPE_WEAPON, 10, 0, 0, 0);
+	swordy->SetName("Black Sword");
+	swordy->SetDescription("What a black sword.");
+	swordy->SetMesh(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
+	shop_inventory->AddItem(swordy);
 
 	Toggle_Button* buyingsellingtabbtn = new Toggle_Button();
 	buyingsellingtabbtn->SetSwitch(buyingTab);
@@ -186,8 +182,6 @@ void ShopScene::Init()
 
 	particle = new ParticleEntity(LIFETIME_INFINITE);
 	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 0, 8, 1.f, -1));
-
-	particle = new ParticleEntity(10.0);
 	particle->GetAnimator()->AddAnimation("walk");
 	particle->GetAnimator()->PlayAnimation("walk");
 	particle->SetScale(Vector3(50.f, 50.f, 1.f));
@@ -199,8 +193,9 @@ void ShopScene::Update()
 {
 	float dt = StopWatch::GetInstance()->GetDeltaTime();
 	camera.Update(dt);
-	itemtabs->Update();
+
 	utilitybuttons->Update();
+	itemtabs->Update();
 	EManager.Update();
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
@@ -230,8 +225,8 @@ void ShopScene::Render()
 															  0, 
 															  Application::GetInstance().GetWindowHeight(), 
 															  -10, 10);
-
 	GraphicsManager::GetInstance()->DetachCamera();
+
 	EManager.Render();
 
 	// Render the required entities
@@ -247,8 +242,6 @@ void ShopScene::Render()
 			500,
 			200,
 			200);
-
-		itemtabs->SetActive(true);
 	}
 	else
 	{
@@ -259,9 +252,15 @@ void ShopScene::Render()
 			1000,
 			200,
 			200);
-		itemtabs->SetActive(false);
 	}
-
+	
+	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
+	modelStack.PushMatrix();
+	modelStack.Translate(Application::GetInstance().GetWindowWidth() * 0.5f - 100, Application::GetInstance().GetWindowHeight() * 0.5 - 20.f, 0);
+	modelStack.Scale(70.f, 70.f, 10.f);
+	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(currentPage + 1), Color(0, 1, 0));
+	//RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("character"));
+	modelStack.PopMatrix();
 	//EManager.RenderUI();
 
 }
