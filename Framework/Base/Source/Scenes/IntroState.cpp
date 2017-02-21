@@ -44,8 +44,6 @@ void CIntroState::Init()
 	MeshBuilder::GetInstance()->GetMesh("text")->textureID = LoadTGA("FontData//pixelFont.tga");
 	MeshBuilder::GetInstance()->GetMesh("text")->material.kAmbient.Set(1, 0, 0);
 	
-	MeshBuilder::GetInstance()->GenerateQuad("Collider", Color(1.f, 0.f, 0.f));
-
 	EntityFactory::GetInstance()->AttachEntityManager(&EManager);
 
 	Lua->LoadFile("Sound");

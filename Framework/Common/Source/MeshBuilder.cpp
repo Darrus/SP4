@@ -641,7 +641,10 @@ void MeshBuilder::AddMesh(const std::string& _meshName, Mesh* _newMesh)
 		return;
 
 	// Clean up first if there is an existing mesh with the same name
-	RemoveMesh(_meshName);
+	//RemoveMesh(_meshName);
+	std::map<string, Mesh*>::iterator it = meshMap.find(_meshName);
+	if (it != meshMap.end())
+		return;
 
 	// Add the mesh now
 	meshMap[_meshName] = _newMesh;

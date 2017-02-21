@@ -136,8 +136,8 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("IntroState", new CIntroState());
 	SceneManager::GetInstance()->AddScene("TestScene", new SkillTreeScene());
     SceneManager::GetInstance()->AddScene("BattleScene", new CBattleState());
-	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
 	SceneManager::GetInstance()->AddScene("Shop", new ShopScene());
+	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
 	
 	//Set the active scene
 	SceneManager::GetInstance()->SetActiveScene("Overworld");

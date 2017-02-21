@@ -91,9 +91,9 @@ void Overworld::Init()
 	TriggerArea* trigger = new TriggerArea();
 	trigger->SetPosition(Vector3(30.f, 10.f, 0.1f));
 	trigger->SetScale(Vector3(10.f, 10.f, 1.f));
-	//trigger->SetCollider(new CCollider_2DAABB());
+	trigger->SetCollider(new CCollider_2DAABB());
 	trigger->SetCamera(&camera);
-	//trigger->SetScene("Overworld");
+	trigger->SetScene("Shop");
 	EManager.AddEntity(trigger);
 	spatial.Add(trigger);
 

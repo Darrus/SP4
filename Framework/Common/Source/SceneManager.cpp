@@ -14,17 +14,17 @@ void SceneManager::Update()
 {
 	if (nextScene)
 	{
-		if (!overlay && activeScene.size() >= 1)
+		if (!overlay)
 		{
-			activeScene.back()->Pause();
-			activeScene.pop_back();
+			while (activeScene.size() >= 1)
+			{
+				activeScene.back()->Pause();
+				activeScene.pop_back();
+			}
 		}
 
 		activeScene.push_back(nextScene);
-		if (activeScene.back()->GetInit())
-			activeScene.back()->UnPause();
-		else
-			activeScene.back()->Init();
+		activeScene.back()->UnPause();
 		nextScene = nullptr;
 		overlay = false;
 	}
@@ -80,6 +80,7 @@ void SceneManager::AddScene(const std::string& _name, Scene* _scene)
 
 	// Nothing wrong, add the scene to our map
 	sceneMap[_name] = _scene;
+	_scene->Init();
 }
 
 void SceneManager::RemoveScene(const std::string& _name)
@@ -99,7 +100,7 @@ void SceneManager::RemoveScene(const std::string& _name)
 	sceneMap.erase(_name);
 }
 
-void SceneManager::SetActiveScene(const std::string& _name, bool overlay)
+Scene* SceneManager::SetActiveScene(const std::string& _name, bool overlay)
 {
 	if (!CheckSceneExist(_name))
 	{
@@ -110,6 +111,7 @@ void SceneManager::SetActiveScene(const std::string& _name, bool overlay)
 	// Scene exist, set the next scene pointer to that scene
 	nextScene = sceneMap[_name];
 	this->overlay = overlay;
+	return nextScene;
 }
 
 bool SceneManager::CheckSceneExist(const std::string& _name)
