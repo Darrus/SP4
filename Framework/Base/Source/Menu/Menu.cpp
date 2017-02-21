@@ -113,7 +113,6 @@ void Shop_Menu::Update()
 	}
 }
 
-//Renders the menu
 void Shop_Menu::Render()
 {
 	//If all items can be fit in one page
@@ -135,5 +134,32 @@ void Shop_Menu::Render()
 			for (unsigned i = *m_current_page * m_num_item_per_page; i < *m_current_page * m_num_item_per_page + m_num_item_per_page; ++i)
 					m_buttonList[i]->Render();
 		}
+	}
+}
+
+void Cart_Menu::InitialiseButtons()
+{
+	//delete the current buttonlist
+	for (unsigned i = 0; i < m_buttonList.size(); ++i)
+		if (m_buttonList[i] != nullptr)
+			delete m_buttonList[i];
+
+	//clear just in case
+	m_buttonList.clear();
+
+	float offset_y = m_position.y;
+
+	//Add a button for each inventory item
+	for (unsigned i = 0; i < m_targetInventory->m_inventoryList.size(); ++i)
+	{
+		ShopCart_Button* button = new ShopCart_Button();
+		button->SetIndex(i);
+		button->SetActive(true);
+		button->SetTargetInventory(*m_targetInventory);
+		button->SetPosition(m_position.x + (i * 100), 250);
+		button->SetScale(100, 100);
+		button->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+		button->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+		m_buttonList.push_back(button);
 	}
 }

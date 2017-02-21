@@ -193,15 +193,29 @@ public:
 };
 
 //============================================================================//
-//Brief: A button object that erases an Item object in the target stack and   //
-//		 then disappears.													  //
+//Brief: A button object that hold the index of an Item object and			  //
+//		 then disappears when pressed.										  //
 //============================================================================//
-class ShopCart_Button
+class ShopCart_Button : public Button
 {
 protected:
+	int m_item_index;
+	Inventory *m_targetInventory;
 
 public: 
-	ShopCart_Button(){};
+	inline void SetIndex(int item_index){ m_item_index = item_index; }
+	inline void SetTargetInventory(Inventory &target_inven){ m_targetInventory = &target_inven; }
+
+	inline void RunFunction()
+	{
+		m_targetInventory->m_inventoryList.erase(m_targetInventory->m_inventoryList.begin() + m_item_index);
+		
+		m_isActive = false;
+	}
+
+	void Render();
+
+	ShopCart_Button() : Button(){};
 	~ShopCart_Button(){};
 };
 

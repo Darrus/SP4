@@ -101,7 +101,7 @@ void Overworld::Init()
 	Math::InitRNG();
 
 	// Assets Init
-	for (int i = 0; i < 200; ++i)
+	for (int i = 0; i < 100; ++i)
 	{
 		float posX = Math::RandFloatMinMax(-150.f, 150.f);
 		float posY = Math::RandFloatMinMax(-150.f, 150.f);

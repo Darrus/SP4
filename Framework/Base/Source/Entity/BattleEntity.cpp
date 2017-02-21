@@ -30,7 +30,7 @@ void BattleEntity::Update()
 	float dt = (double)StopWatch::GetInstance()->GetDeltaTime();
 
 	if (ATB < maxATB)
-		ATB += info->stats.GetRechargeRate() * 0.03;
+		ATB += info->stats.GetRechargeRate() * dt;
 	else
 		isReady = true;
 }

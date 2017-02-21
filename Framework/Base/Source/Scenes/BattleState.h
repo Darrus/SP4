@@ -13,6 +13,7 @@
 #include "../Battle/BattleSystem.h"
 #include "../Entity/BattleEntity.h"
 #include "..\Player\Player.h"
+#include "..\Battle\MonsterFactory.h"
 
 class SceneManager;
 class TextEntity;
@@ -47,6 +48,7 @@ private:
 
     bool encounter;
     PartySystem* party;
+    MonsterFactory* efactory;
 };
 
 #endif /* BATTLESTATE_H */

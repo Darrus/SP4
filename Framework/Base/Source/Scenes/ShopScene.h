@@ -5,8 +5,6 @@
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "../FPSCamera.h"
-//#include "../Entity/SpriteEntity.h"
-//#include "../Entity/Entity2D.h"
 
 #include "../Menu/Menu.h"
 
@@ -46,6 +44,8 @@ private:
 
 	bool buyingTab;
 	int currentPage = 0;
+
+	Cart_Menu* cart_menu;
 
 	ParticleEntity* particle;
 };
