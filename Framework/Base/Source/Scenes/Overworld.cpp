@@ -31,12 +31,15 @@ Overworld::~Overworld()
 
 void Overworld::Init()
 {
+	SetInit(true);
+
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("character", 4, 9)->textureID = LoadTGA("Image//character.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("background", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//overworldBG.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("twee", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//twee.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("mountain", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//mountain.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("Collider", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//collider.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("Grid", Color(0.f, 1.f, 0.f));
+	MeshBuilder::GetInstance()->GenerateText("text", 16, 16)->textureID = LoadTGA("FontData//pixelFont.tga");
 
 	EntityFactory::GetInstance()->AttachEntityManager(&EManager);
 	EManager.ShowCollider(true);
@@ -57,6 +60,7 @@ void Overworld::Init()
 
 	// Player Init
 	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 1, 8, 1.f, -1));
+	AnimationsContainer::GetInstance()->AddAnimation("npc", new Animation("character", 9, 17, 1.f, -1));
 
 	player = new OverworldEntity();
 	player->GetAnimator()->AddAnimation("walk");
@@ -69,6 +73,14 @@ void Overworld::Init()
 	EManager.AddEntity(player);
 	spatial.Add(player);
 
+	npc = new NPC();
+	npc->GetAnimator()->AddAnimation("npc");
+	npc->GetAnimator()->PlayAnimation("npc");
+	npc->SetScale(Vector3(5.f, 5.f, 1.f));
+	npc->SetPosition(Vector3(0.f, 0.f, 1.f));
+	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
+	EManager.AddEntity(npc);
+
 	// Background Init
 	background = new SpriteEntity(MeshBuilder::GetInstance()->GetMesh("background"));
 	background->SetTextRenderMode(SpriteEntity::MODE_3D);
@@ -79,19 +91,22 @@ void Overworld::Init()
 	TriggerArea* trigger = new TriggerArea();
 	trigger->SetPosition(Vector3(30.f, 10.f, 0.1f));
 	trigger->SetScale(Vector3(10.f, 10.f, 1.f));
-	trigger->SetCollider(new CCollider_2DAABB());
+	//trigger->SetCollider(new CCollider_2DAABB());
+	trigger->SetCamera(&camera);
+	//trigger->SetScene("Overworld");
 	EManager.AddEntity(trigger);
+	spatial.Add(trigger);
 
 	OverworldAsset* asset;
 	Math::InitRNG();
 
 	// Assets Init
-	for (int i = 0; i < 100; ++i)
+	for (int i = 0; i < 200; ++i)
 	{
 		float posX = Math::RandFloatMinMax(-150.f, 150.f);
 		float posY = Math::RandFloatMinMax(-150.f, 150.f);
 		asset = new OverworldAsset("twee");
-		asset->SetPosition(Vector3(posX, posY, 0.1f));
+		asset->SetPosition(Vector3(posX, posY, 1.1f));
 		asset->SetScale(Vector3(10.f, 10.f, 1.f));
 		asset->SetCamera(&camera);
 		asset->SetCollider(new CCollider_2DAABB());
@@ -164,4 +179,11 @@ void Overworld::Render()
 void Overworld::Exit()
 {
 	EManager.ClearEntityList();
+}
+
+void Overworld::UnPause()
+{
+	camera.SetFollowSpeed(0.3f);
+	camera.SetRotSpeed(200.f);
+	camera.Transition(0.f, 0.f, 80.f);
 }

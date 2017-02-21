@@ -75,50 +75,29 @@ void CGrid::Update(vector<EntityBase*>* migrationList)
 			Vector3 colliderMax = (*it)->GetCollider()->GetMax();
 			Vector3 colliderMin = (*it)->GetCollider()->GetMin();
 			
-			// Checks if bounding box max and min is within grid
-			if (colliderMin.x < max.x &&
-				colliderMax.x > min.x &&
-				colliderMin.y < max.y &&
-				colliderMax.y > min.y)
+			// Checks if any part of the bounding box is leaving the grid.
+			if (colliderMin.x < min.x)
 			{
-				// Checks if any part of the bounding box is leaving the grid.
-				bool check = false;
-				if (colliderMin.x < min.x)
-				{
-					migrationList->push_back((*it));
-					check = true;
-				}
-				if (colliderMax.x > max.x)
-				{
-					migrationList->push_back((*it));
-					check = true;
-				}
-				if (colliderMin.y < min.y)
-				{
-					migrationList->push_back((*it));
-					check = true;
-				}
-				if (colliderMax.y > max.y)
-				{
-					migrationList->push_back((*it));
-					check = true;
-				}
-
-				if (check)
-				{
-					it = ListOfObjects.erase(it);
-				}
-				else
-					++it;
-			}
-			else
-			{
-				// Bounding box has completely left grid
-				static int i = 0;
-				std::cout << i++ << std::endl;
 				migrationList->push_back((*it));
 				it = ListOfObjects.erase(it);
 			}
+			else if (colliderMax.x > max.x)
+			{
+				migrationList->push_back((*it));
+				it = ListOfObjects.erase(it);
+			}
+			else if (colliderMin.y < min.y)
+			{
+				migrationList->push_back((*it));
+				it = ListOfObjects.erase(it);
+			}
+			else if (colliderMax.y > max.y)
+			{
+				migrationList->push_back((*it));
+				it = ListOfObjects.erase(it);
+			}
+			else
+				++it;
 		}
 		else
 		{

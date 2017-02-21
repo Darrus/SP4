@@ -13,6 +13,8 @@
 #include "../Scenes/BattleState.h"
 #include "../SpatialPartition/SpatialPartition.h"
 
+#include "../NPC/NPC.h"
+
 using std::vector;
 
 class Overworld : public Scene
@@ -26,6 +28,8 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
+	virtual void UnPause();
+
 	bool battle;
 
 private:
@@ -35,6 +39,7 @@ private:
 	OverworldEntity* player;
     CBattleState* battlestate;
 	CSpatialPartition spatial;
+	NPC* npc;
 };
 
 #endif

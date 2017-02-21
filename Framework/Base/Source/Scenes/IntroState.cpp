@@ -50,7 +50,7 @@ void CIntroState::Init()
 
 	Lua->LoadFile("Sound");
 	SoundEngine::GetInstance()->SetMasterVolume(CLuaInterface::GetInstance()->GetFloatValue("BGM_Volume"));
-	SoundEngine::GetInstance()->AddRepeatSound("splash_bgm", "Sound/splash_bgm.mp3", 1.f);
+	//SoundEngine::GetInstance()->AddRepeatSound("splash_bgm", "Sound/splash_bgm.mp3", 1.f);
 	//SoundEngine::GetInstance()->Play("splash_bgm");
 
 	float windowWidth = Application::GetInstance().GetWindowWidth();

@@ -6,11 +6,11 @@
 class Scene
 {
 protected:
-	bool pause = false;
 	EntityManager EManager;
+	bool init;
 
 public:
-	Scene() {}
+	Scene() : init(false) {}
 	virtual ~Scene() {}
 
 	virtual void Init() = 0;
@@ -18,8 +18,11 @@ public:
 	virtual void Render() = 0;
 	virtual void Exit() = 0;
 
-	inline void SetPause(const bool& pause){ this->pause = pause; }
-	inline bool GetPause(){ return pause; }
+	virtual void Pause(){}
+	virtual void UnPause(){}
+
+	inline void SetInit(const bool& init) { this->init = init; }
+	inline bool GetInit() { return this->init; }
 };
 
 #endif // SCENE_H
