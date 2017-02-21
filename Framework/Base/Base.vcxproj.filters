@@ -136,6 +136,9 @@
     <ClCompile Include="Source\Skills\SkillFunctions.cpp">
       <Filter>Skills</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scenes\DialogueScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -275,6 +278,9 @@
     </ClInclude>
     <ClInclude Include="Source\Skills\SkillFunctions.h">
       <Filter>Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\DialogueScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
