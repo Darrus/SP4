@@ -578,7 +578,7 @@ void BattleSystem::AssignPlayerParty(PartySystem* party)
     float windowWidth = Application::GetInstance().GetWindowWidth();
     float windowHeight = Application::GetInstance().GetWindowHeight();
 
-    for (int i = 0; i < party->memberCount(); i++)
+    for (int i = 0; i < 3; i++)
     {
         CharacterInfo* pew = party->GetMember(i);
         pew->stats.UpdateStats();
