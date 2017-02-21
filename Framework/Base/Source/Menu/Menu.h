@@ -43,6 +43,12 @@ public:
 	virtual ~Menu();
 };
 
+
+
+//======================================================================================//
+
+
+
 class Shop_Menu : public Menu
 {
 protected:
@@ -61,11 +67,43 @@ public:
 
 	//Renders the menu
 	virtual void Render();
-
 	virtual void Close(){};
 
 	Shop_Menu() : m_current_page(0){};
 	virtual ~Shop_Menu(){};
+};
+
+
+//======================================================================================//
+
+
+class Cart_Menu : public Menu
+{
+protected:
+	Vector3 m_position;
+	int m_num_item_per_row;
+	Inventory *m_targetInventory;
+
+public:
+	//Getters and Setters
+	inline void SetPosition(float pos_x, float pos_y) { m_position.x = pos_x; m_position.y = pos_y; }
+	inline void SetTargetInventory(Inventory &target_inven){ m_targetInventory = &target_inven; }
+
+	void InitialiseButtons();
+
+	inline void Update()
+	{
+		InitialiseButtons();
+		Menu::Update();
+	}
+
+	inline void Render()
+	{
+		Menu::Render();
+	}
+
+	Cart_Menu() : m_position(Vector3(0, 0, 0)){};
+	~Cart_Menu(){};
 };
 
 #endif

@@ -74,6 +74,8 @@ void ShopScene::Init()
 	itemtabs->SetItemsPerPage(2);
 	utilitybuttons = new Menu();
 	
+	cart_menu = new Cart_Menu();
+
 	acceptpurchase = false;  
 	buyingTab = true;
 
@@ -179,10 +181,16 @@ void ShopScene::Init()
 	AnimationsContainer::GetInstance()->AddAnimation("asd", new Animation("character", 0, 8, 1.f, LIFETIME_INFINITE));
 
 	//Test Particles
-	//particle = Create::MovingParticle("walk", Vector3(0, 600, 0), Vector3(1000, 600, 0), 500.f);
-	//particle = Create::ExplodingParticle("walk", "asd", Vector3(0, 0, 0), Vector3(500, 500, 0), 600.f);
-	//particle = Create::StaticParticle("walk", Vector3(500, 500, 0));
-	//EManager.AddEntity(particle);
+	particle = Create::MovingParticle("walk", Vector3(0, 600, 0), Vector3(1000, 600, 0), 500.f);
+	EManager.AddEntity(particle);
+	particle = Create::ExplodingParticle("walk", "asd", Vector3(0, 0, 0), Vector3(500, 500, 0), 600.f);
+	EManager.AddEntity(particle);
+	particle = Create::StaticParticle("walk", Vector3(500, 500, 0));
+	EManager.AddEntity(particle);
+
+	cart_menu->SetPosition(500.0f, 500.0f);
+	cart_menu->SetTargetInventory(*cart_inventory);
+	cart_menu->InitialiseButtons();
 }
 void ShopScene::Update()
 {
@@ -191,6 +199,8 @@ void ShopScene::Update()
 
 	utilitybuttons->Update();
 	itemtabs->Update();
+	cart_menu->Update();
+
 	EManager.Update();
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
@@ -198,6 +208,7 @@ void ShopScene::Update()
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
 		std::cout << player_inventory->m_inventoryList.size() << std::endl;
+
 
 	if (acceptpurchase)
 	{
@@ -208,6 +219,7 @@ void ShopScene::Update()
 
 		acceptpurchase = false;
 	}
+
 }
 void ShopScene::Render()
 {
@@ -227,27 +239,7 @@ void ShopScene::Render()
 	// Render the required entities
 	itemtabs->Render();
 	utilitybuttons->Render();
-
-	if (buyingTab)
-	{
-		for (unsigned i = 0; i < cart_inventory->m_inventoryList.size(); ++i)
-			cart_inventory->RenderItem(
-			i,
-			i * 200,
-			500,
-			200,
-			200);
-	}
-	else
-	{
-		for (unsigned i = 0; i < player_inventory->m_inventoryList.size(); ++i)
-			player_inventory->RenderItem(
-			i,
-			i * 200,
-			1000,
-			200,
-			200);
-	}
+	cart_menu->Render();
 	
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();

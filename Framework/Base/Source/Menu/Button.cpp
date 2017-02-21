@@ -151,3 +151,27 @@ void ShopItem_Button::Render()
 
 	modelStack.PopMatrix();
 }
+
+void ShopCart_Button::Render()
+{
+	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
+	modelStack.PushMatrix();
+	modelStack.Translate(m_pos_x, m_pos_y, 0);
+
+	modelStack.PushMatrix();
+	modelStack.Scale(m_scale_x, m_scale_y, 1);
+	if (m_meshList[m_isHovered] != nullptr)
+		RenderHelper::RenderMesh(m_meshList[m_isHovered]);
+	modelStack.PopMatrix();
+
+	if (m_text != "")
+	{
+		//Offset for text
+		modelStack.Translate(-m_scale_x * 0.5, 0, 1);
+		modelStack.Translate(m_text_offset_x, m_text_offset_y, 0);
+		modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
+		RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_text, Color(1, 0, 0));	//NOTE: COLOUR DOESN'T WORK. THANKS ALOT, TOH.
+	}
+
+	modelStack.PopMatrix();
+}
