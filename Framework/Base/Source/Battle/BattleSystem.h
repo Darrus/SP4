@@ -9,6 +9,7 @@
 #include "..\Entity\SpriteEntity.h"
 #include "..\EnemyAI.h"
 #include "..\BattleLog.h"
+#include "..\Skills\Skill.h"
 
 class BattleSystem
 {
@@ -21,7 +22,8 @@ private:
     BattleEntity* pewpewpew;
     SpriteEntity* Arrow;
     EnemyAI* enemyAI;
-    //PartySystem party;
+    Skill* skills;
+    PartySystem* partypew;
 
 public:
     BattleSystem();
@@ -59,6 +61,9 @@ public:
     ///< User Inputs
     void ChoosePlayerInput();
 
+    ///< Show Battle Results
+    void ShowBattleResults();
+
     // Assigning Party
     void AssignPlayerParty(PartySystem* party);
 
@@ -75,12 +80,14 @@ public:
     int playerselect;
     int attkselect;
     int commandselect;
+    int skillselect;
 
     enum SELECTIONAT
     {
         NOTHING = 0,
         CHOOSEPLAYER,
         CHOOSETARGET,
+        CHOOSESKILL,
         CHOOSEDOWAT,
     };
     SELECTIONAT whichScreen;

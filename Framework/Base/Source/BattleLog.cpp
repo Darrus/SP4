@@ -54,16 +54,16 @@ void BattleLog::Render()
     float windowWidth = Application::GetInstance().GetWindowWidth();
     float windowHeight = Application::GetInstance().GetWindowHeight();
 
-    modelStack.PushMatrix();
-    modelStack.Translate(windowWidth * 0.5, windowHeight * 0.9, 5.f);
-    modelStack.Scale(windowWidth *0.4, windowHeight *0.1, 1.f);
-    RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
-    modelStack.PopMatrix();
-
     for (std::list<BattleLog*>::iterator itr = battleloglist.begin(); itr != battleloglist.end(); itr++)
     {
         if (displayTime > 0)
         {
+            modelStack.PushMatrix();
+            modelStack.Translate(windowWidth * 0.5, windowHeight * 0.9, 5.f);
+            modelStack.Scale(windowWidth *0.4, windowHeight *0.1, 1.f);
+            RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
+            modelStack.PopMatrix();
+
             if ((*itr)->DMGRecv)
             {
                 modelStack.PushMatrix();

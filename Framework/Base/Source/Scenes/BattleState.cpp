@@ -107,6 +107,10 @@ void CBattleState::Init()
 	int Level;
 	int statPoints;
     */
+    efactory = new MonsterFactory();
+    BattleEntity* wow = efactory->CreateEnemy1(3);
+    BattleEntity* wow2 = efactory->CreateEnemy3(4);
+
     testEntity = new BattleEntity();
     testEntity->GetInfo()->stats.AddVit(50);
     testEntity->GetInfo()->stats.AddStr(40);
@@ -139,11 +143,11 @@ void CBattleState::Init()
 
     testingBattle = new BattleSystem();
 
-    testingBattle->BattleList.push_back(testEntity);
-    testingBattle->BattleList.push_back(testEntity2);
+    testingBattle->BattleList.push_back(wow);
+    testingBattle->BattleList.push_back(wow2);
 
-    testingBattle->EnemyList.push_back(testEntity);
-    testingBattle->EnemyList.push_back(testEntity2);
+    testingBattle->EnemyList.push_back(wow);
+    testingBattle->EnemyList.push_back(wow2);
 
     //BattleList.push_back(testEntity);
     //BattleList.push_back(testEntity2);
