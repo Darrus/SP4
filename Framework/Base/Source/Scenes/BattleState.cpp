@@ -46,6 +46,13 @@ void CBattleState::Init()
     MeshBuilder::GetInstance()->GenerateQuad("enemysprite", Color(1, 1, 1), 1.f);
     MeshBuilder::GetInstance()->GetMesh("enemysprite")->textureID = LoadTGA("Image//enemy.tga");
 
+    MeshBuilder::GetInstance()->GenerateQuad("enemysprite2", Color(1, 1, 1), 1.f);
+    MeshBuilder::GetInstance()->GetMesh("enemysprite2")->textureID = LoadTGA("Image//enemy2.tga");
+
+    MeshBuilder::GetInstance()->GenerateQuad("enemysprite3", Color(1, 1, 1), 1.f);
+    MeshBuilder::GetInstance()->GetMesh("enemysprite3")->textureID = LoadTGA("Image//enemy3.tga");
+
+
     MeshBuilder::GetInstance()->GenerateQuad("player1", Color(1, 1, 1), 1.f);
     MeshBuilder::GetInstance()->GetMesh("player1")->textureID = LoadTGA("Image//Player//player1.tga");
 

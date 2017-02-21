@@ -5,8 +5,8 @@
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "../FPSCamera.h"
-#include "../Entity/SpriteEntity.h"
-#include "../Entity/Entity2D.h"
+//#include "../Entity/SpriteEntity.h"
+//#include "../Entity/Entity2D.h"
 
 #include "../Menu/Menu.h"
 
@@ -14,6 +14,7 @@
 #include "../Items/Item.h"
 #include "../Items/Consumable.h"
 #include "../Items/Equipment.h"
+
 #include "../Entity/ParticleEntity.h"
 
 class SceneManager;
@@ -34,7 +35,6 @@ public:
 
 private:
 	FPSCamera camera;
-	SpriteEntity* IntroStateBackground;
 	Entity2D entity;
 
 	Inventory* shop_inventory;

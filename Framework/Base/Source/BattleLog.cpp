@@ -21,11 +21,6 @@ damagereceived_(damagereceived),
 dodged_(dodged),
 critical_(critical)
 {
-    if (entity->enemyType == BattleEntity::ENEMY)
-        enemyRender = true;
-    else if (entity->enemyType == BattleEntity::ALLY)
-        playerRender = true;
-
     displayTime = 3;
     if (damagereceived_ > 0)
         DMGRecv = true;
@@ -37,11 +32,6 @@ BattleLog::BattleLog(BattleEntity* entity, bool defend):
 entity_(entity),
 defend_(defend)
 {
-    if (entity->enemyType == BattleEntity::ENEMY)
-        enemyRender = true;
-    else if (entity->enemyType == BattleEntity::ALLY)
-        playerRender = true;
-
     displayTime = 3;
     DMGRecv = false;
     DMGDeal = false;
@@ -52,12 +42,10 @@ BattleLog::~BattleLog()
 
 }
 
-bool BattleLog::Update(double dt)
+void BattleLog::Update()
 {
     if (displayTime > 0)
         displayTime -= StopWatch::GetInstance()->GetDeltaTime();
-    else
-        return false;
 }
 
 void BattleLog::Render()

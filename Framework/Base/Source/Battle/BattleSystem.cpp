@@ -21,7 +21,7 @@ isPassTurn(false),
 battleEnded(false),
 iDodge(false),
 playerselect(0),
-attkselect(3),
+attkselect(),
 commandselect(0),
 whichScreen(NOTHING)
 {
@@ -85,7 +85,7 @@ whichScreen(NOTHING)
     }
 
     enemyAI = new EnemyAI();
-    battlelog = new BattleLog();
+    //enemyAI->battlelog = new BattleLog();
 }
 
 /***************************************
@@ -104,8 +104,8 @@ It gives the Unit who filled their bar up first, and stops all other bar updates
 *****************************************/
 void BattleSystem::Update()
 {
-    if (!battlelog->Update())
-        enemyAI->battlelog->Update();
+    //if (!battlelog->Update())
+    enemyAI->battlelog->Update();
     // Loops through the entire EnemyList and do stuff
     for (std::list<BattleEntity*>::iterator itr = EnemyList.begin(); itr != EnemyList.end(); itr++)
     {
@@ -272,8 +272,8 @@ void BattleSystem::Attack(BattleEntity* entity, BattleEntity* targetEntity)
                     DamageDeal = 0;
             }
             targetEntity->TakeDamage(DamageDeal);
-            battlelog = new BattleLog(targetEntity, myEntity->name, DamageDeal, DamageDeal, iDodge, iCrit);
-            battlelog->battleloglist.push_back(battlelog);
+            enemyAI->battlelog = new BattleLog(targetEntity, myEntity->name, DamageDeal, DamageDeal, iDodge, iCrit);
+            enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
             std::cout << "Dealt " << DamageDeal << " to " << targEntity->name << std::endl;
         }
         else
@@ -365,8 +365,8 @@ Entity that is defending
 void BattleSystem::Defend(BattleEntity* entity)
 { 
     entity->SetDefending(1.5);
-    battlelog = new BattleLog(entity, true);
-    battlelog->battleloglist.push_back(battlelog);
+    enemyAI->battlelog = new BattleLog(entity, true);
+    enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
     std::cout << "You Defended!" << std::endl;
     PassTurn(entity);
     //entity->DecreaseAttkTurnPt(1);
@@ -420,7 +420,7 @@ void BattleSystem::Render()
 {
     RenderUIStuff();
     RenderEntities();
-    battlelog->Render();
+    //battlelog->Render();
     enemyAI->battlelog->Render();
 }
 
@@ -626,6 +626,10 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
         {
             attkselect++;
         }
+        if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
+        {
+            whichScreen = CHOOSEDOWAT;
+        }
 
         if (attkselect > 4)
             attkselect = 3;
@@ -656,6 +660,11 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
             commandselect--;
         if (KeyboardController::GetInstance()->IsKeyPressed(VK_UP))
             commandselect++;
+
+        if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
+        {
+            whichScreen = NOTHING;
+        }
 
         if (commandselect < 0)
             commandselect = 4;

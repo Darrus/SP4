@@ -13,7 +13,8 @@ Button::Button() :
 	m_text_offset_x(0), 
 	m_text_offset_y(0),
 	m_text_scale_x(30),
-	m_text_scale_y(30.f)
+	m_text_scale_y(30.f),
+	m_isActive(true)
 {
 	for (unsigned i = 0; i < NUM_IMAGES; ++i)
 		m_meshList[i] = nullptr;
@@ -37,6 +38,8 @@ Button::Button(float pos_x, float pos_y, float scale_x, float scale_y) :
 
 void Button::Render()
 {
+	if (!m_isActive)
+		return;
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
 	modelStack.Translate(m_pos_x, m_pos_y, 0);
@@ -61,6 +64,8 @@ void Button::Render()
 
 void Toggle_Button::Render()
 {
+	if (!m_isActive)
+		return;
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
 	modelStack.Translate(m_pos_x, m_pos_y, 0);
@@ -87,12 +92,14 @@ void Toggle_Button::Render()
 
 void SetBool_Button::Render()
 {
+	if (!m_isActive)
+		return;
 	Button::Render();
 }
 
 void ShopItem_Button::Render()
 {
-	if (m_isActive == false)
+	if (!m_isActive)
 		return;
 
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();

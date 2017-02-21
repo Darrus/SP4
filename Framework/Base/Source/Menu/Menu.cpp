@@ -64,14 +64,32 @@ void Shop_Menu::Update()
 {
 	Menu::Update();
 	//Loops back to start or end when out of bounds
-	/*if (*m_current_page < 0)
-		*m_current_page = m_buttonList.size() / m_num_item_per_page;
-	else if (*m_current_page >= m_buttonList.size() / m_num_item_per_page)
-		*m_current_page = 0;*/
+	//Check if it's perfect pages
+	if (m_buttonList.size() % m_num_item_per_page)
+	{
+		//when back from 0
+		if (*m_current_page < 0)
+			*m_current_page = (m_buttonList.size() / m_num_item_per_page);
 
+		//when past max tab
+		if (*m_current_page > m_buttonList.size() / m_num_item_per_page)
+			*m_current_page = 0;
+	}
+	else
+	{
+		//when back from 0
+		if (*m_current_page < 0)
+			*m_current_page = (m_buttonList.size() / m_num_item_per_page) - 1;
+		//when past max tab
+		else if (*m_current_page >= m_buttonList.size() / m_num_item_per_page)
+			*m_current_page = 0;
+	}
+
+	//Set all buttons to inactive first
 	for (unsigned i = 0; i < m_buttonList.size(); ++i)
 		m_buttonList[i]->SetActive(false);
 
+	//If all items can be fit in one page
 	if (m_buttonList.size() / m_num_item_per_page == 0)
 	{
 		for (unsigned i = 0; i < m_buttonList.size(); ++i)
@@ -79,14 +97,16 @@ void Shop_Menu::Update()
 	}
 	else
 	{
-		//Start rendering "start" of page
-		if (*m_current_page * m_num_item_per_page >= m_buttonList.size() / m_num_item_per_page)
+		//If current page has more items than what the list is holding
+		if ((*m_current_page + 1) * m_num_item_per_page > m_buttonList.size())
 		{
+			//Renders "leftovers"
 			for (unsigned i = *m_current_page * m_num_item_per_page; i < m_buttonList.size(); ++i)
 				m_buttonList[i]->SetActive(true);
 		}
-		else
+		else 
 		{
+			//Renders full page
 			for (unsigned i = *m_current_page * m_num_item_per_page; i < *m_current_page * m_num_item_per_page + m_num_item_per_page; ++i)
 				m_buttonList[i]->SetActive(true);
 		}

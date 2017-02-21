@@ -17,6 +17,8 @@
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\BattleLog.cpp" />
     <ClCompile Include="Source\Battle\BattleSystem.cpp" />
+    <ClCompile Include="Source\Battle\Enemy.cpp" />
+    <ClCompile Include="Source\Battle\MonsterFactory.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\EnemyAI.cpp" />
     <ClCompile Include="Source\Entity\AssetEntity.cpp" />
@@ -50,6 +52,8 @@
     <ClCompile Include="Source\Scenes\Overworld.cpp" />
     <ClCompile Include="Source\Scenes\ShopScene.cpp" />
     <ClCompile Include="Source\Scenes\SkillTreeScene.cpp" />
+    <ClCompile Include="Source\Skills\Skill.cpp" />
+    <ClCompile Include="Source\Skills\SkillFunctions.cpp" />
     <ClCompile Include="Source\SpatialPartition\Grid.cpp" />
     <ClCompile Include="Source\SpatialPartition\SpatialPartition.cpp" />
   </ItemGroup>
@@ -60,6 +64,8 @@
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\BattleLog.h" />
     <ClInclude Include="Source\Battle\BattleSystem.h" />
+    <ClInclude Include="Source\Battle\Enemy.h" />
+    <ClInclude Include="Source\Battle\MonsterFactory.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Character\CharacterInfo.h" />
     <ClInclude Include="Source\Character\Stat.h" />
@@ -94,6 +100,8 @@
     <ClInclude Include="Source\Scenes\Overworld.h" />
     <ClInclude Include="Source\Scenes\ShopScene.h" />
     <ClInclude Include="Source\Scenes\SkillTreeScene.h" />
+    <ClInclude Include="Source\Skills\Skill.h" />
+    <ClInclude Include="Source\Skills\SkillFunctions.h" />
     <ClInclude Include="Source\SpatialPartition\Grid.h" />
     <ClInclude Include="Source\SpatialPartition\SpatialPartition.h" />
   </ItemGroup>

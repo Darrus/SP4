@@ -56,9 +56,6 @@ public:
     bool getBattleStatus() { return battleEnded; }
     void checkEnemyDead();
 
-    ///< BattleLog
-    BattleLog* battlelog;
-
     ///< User Inputs
     void ChoosePlayerInput();
 
