@@ -1,12 +1,13 @@
 #ifndef PARTICLE_ENTITY_H
 #define PARTICLE_ENTITY_H
 
-#include "Vector3.h"
-#include "../Animation/Animation.h"
 #include "Entity2D.h"
 
 #define LIFETIME_INFINITE -1.0
 
+//==================================================================//
+//Brief: A particle that holds animations that may have a lifetime  //
+//==================================================================//
 class ParticleEntity : public Entity2D
 {
 protected:
@@ -18,10 +19,7 @@ public:
 	inline double GetLifetime(){ return m_lifetime; }
 	inline double GetExpireTime(){ return m_expire_time; }
 
-	//inline void SetExpireTime(double expireTime){ m_expire_time = expireTime; }//Maybe not able to set from here. Only in constructor.
-
 	virtual void Update();
-	//virtual void Render();
 
 	ParticleEntity() :
 		m_lifetime(0.0),
@@ -32,6 +30,10 @@ public:
 	~ParticleEntity(){}
 };
 
+//==================================================================//
+//Brief: A particle that moves to a set destination which then may  // 
+//		 be set to disappear or stay at target destination.			//
+//==================================================================//
 class Moving_ParticleEntity : public ParticleEntity
 {
 protected:
@@ -57,21 +59,37 @@ public:
 	~Moving_ParticleEntity(){}
 };
 
+//==================================================================//
+//Brief: A particle that moves to a set destination which then		//
+//		 changes animation that may be set to disappear or stay at  //
+//		 target destination.										//
+//==================================================================//
 class Exploding_ParticleEntity : public Moving_ParticleEntity
 {
 protected:
-	//TODO:
-	//Add animation to parent animator to do the other animation
-	bool m_at_destination;
+	string m_explosion_animation_name;
 	double m_lifetime_at_destination;
 	double m_expire_time_at_destination;
+	bool m_at_destination;
 
 public:
 	//Getters and Setters
 	virtual void Update();
+	inline void SetExplosionAnimation(string explosion_name){ m_explosion_animation_name = explosion_name; anim.AddAnimation(explosion_name); }
 
 	Exploding_ParticleEntity(){};
+	Exploding_ParticleEntity(double lifetime) : Moving_ParticleEntity(lifetime), 
+		m_at_destination(false), 
+		m_lifetime_at_destination(0.0), 
+		m_expire_time_at_destination(5.0){};
 	virtual ~Exploding_ParticleEntity(){};
 };
+
+namespace Create
+{
+	ParticleEntity* StaticParticle(string anim_sprite, Vector3 spawn_position, double lifetime = LIFETIME_INFINITE);
+	Moving_ParticleEntity* MovingParticle(string anim_traveling_sprite, Vector3 spawn_position, Vector3 target_destination, float speed = 1.f, double lifetime = LIFETIME_INFINITE);
+	Exploding_ParticleEntity* ExplodingParticle(string anim_traveling_sprite, string anim_explosion_sprite, Vector3 spawn_position, Vector3 target_destination, float speed = 1.f, double lifetime = LIFETIME_INFINITE);
+}
 
 #endif
