@@ -1,17 +1,29 @@
 #include "SkillFunctions.h"
+#include "Skill.cpp"
 
-void SkillFunctions::Heal(SkillParameters *skillparam)
+SkillContainer::SkillContainer()
 {
-	int healValue = 10;
-	skillparam->targetlist->at(0)->GetInfo()->HP += skillparam->caster->GetInfo()->stats.GetInt() * healValue;
-	std::cout << "Used Heal!" << std::endl;
-	std::cout << "Health healed: " << skillparam->caster->GetInfo()->stats.GetInt() * healValue << std::endl;
+	
 }
 
-void SkillFunctions::Overpower(SkillParameters *skillparam)
+SkillContainer::~SkillContainer()
 {
-	int attackValue = 2;
-	skillparam->targetlist->at(0)->GetInfo()->HP -= skillparam->caster->GetInfo()->stats.GetStr() * attackValue;
-	std::cout << "Used Overpower!" << std::endl;
-	std::cout << "Damage dealt: " << skillparam->caster->GetInfo()->stats.GetStr() * attackValue << std::endl;
+	SkillMap::iterator it = m_skill_container.begin();
+	while (it != m_skill_container.end())
+		it = m_skill_container.erase(it);
+}
+
+void SkillContainer::Init()
+{
+	Heal* heal = new Heal();
+	m_skill_container.insert(std::make_pair(heal->GetName(), heal));
+}
+
+Skill* SkillContainer::GetSkill(string name)
+{
+	SkillMap::iterator it = m_skill_container.find(name);
+	if (it != m_skill_container.end())
+		return (it)->second;
+	else
+		return nullptr;
 }

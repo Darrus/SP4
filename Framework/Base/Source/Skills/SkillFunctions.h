@@ -1,22 +1,29 @@
-#ifndef SKILL_FUNCTIONS_H
-#define SKILL_FUNCTIONS_H
+#ifndef SKILL_CONTAINER_H
+#define SKILL_CONTAINER_H
 
-#include "../Entity/BattleEntity.h"
+#include "Skill.h"
 #include <vector>
+#include <map>
+#include <SingletonTemplate.h>
 
 using std::vector;
+using std::map;
 
-struct SkillParameters
-{
-	BattleEntity *caster;
-	vector<BattleEntity*> *targetlist;
-};
+typedef map<string, Skill*> SkillMap;
 
-class SkillFunctions
+class SkillContainer : public Singleton<SkillContainer>
 {
+	friend Singleton<SkillContainer>;
+private:
+	SkillMap m_skill_container;
+
 public:
-	static void Heal(SkillParameters *skillparam);
-	static void Overpower(SkillParameters *skillparam);
+	SkillContainer();
+	~SkillContainer(); 
+
+	void Init();
+	Skill* GetSkill(string name);
+
 };
 
 

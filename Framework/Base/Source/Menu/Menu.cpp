@@ -62,7 +62,6 @@ bool Menu::checkForHover(Button* btn)
 
 void Shop_Menu::Update()
 {
-	std::cout << (m_buttonList.size() / m_num_item_per_page) << std::endl;
 	Menu::Update();
 	//Loops back to start or end when out of bounds
 	//Check if it's perfect pages

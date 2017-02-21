@@ -5,8 +5,6 @@
 #include "../Application.h"
 #include "../Items/Inventory.h"
 
-#include "../../Common/Source/MyMath.h"
-
 #include <iostream>
 #include <string>
 
@@ -167,7 +165,7 @@ public:
 };
 
 //============================================================================//
-//Brief: A button object that adds a copy of a set item into target inventory //
+//Brief: A button object that adds a copy of a set item into target inventory.//
 //============================================================================//
 class ShopItem_Button : public Button
 {
@@ -193,5 +191,19 @@ public:
 	};
 	~ShopItem_Button(){};
 };
+
+//============================================================================//
+//Brief: A button object that erases an Item object in the target stack and   //
+//		 then disappears.													  //
+//============================================================================//
+class ShopCart_Button
+{
+protected:
+
+public: 
+	ShopCart_Button(){};
+	~ShopCart_Button(){};
+};
+
 
 #endif

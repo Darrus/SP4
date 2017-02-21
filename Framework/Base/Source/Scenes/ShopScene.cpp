@@ -62,10 +62,6 @@ void ShopScene::Init()
 	float windowWidth = Application::GetInstance().GetWindowWidth();
 	float windowHeight = Application::GetInstance().GetWindowHeight();
 
-	IntroStateBackground = EntityFactory::GetInstance()->CreateSprite("INTROSTATE_BKGROUND", SpriteEntity::MODE_2D);
-	IntroStateBackground->SetPosition(Vector3(windowWidth * 0.5f, windowHeight * 0.5f, 0.f));
-	IntroStateBackground->SetScale(Vector3(windowWidth, windowHeight, 0.f));
-
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Character", 4, 9);
 	MeshBuilder::GetInstance()->GetMesh("Character")->textureID = LoadTGA("Image//character.tga");
 
@@ -179,15 +175,14 @@ void ShopScene::Init()
 
 		offset++;
 	}
+	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 0, 8, 1.f, LIFETIME_INFINITE));
+	AnimationsContainer::GetInstance()->AddAnimation("asd", new Animation("character", 0, 8, 1.f, LIFETIME_INFINITE));
 
-	particle = new ParticleEntity(LIFETIME_INFINITE);
-	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 0, 8, 1.f, -1));
-	particle->GetAnimator()->AddAnimation("walk");
-	particle->GetAnimator()->PlayAnimation("walk");
-	particle->SetScale(Vector3(50.f, 50.f, 1.f));
-	particle->SetPosition(Vector3(500, 500, 0));
-
-	EManager.AddEntity(particle);
+	//Test Particles
+	//particle = Create::MovingParticle("walk", Vector3(0, 600, 0), Vector3(1000, 600, 0), 500.f);
+	//particle = Create::ExplodingParticle("walk", "asd", Vector3(0, 0, 0), Vector3(500, 500, 0), 600.f);
+	//particle = Create::StaticParticle("walk", Vector3(500, 500, 0));
+	//EManager.AddEntity(particle);
 }
 void ShopScene::Update()
 {
@@ -261,7 +256,7 @@ void ShopScene::Render()
 	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(currentPage + 1), Color(0, 1, 0));
 	//RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("character"));
 	modelStack.PopMatrix();
-	//EManager.RenderUI();
+	EManager.RenderUI();
 
 }
 void ShopScene::Exit()
