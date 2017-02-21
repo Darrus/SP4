@@ -15,7 +15,7 @@ private:
 public:
     Enemy();
     ~Enemy();
-    void AddStats(StatSystem* stats);
+    void AddStats(StatSystem stats);
     
     void addSkills(Skill* skills);
 

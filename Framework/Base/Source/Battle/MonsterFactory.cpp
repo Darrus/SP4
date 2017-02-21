@@ -26,8 +26,10 @@ Enemy* MonsterFactory::CreateEnemy1(int id)
     newEnemy->GetInfo()->id = id;
     newEnemy->enemyType = BattleEntity::ENEMY;
     newEnemy->GetInfo()->stats.UpdateStats();
-    newEnemy->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.5f, 1.f));
+    newEnemy->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * (0.15f * id), 1.f));
     newEnemy->GetInfo()->HP = newEnemy->GetInfo()->stats.GetMaxHP();
+
+    newEnemy->AddStats(newEnemy->GetInfo()->stats);
 
     return newEnemy;
 }
@@ -47,7 +49,7 @@ Enemy* MonsterFactory::CreateEnemy2(int id)
     newEnemy->GetInfo()->id = id;
     newEnemy->enemyType = BattleEntity::ENEMY;
     newEnemy->GetInfo()->stats.UpdateStats();
-    newEnemy->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.5f, 1.f));
+    newEnemy->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * (0.15f * id), 1.f));
     newEnemy->GetInfo()->HP = newEnemy->GetInfo()->stats.GetMaxHP();
 
     return newEnemy;
@@ -68,7 +70,7 @@ Enemy* MonsterFactory::CreateEnemy3(int id)
     newEnemy->GetInfo()->id = id;
     newEnemy->enemyType = BattleEntity::ENEMY;
     newEnemy->GetInfo()->stats.UpdateStats();
-    newEnemy->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.5f, 1.f));
+    newEnemy->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * (0.15f * id), 1.f));
     newEnemy->GetInfo()->HP = newEnemy->GetInfo()->stats.GetMaxHP();
 
     return newEnemy;

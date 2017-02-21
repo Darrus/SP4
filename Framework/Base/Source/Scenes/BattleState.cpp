@@ -107,6 +107,10 @@ void CBattleState::Init()
 	int Level;
 	int statPoints;
     */
+    efactory = new MonsterFactory();
+    BattleEntity* wow = efactory->CreateEnemy1(3);
+    BattleEntity* wow2 = efactory->CreateEnemy3(4);
+
     testEntity = new BattleEntity();
     testEntity->GetInfo()->stats.AddVit(50);
     testEntity->GetInfo()->stats.AddStr(40);
@@ -139,11 +143,11 @@ void CBattleState::Init()
 
     testingBattle = new BattleSystem();
 
-    testingBattle->BattleList.push_back(testEntity);
-    testingBattle->BattleList.push_back(testEntity2);
+    testingBattle->BattleList.push_back(wow);
+    testingBattle->BattleList.push_back(wow2);
 
-    testingBattle->EnemyList.push_back(testEntity);
-    testingBattle->EnemyList.push_back(testEntity2);
+    testingBattle->EnemyList.push_back(wow);
+    testingBattle->EnemyList.push_back(wow2);
 
     //BattleList.push_back(testEntity);
     //BattleList.push_back(testEntity2);
@@ -153,7 +157,7 @@ void CBattleState::Init()
     party = new PartySystem();
 
     charahehe->stats.AddVit(50);
-    charahehe->stats.AddStr(100);
+    charahehe->stats.AddStr(999);
     charahehe->stats.AddInt(65);
     charahehe->stats.AddMind(50);
     charahehe->stats.AddDex(40);
@@ -167,7 +171,7 @@ void CBattleState::Init()
 
     charahehe = new CharacterInfo();
     charahehe->stats.AddVit(40);
-    charahehe->stats.AddStr(35);
+    charahehe->stats.AddStr(999);
     charahehe->stats.AddInt(70);
     charahehe->stats.AddMind(150);
     charahehe->stats.AddDex(30);
@@ -181,7 +185,7 @@ void CBattleState::Init()
 
     charahehe = new CharacterInfo();
     charahehe->stats.AddVit(86);
-    charahehe->stats.AddStr(45);
+    charahehe->stats.AddStr(999);
     charahehe->stats.AddInt(40);
     charahehe->stats.AddMind(30);
     charahehe->stats.AddDex(50);
