@@ -21,7 +21,7 @@ public:
     ~BattleLog();
 
     void Render();
-    bool Update(double dt = 0.033);
+    void Update();
     std::list<BattleLog*> battleloglist;
 
     enum ACTION

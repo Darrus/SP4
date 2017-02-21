@@ -1,7 +1,8 @@
 #include "PartySystem.h"
 #include "timer.h"
 
-PartySystem::PartySystem()
+PartySystem::PartySystem() : 
+currPartySize(0)
 {
 	for (int i = 0; i < maxPartySize; ++i)
 	{
@@ -46,4 +47,14 @@ CharacterInfo* PartySystem::RemoveMember(int id)
 			return result;
 		}
 	}
+}
+
+int PartySystem::memberCount()
+{
+    int count = 0;
+    for (int i = 0; i < maxPartySize; ++i)
+    {
+        count++;
+    }
+    return count;
 }
