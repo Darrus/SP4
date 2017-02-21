@@ -19,7 +19,6 @@ public:
 	virtual ~NPC();
 
 	virtual void Update();
-	virtual void Render();
 
 	void LoadDialogue(string name);
 };

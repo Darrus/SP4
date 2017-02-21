@@ -24,6 +24,7 @@ OverworldEntity::~OverworldEntity()
 
 void OverworldEntity::Update()
 {
+	Entity2D::Update();
 	float dt = StopWatch::GetInstance()->GetDeltaTime();
 	
 	position += velocity;
@@ -50,8 +51,14 @@ void OverworldEntity::Update()
 		velocity = velocity.Normalized() * moveSpeed * dt;
 
 	collider->SetOffset(velocity);
+}
 
-	Entity2D::Update();
+void OverworldEntity::Actions()
+{
+	if (KeyboardController::GetInstance()->IsKeyPressed('E'))
+	{
+
+	}
 }
 
 void OverworldEntity::HandleCollision(EntityBase* entity)

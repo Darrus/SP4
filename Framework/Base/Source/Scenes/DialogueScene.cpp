@@ -26,7 +26,10 @@ void DialogueScene::Init()
 {
 	SetInit(true);
 	MeshBuilder::GetInstance()->GenerateText("text", 16, 16)->textureID = LoadTGA("FontData//pixelFont.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("text_background", Color(1, 1, 1))->textureID = LoadTGA("Image//Buttons//button_background.tga");
+	
 	text = new TextEntity(MeshBuilder::GetInstance()->GetMesh("text"), dialogue[textPos], Color(1.f, 1.f, 1.f));
+	textBG = new SpriteEntity(MeshBuilder::GetInstance()->GetMesh("text_background"));
 }
 
 void DialogueScene::Update()

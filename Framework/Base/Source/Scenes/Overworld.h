@@ -34,7 +34,6 @@ public:
 
 private:
 	CameraFollow camera;
-	float lastRotX;
 	SpriteEntity* background;
 	OverworldEntity* player;
     CBattleState* battlestate;

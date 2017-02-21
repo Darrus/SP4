@@ -36,8 +36,3 @@ void NPC::Update()
 {
 	Entity2D::Update();
 }
-
-void NPC::Render()
-{
-
-}

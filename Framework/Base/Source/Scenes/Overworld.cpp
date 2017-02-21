@@ -20,7 +20,7 @@
 #include "MatrixStack.h"
 
 Overworld::Overworld() :
-battle(false), lastRotX(0.f)
+battle(false)
 {
 }
 
@@ -52,7 +52,7 @@ void Overworld::Init()
 	spatial.SetMesh("Grid");
 
 	// Camera Init
-	camera.Init(1.f, 0.5f);
+	camera.Init(80.f, 0.5f);
 	camera.SetFollowSpeed(0.3f);
 	camera.SetRotSpeed(200.f);
 	camera.SetDistSpeed(100.f);
@@ -122,8 +122,6 @@ void Overworld::Init()
 	asset->SetCollider(new CCollider_2DAABB());
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
-
-    //battlestate = new CBattleState();
 }
 
 void Overworld::Update()
@@ -137,24 +135,16 @@ void Overworld::Update()
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
 	{
-		battle = !battle;
+		camera.Transition(70.f, 0.f, 50.f);
+		battle = true;
 	}
 
-	if (battle)
+	if (battle && camera.GetState() == CameraFollow::IDLE)
 	{
-		camera.SetRotX(70.f);
-		camera.SetDist(50.f);
-        
-        if (camera.GetRotX() == 70.f)
-        {
-          player->SetRenderFlag(false);
-          camera.SetRotX(50.f);
-          SceneManager::GetInstance()->SetActiveScene("BattleScene", true);
-          battle = false;
-        }
+        player->SetRenderFlag(false);
+        SceneManager::GetInstance()->SetActiveScene("BattleScene", true);
+        battle = false;
 	}
-    else
-        player->SetRenderFlag(true);
 }
 
 void Overworld::Render()
