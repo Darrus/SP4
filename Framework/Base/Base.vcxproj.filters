@@ -124,6 +124,18 @@
     <ClCompile Include="Source\NPC\NPC.cpp">
       <Filter>NPC</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Battle\MonsterFactory.cpp">
+      <Filter>BattleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Battle\Enemy.cpp">
+      <Filter>BattleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Skills\Skill.cpp">
+      <Filter>Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Skills\SkillFunctions.cpp">
+      <Filter>Skills</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -251,6 +263,18 @@
     </ClInclude>
     <ClInclude Include="Source\NPC\NPC.h">
       <Filter>NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Battle\MonsterFactory.h">
+      <Filter>BattleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Battle\Enemy.h">
+      <Filter>BattleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Skills\Skill.h">
+      <Filter>Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Skills\SkillFunctions.h">
+      <Filter>Skills</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
