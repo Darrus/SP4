@@ -4,6 +4,7 @@
 
 #include "Scene.h"
 #include "../Entity/TextEntity.h"
+#include "../Entity/SpriteEntity.h"
 
 using std::vector;
 using std::string;
@@ -13,6 +14,8 @@ class DialogueScene : public Scene
 	vector<string> dialogue;
 	string targetScene;
 	TextEntity* text;
+	SpriteEntity* textBG;
+
 	int textPos;
 
 public:

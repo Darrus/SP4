@@ -121,9 +121,6 @@
     <ClCompile Include="Source\EnemyAI.cpp">
       <Filter>BattleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Source\NPC\NPC.cpp">
-      <Filter>NPC</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Battle\MonsterFactory.cpp">
       <Filter>BattleSystem</Filter>
     </ClCompile>
@@ -138,6 +135,9 @@
     </ClCompile>
     <ClCompile Include="Source\Scenes\DialogueScene.cpp">
       <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\NPC.cpp">
+      <Filter>Overworld</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -264,9 +264,6 @@
     <ClInclude Include="Source\EnemyAI.h">
       <Filter>BattleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Source\NPC\NPC.h">
-      <Filter>NPC</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Battle\MonsterFactory.h">
       <Filter>BattleSystem</Filter>
     </ClInclude>
@@ -281,6 +278,9 @@
     </ClInclude>
     <ClInclude Include="Source\Scenes\DialogueScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\NPC.h">
+      <Filter>Overworld</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -322,9 +322,6 @@
     </Filter>
     <Filter Include="SpatialPartition">
       <UniqueIdentifier>{a436bfdf-5f1b-45be-9db1-94d9976d0a66}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="NPC">
-      <UniqueIdentifier>{8042e24c-c67c-4b51-9c83-b7423eeee905}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
