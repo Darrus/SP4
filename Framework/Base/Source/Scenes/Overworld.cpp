@@ -140,6 +140,8 @@ void Overworld::Update()
 		battle = !battle;
 	}
 
+
+
 	if (battle)
 	{
 		camera.SetRotX(70.f);
@@ -148,7 +150,7 @@ void Overworld::Update()
         if (camera.GetRotX() == 70.f)
         {
           player->SetRenderFlag(false);
-          camera.SetRotX(50.f);
+          camera.SetRotX(70.f);
           SceneManager::GetInstance()->SetActiveScene("BattleScene", true);
           battle = false;
         }

@@ -4,6 +4,7 @@
 
 #include "KeyboardController.h"
 #include "SceneManager.h"
+#include "..\Battle\MonsterFactory.h"
 
 #include "RenderHelper.h"
 #include "MeshBuilder.h"
@@ -118,6 +119,8 @@ void BattleSystem::Update()
             std::cout << (*itr)->GetInfo()->name << " Launched an Attack!" << std::endl;
             BattleEntity* test = FindTarget(Math::RandIntMinMax(0, 2));
 
+            enemyAI->aggroLvl = EnemyAI::HIGH;
+
             if (test != nullptr)
                 enemyAI->DetermineAction((*itr), test);
         }
@@ -130,22 +133,8 @@ void BattleSystem::Update()
             (*itr)->Update(); ///< Updates the player ATB;
         else
             ChoosePlayerInput();
-
         if (CheckAnyAlive() == nullptr)
-        {
-            if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
-                SceneManager::GetInstance()->PreviousScene();
-            if (!addEXP)
-            {
-                for (int i = 0; i < (partypew->memberCount() - 1); i++)
-                {
-                    if ((*itr)->GetInfo()->id == i)
-                    {
-                        (*itr)->GetInfo()->stats;
-                    }
-                }
-            }
-        }
+            CheckBattleEnd((*itr));
     }
 
     if (whichScreen != CHOOSEPLAYER && whichScreen != CHOOSETARGET && whichScreen != CHOOSEDOWAT && whichScreen != CHOOSESKILL)
@@ -158,19 +147,96 @@ void BattleSystem::Update()
         {
             playerselect++;
         }
+
+        if (playerselect > 2)
+            playerselect = 0;
+        if (playerselect < 0)
+            playerselect = 2;
     }
 
-    // Need to change to non-hardcode
-    if (CheckAnyAlive() == nullptr)
-    {
 
-        //SceneManager::GetInstance()->PreviousScene();
+    if (commandselect < 0)
+        commandselect = 4;
+    if (commandselect >= 5)
+        commandselect = 0;
+
+    if (playerselect > 2)
+        playerselect = 0;
+    if (playerselect < 0)
+        playerselect = 2;
+
+    if (skillselect < 0)
+        skillselect = 4;
+    if (skillselect >= 5)
+        skillselect = 0;
+
+    if (attkselect > 4)
+        attkselect = 3;
+    if (attkselect < 3)
+        attkselect = 4;
+    //playerselect(0),
+    //    attkselect(),
+    //    commandselect(0),
+    //    skillselect(0),
+
+
+    //// Need to change to non-hardcode
+    ////if (CheckAnyAlive() == nullptr)
+    ////{
+
+    ////    SceneManager::GetInstance()->PreviousScene();
+    ////}
+}
+
+void BattleSystem::CheckBattleEnd(BattleEntity* entity)
+{
+    if (!addEXP)
+    {
+        for (int i = 0; i < (partypew->memberCount() - 1); i++)
+        {
+            /*if (entity->GetInfo()->id == i)
+            {
+                entity->GetInfo()->EXP += 9999;
+                entity->GetInfo()->stats.UpdateStats();
+            }*/
+            for (auto itritr = PlayerInfoList.begin(); itritr != PlayerInfoList.end(); itritr++)
+            {
+                (*itritr)->EXP += 999;
+                (*itritr)->stats.UpdateStats();
+            }
+            //addEXP = true;
+        }
+    }
+    if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
+    {
+        for (auto pewpew = EnemyList.begin(); pewpew != EnemyList.end(); pewpew++)
+            delete (*pewpew);
+        EnemyList.clear();
+        //for (auto pewpew = BattleList.begin(); pewpew != BattleList.end(); pewpew++)
+        //    delete (*pewpew);
+        //BattleList.clear();
+
+        SceneManager::GetInstance()->PreviousScene();
+        //SceneManager::GetInstance()->Exit();
+
+        //if (CheckAnyAlive() == nullptr)
+        //{
+        //    MonsterFactory* efactory = new MonsterFactory();
+        //    BattleEntity* wow = efactory->CreateRandomEnemy(3);
+        //    BattleEntity* wow2 = efactory->CreateRandomEnemy(4);
+
+        //   //BattleList.push_back(wow);
+        //   //BattleList.push_back(wow2);
+
+        //    EnemyList.push_back(wow);
+        //    EnemyList.push_back(wow2);
+        //}
     }
 }
 
 void BattleSystem::ChoosePlayerInput()
 {
-    if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE) && FindTarget(playerselect)->GetReady() && !anEntityTurn)
+    if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE) && FindTarget(playerselect)->GetReady() && !anEntityTurn && whichScreen == NOTHING && !FindTarget(playerselect)->GetDead())
     {
         whichScreen = CHOOSEPLAYER;
     }
@@ -245,7 +311,7 @@ BattleEntity* BattleSystem::FindTarget(int selection)
 {
     for (std::list<BattleEntity*>::iterator itr = PlayerList.begin(); itr != PlayerList.end(); itr++)
     {
-        if ((*itr)->GetHP() > 0 && (*itr)->GetInfo()->id == selection)
+        if ((*itr)->GetInfo()->id == selection)
         {
             return (*itr);
         }
@@ -262,7 +328,7 @@ Passes in the entity that gets the turn
 *****************************************/
 void BattleSystem::EntityTurn(BattleEntity* entity)
 {
-    if (entity->GetAttkTurnPt() > 0 && !isPassTurn)
+    if (entity->GetAttkTurnPt() > 0 && !isPassTurn & CheckAnyAlive() != nullptr)
     {
         whichScreen = CHOOSEDOWAT;
     }
@@ -320,6 +386,7 @@ void BattleSystem::Attack(BattleEntity* entity, BattleEntity* targetEntity)
 
         if (targetEntity->GetHP() <= 0)
         {
+            targetEntity->GetInfo()->HP = 0;
             std::cout << targEntity->name << " Elimited!" << std::endl;
             battleEnded = true;
         }
@@ -471,17 +538,20 @@ void BattleSystem::RenderUIStuff()
     float windowWidth = Application::GetInstance().GetWindowWidth();
     float windowHeight = Application::GetInstance().GetWindowHeight();
 
-    if (playerselect == 0)
+    if (whichScreen == NOTHING)
     {
-        Arrow->SetPosition(Vector3(windowWidth * 0.8f, windowHeight * 0.25f, 10.f));
-    }
-    if (playerselect == 1)
-    {
-        Arrow->SetPosition(Vector3(windowWidth * 0.8f, windowHeight * 0.4f, 10.f));
-    }
-    if (playerselect == 2)
-    {
-        Arrow->SetPosition(Vector3(windowWidth * 0.8f, windowHeight * 0.55f, 10.f));
+        if (playerselect == 0)
+        {
+            Arrow->SetPosition(Vector3(windowWidth * 0.8f, windowHeight * 0.25f, 10.f));
+        }
+        if (playerselect == 1)
+        {
+            Arrow->SetPosition(Vector3(windowWidth * 0.8f, windowHeight * 0.4f, 10.f));
+        }
+        if (playerselect == 2)
+        {
+            Arrow->SetPosition(Vector3(windowWidth * 0.8f, windowHeight * 0.55f, 10.f));
+        }
     }
     if (whichScreen == CHOOSETARGET)
     {
@@ -623,15 +693,15 @@ void BattleSystem::ShowBattleResults()
     modelStack.PopMatrix();
     
     int expgain = 9999;
-    for (std::list<BattleEntity*>::iterator it = PlayerList.begin(); it != PlayerList.end(); it++)
+    for (auto it = PlayerInfoList.begin(); it != PlayerInfoList.end(); it++)
     {
         for (int i = 0; i < (partypew->memberCount() - 1); ++i)
         {
             modelStack.PushMatrix();
             modelStack.Translate(windowWidth * 0.2, windowHeight * (0.8f + (i * -0.05)), 9.f);
             modelStack.Scale(20.f, 20.f, 1.f);
-            if ((*it)->GetInfo()->id == i)
-                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*it)->GetInfo()->name + " has Earned: " + std::to_string(expgain) + " Experience Pts!" , Color(0, 1, 0));
+            if ((*it)->id == i)
+                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*it)->name + " has Earned: " + std::to_string(expgain) + " Experience Pts!  Lvl: " + std::to_string((*it)->stats.Getlevel()) , Color(0, 1, 0));
             modelStack.PopMatrix();
         }
     }
@@ -656,6 +726,8 @@ void BattleSystem::AssignPlayerParty(PartySystem* party)
     for (int i = 0; i < (party->memberCount() - 1); i++)
     {
         CharacterInfo* pew = party->GetMember(i);
+        playerInfo = party->GetMember(i);
+        PlayerInfoList.push_back(playerInfo);
         pew->stats.UpdateStats();
         pewpewpew = new BattleEntity();
         pewpewpew->enemyType = BattleEntity::ALLY;
@@ -685,7 +757,7 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
     }
     if (screen == CHOOSETARGET)
     {
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
+        if (KeyboardController::GetInstance()->IsKeyReleased(VK_SPACE))
         {
             if (!ChooseAtkTarget(attkselect)->GetDead())
                 Attack(entity, ChooseAtkTarget(attkselect));
@@ -693,16 +765,17 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
                 std::cout << "Target is ded" << std::endl;
         }
 
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_DOWN))
+        if (KeyboardController::GetInstance()->IsKeyReleased(VK_DOWN))
         {
             attkselect--;
         }
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_UP))
+        if (KeyboardController::GetInstance()->IsKeyReleased(VK_UP))
         {
             attkselect++;
         }
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
+        if (KeyboardController::GetInstance()->IsKeyReleased(VK_ESCAPE))
         {
+            //anEntityTurn = false;
             whichScreen = CHOOSEDOWAT;
         }
 
@@ -711,6 +784,33 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
         if (attkselect < 3)
             attkselect = 4;
     }
+    if (screen == CHOOSESKILL)
+    {
+        if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
+        {
+            //skills->UseSkill();
+            SkillParameters foo;
+            foo.caster = new CharacterInfo();
+            //foo.caster = entity->GetInfo();
+        }
+
+        if (KeyboardController::GetInstance()->IsKeyPressed(VK_DOWN))
+            skillselect--;
+        if (KeyboardController::GetInstance()->IsKeyPressed(VK_UP))
+            skillselect++;
+
+        if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
+        {
+            anEntityTurn = false;
+            whichScreen = NOTHING;
+        }
+
+        if (skillselect < 0)
+            skillselect = 4;
+        if (skillselect >= 5)
+            skillselect = 0;
+    }
+
     if (screen == CHOOSEDOWAT)
     {
         std::cout << "test" << std::endl;
@@ -738,41 +838,9 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
 
         if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
         {
+            anEntityTurn = false;
             whichScreen = NOTHING;
         }
-
-        if (commandselect < 0)
-            commandselect = 4;
-        if (commandselect >= 5)
-            commandselect = 0;
-    }
-    if (screen == CHOOSESKILL)
-    {
-        skillselect;
-
-        std::cout << "skill test" << std::endl;
-
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
-        {
-            //skills->UseSkill();
-            SkillParameters foo;
-            //foo.castwer(entity);
-        }
-
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_DOWN))
-            skillselect--;
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_UP))
-            skillselect++;
-
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
-        {
-            whichScreen = CHOOSEDOWAT;
-        }
-
-        if (skillselect < 0)
-            skillselect = 4;
-        if (skillselect >= 5)
-            skillselect = 0;
     }
 }
 
