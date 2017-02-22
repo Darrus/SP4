@@ -73,12 +73,6 @@
     <ClCompile Include="Source\Scenes\BattleState.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Overworld\OverworldAsset.cpp">
-      <Filter>Overworld</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Scenes\Overworld.cpp">
-      <Filter>Overworld</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Camera.cpp">
       <Filter>Main</Filter>
     </ClCompile>
@@ -91,17 +85,11 @@
     <ClCompile Include="Source\Scenes\ShopScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Overworld\OverworldEntity.cpp">
-      <Filter>Overworld</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Overworld\CameraFollow.cpp">
       <Filter>Overworld</Filter>
     </ClCompile>
     <ClCompile Include="Source\Battle\BattleSystem.cpp">
       <Filter>BattleSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Overworld\TriggerArea.cpp">
-      <Filter>Overworld</Filter>
     </ClCompile>
     <ClCompile Include="Source\Entity\ParticleEntity.cpp">
       <Filter>Entity</Filter>
@@ -136,8 +124,23 @@
     <ClCompile Include="Source\Scenes\DialogueScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Overworld\OverworldAsset.cpp">
+      <Filter>Overworld\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\OverworldEntity.cpp">
+      <Filter>Overworld\Entity</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Overworld\NPC.cpp">
-      <Filter>Overworld</Filter>
+      <Filter>Overworld\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\TriggerArea.cpp">
+      <Filter>Overworld\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\Overworld.cpp">
+      <Filter>Overworld\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\OverworldPlayer.cpp">
+      <Filter>Overworld\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -216,12 +219,6 @@
     <ClInclude Include="Source\Scenes\BattleState.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Overworld\OverworldAsset.h">
-      <Filter>Overworld</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scenes\Overworld.h">
-      <Filter>Overworld</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Camera.h">
       <Filter>Main</Filter>
     </ClInclude>
@@ -234,17 +231,11 @@
     <ClInclude Include="Source\Scenes\ShopScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Overworld\OverworldEntity.h">
-      <Filter>Overworld</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Overworld\CameraFollow.h">
       <Filter>Overworld</Filter>
     </ClInclude>
     <ClInclude Include="Source\Battle\BattleSystem.h">
       <Filter>BattleSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Overworld\TriggerArea.h">
-      <Filter>Overworld</Filter>
     </ClInclude>
     <ClInclude Include="Source\Entity\ParticleEntity.h">
       <Filter>Entity</Filter>
@@ -279,8 +270,23 @@
     <ClInclude Include="Source\Scenes\DialogueScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Overworld\OverworldEntity.h">
+      <Filter>Overworld\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\OverworldAsset.h">
+      <Filter>Overworld\Entity</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Overworld\NPC.h">
-      <Filter>Overworld</Filter>
+      <Filter>Overworld\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\TriggerArea.h">
+      <Filter>Overworld\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\Overworld.h">
+      <Filter>Overworld\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\OverworldPlayer.h">
+      <Filter>Overworld\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -322,6 +328,12 @@
     </Filter>
     <Filter Include="SpatialPartition">
       <UniqueIdentifier>{a436bfdf-5f1b-45be-9db1-94d9976d0a66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Overworld\Entity">
+      <UniqueIdentifier>{fb1e59fd-b906-4dc8-8b49-ce3542753a56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Overworld\World">
+      <UniqueIdentifier>{3b98fd1f-0fa6-4d6e-b99f-2118229b829d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
