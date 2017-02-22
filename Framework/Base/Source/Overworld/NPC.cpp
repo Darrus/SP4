@@ -6,7 +6,11 @@
 #include "MeshBuilder.h"
 #include "RenderHelper.h"
 
-NPC::NPC() : speechPointer(0)
+// Scenes
+#include "../Scenes/DialogueScene.h"
+#include "SceneManager.h"
+
+NPC::NPC()
 {
 
 }
@@ -34,5 +38,18 @@ void NPC::LoadDialogue(string name)
 
 void NPC::Update()
 {
-	Entity2D::Update();
+	OverworldEntity::Update();
+}
+
+void NPC::HandleCollision(EntityBase* entity)
+{
+	if (entity)
+		return;
+
+	DialogueScene* scene = dynamic_cast<DialogueScene*>(SceneManager::GetInstance()->SetActiveScene("Dialogue", true));
+	if (scene)
+	{
+		scene->SetDialogue(dialogue);
+		scene->SetTargetScene(targetScene);
+	}
 }

@@ -17,6 +17,9 @@ public:
 	void Render();
 	void RenderUI();
 
+	void CalculateFrustrum();
+	bool WithinFustrum(EntityBase* entity);
+
 	void AddEntity(EntityBase* _newEntity, bool bAddToSpatialPartition = false);
 	bool RemoveEntity(EntityBase* _existingEntity);
 	bool MarkForDeletion(EntityBase* _existingEntity);
@@ -25,8 +28,11 @@ public:
 
 	inline void ShowCollider(const bool& show){ showCollider = show; }
 
+
 private:
 	std::list<EntityBase*> entityList;
+	Vector3 frustrum[6];
+	float d[6];
 	bool showCollider;
 };
 

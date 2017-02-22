@@ -4,8 +4,6 @@
 
 class OverworldAsset : public AssetEntity
 {
-	float rotX;
-	float rotZ;
 	CameraFollow* camera;
 
 public:

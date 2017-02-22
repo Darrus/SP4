@@ -6,26 +6,17 @@
 
 class OverworldEntity : public Entity2D
 {
-	float moveSpeed;
+protected:
 	CameraFollow* camera;
-	Vector3 front, right;
-	Vector3 velocity;
 
 public:
 	OverworldEntity();
 	~OverworldEntity();
 
 	virtual void Update();
-	virtual void HandleCollision(EntityBase* entity);
 	virtual void Render();
 
-	void Actions();
-
-	inline void AttachCamera(CameraFollow* camera) { 
-		this->camera = camera;
-		this->camera->SetCameraPos(position + Vector3(0.f, 0.f, 1.f));
-		this->camera->SetCameraTarget(position);
-	}
+	inline void AttachCamera(CameraFollow* camera) { this->camera = camera; }
 	inline void DeattachCamera() { this->camera = nullptr; }
 };
 

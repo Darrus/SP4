@@ -5,9 +5,7 @@
 #include "RenderHelper.h"
 
 OverworldAsset::OverworldAsset(const string& meshName) :
-camera(nullptr), AssetEntity(meshName),
-rotX(0.f),
-rotZ(0.f)
+camera(nullptr), AssetEntity(meshName)
 {
 
 }
@@ -19,8 +17,7 @@ OverworldAsset::~OverworldAsset()
 
 void OverworldAsset::Update()
 {
-	rotX = camera->GetRotX();
-	rotZ = camera->GetRotZ();
+
 }
 
 void OverworldAsset::Render()
@@ -28,9 +25,9 @@ void OverworldAsset::Render()
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
 	modelStack.Translate(position.x, position.y, position.z);
-	modelStack.Rotate(rotZ, 0.f, 0.f, 1.f);
+	modelStack.Rotate(camera->GetRotZ(), 0.f, 0.f, 1.f);
 	modelStack.Translate(0.f, -scale.y * 0.5f, 0.f);
-	modelStack.Rotate(rotX, 1.f, 0.f, 0.f);
+	modelStack.Rotate(camera->GetRotX(), 1.f, 0.f, 0.f);
 	modelStack.Translate(0.f, scale.y * 0.5f, 0.f);
 	modelStack.Scale(scale.x, scale.y, scale.z);
 	RenderHelper::RenderMesh(mesh);

@@ -2,25 +2,28 @@
 #define NPC_H
 
 #include <vector>
-#include "../Entity/Entity2D.h"
+#include "OverworldEntity.h"
 
 using std::vector;
 
 class Mesh;
 
-class NPC : public Entity2D
+class NPC : public OverworldEntity
 {
 private:
 	vector<string> dialogue;
-	int speechPointer;
+	string targetScene;
 
 public:
 	NPC();
 	virtual ~NPC();
 
 	virtual void Update();
+	virtual void HandleCollision(EntityBase* entity);
 
 	void LoadDialogue(string name);
+
+	inline void SetTargetScene(const string& scene){ targetScene = scene; }
 };
 
 #endif

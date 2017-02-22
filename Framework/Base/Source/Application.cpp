@@ -25,7 +25,8 @@
 #include "Scenes\IntroState.h"
 #include "Scenes\SkillTreeScene.h"
 #include "Scenes\BattleState.h"
-#include "Scenes\Overworld.h"
+#include "Overworld\Overworld.h"
+#include "Scenes\DialogueScene.h"
 #include "Scenes\ShopScene.h"
 
 GLFWwindow* m_window;
@@ -138,7 +139,8 @@ void Application::Init()
     SceneManager::GetInstance()->AddScene("BattleScene", new CBattleState());
 	SceneManager::GetInstance()->AddScene("Shop", new ShopScene());
 	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
-	
+	SceneManager::GetInstance()->AddScene("Dialogue", new DialogueScene());
+
 	//Set the active scene
 	SceneManager::GetInstance()->SetActiveScene("Overworld");
 
