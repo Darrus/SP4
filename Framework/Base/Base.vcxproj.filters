@@ -288,6 +288,9 @@
     <ClInclude Include="Source\Overworld\OverworldPlayer.h">
       <Filter>Overworld\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Menu\GUIObject.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animation">

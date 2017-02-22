@@ -88,6 +88,7 @@
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\Lua\LuaInterface.h" />
     <ClInclude Include="Source\Menu\Button.h" />
+    <ClInclude Include="Source\Menu\GUIObject.h" />
     <ClInclude Include="Source\Menu\Menu.h" />
     <ClInclude Include="Source\OBJMesh.h" />
     <ClInclude Include="Source\Overworld\CameraFollow.h" />
