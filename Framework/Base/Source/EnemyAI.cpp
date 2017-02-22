@@ -88,6 +88,8 @@ void EnemyAI::LowAggression(BattleEntity* entityAI, BattleEntity* player)
     StatSystem AIStats = entityAI->GetInfo()->stats;
     StatSystem playerStats = player->GetInfo()->stats;
 
+
+
 }
 void EnemyAI::NeutralAggression(BattleEntity* entityAI, BattleEntity* player)
 {

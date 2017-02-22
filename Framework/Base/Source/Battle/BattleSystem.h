@@ -65,6 +65,7 @@ public:
 
     ///< Show Battle Results
     void ShowBattleResults();
+    void DefeatGameOver();
 
     ///< Battle End Check
     void CheckBattleEnd(BattleEntity* entity);
