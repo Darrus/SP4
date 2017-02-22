@@ -2,8 +2,9 @@
 #define BUTTON_H
 
 #include "Mesh.h"
-#include "../Application.h"
+#include "GUIObject.h"
 #include "../Items/Inventory.h"
+#include "../../Common/Source/SceneManager.h"
 
 #include <iostream>
 #include <string>
@@ -21,73 +22,24 @@ enum BUTTON_MESH
 //===============================================================//
 //Brief: A button object that does something on Press			 //
 //===============================================================//
-class Button
+class Button : public GUIObject
 {
 protected:
-	//Position and scale of button in world space
-	float m_pos_x, m_pos_y;
-	float m_scale_x, m_scale_y;
-	
-	//Position and scale of button in screen space
-	float m_screen_pos_x, m_screen_pos_y;
-	float m_screen_scale_x, m_screen_scale_y;
-
 	//Holds the image and highlighted image
 	Mesh* m_meshList[NUM_IMAGES];
-
-	//Holds the text to render with the image
-	string m_text;
-	float m_text_offset_x, m_text_offset_y;
-	float m_text_scale_x, m_text_scale_y;
-
-	//boolean to set if the button is active
-	bool m_isActive;
 
 	//boolean to set if the button is clickable
 	bool m_isClickable;
 
 public:
-
 	//To determine which mesh is rendered
 	bool m_isHovered;
-
-	//Getters and Setters
-	inline float GetPositionX() { return m_pos_x; }
-	inline float GetPositionY() { return m_pos_y; }
-	inline float GetScaleX() { return m_scale_x; }
-	inline float GetScaleY() { return m_scale_y; }
-
-	inline float GetScreenPositionX() { return m_screen_pos_x; }
-	inline float GetScreenPositionY() { return m_screen_pos_y; }
-	inline float GetScreenScaleX() { return m_screen_scale_x; }
-	inline float GetScreenScaleY() { return m_screen_scale_y; }
-
-	inline bool GetIsActive(){ return m_isActive; }
+	
 	inline bool GetIsClickable(){ return m_isClickable; }
 
-	inline void SetPosition(float x, float y) 
-	{
-		m_pos_x = x;
-		m_pos_y = y; 
-	
-		m_screen_pos_x = m_pos_x / Application::GetInstance().GetWindowWidth();
-		m_screen_pos_y = m_pos_y / Application::GetInstance().GetWindowHeight();
-	}
-	inline void SetScale(float x, float y) 
-	{ 
-		m_scale_x = x; 
-		m_scale_y = y; 
-	
-		m_screen_scale_x = m_scale_x / Application::GetInstance().GetWindowWidth();
-		m_screen_scale_y = m_scale_y / Application::GetInstance().GetWindowHeight();
-	}
-	inline void SetTextOffset(float text_x, float text_y){ m_text_offset_x = text_x; m_text_offset_y = text_y; };
-	inline void SetTextScale(float text_x, float text_y){ m_text_scale_x = text_x; m_text_scale_y= text_y; };
+	inline void SetClickable(bool clickable) { m_isClickable = clickable; }
 	inline void SetImage(Mesh* image) { m_meshList[NORMAL_IMAGE] = image; }
 	inline void SetHighlightedImage(Mesh* image) { m_meshList[HIGHLIGHTED_IMAGE] = image; }
-	inline void SetText(string text) { m_text = text; }
-	inline void SetActive(bool active){ m_isActive = active; }
-	inline void SetClickable(bool clickable) { m_isClickable = clickable; }
 
 	//Virtual function that runs specified button functionality
 	inline virtual void RunFunction() = 0;
@@ -154,14 +106,55 @@ protected:
 
 public:
 	//Setters
-	inline void SetNumber(int &to_increase){ m_toIncrease = &to_increase; }
+	inline void SetTargetValue(int &to_increase){ m_toIncrease = &to_increase; }
 	inline void SetIncrementAmount(int value){ m_increment = value; }
 
 	//Virtual function from button class that runs specified button functionality
 	inline void RunFunction(){ *m_toIncrease += m_increment; }
 
-	Increment_Button() : m_toIncrease(nullptr), m_increment(19){};
+	Increment_Button() : m_toIncrease(nullptr), m_increment(1){};
 	~Increment_Button(){};
+};
+
+//============================================================================//
+//Brief: A button object that adds a copy of a set item into target inventory.//
+//============================================================================//
+
+class ChangeScene_Button : public Button
+{
+protected:
+	string m_desired_scene;
+
+public:
+	//Getters and Setters
+	inline void SetDesiredScene(string value){ m_desired_scene = value; }
+
+	inline void RunFunction(){ SceneManager::GetInstance()->SetActiveScene(m_desired_scene); }
+
+	ChangeScene_Button(){}
+	~ChangeScene_Button(){}
+};
+
+//===============================================================================//
+//Brief: A button object that changes the value of the target to a desired value.//
+//===============================================================================//
+
+class ChangeValue_Button : public Button
+{
+protected:
+	//Pointer that points to the address of the value to increment
+	int *m_set_value;
+	//Amount to increament 
+	int m_target_value;
+
+public:
+	//Getters and Setters
+	inline void SetTargetValue(int &set_value){ m_set_value = &set_value; }
+
+	inline void RunFunction(){ *m_set_value = m_target_value; }
+
+	ChangeValue_Button(){}
+	~ChangeValue_Button(){}
 };
 
 //============================================================================//

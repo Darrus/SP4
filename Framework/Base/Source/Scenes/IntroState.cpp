@@ -110,30 +110,30 @@ void CIntroState::Init()
 	littleFucker->SetPosition(Vector3(windowWidth * 0.5f, windowHeight * 0.5f, 1.f));
 	EManager.AddEntity(littleFucker);*/
 
-	//Initialise inventory
-	inventory = new Inventory();
+	////Initialise inventory
+	//inventory = new Inventory();
 
-	//Some random potions
-	inventory->AddItem(new HealthPotion());
-	inventory->AddItem(new HealthPotion());
-	inventory->AddItem(new HealthPotion());
-	inventory->AddItem(new MaxHealthPotion());
+	////Some random potions
+	//inventory->AddItem(new HealthPotion());
+	//inventory->AddItem(new HealthPotion());
+	//inventory->AddItem(new HealthPotion());
+	//inventory->AddItem(new MaxHealthPotion());
 
-	//A special item
-	HealthPotion* specialPotion = new HealthPotion();
-	specialPotion->SetName("LingLongDingDong");
-	inventory->AddItem(specialPotion);
+	////A special item
+	//HealthPotion* specialPotion = new HealthPotion();
+	//specialPotion->SetName("LingLongDingDong");
+	//inventory->AddItem(specialPotion);
 
-	Equipment *swordy = new Equipment(TYPE_WEAPON, 10, 0, 0, 0);
-	swordy->SetName("Sword of Niggers");
-	swordy->SetDescription("This sword is going to steal shit topkeku.");
-	inventory->AddItem(swordy);
+	//Equipment *swordy = new Equipment(TYPE_WEAPON, 10, 0, 0, 0);
+	//swordy->SetName("Sword of Niggers");
+	//swordy->SetDescription("This sword is going to steal shit topkeku.");
+	//inventory->AddItem(swordy);
 
-	inventory->PrintInventory();
+	//inventory->PrintInventory();
 
-	std::cout << inventory->UseItem(5, new CharacterInfo()) << std::endl;
+	//std::cout << inventory->UseItem(5, new CharacterInfo()) << std::endl;
 
-	inventory->PrintInventory();
+	//inventory->PrintInventory();
 
 
 	/*CharacterInfo* chara = new CharacterInfo();

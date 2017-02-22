@@ -28,24 +28,24 @@ public:
 	virtual void Update();
 	virtual void Render();
 	virtual void Exit();
-	Shop_Menu* itemtabs;
-	Menu* utilitybuttons;
+
 
 private:
 	FPSCamera camera;
 	Entity2D entity;
 
+	//Inventory
 	Inventory* shop_inventory;
 	Inventory* cart_inventory;
 	Inventory* player_inventory;
 
+	//Utility buttons
 	bool acceptpurchase;
 	void SendToPlayerInventory();
-
-	bool buyingTab;
 	int currentPage = 0;
-
+	
+	//Menus
+	Shop_Menu* shop_menu;
+	Menu* utilitybuttons;
 	Cart_Menu* cart_menu;
-
-	ParticleEntity* particle;
 };
