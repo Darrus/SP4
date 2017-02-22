@@ -23,7 +23,7 @@ public:
 	SkillList skills;
 
 	// Entity EXP
-	int EXP;
+	int EXP = 0;
 
 	inline int CheckLevelUp()
 	{

@@ -71,7 +71,18 @@ Enemy* MonsterFactory::CreateEnemy3(int id)
     newEnemy->enemyType = BattleEntity::ENEMY;
     newEnemy->GetInfo()->stats.UpdateStats();
     newEnemy->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * (0.15f * id), 1.f));
-    newEnemy->GetInfo()->HP = newEnemy->GetInfo()->stats.GetMaxHP();
+    newEnemy->GetInfo()->HP = newEnemy->GetInfo()->stats.GetMaxHP() * 0.2;
 
     return newEnemy;
+}
+
+Enemy* MonsterFactory::CreateRandomEnemy(int id)
+{
+    int randChoice = Math::RandIntMinMax(1, 3);
+    if (randChoice == 1)
+        return CreateEnemy1(id);
+    if (randChoice == 2)
+        return CreateEnemy2(id);
+    if (randChoice == 3)
+        return CreateEnemy3(id);
 }

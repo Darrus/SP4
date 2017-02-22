@@ -15,50 +15,101 @@ EnemyAI::~EnemyAI()
 
 void EnemyAI::DetermineAction(BattleEntity* entityAI, BattleEntity* player)
 {
+    entityAI->AddAttkTurnPt(1);
+
+    switch (aggroLvl)
+    {
+    case HIGH:
+        HighAggression(entityAI, player);
+        break;
+    case MODERATE:
+        ModerateAggression(entityAI, player);
+        break;
+    case LOW:
+        LowAggression(entityAI, player);
+        break;
+    case NEUTRAL:
+        NeutralAggression(entityAI, player);
+        break;
+    default:
+        break;
+    }
+}
+
+void EnemyAI::HighAggression(BattleEntity* entityAI, BattleEntity* player)
+{
     StatSystem AIStats = entityAI->GetInfo()->stats;
     StatSystem playerStats = player->GetInfo()->stats;
 
-    entityAI->AddAttkTurnPt(1);
-
-    if (aggroLvl == HIGH)
+    if ((AIStats.GetRechargeRate() * 0.5) >= playerStats.GetRechargeRate())
     {
-        if ((AIStats.GetRechargeRate() * 0.5) >= playerStats.GetRechargeRate())
-        {
-            if (entityAI->GetAttkTurnPt() < 2)
-                Defend(entityAI);
-            else
-                AttackPlayer(entityAI, player);
-        }
-        if (CheckDamage(entityAI->GetDamage(), playerStats.GetDefence()) > 0)
-        {
-            while (entityAI->GetAttkTurnPt() > 0)
-                AttackPlayer(entityAI, player);
-        }
+        if (entityAI->GetAttkTurnPt() < 2)
+            Defend(entityAI);
+        else
+            AttackPlayer(entityAI, player);
+    }
+    if (CheckDamage(entityAI->GetDamage(), playerStats.GetDefence()) > 0)
+    {
+        while (entityAI->GetAttkTurnPt() > 0)
+            AttackPlayer(entityAI, player);
+    }
+    else
+    {
+        //use skill
+        Defend(entityAI);
+    }
+}
+void EnemyAI::ModerateAggression(BattleEntity* entityAI, BattleEntity* player)
+{
+    StatSystem AIStats = entityAI->GetInfo()->stats;
+    StatSystem playerStats = player->GetInfo()->stats;
+
+    if ((AIStats.GetRechargeRate() * 0.5) >= playerStats.GetRechargeRate())
+    {
+        if (entityAI->GetAttkTurnPt() < 2)
+            Defend(entityAI);
+        else
+            AttackPlayer(entityAI, player);
+    }
+    if (CheckDamage(entityAI->GetDamage(), playerStats.GetDefence()) > 0)
+    {
+        while (entityAI->GetAttkTurnPt() > 0)
+            AttackPlayer(entityAI, player);
+    }
+    else
+    {
+        //use skill
+        Defend(entityAI);
+    }
+
+}
+void EnemyAI::LowAggression(BattleEntity* entityAI, BattleEntity* player)
+{
+    StatSystem AIStats = entityAI->GetInfo()->stats;
+    StatSystem playerStats = player->GetInfo()->stats;
+
+}
+void EnemyAI::NeutralAggression(BattleEntity* entityAI, BattleEntity* player)
+{
+    StatSystem AIStats = entityAI->GetInfo()->stats;
+    StatSystem playerStats = player->GetInfo()->stats;
+
+    if (entityAI->GetHP() <= (AIStats.GetMaxHP() * 0.5))
+    {
+        if (entityAI->GetDefending() < 1.5)
+            Defend(entityAI);
         else
         {
-            //use skill
-            Defend(entityAI);
-        }
-    }
-    else if (aggroLvl == NEUTRAL)
-    {
-        if (entityAI->GetHP() <= (AIStats.GetMaxHP() * 0.5))
-        {
-            if (entityAI->GetDefending() < 1.5)
-                Defend(entityAI);
-            else
+            if (CheckDamage(entityAI->GetDamage(), playerStats.GetDefence()) > 0)
             {
-                if (CheckDamage(entityAI->GetDamage(), playerStats.GetDefence()) > 0)
-                {
-                    while (entityAI->GetAttkTurnPt() > 0)
-                        AttackPlayer(entityAI, player);
-                }
+                while (entityAI->GetAttkTurnPt() > 0)
+                    AttackPlayer(entityAI, player);
             }
         }
-        else
-        {
-            AttackPlayer(entityAI, player);
-        }
+    }
+    else
+    {
+        AttackPlayer(entityAI, player);
     }
 }
 
@@ -106,7 +157,8 @@ void EnemyAI::AttackPlayer(BattleEntity* entityAI, BattleEntity* targetPlayer)
 
         if (targetPlayer->GetHP() <= 0)
         {
-            std::cout << targEntity->name << " Elimited!" << std::endl;
+            targetPlayer->GetInfo()->HP = 0;
+            std::cout << targEntity->name << " Eliminated!" << std::endl;
         }
 
         entityAI->SetDefending(1);

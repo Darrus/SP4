@@ -36,6 +36,11 @@ public:
     void CheckDodge(float dodge);
     int CheckDamage(int dmg, int def);
 
+    void HighAggression(BattleEntity* entityAI, BattleEntity* player);
+    void ModerateAggression(BattleEntity* entityAI, BattleEntity* player);
+    void LowAggression(BattleEntity* entityAI, BattleEntity* player);
+    void NeutralAggression(BattleEntity* entityAI, BattleEntity* player);
+
     ///< BattleLog
     BattleLog* battlelog;
 };
