@@ -25,6 +25,7 @@ CBattleState::CBattleState() :
 encounter(false)
 {
 }
+
 CBattleState::~CBattleState()
 {
 
@@ -96,63 +97,44 @@ void CBattleState::Init()
 	entity.GetAnimator()->PlayAnimation("walk");
 
 	cout << "CBattleState loaded\n" << endl;
+   
+    //testEntity = new BattleEntity();
+    //testEntity->GetInfo()->stats.AddVit(50);
+    //testEntity->GetInfo()->stats.AddStr(40);
+    //testEntity->GetInfo()->stats.AddInt(5);
+    //testEntity->GetInfo()->stats.AddMind(20);
+    //testEntity->GetInfo()->stats.AddDex(10);
+    //testEntity->GetInfo()->stats.AddAgi(7);
+    //testEntity->GetInfo()->stats.AddLevel(2);
+    //testEntity->GetInfo()->name = "Triple H";
+    //testEntity->GetInfo()->id = 3;
+    //testEntity->enemyType = BattleEntity::ENEMY;
+    //testEntity->GetInfo()->stats.UpdateStats();
+    //testEntity->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.5f, 1.f));
+    //testEntity->GetInfo()->HP = testEntity->GetInfo()->stats.GetMaxHP();
 
-    /*
-    	int Str;
-	int Vit;
-	int Int;
-	int Mind;
-	int Dex;
-	int Agi;
-	int Level;
-	int statPoints;
-    */
-    efactory = new MonsterFactory();
-    BattleEntity* wow = efactory->CreateEnemy1(3);
-    BattleEntity* wow2 = efactory->CreateEnemy3(4);
-
-    testEntity = new BattleEntity();
-    testEntity->GetInfo()->stats.AddVit(50);
-    testEntity->GetInfo()->stats.AddStr(40);
-    testEntity->GetInfo()->stats.AddInt(5);
-    testEntity->GetInfo()->stats.AddMind(20);
-    testEntity->GetInfo()->stats.AddDex(10);
-    testEntity->GetInfo()->stats.AddAgi(7);
-    testEntity->GetInfo()->stats.AddLevel(2);
-    testEntity->GetInfo()->name = "Triple H";
-    testEntity->GetInfo()->id = 3;
-    testEntity->enemyType = BattleEntity::ENEMY;
-    testEntity->GetInfo()->stats.UpdateStats();
-    testEntity->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.5f, 1.f));
-    testEntity->GetInfo()->HP = testEntity->GetInfo()->stats.GetMaxHP();
-
-    testEntity2 = new BattleEntity();
-    testEntity2->GetInfo()->stats.AddVit(50);
-    testEntity2->GetInfo()->stats.AddStr(50);
-    testEntity2->GetInfo()->stats.AddInt(15);
-    testEntity2->GetInfo()->stats.AddMind(50);
-    testEntity2->GetInfo()->stats.AddDex(40);
-    testEntity2->GetInfo()->stats.AddAgi(2);
-    testEntity2->GetInfo()->stats.AddLevel(2);
-    testEntity2->GetInfo()->name = "John Cena";
-    testEntity2->GetInfo()->id = 4;
-    testEntity2->enemyType = BattleEntity::ENEMY;
-    testEntity2->GetInfo()->stats.UpdateStats();
-    testEntity2->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.25f, 1.f));
-    testEntity2->GetInfo()->HP = testEntity2->GetInfo()->stats.GetMaxHP();
-
-    testingBattle = new BattleSystem();
-
-    testingBattle->BattleList.push_back(wow);
-    testingBattle->BattleList.push_back(wow2);
-
-    testingBattle->EnemyList.push_back(wow);
-    testingBattle->EnemyList.push_back(wow2);
+    //testEntity2 = new BattleEntity();
+    //testEntity2->GetInfo()->stats.AddVit(50);
+    //testEntity2->GetInfo()->stats.AddStr(50);
+    //testEntity2->GetInfo()->stats.AddInt(15);
+    //testEntity2->GetInfo()->stats.AddMind(50);
+    //testEntity2->GetInfo()->stats.AddDex(40);
+    //testEntity2->GetInfo()->stats.AddAgi(2);
+    //testEntity2->GetInfo()->stats.AddLevel(2);
+    //testEntity2->GetInfo()->name = "John Cena";
+    //testEntity2->GetInfo()->id = 4;
+    //testEntity2->enemyType = BattleEntity::ENEMY;
+    //testEntity2->GetInfo()->stats.UpdateStats();
+    //testEntity2->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.25f, 1.f));
+    //testEntity2->GetInfo()->HP = testEntity2->GetInfo()->stats.GetMaxHP();
 
     //BattleList.push_back(testEntity);
     //BattleList.push_back(testEntity2);
     //testEntity->GetInfo()->stats.UpdateStats();
     //party = new PartySystem();
+
+    efactory = new MonsterFactory();
+    testingBattle = new BattleSystem();
     charahehe = new CharacterInfo();
     party = new PartySystem();
 
@@ -198,9 +180,18 @@ void CBattleState::Init()
     party->AddMember(charahehe);
 
     testingBattle->AssignPlayerParty(party);
+
+    BattleEntity* wow = efactory->CreateRandomEnemy(3);
+    BattleEntity* wow2 = efactory->CreateRandomEnemy(4);
+
+    testingBattle->BattleList.push_back(wow);
+    testingBattle->BattleList.push_back(wow2);
+
+    testingBattle->EnemyList.push_back(wow);
+    testingBattle->EnemyList.push_back(wow2);
 }
 void CBattleState::Update()
-{
+{                           
     testingBattle->Update();
 	entity.Update();
 }

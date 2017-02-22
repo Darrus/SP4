@@ -3,35 +3,23 @@
 #include "RenderHelper.h"
 #include "MeshBuilder.h"
 
-Button::Button() :
-	m_pos_x(0.0f),
-	m_pos_y(0.0f),
-	m_scale_x(100.f),
-	m_scale_y(100.f),
-	m_isHovered(false),
-	m_text(""),
-	m_text_offset_x(0), 
-	m_text_offset_y(0),
-	m_text_scale_x(30),
-	m_text_scale_y(30.f),
-	m_isActive(true)
+Button::Button() : 
+	GUIObject(),
+	m_isHovered(false)
 {
 	for (unsigned i = 0; i < NUM_IMAGES; ++i)
 		m_meshList[i] = nullptr;
 }
 
 Button::Button(float pos_x, float pos_y, float scale_x, float scale_y) : 
-	m_pos_x(pos_x),
-	m_pos_y(pos_y),
-	m_scale_x(scale_x),
-	m_scale_y(scale_y),
-	m_isHovered(false),
-	m_text(""),
-	m_text_offset_x(0),
-	m_text_offset_y(0),
-	m_text_scale_x(30),
-	m_text_scale_y(30.f)
+	GUIObject()
 {
+	m_pos_x = pos_x;
+	m_pos_y = pos_y;
+	m_scale_x = scale_x;
+	m_scale_y = scale_y;
+	m_isHovered = false;
+
 	for (unsigned i = 0; i < NUM_IMAGES; ++i)
 		m_meshList[i] = nullptr;
 }
@@ -154,6 +142,9 @@ void ShopItem_Button::Render()
 
 void ShopCart_Button::Render()
 {
+	if (!m_isActive)
+		return;
+
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
 	modelStack.Translate(m_pos_x, m_pos_y, 0);
@@ -162,6 +153,8 @@ void ShopCart_Button::Render()
 	modelStack.Scale(m_scale_x, m_scale_y, 1);
 	if (m_meshList[m_isHovered] != nullptr)
 		RenderHelper::RenderMesh(m_meshList[m_isHovered]);
+	modelStack.Translate(0, 0, 0.1);
+	RenderHelper::RenderMesh(m_targetInventory->m_inventoryList.at(m_item_index)->GetMesh());
 	modelStack.PopMatrix();
 
 	if (m_text != "")

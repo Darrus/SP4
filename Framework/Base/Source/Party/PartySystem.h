@@ -16,6 +16,7 @@ public:
 	CharacterInfo* RemoveMember(int id);
 	void AddMember(CharacterInfo* member);
     int memberCount();
+    //void UpdateMemberInfo(CharacterInfo* info);
 };
 
 #endif
