@@ -209,28 +209,25 @@ void BattleSystem::CheckBattleEnd(BattleEntity* entity)
     }
     if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
     {
+        SceneManager::GetInstance()->PreviousScene();
+
         for (auto pewpew = EnemyList.begin(); pewpew != EnemyList.end(); pewpew++)
             delete (*pewpew);
         EnemyList.clear();
-        for (auto pewpew = BattleList.begin(); pewpew != BattleList.end(); pewpew++)
-            delete (*pewpew);
-        BattleList.clear();
-
-        SceneManager::GetInstance()->PreviousScene();
         //SceneManager::GetInstance()->Exit();
 
-        if (CheckAnyAlive() == nullptr)
-        {
-            MonsterFactory* efactory = new MonsterFactory();
-            BattleEntity* wow = efactory->CreateRandomEnemy(3);
-            BattleEntity* wow2 = efactory->CreateRandomEnemy(4);
+        //if (CheckAnyAlive() == nullptr)
+        //{
+        //    MonsterFactory* efactory = new MonsterFactory();
+        //    BattleEntity* wow = efactory->CreateRandomEnemy(3);
+        //    BattleEntity* wow2 = efactory->CreateRandomEnemy(4);
 
-           //BattleList.push_back(wow);
-           //BattleList.push_back(wow2);
+        //    //BattleList.push_back(wow);
+        //    //BattleList.push_back(wow2);
 
-            EnemyList.push_back(wow);
-            EnemyList.push_back(wow2);
-        }
+        //    EnemyList.push_back(wow);
+        //    EnemyList.push_back(wow2);
+        //}
     }
 }
 

@@ -37,6 +37,8 @@ public:
     BattleSystem* testingBattle;
     BattleEntity* testEntity;
     BattleEntity* testEntity2;
+    BattleEntity* wow;
+    BattleEntity* wow2;
 
     CharacterInfo* charahehe;
 

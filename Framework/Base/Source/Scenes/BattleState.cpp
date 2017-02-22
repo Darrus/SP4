@@ -139,7 +139,7 @@ void CBattleState::Init()
     party = new PartySystem();
 
     charahehe->stats.AddVit(50);
-    charahehe->stats.AddStr(999);
+    charahehe->stats.AddStr(50);
     charahehe->stats.AddInt(65);
     charahehe->stats.AddMind(50);
     charahehe->stats.AddDex(40);
@@ -153,7 +153,7 @@ void CBattleState::Init()
 
     charahehe = new CharacterInfo();
     charahehe->stats.AddVit(40);
-    charahehe->stats.AddStr(999);
+    charahehe->stats.AddStr(60);
     charahehe->stats.AddInt(70);
     charahehe->stats.AddMind(150);
     charahehe->stats.AddDex(30);
@@ -171,7 +171,7 @@ void CBattleState::Init()
     charahehe->stats.AddInt(40);
     charahehe->stats.AddMind(30);
     charahehe->stats.AddDex(50);
-    charahehe->stats.AddAgi(5);
+    charahehe->stats.AddAgi(935);
     charahehe->stats.AddLevel(5);
     charahehe->name = "Reuben";
     charahehe->id = 2;
@@ -181,8 +181,8 @@ void CBattleState::Init()
 
     testingBattle->AssignPlayerParty(party);
 
-    BattleEntity* wow = efactory->CreateRandomEnemy(3);
-    BattleEntity* wow2 = efactory->CreateRandomEnemy(4);
+    wow = efactory->CreateRandomEnemy(4);
+    wow2 = efactory->CreateRandomEnemy(3);
 
     testingBattle->BattleList.push_back(wow);
     testingBattle->BattleList.push_back(wow2);
@@ -191,9 +191,21 @@ void CBattleState::Init()
     testingBattle->EnemyList.push_back(wow2);
 }
 void CBattleState::Update()
-{                           
-    testingBattle->Update();
-	entity.Update();
+{
+    if (testingBattle->CheckAnyAlive() == nullptr)
+    {
+        wow = efactory->CreateRandomEnemy(4);
+        wow2 = efactory->CreateRandomEnemy(3);
+
+        testingBattle->BattleList.push_back(wow);
+        testingBattle->BattleList.push_back(wow2);
+
+        testingBattle->EnemyList.push_back(wow);
+        testingBattle->EnemyList.push_back(wow2);
+    }
+    if (testingBattle->CheckAnyAlive() != nullptr)
+        testingBattle->Update();
+    entity.Update();
 }
 
 void CBattleState::Render()
@@ -203,7 +215,8 @@ void CBattleState::Render()
 		0,
 		Application::GetInstance().GetWindowHeight(),
 		-10, 10);
-
+    
+    //if (testingBattle->CheckAnyAlive() != nullptr)
         testingBattle->Render();
 }
 void CBattleState::Exit()

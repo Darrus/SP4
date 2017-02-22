@@ -15,8 +15,8 @@ Enemy* MonsterFactory::CreateEnemy1(int id)
 {
     Enemy* newEnemy = new Enemy();
 
-    newEnemy->GetInfo()->stats.AddVit(50);
-    newEnemy->GetInfo()->stats.AddStr(40);
+    newEnemy->GetInfo()->stats.AddVit(30);
+    newEnemy->GetInfo()->stats.AddStr(15);
     newEnemy->GetInfo()->stats.AddInt(5);
     newEnemy->GetInfo()->stats.AddMind(20);
     newEnemy->GetInfo()->stats.AddDex(10);
@@ -38,12 +38,12 @@ Enemy* MonsterFactory::CreateEnemy2(int id)
 {
     Enemy* newEnemy = new Enemy();
 
-    newEnemy->GetInfo()->stats.AddVit(60);
-    newEnemy->GetInfo()->stats.AddStr(70);
+    newEnemy->GetInfo()->stats.AddVit(20);
+    newEnemy->GetInfo()->stats.AddStr(30);
     newEnemy->GetInfo()->stats.AddInt(10);
     newEnemy->GetInfo()->stats.AddMind(20);
     newEnemy->GetInfo()->stats.AddDex(15);
-    newEnemy->GetInfo()->stats.AddAgi(18);
+    newEnemy->GetInfo()->stats.AddAgi(10);
     newEnemy->GetInfo()->stats.AddLevel(4);
     newEnemy->GetInfo()->name = "Kayne West";
     newEnemy->GetInfo()->id = id;
@@ -60,8 +60,8 @@ Enemy* MonsterFactory::CreateEnemy3(int id)
     Enemy* newEnemy = new Enemy();
 
     newEnemy->GetInfo()->stats.AddVit(20);
-    newEnemy->GetInfo()->stats.AddStr(100);
-    newEnemy->GetInfo()->stats.AddInt(30);
+    newEnemy->GetInfo()->stats.AddStr(20);
+    newEnemy->GetInfo()->stats.AddInt(20);
     newEnemy->GetInfo()->stats.AddMind(5);
     newEnemy->GetInfo()->stats.AddDex(12);
     newEnemy->GetInfo()->stats.AddAgi(10);
@@ -78,7 +78,10 @@ Enemy* MonsterFactory::CreateEnemy3(int id)
 
 Enemy* MonsterFactory::CreateRandomEnemy(int id)
 {
-    int randChoice = Math::RandIntMinMax(1, 3);
+    int randChoice = Math::RandIntMinMax(1, 10);
+    if (randChoice >= 4)
+        randChoice = Math::RandIntMinMax(1, 3);
+
     if (randChoice == 1)
         return CreateEnemy1(id);
     if (randChoice == 2)
