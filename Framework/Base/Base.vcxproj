@@ -39,9 +39,9 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Menu\Button.cpp" />
     <ClCompile Include="Source\Menu\Menu.cpp" />
-    <ClCompile Include="Source\NPC\NPC.cpp" />
     <ClCompile Include="Source\OBJMesh.cpp" />
     <ClCompile Include="Source\Overworld\CameraFollow.cpp" />
+    <ClCompile Include="Source\Overworld\NPC.cpp" />
     <ClCompile Include="Source\Overworld\OverworldAsset.cpp" />
     <ClCompile Include="Source\Overworld\OverworldEntity.cpp" />
     <ClCompile Include="Source\Overworld\TriggerArea.cpp" />
@@ -88,9 +88,9 @@
     <ClInclude Include="Source\Lua\LuaInterface.h" />
     <ClInclude Include="Source\Menu\Button.h" />
     <ClInclude Include="Source\Menu\Menu.h" />
-    <ClInclude Include="Source\NPC\NPC.h" />
     <ClInclude Include="Source\OBJMesh.h" />
     <ClInclude Include="Source\Overworld\CameraFollow.h" />
+    <ClInclude Include="Source\Overworld\NPC.h" />
     <ClInclude Include="Source\Overworld\OverworldAsset.h" />
     <ClInclude Include="Source\Overworld\OverworldEntity.h" />
     <ClInclude Include="Source\Overworld\TriggerArea.h" />

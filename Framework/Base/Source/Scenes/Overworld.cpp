@@ -143,7 +143,6 @@ void Overworld::Update()
 	{
         player->SetRenderFlag(false);
         SceneManager::GetInstance()->SetActiveScene("BattleScene", true);
-        battle = false;
 	}
 }
 
@@ -176,4 +175,5 @@ void Overworld::UnPause()
 	camera.SetFollowSpeed(0.3f);
 	camera.SetRotSpeed(200.f);
 	camera.Transition(0.f, 0.f, 80.f);
+	battle = false;
 }

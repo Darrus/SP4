@@ -8,12 +8,12 @@
 #include "../Overworld/OverworldEntity.h"
 #include "../Overworld/OverworldAsset.h"
 #include "../Overworld/TriggerArea.h"
+#include "../Overworld/NPC.h"
 
 #include "../Entity/SpriteEntity.h"
 #include "../Scenes/BattleState.h"
 #include "../SpatialPartition/SpatialPartition.h"
 
-#include "../NPC/NPC.h"
 
 using std::vector;
 
@@ -29,16 +29,17 @@ public:
 	virtual void Exit();
 
 	virtual void UnPause();
-
+	
 	bool battle;
 
 private:
 	CameraFollow camera;
 	SpriteEntity* background;
-	OverworldEntity* player;
     CBattleState* battlestate;
 	CSpatialPartition spatial;
 	NPC* npc;
+
+	OverworldEntity* player;
 };
 
 #endif
