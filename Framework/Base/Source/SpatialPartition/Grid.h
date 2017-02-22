@@ -58,7 +58,10 @@ public:
 	bool IsHere(EntityBase* theObject) const;
 
 	// Get list of objects in this grid
-	vector<EntityBase*> GetListOfObject(void);
+	vector<EntityBase*> *GetListOfObject(void);
+
+	// Get amount of objects in grid
+	inline int GetObjectCount() const { return ListOfObjects.size(); }
 
 	// PrintSelf
 	void PrintSelf();

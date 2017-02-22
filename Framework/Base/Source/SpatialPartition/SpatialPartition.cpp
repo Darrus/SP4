@@ -121,7 +121,8 @@ void CSpatialPartition::Update(void)
 	{
 		for (int j = 0; j < yNumOfGrid; j++)
 		{
-			theGrid[i * yNumOfGrid + j].Update(&MigrationList);
+			if (theGrid[i * yNumOfGrid + j].GetObjectCount() > 0)
+				theGrid[i * yNumOfGrid + j].Update(&MigrationList);
 		}
 	}
 
@@ -141,7 +142,8 @@ void CSpatialPartition::Update(void)
 	{
 		for (int j = 0; j < yNumOfGrid; j++)
 		{
-			theGrid[i * yNumOfGrid + j].CheckForCollision();
+			if (theGrid[i * yNumOfGrid + j].GetObjectCount() > 0)
+				theGrid[i * yNumOfGrid + j].CheckForCollision();
 		}
 	}
 
@@ -244,9 +246,8 @@ CGrid* CSpatialPartition::GetGrid(EntityBase* object)
 // Get grid from position
 CGrid* CSpatialPartition::GetGrid(Vector3& position) const
 {
-	int xIndex, yIndex;
-	xIndex = position.x / xGridSize;
-	yIndex = position.z / yGridSize;
+	int xIndex = (((int)position.x - (-xSize >> 1)) / xGridSize);
+	int yIndex = (((int)position.y - (-ySize >> 1)) / yGridSize);
 
 	if (xIndex < 0 || xIndex > xNumOfGrid || yIndex < 0 || yIndex > yNumOfGrid)
 		return nullptr;
@@ -257,7 +258,7 @@ CGrid* CSpatialPartition::GetGrid(Vector3& position) const
 /********************************************************************************
  Get vector of objects from this Spatial Partition
  ********************************************************************************/
-vector<EntityBase*> CSpatialPartition::GetObjects(Vector3 position, const float radius)
+vector<EntityBase*> *CSpatialPartition::GetObjects(Vector3 position, const float radius)
 {
 	// Get the indices of the object's position
 	int xIndex = (((int)position.x - (-xSize >> 1)) / (xSize / xNumOfGrid));

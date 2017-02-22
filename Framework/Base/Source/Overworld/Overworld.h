@@ -4,11 +4,11 @@
 #include "Scene.h"
 #include <vector>
 
-#include "../Overworld/CameraFollow.h"
-#include "../Overworld/OverworldEntity.h"
-#include "../Overworld/OverworldAsset.h"
-#include "../Overworld/TriggerArea.h"
-#include "../Overworld/NPC.h"
+#include "CameraFollow.h"
+#include "OverworldPlayer.h"
+#include "OverworldAsset.h"
+#include "TriggerArea.h"
+#include "NPC.h"
 
 #include "../Entity/SpriteEntity.h"
 #include "../Scenes/BattleState.h"
@@ -32,6 +32,8 @@ public:
 	
 	bool battle;
 
+	inline CSpatialPartition* GetSpatialPartition() { return &spatial; }
+
 private:
 	CameraFollow camera;
 	SpriteEntity* background;
@@ -39,7 +41,7 @@ private:
 	CSpatialPartition spatial;
 	NPC* npc;
 
-	OverworldEntity* player;
+	OverworldPlayer* player;
 };
 
 #endif

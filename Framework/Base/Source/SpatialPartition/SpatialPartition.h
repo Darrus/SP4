@@ -60,7 +60,7 @@ public:
 	CGrid* GetGrid(EntityBase* object);
 
 	// Get vector of objects from this Spatial Partition
-	vector<EntityBase*> GetObjects(Vector3 position, const float radius);
+	vector<EntityBase*> *GetObjects(Vector3 position, const float radius);
 
 	// Add a new object
 	void Add(EntityBase* theObject);

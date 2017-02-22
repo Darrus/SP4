@@ -197,9 +197,9 @@ bool CGrid::IsHere(EntityBase* theObject) const
 /********************************************************************************
 Get list of objects in this grid
 ********************************************************************************/
-vector<EntityBase*> CGrid::GetListOfObject(void)
+vector<EntityBase*>* CGrid::GetListOfObject(void)
 {
-	return ListOfObjects;
+	return &ListOfObjects;
 }
 
 /********************************************************************************

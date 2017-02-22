@@ -42,7 +42,7 @@ void Overworld::Init()
 	MeshBuilder::GetInstance()->GenerateText("text", 16, 16)->textureID = LoadTGA("FontData//pixelFont.tga");
 
 	EntityFactory::GetInstance()->AttachEntityManager(&EManager);
-	EManager.ShowCollider(true);
+	EManager.ShowCollider(false);
 	// Window Scale
 	float windowWidth = Application::GetInstance().GetWindowWidth();
 	float windowHeight = Application::GetInstance().GetWindowHeight();
@@ -60,9 +60,9 @@ void Overworld::Init()
 
 	// Player Init
 	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 1, 8, 1.f, -1));
-	AnimationsContainer::GetInstance()->AddAnimation("npc", new Animation("character", 9, 17, 1.f, -1));
+	AnimationsContainer::GetInstance()->AddAnimation("npc", new Animation("character", 18, 26, 1.f, -1));
 
-	player = new OverworldEntity();
+	player = new OverworldPlayer();
 	player->GetAnimator()->AddAnimation("walk");
 	player->GetAnimator()->PlayAnimation("walk");
 	player->SetScale(Vector3(5.f, 5.f, 1.f));
@@ -77,8 +77,12 @@ void Overworld::Init()
 	npc->GetAnimator()->AddAnimation("npc");
 	npc->GetAnimator()->PlayAnimation("npc");
 	npc->SetScale(Vector3(5.f, 5.f, 1.f));
-	npc->SetPosition(Vector3(0.f, 0.f, 1.f));
+	npc->SetPosition(Vector3(-50.f, 0.f, 1.f));
 	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
+	npc->SetTargetScene("Shop");
+	npc->SetCollider(new CCollider_2DAABB());
+	npc->AttachCamera(&camera);
+	spatial.Add(npc);
 	EManager.AddEntity(npc);
 
 	// Background Init
@@ -86,7 +90,6 @@ void Overworld::Init()
 	background->SetTextRenderMode(SpriteEntity::MODE_3D);
 	background->SetPosition(Vector3(0.f, 0.f, 0.f));
 	background->SetScale(Vector3(300, 300, 1.f));
-	EManager.AddEntity(background);
 
 	TriggerArea* trigger = new TriggerArea();
 	trigger->SetPosition(Vector3(30.f, 10.f, 0.1f));
@@ -101,7 +104,7 @@ void Overworld::Init()
 	Math::InitRNG();
 
 	// Assets Init
-	for (int i = 0; i < 100; ++i)
+	for (int i = 0; i < 500; ++i)
 	{
 		float posX = Math::RandFloatMinMax(-150.f, 150.f);
 		float posY = Math::RandFloatMinMax(-150.f, 150.f);
@@ -130,6 +133,8 @@ void Overworld::Update()
 	camera.Update();
 	spatial.Update();
 
+	float dt = StopWatch::GetInstance()->GetDeltaTime();
+
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
 		SceneManager::GetInstance()->quit = true;
 
@@ -153,11 +158,13 @@ void Overworld::Render()
 	GraphicsManager::GetInstance()->UpdateLightUniforms();
 
 	// Setup 3D pipeline then render 3D
-	GraphicsManager::GetInstance()->SetPerspectiveProjection(4.0f / 3.0f, 0.1f, 10000.0f);
+	float windowWidth = Application::GetInstance().GetWindowWidth();
+	float windowHeight = Application::GetInstance().GetWindowHeight();
+	GraphicsManager::GetInstance()->SetPerspectiveProjection(windowWidth / windowHeight, 0.1f, 500.0f);
 	GraphicsManager::GetInstance()->AttachCamera(&camera);
 	EManager.Render();
-
 	spatial.Render();
+	background->Render();
 
 	// Setup 2D pipeline then render 2D
 	GraphicsManager::GetInstance()->SetOrthographicProjection(0.f, Application::GetInstance().GetWindowWidth(), 0.f, Application::GetInstance().GetWindowHeight(), -10, 10);
