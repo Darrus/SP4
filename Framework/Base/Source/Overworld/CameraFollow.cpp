@@ -170,6 +170,10 @@ void CameraFollow::Control()
 	if (scroll != 0.0)
 	{
 		dist -= scroll * 2.0;
+		if (dist < 10.f)
+			dist = 10.f;
+		else if (dist > 80.f)
+			dist = 80.f;
 		MouseController::GetInstance()->ResetMouseScroll();
 	}
 }
