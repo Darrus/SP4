@@ -58,6 +58,13 @@ void SkyBoxEntity::Render()
 		RenderHelper::RenderMesh(modelMesh[LEFT]);
 		modelStack.PopMatrix();
 
+		// Bottom
+		modelStack.PushMatrix();
+		modelStack.Translate(0.f, 0.f, -size.z * 0.5f);
+		modelStack.Scale(size.x, size.y, size.z);
+		RenderHelper::RenderMesh(modelMesh[BOTTOM]);
+		modelStack.PopMatrix();
+
 
 	modelStack.PopMatrix();
 }

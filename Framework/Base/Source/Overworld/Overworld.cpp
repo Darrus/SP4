@@ -10,6 +10,7 @@
 // Entity
 #include "../Entity/EntityFactory.h"
 #include "TriggerScene.h"
+#include "TriggerDialogue.h"
 
 // Collider
 #include "Collider\Collider_2DAABB.h"
@@ -117,6 +118,14 @@ void Overworld::Init()
 	trigger->SetScene("Shop");
 	EManager.AddEntity(trigger);
 	spatial.Add(trigger);
+
+	TriggerDialogue* trigger2 = new TriggerDialogue();
+	trigger2->SetPosition(Vector3(0.f, 0.f, 0.f));
+	trigger2->SetScale(Vector3(10.f, 10.f, 1.f));
+	trigger2->SetCollider(new CCollider_2DAABB());
+	trigger2->LoadDialogue("START");
+	EManager.AddEntity(trigger2);
+	spatial.Add(trigger2);
 
 	OverworldAsset* asset;
 	Math::InitRNG();

@@ -9,7 +9,6 @@ using std::vector;
 
 class TriggerDialogue : public TriggerArea
 {
-	bool active;
 	vector<string> dialogue;
 
 	virtual void OnTrigger();

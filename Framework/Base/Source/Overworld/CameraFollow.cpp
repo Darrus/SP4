@@ -180,8 +180,8 @@ void CameraFollow::Control()
 
 void CameraFollow::Transition(float rotX, float rotZ, float dist)
 {
-	SetRotX(rotX + rotX);
-	SetRotZ(rotZ + rotZ);
+	SetRotX(rotX);
+	SetRotZ(rotZ);
 	SetDist(dist);
 	state = TRANSITION;
 }

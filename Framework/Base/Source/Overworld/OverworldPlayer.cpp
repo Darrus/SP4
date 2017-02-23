@@ -2,6 +2,7 @@
 
 // Interactable
 #include "NPC.h"
+#include "TriggerArea.h"
 
 // Collider
 #include "Collider\Collider_2DAABB.h"
@@ -87,6 +88,10 @@ void OverworldPlayer::Controls()
 
 void OverworldPlayer::HandleCollision(EntityBase* entity)
 {
+	TriggerArea* trigger = dynamic_cast<TriggerArea*>(entity);
+	if (trigger)
+		return;
+
 	CCollider_2DAABB check;
 	check.SetScale(collider->GetScale());
 

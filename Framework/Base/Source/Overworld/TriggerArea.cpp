@@ -4,7 +4,7 @@
 
 
 TriggerArea::TriggerArea() :
-trigger(false)
+trigger(false), active(true)
 {
 }
 
@@ -15,6 +15,9 @@ TriggerArea::~TriggerArea()
 
 void TriggerArea::HandleCollision(EntityBase* entity)
 {
+	if (!active)
+		return;
+
 	OverworldPlayer* player = dynamic_cast<OverworldPlayer*>(entity);
 	if (player)
 	{

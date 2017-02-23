@@ -21,6 +21,8 @@ void TriggerDialogue::OnTrigger()
 	if (scene)
 	{
 		scene->SetDialogue(dialogue);
+ 		active = false;
+		SetIsDone(true);
 	}
 }
 

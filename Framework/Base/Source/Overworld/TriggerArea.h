@@ -11,6 +11,8 @@ class TriggerArea : public EntityBase
 {
 protected:
 	bool trigger;
+	bool active;
+
 	virtual void OnTrigger();
 
 public:
