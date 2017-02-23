@@ -38,6 +38,10 @@ public:
 	inline Vector3 GetOverworldPosition() { return m_overworld_pos; };
 	inline void SetOverworldPosition(Vector3 pos) { m_overworld_pos = pos; };
 
+    inline PartySystem* GetParty() { return &m_party; }
+    inline void SetParty(PartySystem party) { m_party = party;  }
+
+
 	Player();
 	~Player();
 };

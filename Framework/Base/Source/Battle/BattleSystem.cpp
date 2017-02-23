@@ -12,6 +12,7 @@
 #include "GraphicsManager.h"
 
 #include "..\Overworld\Overworld.h"
+#include "..\Player\Player.h"
 
 /***************************************
 ///< Default constructor
@@ -197,17 +198,23 @@ void BattleSystem::CheckBattleEnd(BattleEntity* entity)
     {
         for (int i = 0; i < (partypew->memberCount() - 1); i++)
         {
+            PartySystem *pew = new PartySystem();
             for (auto itritr = PlayerInfoList.begin(); itritr != PlayerInfoList.end(); itritr++)
             {
+                Player::GetInstance().GetParty();
                 (*itritr)->EXP += 999;
                 (*itritr)->stats.UpdateStats();
+                pew->AddMember(*itritr);
             }
+            Player::GetInstance().SetParty(*pew);
             //addEXP = true;
         }
     }
     if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
     {
         Overworld::battle = false;
+
+        Player::GetInstance().DoDie();
 
         SceneManager::GetInstance()->PreviousScene();
         anEntityTurn = false;
@@ -681,10 +688,13 @@ void BattleSystem::ShowBattleResults()
     modelStack.PopMatrix();
     
     int expgain = 9999;
+    PartySystem* pew = Player::GetInstance().GetParty();
     for (auto it = PlayerInfoList.begin(); it != PlayerInfoList.end(); it++)
     {
         for (int i = 0; i < (partypew->memberCount() - 1); ++i)
         {
+            std::cout << pew->GetMember(i)->CheckLevelUp() << std::endl;
+            //std::cout << pew->GetMember(i)->EXP << std::endl;
             modelStack.PushMatrix();
             modelStack.Translate(windowWidth * 0.2, windowHeight * (0.8f + (i * -0.05)), 9.f);
             modelStack.Scale(20.f, 20.f, 1.f);

@@ -179,7 +179,7 @@ void CBattleState::Init()
     charahehe->stats.UpdateStats();
     charahehe->HP = charahehe->stats.GetMaxHP();
     party->AddMember(charahehe);
-
+    Player::GetInstance().SetParty(*party);
     testingBattle->AssignPlayerParty(party);
 
     wow = efactory->CreateRandomEnemy(4);
@@ -208,7 +208,7 @@ void CBattleState::Update()
         testingBattle->PlayerList.clear();
         testingBattle->BattleList.clear();
 
-        testingBattle->AssignPlayerParty(party);
+        testingBattle->AssignPlayerParty(Player::GetInstance().GetParty());
 
         wow = efactory->CreateRandomEnemy(4);
         wow2 = efactory->CreateRandomEnemy(3);
