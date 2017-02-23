@@ -28,6 +28,8 @@ public:
 	void UpdateMouseScroll(const double xoffset, const double yoffset);
 	void EndFrameUpdate();
 
+	void ResetMouseScroll();
+
 	// User Interface
 	bool IsButtonDown(unsigned char _slot);
 	bool IsButtonUp(unsigned char _slot);

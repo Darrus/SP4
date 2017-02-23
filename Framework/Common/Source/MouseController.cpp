@@ -50,6 +50,12 @@ void MouseController::EndFrameUpdate()
 	prevBtnStatus = currBtnStatus;
 }
 
+void MouseController::ResetMouseScroll()
+{
+	xoffset = 0.f;
+	yoffset = 0.f;
+}
+
 bool MouseController::IsButtonDown(unsigned char _slot)
 {
 	return (currBtnStatus & (1 << _slot)) != 0;

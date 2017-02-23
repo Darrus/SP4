@@ -9,18 +9,14 @@ using std::string;
 
 class TriggerArea : public EntityBase
 {
-	string targetScene;
-	CameraFollow* camera;
+protected:
 	bool trigger;
+	virtual void OnTrigger();
 
 public:
 	TriggerArea();
 	~TriggerArea();
 
-	virtual void Update();
 	virtual void HandleCollision(EntityBase* entity);
-
-	inline void SetScene(string scene){ this->targetScene = scene; }
-	inline void SetCamera(CameraFollow* camera) { this->camera = camera; }
 };
 

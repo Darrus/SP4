@@ -7,10 +7,10 @@
 #include "CameraFollow.h"
 #include "OverworldPlayer.h"
 #include "OverworldAsset.h"
-#include "TriggerArea.h"
 #include "NPC.h"
 
 #include "../Entity/SpriteEntity.h"
+#include "../Entity/SkyBoxEntity.h"
 #include "../Scenes/BattleState.h"
 #include "../SpatialPartition/SpatialPartition.h"
 
@@ -37,11 +37,14 @@ public:
 private:
 	CameraFollow camera;
 	SpriteEntity* background;
+	SkyBoxEntity* skybox;
+
     CBattleState* battlestate;
+	
 	CSpatialPartition spatial;
-	NPC* npc;
 
 	OverworldPlayer* player;
+	NPC* npc;
 };
 
 #endif

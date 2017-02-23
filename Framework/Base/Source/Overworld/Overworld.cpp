@@ -9,6 +9,7 @@
 
 // Entity
 #include "../Entity/EntityFactory.h"
+#include "TriggerScene.h"
 
 // Collider
 #include "Collider\Collider_2DAABB.h"
@@ -34,12 +35,29 @@ void Overworld::Init()
 	SetInit(true);
 
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("character", 4, 9)->textureID = LoadTGA("Image//character.tga");
+	MeshBuilder::GetInstance()->GenerateSpriteAnimation("moogle", 1, 2)->textureID = LoadTGA("Image//moogle.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("background", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//overworldBG.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("twee", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//twee.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("mountain", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//mountain.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("Collider", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//collider.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("Grid", Color(0.f, 1.f, 0.f));
 	MeshBuilder::GetInstance()->GenerateText("text", 16, 16)->textureID = LoadTGA("FontData//pixelFont.tga");
+
+	// Skybox
+	MeshBuilder::GetInstance()->GenerateQuad("skybox_left", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//skybox_left.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skybox_right", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//skybox_right.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skybox_top", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//skybox_top.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skybox_bottom", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//skybox_bottom.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skybox_front", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//skybox_front.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skybox_back", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//skybox_back.tga");
+
+	skybox = new SkyBoxEntity();
+	skybox->SetMesh(SkyBoxEntity::FRONT, MeshBuilder::GetInstance()->GetMesh("skybox_front"));
+	skybox->SetMesh(SkyBoxEntity::BACK, MeshBuilder::GetInstance()->GetMesh("skybox_back"));
+	skybox->SetMesh(SkyBoxEntity::LEFT, MeshBuilder::GetInstance()->GetMesh("skybox_left"));
+	skybox->SetMesh(SkyBoxEntity::RIGHT, MeshBuilder::GetInstance()->GetMesh("skybox_right"));
+	skybox->SetMesh(SkyBoxEntity::TOP, MeshBuilder::GetInstance()->GetMesh("skybox_top"));
+	skybox->SetMesh(SkyBoxEntity::BOTTOM, MeshBuilder::GetInstance()->GetMesh("skybox_bottom"));
 
 	EntityFactory::GetInstance()->AttachEntityManager(&EManager);
 	EManager.ShowCollider(false);
@@ -52,15 +70,14 @@ void Overworld::Init()
 	spatial.SetMesh("Grid");
 
 	// Camera Init
-	camera.Init(80.f, 0.5f);
+	camera.Init(40.f, 0.5f);
 	camera.SetFollowSpeed(0.3f);
 	camera.SetRotSpeed(200.f);
 	camera.SetDistSpeed(100.f);
-	camera.SetDist(80.f);
 
 	// Player Init
 	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 1, 8, 1.f, -1));
-	AnimationsContainer::GetInstance()->AddAnimation("npc", new Animation("character", 18, 26, 1.f, -1));
+	AnimationsContainer::GetInstance()->AddAnimation("npc", new Animation("moogle", 0, 1, 1.f, -1));
 
 	player = new OverworldPlayer();
 	player->GetAnimator()->AddAnimation("walk");
@@ -91,7 +108,7 @@ void Overworld::Init()
 	background->SetPosition(Vector3(0.f, 0.f, 0.f));
 	background->SetScale(Vector3(300, 300, 1.f));
 
-	TriggerArea* trigger = new TriggerArea();
+	TriggerScene* trigger = new TriggerScene();
 	trigger->SetPosition(Vector3(30.f, 10.f, 0.1f));
 	trigger->SetScale(Vector3(10.f, 10.f, 1.f));
 	trigger->SetCollider(new CCollider_2DAABB());
@@ -160,11 +177,12 @@ void Overworld::Render()
 	// Setup 3D pipeline then render 3D
 	float windowWidth = Application::GetInstance().GetWindowWidth();
 	float windowHeight = Application::GetInstance().GetWindowHeight();
-	GraphicsManager::GetInstance()->SetPerspectiveProjection(windowWidth / windowHeight, 0.1f, 500.0f);
+	GraphicsManager::GetInstance()->SetPerspectiveProjection(windowWidth / windowHeight, 0.1f, 1000.0f);
 	GraphicsManager::GetInstance()->AttachCamera(&camera);
 	EManager.Render();
 	spatial.Render();
 	background->Render();
+	skybox->Render();
 
 	// Setup 2D pipeline then render 2D
 	GraphicsManager::GetInstance()->SetOrthographicProjection(0.f, Application::GetInstance().GetWindowWidth(), 0.f, Application::GetInstance().GetWindowHeight(), -10, 10);
@@ -175,12 +193,14 @@ void Overworld::Render()
 void Overworld::Exit()
 {
 	EManager.ClearEntityList();
+	delete skybox;
+	delete background;
 }
 
 void Overworld::UnPause()
 {
 	camera.SetFollowSpeed(0.3f);
 	camera.SetRotSpeed(200.f);
-	camera.Transition(0.f, 0.f, 80.f);
+	//camera.Transition(0.f, 0.f, 80.f);
 	battle = false;
 }

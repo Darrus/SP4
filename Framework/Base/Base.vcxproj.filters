@@ -133,14 +133,23 @@
     <ClCompile Include="Source\Overworld\NPC.cpp">
       <Filter>Overworld\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Overworld\TriggerArea.cpp">
-      <Filter>Overworld\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Overworld\Overworld.cpp">
       <Filter>Overworld\World</Filter>
     </ClCompile>
     <ClCompile Include="Source\Overworld\OverworldPlayer.cpp">
       <Filter>Overworld\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\SkyBoxEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\TriggerArea.cpp">
+      <Filter>Overworld\Entity\TriggerAreas</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\TriggerScene.cpp">
+      <Filter>Overworld\Entity\TriggerAreas</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\TriggerDialogue.cpp">
+      <Filter>Overworld\Entity\TriggerAreas</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -279,9 +288,6 @@
     <ClInclude Include="Source\Overworld\NPC.h">
       <Filter>Overworld\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Overworld\TriggerArea.h">
-      <Filter>Overworld\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Overworld\Overworld.h">
       <Filter>Overworld\World</Filter>
     </ClInclude>
@@ -290,6 +296,18 @@
     </ClInclude>
     <ClInclude Include="Source\Menu\GUIObject.h">
       <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\SkyBoxEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\TriggerArea.h">
+      <Filter>Overworld\Entity\TriggerAreas</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\TriggerScene.h">
+      <Filter>Overworld\Entity\TriggerAreas</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\TriggerDialogue.h">
+      <Filter>Overworld\Entity\TriggerAreas</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +355,9 @@
     </Filter>
     <Filter Include="Overworld\World">
       <UniqueIdentifier>{3b98fd1f-0fa6-4d6e-b99f-2118229b829d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Overworld\Entity\TriggerAreas">
+      <UniqueIdentifier>{85e2a74a-dfba-471b-be09-52eac65ed24e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

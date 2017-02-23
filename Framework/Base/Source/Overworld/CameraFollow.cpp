@@ -46,8 +46,6 @@ void CameraFollow::Update()
 	case IDLE:
 		Control();
 		break;
-	case TRANSITION:
-		break;
 	}
 
 	bool check = true;
@@ -139,14 +137,14 @@ void CameraFollow::Control()
 		double currMouseX, currMouseY;
 		MouseController::GetInstance()->GetMousePosition(currMouseX, currMouseY);
 
-		float diff = (float)(currMouseY - mouseY);
+		float diff = (float)(currMouseY - mouseY) * -1.f;
 		rotX += diff * 0.01f;
 		curRotX += diff * 0.01f;
 
-		if (curRotX > 70.f)
+		if (curRotX > 85.f)
 		{
-			curRotX = 70.f;
-			rotX = 70.f;
+			curRotX = 85.f;
+			rotX = 85.f;
 		}
 		else if (curRotX < 0.f)
 		{
@@ -167,12 +165,19 @@ void CameraFollow::Control()
 
 		state = TRANSITION;
 	}
+
+	double scroll = MouseController::GetInstance()->GetMouseScrollStatus(MouseController::SCROLL_TYPE_YOFFSET);
+	if (scroll != 0.0)
+	{
+		dist -= scroll * 2.0;
+		MouseController::GetInstance()->ResetMouseScroll();
+	}
 }
 
 void CameraFollow::Transition(float rotX, float rotZ, float dist)
 {
-	SetRotX(rotX);
-	SetRotZ(rotZ);
+	SetRotX(rotX + rotX);
+	SetRotZ(rotZ + rotZ);
 	SetDist(dist);
 	state = TRANSITION;
 }
