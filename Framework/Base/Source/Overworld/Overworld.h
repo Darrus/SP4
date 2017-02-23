@@ -30,7 +30,7 @@ public:
 
 	virtual void UnPause();
 	
-	bool battle;
+	static bool battle;
 
 	inline CSpatialPartition* GetSpatialPartition() { return &spatial; }
 

@@ -11,6 +11,8 @@
 #include "MatrixStack.h"
 #include "GraphicsManager.h"
 
+#include "..\Overworld\Overworld.h"
+
 /***************************************
 ///< Default constructor
 A Default constructor for the Battle System, sets parameters here
@@ -129,12 +131,13 @@ void BattleSystem::Update()
     // Loops through the entire PlayerList and do stuff
     for (std::list<BattleEntity*>::iterator itr = PlayerList.begin(); itr != PlayerList.end(); itr++)
     {
+        if (CheckAnyAlive() == nullptr)
+            CheckBattleEnd((*itr));
+
         if (!(*itr)->GetReady())
             (*itr)->Update(); ///< Updates the player ATB;
         else
             ChoosePlayerInput();
-        if (CheckAnyAlive() == nullptr)
-            CheckBattleEnd((*itr));
     }
 
     if (whichScreen != CHOOSEPLAYER && whichScreen != CHOOSETARGET && whichScreen != CHOOSEDOWAT && whichScreen != CHOOSESKILL)
@@ -194,11 +197,6 @@ void BattleSystem::CheckBattleEnd(BattleEntity* entity)
     {
         for (int i = 0; i < (partypew->memberCount() - 1); i++)
         {
-            /*if (entity->GetInfo()->id == i)
-            {
-                entity->GetInfo()->EXP += 9999;
-                entity->GetInfo()->stats.UpdateStats();
-            }*/
             for (auto itritr = PlayerInfoList.begin(); itritr != PlayerInfoList.end(); itritr++)
             {
                 (*itritr)->EXP += 999;
@@ -209,25 +207,14 @@ void BattleSystem::CheckBattleEnd(BattleEntity* entity)
     }
     if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
     {
+        Overworld::battle = false;
+
         SceneManager::GetInstance()->PreviousScene();
-
-        for (auto pewpew = EnemyList.begin(); pewpew != EnemyList.end(); pewpew++)
-            delete (*pewpew);
-        EnemyList.clear();
-        //SceneManager::GetInstance()->Exit();
-
-        //if (CheckAnyAlive() == nullptr)
-        //{
-        //    MonsterFactory* efactory = new MonsterFactory();
-        //    BattleEntity* wow = efactory->CreateRandomEnemy(3);
-        //    BattleEntity* wow2 = efactory->CreateRandomEnemy(4);
-
-        //    //BattleList.push_back(wow);
-        //    //BattleList.push_back(wow2);
-
-        //    EnemyList.push_back(wow);
-        //    EnemyList.push_back(wow2);
-        //}
+        anEntityTurn = false;
+        isPassTurn = false;
+        iCrit = false;
+        whichScreen = NOTHING;
+        enemyAI->battlelog->battleloglist.clear();
     }
 }
 
@@ -325,7 +312,7 @@ Passes in the entity that gets the turn
 *****************************************/
 void BattleSystem::EntityTurn(BattleEntity* entity)
 {
-    if (entity->GetAttkTurnPt() > 0 && !isPassTurn & CheckAnyAlive() != nullptr)
+    if (entity->GetAttkTurnPt() > 0 && !isPassTurn)
     {
         whichScreen = CHOOSEDOWAT;
     }
@@ -492,6 +479,7 @@ Allows the Player to flee the battle
 void BattleSystem::FleeBattle()
 {
     std::cout << "Fled the Battle" << std::endl;
+    Overworld::battle = false;
     SceneManager::GetInstance()->PreviousScene();
 }
 
@@ -522,10 +510,13 @@ void BattleSystem::Render()
         ShowBattleResults();
     else
     {
-        RenderUIStuff();
-        RenderEntities();
-        //battlelog->Render();
-        enemyAI->battlelog->Render();
+        if (Overworld::battle != false)
+        {
+            RenderUIStuff();
+            RenderEntities();
+            //battlelog->Render();
+            enemyAI->battlelog->Render();
+        }
     }
 }
 
@@ -751,6 +742,13 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
         isPassTurn = false;
         anEntityTurn = true;
         EntityTurn(entity);
+
+        if (KeyboardController::GetInstance()->IsKeyReleased(VK_ESCAPE))
+        {
+            anEntityTurn = false;
+            //anEntityTurn = false;
+            whichScreen = NOTHING;
+        }
     }
     if (screen == CHOOSETARGET)
     {
@@ -810,8 +808,6 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
 
     if (screen == CHOOSEDOWAT)
     {
-        std::cout << "test" << std::endl;
-
         if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
         {
             if (commandselect == 0)
