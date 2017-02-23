@@ -21,6 +21,8 @@
 
 #include "../Animation/AnimationsContainer.h"
 
+#include "../Player/Player.h"
+
 using namespace std;
 
 ShopScene::ShopScene()
@@ -69,7 +71,8 @@ void ShopScene::Init()
 
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("character", 4, 9)->textureID = LoadTGA("Image//character.tga");
 
-	acceptpurchase = false;  
+	b_accept = false;
+	buying_tab = true;
 
 	//init inventory
 	shop_inventory = new Inventory();
@@ -79,6 +82,7 @@ void ShopScene::Init()
 	//init Menus
 	utilitybuttons = new Menu();
 
+	//For buying
 	shop_menu = new Shop_Menu();
 	shop_menu->SetItemsPerPage(4);
 	shop_menu->SetStoreInventory(shop_inventory);
@@ -89,6 +93,21 @@ void ShopScene::Init()
 	cart_menu->SetNumberItemsPerRow(9);
 	cart_menu->SetPosition(1000.0f, 850.0f);
 	cart_menu->SetTargetInventory(*cart_inventory);
+
+	//For selling
+	player_selling_menu = new SellingCart_Menu();
+	player_selling_menu->SetNumberItemsPerRow(7);
+	player_selling_menu->SetPosition(200.0f, 850.0f);
+	player_selling_menu->SetTargetInventory(*player_inventory);
+	player_selling_menu->SetReceivingInventory(*cart_inventory);
+
+	shop_selling_menu = new SellingCart_Menu();
+	shop_selling_menu->SetNumberItemsPerRow(9);
+	shop_selling_menu->SetPosition(1000.0f, 850.0f);
+	shop_selling_menu->SetTargetInventory(*cart_inventory);
+	shop_selling_menu->SetReceivingInventory(*player_inventory);
+
+	cart_cost = 0;
 
 	//Some items in the "Shop"
 	shop_inventory->AddItem(new HealthPotion());
@@ -117,10 +136,10 @@ void ShopScene::Init()
 	shop_inventory->AddItem(swordy);
 	
 	//Utility buttons
-	SetBool_Button* acceptpurchasebtn = new SetBool_Button();
-	acceptpurchasebtn->SetSwitch(acceptpurchase);
+	acceptpurchasebtn = new SetBool_Button();
+	acceptpurchasebtn->SetSwitch(b_accept);
 	acceptpurchasebtn->SetBoolean(true);
-	acceptpurchasebtn->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	acceptpurchasebtn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	acceptpurchasebtn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 	acceptpurchasebtn->SetText("Accept Purchase");
 	acceptpurchasebtn->SetTextOffset(70, 00);
@@ -128,11 +147,11 @@ void ShopScene::Init()
 	acceptpurchasebtn->SetPosition(1400, 100);
 	utilitybuttons->AddButton(acceptpurchasebtn);
 
-	//Bttons to scroll thru pages of the shop
+	//Buttons to scroll thru pages of the shop
 	Increment_Button* nextpage = new Increment_Button();
 	nextpage->SetTargetValue(currentPage);
 	nextpage->SetIncrementAmount(1);
-	nextpage->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	nextpage->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	nextpage->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 	nextpage->SetText("Next\npage");
 	nextpage->SetScale(200, 100);
@@ -143,7 +162,7 @@ void ShopScene::Init()
 	Increment_Button* prevpage = new Increment_Button();
 	prevpage->SetTargetValue(currentPage);
 	prevpage->SetIncrementAmount(-1);
-	prevpage->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	prevpage->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	prevpage->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 	prevpage->SetText("Previous\n  page");
 	prevpage->SetScale(200, 100);
@@ -158,31 +177,79 @@ void ShopScene::Init()
 	changeScene->SetTextOffset(35, 0);
 	changeScene->SetScale(140, 100);
 	changeScene->SetPosition(1850, 1000);
-	changeScene->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	changeScene->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	changeScene->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 	utilitybuttons->AddButton(changeScene);
 
-	ChangeValue_Button* backbtn = new ChangeValue_Button();
+	//TODO:
+	//GO TO TALK SCENE - But for now it's back to overworld
+	ChangeScene_Button* backbtn = new ChangeScene_Button();
+	changeScene->SetDesiredScene("Overworld");
 	backbtn->SetText("Back");
 	backbtn->SetTextOffset(50, 0);
 	backbtn->SetScale(150, 100);
 	backbtn->SetPosition(50, 1000);
-	backbtn->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	backbtn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	backbtn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 	utilitybuttons->AddButton(backbtn);
+
+	prompt = new PopUp_Button();
+	prompt->SetActive(false);
+	prompt->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	prompt->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+	prompt->SetText("You do not have enough gold to make this purchase\n\nClick this button to continue.");
+	prompt->SetScale(1000, 600);
+	prompt->SetPosition(900, 540);
+	utilitybuttons->AddButton(prompt);
+
+	//Toggle between Buying and Selling
+	tgle_btn = new Toggle_Button();
+	tgle_btn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	tgle_btn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+	tgle_btn->SetText("Buying");
+	tgle_btn->SetAlternateText("Selling");
+	tgle_btn->SetSwitch(buying_tab);
+	tgle_btn->SetScale(200, 100);
+	tgle_btn->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5, 1050);
+	utilitybuttons->AddButton(tgle_btn);
 
 	//Get Menus to create their own buttons
 	shop_menu->SetCurrentPage(currentPage);
 	shop_menu->UpdateButtonPositions();
 
 	cart_menu->InitialiseButtons();
+	player_selling_menu->InitialiseButtons();
+	shop_selling_menu->InitialiseButtons();
+
+	cart_amount = new GUIObject();
+	cart_amount->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	cart_amount->SetText("Total:");
+	cart_amount->SetScale(300, 100);
+	cart_amount->SetPosition(1100, 900);
+
+	player_gold_amount = new GUIObject();
+	player_gold_amount->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	player_gold_amount->SetText("Your Gold:");
+	player_gold_amount->SetTextOffset(5, 20);
+	player_gold_amount->SetScale(300, 100);
+	player_gold_amount->SetPosition(1550, 900);
+
+	inventory_display = new GUIObject();
+	inventory_display->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	inventory_display->SetText("Shop\'s Inventory:");
+	inventory_display->SetTextOffset(150, 0);
+	inventory_display->SetScale(600, 80);
+	inventory_display->SetPosition(500, 900);
+
+	temp_player_gold = 9999;
 }
 void ShopScene::Update()
 {
+	//============================================================================================//
 	/*TODO:
-	--------------------------------------------
-	This should be handled in a containter class
-	--------------------------------------------
+	---------------------------------------------------
+	some stuff should be handled in a containter class
+	---------------------------------------------------
 	To include in the container class:
 	-Cart Inventory
 	-Cart Menu
@@ -191,31 +258,77 @@ void ShopScene::Update()
 	-Confirm purchase / Add to inventory button
 	->Add a Prompt for confirmation
 	->Reject if player does not have enough gold */
-	if (acceptpurchase)
-	{
-		for (unsigned i = 0; i < cart_inventory->m_inventoryList.size(); ++i)
-			player_inventory->AddItem(cart_inventory->m_inventoryList[i]);
-
-		for (auto it = cart_inventory->m_inventoryList.begin(); it != cart_inventory->m_inventoryList.end(); ++it)
-			delete *it;
-
-		cart_inventory->m_inventoryList.clear();
-
-		acceptpurchase = false;
-	}
-
+	//============================================================================================//
 	float dt = StopWatch::GetInstance()->GetDeltaTime();
 	camera.Update(dt);
 
 	utilitybuttons->Update();
-	shop_menu->Update();
-	cart_menu->Update();
+
+	if (tgle_btn->m_isPressed)
+		cart_inventory->ClearInventory();
+
+	if (buying_tab)
+	{
+		acceptpurchasebtn->SetText("Accept Purchase");
+		inventory_display->SetText("Shop\'s Inventory:");
+
+		cart_cost = 0;
+		for (unsigned i = 0; i < cart_inventory->m_inventoryList.size(); ++i)
+			cart_cost += cart_inventory->m_inventoryList[i]->GetGoldValue();
+
+		if (b_accept)
+		{
+			if (cart_cost > temp_player_gold)
+				prompt->SetActive(true);
+			else
+			{
+				temp_player_gold -= cart_cost;
+
+				for (unsigned i = 0; i < cart_inventory->m_inventoryList.size(); ++i)
+					player_inventory->AddItem(cart_inventory->m_inventoryList[i]);
+
+				cart_inventory->ClearInventory();
+
+				player_selling_menu->InitialiseButtons();
+			}
+
+			b_accept = false;
+		}
+
+		shop_menu->Update();
+		cart_menu->Update();
+	}
+	else
+	{
+		acceptpurchasebtn->SetText("Sell");
+		inventory_display->SetText("Your Inventory:");
+
+		cart_cost = 0;
+		for (unsigned i = 0; i < cart_inventory->m_inventoryList.size(); ++i)
+			cart_cost += cart_inventory->m_inventoryList[i]->GetGoldValue();
+
+		if (b_accept)
+		{
+			temp_player_gold += cart_cost;
+
+			cart_inventory->ClearInventory();
+
+			b_accept = false;
+		}
+
+		player_selling_menu->Update();
+		shop_selling_menu->Update();
+	}
+
 	EManager.Update();
 
 	//Cheat keys
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
 		SceneManager::GetInstance()->quit = true;
+	if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
+		std::cout << cart_inventory->m_inventoryList.size() << std::endl;
 }
+
 void ShopScene::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -231,20 +344,58 @@ void ShopScene::Render()
 
 	// Render stuff
 	EManager.Render();
-	shop_menu->Render();
+
+	if (buying_tab)
+	{
+		shop_menu->Render();
+		cart_menu->Render();
+	}
+	else
+	{
+		player_selling_menu->Render();
+		shop_selling_menu->Render();
+	}
+
 	utilitybuttons->Render();
-	cart_menu->Render();
 	
-	//For the page
+	//GUI Objects
+	cart_amount->Render();
+	player_gold_amount->Render();
+	inventory_display->Render();
+
+	//============================================================================================//
+	/*TODO:
+	Hard code render for some stuff
+	Create to a Generic GUIObject
+	-That points to an int or something*/
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
+
+	//Page
 	modelStack.PushMatrix();
 	modelStack.Translate(465, 95, 0);
-	modelStack.Scale(70.f, 70.f, 10.f);
+	modelStack.Scale(70.f, 70.f, 1.f);
 	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(currentPage + 1), Color(0, 1, 0));
 	modelStack.PopMatrix();
-	EManager.RenderUI();
 
+	//Cart cost
+	modelStack.PushMatrix();
+	modelStack.Translate(1050, 900, 0);
+	modelStack.Scale(50.f, 50.f, 1.f);
+	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(cart_cost), Color(0, 1, 0));
+	modelStack.PopMatrix();
+
+	//Player gold
+	modelStack.PushMatrix();
+	modelStack.Translate(1500, 880, 0);
+	modelStack.Scale(50.f, 50.f, 1.f);
+	//RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(Player::GetInstance().), Color(0, 1, 0));
+	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(temp_player_gold), Color(0, 1, 0));
+	modelStack.PopMatrix();
+	//============================================================================================//
+
+	EManager.RenderUI();
 }
+
 void ShopScene::Exit()
 {
 	// Remove the meshes which are specific to ShopScene
@@ -254,4 +405,11 @@ void ShopScene::Exit()
 
 	// Detach camera from other entities
 	GraphicsManager::GetInstance()->DetachCamera();
+}
+
+void ShopScene::moveShopOut()
+{
+	shop_menu->SetPosition(-1000, 0);
+	shop_menu->ClearButtonList();
+	shop_menu->UpdateButtonPositions();
 }
