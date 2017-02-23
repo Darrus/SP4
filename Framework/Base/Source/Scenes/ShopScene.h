@@ -29,10 +29,8 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-
 private:
 	FPSCamera camera;
-	Entity2D entity;
 
 	//Inventory
 	Inventory* shop_inventory;
@@ -40,12 +38,34 @@ private:
 	Inventory* player_inventory;
 
 	//Utility buttons
-	bool acceptpurchase;
+	bool b_accept;
 	void SendToPlayerInventory();
 	int currentPage = 0;
+
+	//For Purchasing items
+	SetBool_Button* acceptpurchasebtn;
+
+	GUIObject* cart_amount;
+	GUIObject* player_gold_amount;
+	GUIObject* inventory_display;
+
+	int cart_cost;
+	int temp_player_gold;
+
+	//Not enough gold pop button
+	PopUp_Button* prompt;
 	
+	Toggle_Button* tgle_btn;
+	bool buying_tab;
+
 	//Menus
-	Shop_Menu* shop_menu;
-	Menu* utilitybuttons;
+	Shop_Menu* shop_menu;	
 	Cart_Menu* cart_menu;
+
+	SellingCart_Menu* player_selling_menu;
+	SellingCart_Menu* shop_selling_menu;
+
+	Menu* utilitybuttons;
+
+	void moveShopOut();
 };

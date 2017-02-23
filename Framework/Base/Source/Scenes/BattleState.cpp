@@ -15,6 +15,7 @@
 #include "SoundEngine\SoundEngine.h"
 
 #include "../Entity/EntityFactory.h"
+#include "..\Overworld\Overworld.h"
 
 // Utilities
 #include "../Animation/AnimationsContainer.h"
@@ -178,7 +179,7 @@ void CBattleState::Init()
     charahehe->stats.UpdateStats();
     charahehe->HP = charahehe->stats.GetMaxHP();
     party->AddMember(charahehe);
-
+    Player::GetInstance().SetParty(*party);
     testingBattle->AssignPlayerParty(party);
 
     wow = efactory->CreateRandomEnemy(4);
@@ -192,8 +193,23 @@ void CBattleState::Init()
 }
 void CBattleState::Update()
 {
-    if (testingBattle->CheckAnyAlive() == nullptr)
+    //if (testingBattle->CheckAnyAlive() != nullptr)
+        testingBattle->Update();
+    entity.Update();
+
+    if (testingBattle->CheckAnyAlive() == nullptr && Overworld::battle == false)
     {
+        for (auto pewpew = testingBattle->EnemyList.begin(); pewpew != testingBattle->EnemyList.end(); pewpew++)
+            delete (*pewpew);
+        testingBattle->EnemyList.clear();
+
+        for (auto pepepe = testingBattle->PlayerList.begin(); pepepe != testingBattle->PlayerList.end(); pepepe++)
+            delete (*pepepe);
+        testingBattle->PlayerList.clear();
+        testingBattle->BattleList.clear();
+
+        testingBattle->AssignPlayerParty(Player::GetInstance().GetParty());
+
         wow = efactory->CreateRandomEnemy(4);
         wow2 = efactory->CreateRandomEnemy(3);
 
@@ -203,9 +219,6 @@ void CBattleState::Update()
         testingBattle->EnemyList.push_back(wow);
         testingBattle->EnemyList.push_back(wow2);
     }
-    if (testingBattle->CheckAnyAlive() != nullptr)
-        testingBattle->Update();
-    entity.Update();
 }
 
 void CBattleState::Render()

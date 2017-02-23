@@ -16,7 +16,6 @@ protected:
 	bool checkForHover(Button* btn);
 
 public:
-	//HACK
 	vector <Button*> m_buttonList;
 	Vector3 m_position;
 
@@ -34,6 +33,15 @@ public:
 		else
 			for (unsigned i = 0; i < m_buttonList.size(); ++i)
 				m_buttonList[i]->SetActive(false);
+	}
+
+	inline virtual void ClearButtonList()
+	{
+		//delete the current buttonlist
+		for (auto it = m_buttonList.begin(); it != m_buttonList.end(); ++it)
+			delete *it;
+
+		m_buttonList.clear();
 	}
 
 	//Checks if buttons are pressed
@@ -98,20 +106,12 @@ public:
 	//Getters and Setters
 	inline int GetMaxNumberOfColumns(){ return m_max_num_coloumns; }
 
+	//Cart's Inventory
 	inline void SetTargetInventory(Inventory &target_inven){ m_targetInventory = &target_inven; }
 	inline void SetNumberItemsPerRow(int num_rows){ m_num_item_per_row = num_rows; }
 	inline void SetMaxNumberOfColumns(int num_columns){ m_max_num_coloumns = num_columns; }
 
 	void InitialiseButtons();
-
-	inline void ClearCart()
-	{
-		//delete the current buttonlist
-		for (auto it = m_buttonList.begin(); it != m_buttonList.end(); ++it)
-			delete *it;
-
-		m_buttonList.clear();
-	}
 
 	inline void Update()
 	{
@@ -119,13 +119,38 @@ public:
 		InitialiseButtons();
 	}
 
-	inline void Render()
+	virtual inline void Render()
 	{
 		Menu::Render();
 	}
 
 	Cart_Menu() : m_num_item_per_row(5){};
 	~Cart_Menu(){};
+};
+
+
+
+//======================================================================================//
+
+
+
+class SellingCart_Menu : public Cart_Menu
+{
+protected:
+	Inventory *m_receiving_inventory;
+
+public:
+	inline void Update()
+	{
+		Menu::Update();
+		InitialiseButtons();
+	}
+
+	inline void SetReceivingInventory(Inventory &recv_inven){ m_receiving_inventory = &recv_inven; }
+	void InitialiseButtons();
+
+	SellingCart_Menu() : Cart_Menu(){};
+	~SellingCart_Menu(){};
 };
 
 #endif

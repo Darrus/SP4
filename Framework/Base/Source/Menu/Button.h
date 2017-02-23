@@ -1,7 +1,6 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "Mesh.h"
 #include "GUIObject.h"
 #include "../Items/Inventory.h"
 #include "../../Common/Source/SceneManager.h"
@@ -29,16 +28,13 @@ protected:
 	Mesh* m_meshList[NUM_IMAGES];
 
 	//boolean to set if the button is clickable
-	bool m_isClickable;
 
 public:
 	//To determine which mesh is rendered
+	bool m_isPressed;
 	bool m_isHovered;
 	
-	inline bool GetIsClickable(){ return m_isClickable; }
-
-	inline void SetClickable(bool clickable) { m_isClickable = clickable; }
-	inline void SetImage(Mesh* image) { m_meshList[NORMAL_IMAGE] = image; }
+	inline void SetButtonImage(Mesh* image) { m_meshList[NORMAL_IMAGE] = image; }
 	inline void SetHighlightedImage(Mesh* image) { m_meshList[HIGHLIGHTED_IMAGE] = image; }
 
 	//Virtual function that runs specified button functionality
@@ -59,11 +55,13 @@ public:
 class Toggle_Button : public Button
 {
 protected:
+	string m_alt_text;
 	//Pointer that points to the address of the boolean to toggle
 	bool *m_toToggle;
 
 public:
 	//Setters
+	inline void SetAlternateText(string alt_text){ m_alt_text = alt_text; }
 	inline void SetSwitch(bool &to_toggle){ m_toToggle = &to_toggle; }
 
 	//Virtual function from button class that runs specified button functionality
@@ -157,6 +155,46 @@ public:
 	~ChangeValue_Button(){}
 };
 
+//===============================================================================//
+//Brief: A button object that acts as a prompt that disappears after click.		 //
+//===============================================================================//
+class PopUp_Button : public Button
+{
+protected:
+
+public:
+	//Getters and Setters
+	inline void RunFunction(){ m_isActive = false; }
+	inline void Render()
+	{ 
+		if (!m_isActive)
+			return;
+		MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
+		modelStack.PushMatrix();
+		modelStack.Translate(m_pos_x, m_pos_y, 8);
+
+		modelStack.PushMatrix();
+		modelStack.Scale(m_scale_x, m_scale_y, 1);
+		if (m_meshList[m_isHovered] != nullptr)
+			RenderHelper::RenderMesh(m_meshList[m_isHovered]);
+		modelStack.PopMatrix();
+
+		if (m_text != "")
+		{
+			//Offset for text
+			modelStack.Translate(-m_scale_x * 0.5, 0, 1);
+			modelStack.Translate(m_text_offset_x, m_text_offset_y, 0);
+			modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
+			RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_text, Color(1, 0, 0));	//NOTE: COLOUR DOESN'T WORK. THANKS ALOT, TOH.
+		}
+
+		modelStack.PopMatrix();
+	}
+
+	PopUp_Button(){}
+	~PopUp_Button(){}
+};
+
 //============================================================================//
 //Brief: A button object that adds a copy of a set item into target inventory.//
 //============================================================================//
@@ -192,8 +230,8 @@ public:
 class ShopCart_Button : public Button
 {
 protected:
-	int m_item_index;
 	Inventory *m_targetInventory;
+	int m_item_index;
 
 public: 
 	inline void SetIndex(int item_index){ m_item_index = item_index; }
@@ -202,15 +240,38 @@ public:
 	inline void RunFunction()
 	{
 		m_targetInventory->m_inventoryList.erase(m_targetInventory->m_inventoryList.begin() + m_item_index);
-		
 		m_isActive = false;
 	}
 
-	void Render();
+	virtual void Render();
 
 	ShopCart_Button() : Button(){};
 	~ShopCart_Button(){};
 };
 
+//==============================================================================//
+//Brief: A button object that hold the index of an Item object which sends the  // 
+//		 item into another inventory and then disappears when pressed.          //										  //
+//==============================================================================//
+class TransferToInventory_Button : public ShopCart_Button
+{
+protected:
+	Inventory *m_receiving_inventory;
 
+public:
+	inline void SetReceivingInventory(Inventory &recv_inven){ m_receiving_inventory = &recv_inven; }
+
+	inline void RunFunction()
+	{
+		std::cout << "I GAVE IT TO THA TNIGGER " << std::endl;
+		m_receiving_inventory->AddItem(m_targetInventory->m_inventoryList[m_item_index]);
+		m_targetInventory->m_inventoryList.erase(m_targetInventory->m_inventoryList.begin() + m_item_index);
+		m_isActive = false;
+	}
+
+	//virtual void Render();
+
+	TransferToInventory_Button() : ShopCart_Button(){};
+	~TransferToInventory_Button(){};
+};
 #endif

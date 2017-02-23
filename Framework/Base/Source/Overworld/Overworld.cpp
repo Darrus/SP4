@@ -20,8 +20,9 @@
 #include "KeyboardController.h"
 #include "MatrixStack.h"
 
-Overworld::Overworld() :
-battle(false)
+bool Overworld::battle = false;
+
+Overworld::Overworld()
 {
 }
 
@@ -160,12 +161,17 @@ void Overworld::Update()
 		camera.Transition(70.f, 0.f, 50.f);
 		battle = true;
 	}
-
 	if (battle && camera.GetState() == CameraFollow::IDLE)
 	{
         player->SetRenderFlag(false);
         SceneManager::GetInstance()->SetActiveScene("BattleScene", true);
+
+        camera.Transition(0, 0, 80);
 	}
+    else
+    {
+        player->SetRenderFlag(true);
+    }
 }
 
 void Overworld::Render()

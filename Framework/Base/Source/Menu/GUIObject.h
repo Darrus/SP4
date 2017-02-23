@@ -2,6 +2,9 @@
 #define GUI_OBJECT_H
 
 #include "../Application.h"
+#include "RenderHelper.h"
+#include "GraphicsManager.h"
+#include "MeshBuilder.h"
 
 #include <string>
 
@@ -64,13 +67,37 @@ public:
 			m_screen_scale_y = m_scale_y / Application::GetInstance().GetWindowHeight();
 		}
 	}
+	inline void SetImage(Mesh* image) { m_image = image; }
 	inline void SetTextOffset(float text_x, float text_y){ m_text_offset_x = text_x; m_text_offset_y = text_y; };
 	inline void SetTextScale(float text_x, float text_y){ m_text_scale_x = text_x; m_text_scale_y = text_y; };
 	inline void SetText(string text) { m_text = text; }
 	inline void SetActive(bool active){ m_isActive = active; }
 
 	//Each derived class should have their own Render
-	virtual void Render() = 0;
+	virtual void Render()
+	{
+		if (!m_isActive)
+			return;
+		MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
+		modelStack.PushMatrix();
+		modelStack.Translate(m_pos_x, m_pos_y, 0);
+
+		modelStack.PushMatrix();
+		modelStack.Scale(m_scale_x, m_scale_y, 1);
+		RenderHelper::RenderMesh(m_image);
+		modelStack.PopMatrix();
+
+		if (m_text != "")
+		{
+			//Offset for text
+			modelStack.Translate(-m_scale_x * 0.5, 0, 1);
+			modelStack.Translate(m_text_offset_x, m_text_offset_y, 0);
+			modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
+			RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_text, Color(1, 0, 0));	//NOTE: COLOUR DOESN'T WORK. THANKS ALOT, TOH.
+		}
+
+		modelStack.PopMatrix();
+	};
 
 	GUIObject() :
 		m_pos_x(500.0f),

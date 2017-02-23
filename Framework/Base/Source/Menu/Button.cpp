@@ -5,6 +5,7 @@
 
 Button::Button() : 
 	GUIObject(),
+	m_isPressed(false),
 	m_isHovered(false)
 {
 	for (unsigned i = 0; i < NUM_IMAGES; ++i)
@@ -19,7 +20,7 @@ Button::Button(float pos_x, float pos_y, float scale_x, float scale_y) :
 	m_scale_x = scale_x;
 	m_scale_y = scale_y;
 	m_isHovered = false;
-
+	m_isPressed = false;
 	for (unsigned i = 0; i < NUM_IMAGES; ++i)
 		m_meshList[i] = nullptr;
 }
@@ -66,13 +67,21 @@ void Toggle_Button::Render()
 
 	modelStack.PopMatrix();
 
-	if (m_text != "")
+	if (*m_toToggle && m_text != "")
 	{
 		//Offset for text
 		modelStack.Translate(-m_scale_x * 0.5, 0, 1);
 		modelStack.Translate(m_text_offset_x, m_text_offset_y, 0);
 		modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
 		RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_text, Color(1, 0, 0));	//NOTE: COLOUR DOESN'T WORK. THANKS ALOT, TOH.
+	}
+	else if (!*m_toToggle && m_alt_text != "")
+	{
+		//Offset for text
+		modelStack.Translate(-m_scale_x * 0.5, 0, 1);
+		modelStack.Translate(m_text_offset_x, m_text_offset_y, 0);
+		modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
+		RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_alt_text, Color(1, 0, 0));	//NOTE: COLOUR DOESN'T WORK. THANKS ALOT, TOH.
 	}
 
 	modelStack.PopMatrix();
@@ -154,7 +163,9 @@ void ShopCart_Button::Render()
 	if (m_meshList[m_isHovered] != nullptr)
 		RenderHelper::RenderMesh(m_meshList[m_isHovered]);
 	modelStack.Translate(0, 0, 0.1);
-	RenderHelper::RenderMesh(m_targetInventory->m_inventoryList.at(m_item_index)->GetMesh());
+
+	//Render item icon
+	RenderHelper::RenderMesh(m_targetInventory->m_inventoryList[m_item_index]->GetMesh());
 	modelStack.PopMatrix();
 
 	if (m_text != "")
