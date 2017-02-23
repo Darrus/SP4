@@ -27,14 +27,19 @@ void Menu::Update()
 		if (!m_buttonList[i]->GetIsActive())
 			continue;
 
+		m_buttonList[i]->m_isPressed = false;
+
 		if (checkForHover(m_buttonList[i]))
 		{
 			m_buttonList[i]->m_isHovered = true;
 
 			if (MouseController::GetInstance()->IsButtonReleased(MouseController::LMB))
+			{
+				m_buttonList[i]->m_isPressed = true;
 				m_buttonList[i]->RunFunction();
+			}
 
-			//break;	//you don't hover over more than one button at a time so we can break here
+			break;	//you don't hover over more than one button at a time so we can break here
 		}
 		else
 			m_buttonList[i]->m_isHovered = false;
@@ -71,7 +76,7 @@ void Shop_Menu::UpdateButtonPositions()
 		ShopItem_Button* btn = new ShopItem_Button();
 		btn->SetPosition(m_position.x, (m_position.y - offset * 170) - 80);
 		btn->SetActive(true);
-		btn->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+		btn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 		btn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 		btn->SetTargetInventory(*m_cart_inventory);
 		btn->SetItem(*m_shop_inventory->m_inventoryList[i]);
@@ -160,7 +165,7 @@ void Shop_Menu::Render()
 
 void Cart_Menu::InitialiseButtons()
 {
-	ClearCart();
+	ClearButtonList();
 	float offset_x = m_position.x;
 	float offset_y = m_position.y;
 
@@ -181,7 +186,37 @@ void Cart_Menu::InitialiseButtons()
 		button->SetTargetInventory(*m_targetInventory);
 		button->SetPosition(m_position.x + offset_x, offset_y);
 		button->SetScale(100, 100);
-		button->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+		button->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+		button->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+		m_buttonList.push_back(button);
+	}
+}
+
+void SellingCart_Menu::InitialiseButtons()
+{
+	ClearButtonList();
+	float offset_x = m_position.x;
+	float offset_y = m_position.y;
+
+	//Add a button for each inventory item
+	for (unsigned i = 0; i < m_targetInventory->m_inventoryList.size(); ++i)
+	{
+		if (i % m_num_item_per_row == 0)
+		{
+			offset_x = 0;
+			offset_y -= 100;
+		}
+		else
+			offset_x += 100;
+
+		TransferToInventory_Button* button = new TransferToInventory_Button();
+		button->SetIndex(i);
+		button->SetActive(true);
+		button->SetTargetInventory(*m_targetInventory);
+		button->SetReceivingInventory(*m_receiving_inventory);
+		button->SetPosition(m_position.x + offset_x, offset_y);
+		button->SetScale(100, 100);
+		button->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 		button->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 		m_buttonList.push_back(button);
 	}
