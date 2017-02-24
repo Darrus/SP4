@@ -1,7 +1,5 @@
 #include "Skill.h"
-
-//Brief:
-//An example skill that heals 1 allied character
+#include "..//Character//CharacterInfo.h"
 
 class Heal : public Skill
 {
@@ -9,7 +7,6 @@ private:
 	int m_heal_value;
 
 public:
-
 	inline void UseSkill(SkillParameters param)
 	{
 		param.caster->MP -= m_mana_cost;
@@ -21,9 +18,8 @@ public:
 	Heal() : Skill()
 	{
 		m_name = "Heal";
-		m_heal_value = 10;
+		m_heal_value = 1000;
 		m_mana_cost = 10;
-		//To define the const value of party size
 		m_max_target_num = 1;
 		m_ally_targetable = true;
 		m_enemy_targetable = false;

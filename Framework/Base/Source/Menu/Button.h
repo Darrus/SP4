@@ -4,6 +4,7 @@
 #include "GUIObject.h"
 #include "../Items/Inventory.h"
 #include "../../Common/Source/SceneManager.h"
+#include "../Skills/SkillFunctions.h"
 
 #include <iostream>
 #include <string>
@@ -122,15 +123,32 @@ class ChangeScene_Button : public Button
 {
 protected:
 	string m_desired_scene;
+	bool m_is_overlay_scene;
 
 public:
 	//Getters and Setters
 	inline void SetDesiredScene(string value){ m_desired_scene = value; }
+	inline void SetIsOverlay(bool overlay){ m_is_overlay_scene = overlay; }
 
-	inline void RunFunction(){ SceneManager::GetInstance()->SetActiveScene(m_desired_scene); }
+	inline void RunFunction(){ SceneManager::GetInstance()->SetActiveScene(m_desired_scene, m_is_overlay_scene); }
 
-	ChangeScene_Button(){}
+	ChangeScene_Button() : m_is_overlay_scene(false){}
 	~ChangeScene_Button(){}
+};
+
+//============================================================================//
+//Brief: A button object that goes back to the previous scene.				  //
+//============================================================================//
+
+class PreviousScene_Button : public Button
+{
+protected:
+
+public:
+	inline void RunFunction(){ SceneManager::GetInstance()->PreviousScene(); }
+
+	PreviousScene_Button(){}
+	~PreviousScene_Button(){}
 };
 
 //===============================================================================//
@@ -211,7 +229,7 @@ public:
 	{ 
 		Item* itemToAdd = new Item();
 		*itemToAdd = *m_item;
-		m_targetInventory->AddItem(itemToAdd);
+		m_targetInventory->AddCopy(itemToAdd);
 	}
 	virtual void Render();
 
@@ -251,7 +269,7 @@ public:
 
 //==============================================================================//
 //Brief: A button object that hold the index of an Item object which sends the  // 
-//		 item into another inventory and then disappears when pressed.          //										  //
+//		 item into another inventory and then disappears when pressed.          //
 //==============================================================================//
 class TransferToInventory_Button : public ShopCart_Button
 {
@@ -263,15 +281,52 @@ public:
 
 	inline void RunFunction()
 	{
-		std::cout << "I GAVE IT TO THA TNIGGER " << std::endl;
-		m_receiving_inventory->AddItem(m_targetInventory->m_inventoryList[m_item_index]);
-		m_targetInventory->m_inventoryList.erase(m_targetInventory->m_inventoryList.begin() + m_item_index);
-		m_isActive = false;
+		m_receiving_inventory->AddCopy(m_targetInventory->m_inventoryList[m_item_index]);
+		ShopCart_Button::RunFunction();
 	}
-
-	//virtual void Render();
 
 	TransferToInventory_Button() : ShopCart_Button(){};
 	~TransferToInventory_Button(){};
 };
+
+
+//==============================================================================//
+//Brief: A button object that has the ability to pass the character a skill		//
+//		 pointer into the character's info skill list.							//
+//==============================================================================//
+
+class Skill_Button : public Button
+{
+protected:
+	string m_skill_name;
+	CharacterInfo* m_target_character;
+	int m_index_in_branch;
+	int m_branch;
+	bool m_is_skill_learnt;
+
+public:
+	inline void SetIndexInBranch(int index_at_branch){ m_index_in_branch = index_at_branch; }
+	inline void SetBranch(int branch){ m_branch = branch; }
+	inline void SetSkillName(string skill_name){ m_skill_name = skill_name; }
+	inline void SetTargetCharacter(CharacterInfo &target_character){ m_target_character = &target_character; }
+	inline void SetIsSkillLearnt(bool skil_is_learnt){ m_is_skill_learnt = skil_is_learnt; }
+	inline void RunFunction()
+	{
+		if (!m_is_skill_learnt)
+		{
+			if (m_target_character->skill_branch_index[m_branch] == m_index_in_branch)
+			{
+				m_target_character->skill_branch_index[m_branch]++;
+				m_is_skill_learnt = true;
+				m_target_character->skills.push_back(SkillContainer::GetInstance()->GetSkill(m_skill_name));
+			}
+		}
+	}
+	void Render();
+
+	Skill_Button(){};
+	~Skill_Button(){};
+
+};
+
 #endif

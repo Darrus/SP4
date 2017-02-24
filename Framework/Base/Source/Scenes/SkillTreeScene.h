@@ -2,12 +2,9 @@
 #define SKILLTREESCENE_H
 
 #include "Scene.h"
-#include "Mtx44.h"
-#include "Mesh.h"
-#include "MatrixStack.h"
 #include "../FPSCamera.h"
-#include "../Entity/SpriteEntity.h"
-#include "../Entity/Entity2D.h"
+#include "../Skills/SkillFunctions.h"
+#include "../Menu/Menu.h"
 
 class SceneManager;
 class TextEntity;
@@ -24,11 +21,18 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	Entity2D* testy;
-
 private:
 	FPSCamera camera;
+	
+	//Character info and how much this character has advanced in each branch
+	CharacterInfo* character;
 
+	vector<Skill*> skill_branch[NUM_BRANCHES];
+
+	Menu* skill_menu;
+
+	void dummy_values();
+	void init_skills();
 };
 
 #endif

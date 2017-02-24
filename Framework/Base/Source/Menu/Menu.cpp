@@ -89,6 +89,43 @@ void Shop_Menu::UpdateButtonPositions()
 void Shop_Menu::Update()
 {
 	Menu::Update();
+
+	if (m_next_btn->GetIsActive())
+	{
+		m_next_btn->m_isPressed = false;
+
+		if (checkForHover(m_next_btn))
+		{
+			m_next_btn->m_isHovered = true;
+
+			if (MouseController::GetInstance()->IsButtonReleased(MouseController::LMB))
+			{
+				m_next_btn->m_isPressed = true;
+				m_next_btn->RunFunction();
+			}
+		}
+		else
+			m_next_btn->m_isHovered = false;
+	}
+
+	if (m_prev_btn->GetIsActive())
+	{
+		m_prev_btn->m_isPressed = false;
+
+		if (checkForHover(m_prev_btn))
+		{
+			m_prev_btn->m_isHovered = true;
+
+			if (MouseController::GetInstance()->IsButtonReleased(MouseController::LMB))
+			{
+				m_prev_btn->m_isPressed = true;
+				m_prev_btn->RunFunction();
+			}
+		}
+		else
+			m_prev_btn->m_isHovered = false;
+	}
+
 	//Loops back to start or end when out of bounds
 	//Check if it's perfect pages
 	if (m_buttonList.size() % m_num_items_per_page)
@@ -161,6 +198,9 @@ void Shop_Menu::Render()
 					m_buttonList[i]->Render();
 		}
 	}
+
+	m_next_btn->Render();
+	m_prev_btn->Render();
 }
 
 void Cart_Menu::InitialiseButtons()

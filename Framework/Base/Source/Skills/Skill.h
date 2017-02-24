@@ -4,15 +4,25 @@
 #include <string>
 #include <vector>
 
-#include "../Character/CharacterInfo.h"
-
 using std::string;
 using std::vector;
+
+class CharacterInfo;
 
 struct SkillParameters
 {
 	CharacterInfo* caster;
 	vector<CharacterInfo*> targetList;
+};
+
+enum SKILLTREE_BRANCH
+{
+	BRANCH_P_ATK,
+	BRANCH_M_ATK,
+	BRANCH_P_DEF,
+	BRANCH_M_DEF,
+
+	NUM_BRANCHES
 };
 
 class Skill
@@ -42,5 +52,7 @@ public:
 	Skill() : m_name(""){}
 	virtual ~Skill(){}
 };
+
+
 
 #endif

@@ -168,6 +168,36 @@ void ShopCart_Button::Render()
 	RenderHelper::RenderMesh(m_targetInventory->m_inventoryList[m_item_index]->GetMesh());
 	modelStack.PopMatrix();
 
+	//Offset for text
+	modelStack.Translate(-m_scale_x * 0.5, 0, 1);
+	modelStack.Translate(m_text_offset_x, m_text_offset_y, 0);
+	modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
+	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(m_targetInventory->m_inventoryList[m_item_index]->GetGoldValue()), Color(1, 0, 0));
+
+	modelStack.PopMatrix();
+}
+
+void Skill_Button::Render()
+{
+	if (!m_isActive)
+		return;
+	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
+	modelStack.PushMatrix();
+	modelStack.Translate(m_pos_x, m_pos_y, 0);
+
+	modelStack.PushMatrix();
+	modelStack.Scale(m_scale_x, m_scale_y, 1);
+	//Renders highlighted image when if skill is already learnt
+	if (m_is_skill_learnt)
+		RenderHelper::RenderMesh(m_meshList[HIGHLIGHTED_IMAGE]);
+	else
+	{
+		if (m_meshList[m_isHovered] != nullptr)
+			RenderHelper::RenderMesh(m_meshList[m_isHovered]);
+	}
+	
+	modelStack.PopMatrix();
+
 	if (m_text != "")
 	{
 		//Offset for text
