@@ -20,6 +20,9 @@
 // Utilities
 #include "../Animation/AnimationsContainer.h"
 
+#include "..\Items\Consumable.h"
+#include "../Skills/SkillFunctions.h"
+
 using namespace std;    
 
 CBattleState::CBattleState() :
@@ -150,6 +153,9 @@ void CBattleState::Init()
     charahehe->id = 0;
     charahehe->stats.UpdateStats();
     charahehe->HP = charahehe->stats.GetMaxHP();
+    SkillContainer::GetInstance()->Init();
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+    //testingBattle->partypew->AddMember(charahehe);
     party->AddMember(charahehe);
 
     charahehe = new CharacterInfo();
@@ -164,11 +170,14 @@ void CBattleState::Init()
     charahehe->id = 1;
     charahehe->stats.UpdateStats();
     charahehe->HP = charahehe->stats.GetMaxHP();
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+    //testingBattle->partypew->AddMember(charahehe);
     party->AddMember(charahehe);
 
     charahehe = new CharacterInfo();
     charahehe->stats.AddVit(86);
-    charahehe->stats.AddStr(999);
+    charahehe->stats.AddStr(1);
     charahehe->stats.AddInt(40);
     charahehe->stats.AddMind(30);
     charahehe->stats.AddDex(50);
@@ -178,9 +187,16 @@ void CBattleState::Init()
     charahehe->id = 2;
     charahehe->stats.UpdateStats();
     charahehe->HP = charahehe->stats.GetMaxHP();
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
     party->AddMember(charahehe);
+    //testingBattle->partypew->AddMember(charahehe);
+
     Player::GetInstance().SetParty(*party);
-    testingBattle->AssignPlayerParty(party);
+
+    std::cout << party->memberCount() << std::endl;
+    std::cout << Player::GetInstance().GetParty()->memberCount() << std::endl; 
+    testingBattle->AssignPlayerParty();
 
     wow = efactory->CreateRandomEnemy(4);
     wow2 = efactory->CreateRandomEnemy(3);
@@ -190,11 +206,16 @@ void CBattleState::Init()
 
     testingBattle->EnemyList.push_back(wow);
     testingBattle->EnemyList.push_back(wow2);
+
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new MaxHealthPotion());
 }
 void CBattleState::Update()
 {
     //if (testingBattle->CheckAnyAlive() != nullptr)
-        testingBattle->Update();
+    testingBattle->Update();
     entity.Update();
 
     if (testingBattle->CheckAnyAlive() == nullptr && Overworld::battle == false)
@@ -208,7 +229,7 @@ void CBattleState::Update()
         testingBattle->PlayerList.clear();
         testingBattle->BattleList.clear();
 
-        testingBattle->AssignPlayerParty(Player::GetInstance().GetParty());
+        testingBattle->AssignPlayerParty();
 
         wow = efactory->CreateRandomEnemy(4);
         wow2 = efactory->CreateRandomEnemy(3);

@@ -16,6 +16,7 @@ HealthPotion::HealthPotion()
 void HealthPotion::UseOn(CharacterInfo* chara)
 {
 	chara->HP += m_healValue;
+    chara->stats.UpdateStats();
 }
 
 //=================================================================================================//
@@ -31,4 +32,5 @@ MaxHealthPotion::MaxHealthPotion()
 void MaxHealthPotion::UseOn(CharacterInfo* chara)
 {
 	chara->HP = chara->stats.GetMaxHP();
+     chara->stats.UpdateStats();
 }

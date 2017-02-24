@@ -41,6 +41,8 @@ public:
     inline PartySystem* GetParty() { return &m_party; }
     inline void SetParty(PartySystem party) { m_party = party;  }
 
+    inline Inventory* GetInventory() { return &m_inventory; }
+    inline void SetInventory(Inventory inventory) { m_inventory = inventory; }
 
 	Player();
 	~Player();
