@@ -25,7 +25,6 @@ public:
 	bool IsDone();
 	void SetIsDone(const bool _value);
 
-	void SetMesh(Mesh* mesh);
 	void SetRenderFlag(bool flag);
 	bool GetRenderFlag();
 

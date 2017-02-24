@@ -4,15 +4,14 @@
 
 class OverworldAsset : public AssetEntity
 {
+protected:
 	CameraFollow* camera;
 
 public:
 	OverworldAsset(const string& meshName);
 	virtual ~OverworldAsset();
 
-	virtual void Update();
 	virtual void Render();
-	virtual void HandleCollision(EntityBase* entity);
 
 	inline void SetCamera(CameraFollow* camera){ this->camera = camera; }
 };

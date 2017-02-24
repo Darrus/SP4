@@ -76,7 +76,6 @@ void EntityBase::RemoveCollider()
 
 void EntityBase::HandleCollision(EntityBase* entity)
 {
-	SetIsDone(true);
 }
 
 void EntityBase::SetRenderFlag(bool flag)

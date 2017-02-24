@@ -11,7 +11,7 @@
 #include "timer.h"
 #include "KeyboardController.h"
 #include "SceneManager.h"
-#include "Overworld.h"
+#include "OverworldBase.h"
 
 
 OverworldPlayer::OverworldPlayer() :
@@ -33,6 +33,7 @@ void OverworldPlayer::Update()
 
 	OverworldEntity::Update();
 	Controls();
+	HandleBoundary();
 
 	camera->SetEntityPos(position);
 	collider->SetOffset(velocity);
@@ -60,7 +61,7 @@ void OverworldPlayer::Controls()
 
 	if (KeyboardController::GetInstance()->IsKeyPressed('E'))
 	{
-		Overworld* scene = dynamic_cast<Overworld*>(SceneManager::GetInstance()->GetActiveScene());
+		OverworldBase* scene = dynamic_cast<OverworldBase*>(SceneManager::GetInstance()->GetActiveScene());
 		if (scene)
 		{
 			CSpatialPartition* spatial = scene->GetSpatialPartition();
@@ -102,5 +103,15 @@ void OverworldPlayer::HandleCollision(EntityBase* entity)
 
 	check.SetOffset(Vector3(position.x, position.y + velocity.y, position.z));
 	if (check.CheckCollision(entity->GetCollider()))
+		velocity.y = 0.f;
+}
+
+void OverworldPlayer::HandleBoundary()
+{
+	Vector3 newPos = position + velocity;
+	Vector3 boundary = ground->GetScale() * 0.5f;
+	if (newPos.x + scale.x * 0.5f > boundary.x || newPos.x - scale.x * 0.5f < -boundary.x)
+		velocity.x = 0.f;
+	if (newPos.y + scale.y * 0.5f > boundary.y || newPos.y - scale.y * 0.5f < -boundary.y)
 		velocity.y = 0.f;
 }

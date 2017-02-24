@@ -18,7 +18,10 @@ void TriggerScene::Update()
 
 void TriggerScene::OnTrigger()
 {
-	camera->Transition(0.f, 360.f, 1.f);
-	camera->SetDistSpeed(100.f);
-	camera->SetRotSpeed(350.f);
+	if (!trigger)
+	{
+		camera->Transition(0.f, 360.f, 1.f);
+		camera->SetDistSpeed(100.f);
+		camera->SetRotSpeed(350.f);
+	}
 }

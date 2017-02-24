@@ -4,7 +4,8 @@
 using std::cout;
 using std::endl;
 
-CLuaInterface::CLuaInterface()
+CLuaInterface::CLuaInterface() :
+functions(nullptr)
 {
 	functions = lua_open();
 	if (functions)
@@ -199,6 +200,8 @@ void CLuaInterface::error(const char *errorCode)
 
 void CLuaInterface::Drop()
 {
+	lua_close(functions);
+
 	//currentState = nullptr;
 	map<string, lua_State*>::iterator it = luaStates.begin();
 	while (it != luaStates.end())
@@ -206,8 +209,6 @@ void CLuaInterface::Drop()
 		lua_close(it->second);
 		it = luaStates.erase(it);
 	}
-
-	lua_close(functions);
 }
 
 void CLuaInterface::DropFile(string name)
