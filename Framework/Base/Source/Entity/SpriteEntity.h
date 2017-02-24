@@ -18,7 +18,7 @@ public:
 		NUM_MODE
 	};
 
-	SpriteEntity(Mesh* _modelMesh);
+	SpriteEntity(Mesh* _modelMesh = nullptr);
 	virtual ~SpriteEntity();
 
 	virtual void Update(double _dt);
@@ -32,6 +32,7 @@ public:
 	inline Vector3 GetScale(){ return scale; };
 
 	inline void SetTextRenderMode(SPRITE_RENDERMODE _mode){ mode = _mode; };
+	inline void SetMesh(Mesh* mesh) { modelMesh = mesh; }
 
 private:
 	Vector3 position;

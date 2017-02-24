@@ -21,13 +21,19 @@
 //include lua stuff
 #include "Lua\LuaInterface.h"
 
+// Singletons
+#include "SoundEngine\SoundEngine.h"
+
 //Scenes
 #include "Scenes\IntroState.h"
 #include "Scenes\SkillTreeScene.h"
 #include "Scenes\BattleState.h"
-#include "Overworld\Overworld.h"
 #include "Scenes\DialogueScene.h"
 #include "Scenes\ShopScene.h"
+
+#include "Overworld\Overworld.h"
+#include "Overworld\Town.h"
+#include "Overworld\TownShop.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -140,6 +146,8 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("Shop", new ShopScene());
 	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
 	SceneManager::GetInstance()->AddScene("Dialogue", new DialogueScene());
+	SceneManager::GetInstance()->AddScene("Town", new Town());
+	SceneManager::GetInstance()->AddScene("TownShop", new TownShop());
 
 	//Set the active scene
 	SceneManager::GetInstance()->SetActiveScene("Overworld");
@@ -205,6 +213,9 @@ void Application::Exit()
 	glfwDestroyWindow(m_window);
 	//Finalize and clean up GLFW
 	glfwTerminate();
+
+	SceneManager::GetInstance()->Destroy();
+	SoundEngine::GetInstance()->Destroy();
 }
 
 void Application::UpdateInput()
