@@ -7,7 +7,7 @@
 #include "RenderHelper.h"
 
 // Scenes
-#include "../Scenes/DialogueScene.h"
+#include "../Scenes/ShopDialogueScene.h"
 #include "SceneManager.h"
 
 NPC::NPC()
@@ -43,10 +43,10 @@ void NPC::Update()
 
 void NPC::Interact()
 {
-	DialogueScene* scene = dynamic_cast<DialogueScene*>(SceneManager::GetInstance()->SetActiveScene("Dialogue", true));
+	ShopDialogueScene* scene = dynamic_cast<ShopDialogueScene*>(SceneManager::GetInstance()->SetActiveScene(targetScene, true));
 	if (scene)
 	{
 		scene->SetDialogue(dialogue);
-		scene->SetTargetScene(targetScene);
+		scene->SetTargetScene("Shop");
 	}
 }

@@ -92,7 +92,7 @@ void TownShop::Init()
 	npc->SetScale(Vector3(5.f, 5.f, 1.f));
 	npc->SetPosition(Vector3(0.f, 20.f, 1.f));
 	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
-	npc->SetTargetScene("Shop");
+	npc->SetTargetScene("ShopDialogue");
 	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
 	spatial.Add(npc);

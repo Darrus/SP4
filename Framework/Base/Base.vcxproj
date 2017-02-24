@@ -59,6 +59,7 @@
     <ClCompile Include="Source\Scenes\BattleState.cpp" />
     <ClCompile Include="Source\Scenes\DialogueScene.cpp" />
     <ClCompile Include="Source\Scenes\IntroState.cpp" />
+    <ClCompile Include="Source\Scenes\ShopDialogueScene.cpp" />
     <ClCompile Include="Source\Scenes\ShopScene.cpp" />
     <ClCompile Include="Source\Scenes\SkillTreeScene.cpp" />
     <ClCompile Include="Source\Skills\Skill.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="Source\Scenes\BattleState.h" />
     <ClInclude Include="Source\Scenes\DialogueScene.h" />
     <ClInclude Include="Source\Scenes\IntroState.h" />
+    <ClInclude Include="Source\Scenes\ShopDialogueScene.h" />
     <ClInclude Include="Source\Scenes\ShopScene.h" />
     <ClInclude Include="Source\Scenes\SkillTreeScene.h" />
     <ClInclude Include="Source\Skills\Skill.h" />

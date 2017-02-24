@@ -29,6 +29,7 @@
 #include "Scenes\SkillTreeScene.h"
 #include "Scenes\BattleState.h"
 #include "Scenes\DialogueScene.h"
+#include "Scenes\ShopDialogueScene.h"
 #include "Scenes\ShopScene.h"
 
 #include "Overworld\Overworld.h"
@@ -146,6 +147,7 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("Shop", new ShopScene());
 	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
 	SceneManager::GetInstance()->AddScene("Dialogue", new DialogueScene());
+	SceneManager::GetInstance()->AddScene("ShopDialogue", new ShopDialogueScene());
 	SceneManager::GetInstance()->AddScene("Town", new Town());
 	SceneManager::GetInstance()->AddScene("TownShop", new TownShop());
 
