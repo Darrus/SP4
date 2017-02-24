@@ -16,7 +16,7 @@ public:
 	//TODO:
 	// Equipment System
     CharacterInfo(){}
-    ~CharacterInfo(){}
+    virtual ~CharacterInfo(){}
 
 	// List of entity's skills
 	typedef list<Skill*> SkillList;
@@ -35,6 +35,8 @@ public:
 			stats.AddStatPoint(STAT_POINT_GAIN);
 			EXP -= stats.GetMaxEXP();
 			stats.UpdateStats();
+            HP = stats.GetMaxHP();
+            MP = stats.GetMaxMP();
 			levelsGained++;
 		}
 		return levelsGained;

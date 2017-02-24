@@ -4,9 +4,11 @@
 #include "RenderHelper.h"
 
 SkyBoxEntity::SkyBoxEntity(void)
-	: size(1000.0f, 1000.0f, 1000.0f)
-	, m_bBoundaryDefined(false)
 {
+	for (int i = 0; i < NUM_SIDES; ++i)
+	{
+		modelMesh[i] = nullptr;
+	}
 }
 
 SkyBoxEntity::~SkyBoxEntity()
@@ -24,46 +26,62 @@ void SkyBoxEntity::Render()
 	modelStack.PushMatrix();
 
 		// Front
+	if (modelMesh[RIGHT])
+	{
 		modelStack.PushMatrix();
-		modelStack.Translate(0, size.y * 0.5f, 0.f);
+		modelStack.Translate(position.x, position.y + scale.y * 0.5f, position.z);
 		modelStack.Rotate(90.f, 1.f, 0.f, 0.f);
-		modelStack.Scale(size.x, size.y, size.z);
+		modelStack.Scale(scale.x, scale.y, scale.z);
 		RenderHelper::RenderMesh(modelMesh[FRONT]);
 		modelStack.PopMatrix();
+	}
 
-		// Front
+	// Back
+	if (modelMesh[BACK])
+	{
 		modelStack.PushMatrix();
-		modelStack.Translate(0, -size.y * 0.5f, 0.f);
+		modelStack.Translate(position.x, position.y - scale.y * 0.5f, position.z);
 		modelStack.Rotate(180.f, 0.f, 0.f, 1.f);
 		modelStack.Rotate(90.f, 1.f, 0.f, 0.f);
-		modelStack.Scale(size.x, size.y, size.z);
+		modelStack.Scale(scale.x, scale.y, scale.z);
 		RenderHelper::RenderMesh(modelMesh[BACK]);
 		modelStack.PopMatrix();
+	}
 
-		// Right
+	// Right
+	if (modelMesh[RIGHT])
+	{
 		modelStack.PushMatrix();
-		modelStack.Translate(size.x * 0.5f, 0.f, 0.f);
+		modelStack.Translate(position.x + scale.x * 0.5f, position.y, position.z);
 		modelStack.Rotate(-90.f, 0.f, 0.f, 1.f);
 		modelStack.Rotate(90.f, 1.f, 0.f, 0.f);
-		modelStack.Scale(size.x, size.y, size.z);
+		modelStack.Scale(scale.x, scale.y, scale.z);
 		RenderHelper::RenderMesh(modelMesh[RIGHT]);
 		modelStack.PopMatrix();
+	}
 
-		// Left
+	// Left
+	if (modelMesh[LEFT])
+	{
 		modelStack.PushMatrix();
-		modelStack.Translate(-size.x * 0.5f, 0.f, 0.f);
+		modelStack.Translate(position.x - scale.x * 0.5f, position.y, position.z);
 		modelStack.Rotate(90.f, 0.f, 0.f, 1.f);
 		modelStack.Rotate(90.f, 1.f, 0.f, 0.f);
-		modelStack.Scale(size.x, size.y, size.z);
+		modelStack.Scale(scale.x, scale.y, scale.z);
 		RenderHelper::RenderMesh(modelMesh[LEFT]);
 		modelStack.PopMatrix();
+	}
+	
 
-		// Bottom
+	// Bottom
+	if (modelMesh[BOTTOM])
+	{
 		modelStack.PushMatrix();
-		modelStack.Translate(0.f, 0.f, -size.z * 0.5f);
-		modelStack.Scale(size.x, size.y, size.z);
+		modelStack.Translate(position.x, position.y, position.z + scale.z * 0.5f);
+		modelStack.Scale(scale.x, scale.y, scale.z);
 		RenderHelper::RenderMesh(modelMesh[BOTTOM]);
 		modelStack.PopMatrix();
+	}
 
 
 	modelStack.PopMatrix();
@@ -74,15 +92,3 @@ void SkyBoxEntity::SetMesh(const int _side, Mesh* _modelMesh)
 {
 	modelMesh[_side] = _modelMesh;
 }
-
-Vector3 SkyBoxEntity::GetBoundary(void)
-{
-	if (!m_bBoundaryDefined)
-	{
-		boundary = Vector3(	position.x - (size.x*scale.x) / 2.0f,
-							position.y - (size.y*scale.y) / 2.0f,
-							position.z - (size.z*scale.z) / 2.0f);
-		m_bBoundaryDefined = true;
-	}
-	return boundary;
-};

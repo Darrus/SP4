@@ -8,6 +8,7 @@ SceneManager::SceneManager() :nextScene(nullptr), quit(false), overlay(false), b
 
 SceneManager::~SceneManager()
 {
+	Exit();
 }
 
 void SceneManager::Update()

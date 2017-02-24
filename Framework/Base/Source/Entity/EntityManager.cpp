@@ -52,10 +52,11 @@ void EntityManager::Render()
 	end = entityList.end();
 	for (it = entityList.begin(); it != end; ++it)
 	{
-		if ((*it)->GetRenderFlag() && WithinFustrum(*it))
+		if (WithinFustrum(*it))
 		{
-			(*it)->Render();
-			if (showCollider && (*it)->HasCollider())
+			if ((*it)->GetRenderFlag())
+				(*it)->Render();
+			if ((*it)->HasCollider() && showCollider)
 				(*it)->GetCollider()->RenderCollider();
 		}
 	}

@@ -41,40 +41,41 @@ CSpatialPartition::~CSpatialPartition(void)
 /********************************************************************************
  Initialise the spatial partition
  ********************************************************************************/
-bool CSpatialPartition::Init(	const int xGridSize, const int yGridSize, 
-								const int xNumOfGrid, const int yNumOfGrid)
+bool CSpatialPartition::Init(const int xSize, const int ySize, const int xNumOfGrid, const int yNumOfGrid)
 {
-	if ((xGridSize > 0) && (yGridSize > 0)
-		&& (xNumOfGrid > 0) && (yNumOfGrid > 0))
+	if (xSize < 0 || ySize < 0 || xNumOfGrid < 0 || yNumOfGrid < 0)
+		return false;
+
+	// Init variables
+	this->xSize = xSize;
+	this->ySize = ySize;
+	this->xNumOfGrid = xNumOfGrid;
+	this->yNumOfGrid = yNumOfGrid;
+	xGridSize = (int)(xSize / xNumOfGrid);
+	yGridSize = (int)(ySize / yNumOfGrid);
+
+	// Create an array of grids
+	theGrid = new CGrid[xNumOfGrid * yNumOfGrid];
+
+	// Create an array of grids
+	theGrid = new CGrid[xNumOfGrid * yNumOfGrid];
+
+	// Initialise the array of grids
+	for (int i = 0; i < xNumOfGrid; i++)
 	{
-		this->xNumOfGrid = xNumOfGrid;
-		this->yNumOfGrid = yNumOfGrid;
-		this->xGridSize = xGridSize;
-		this->yGridSize = yGridSize;
-		this->xSize = xGridSize * xNumOfGrid;
-		this->ySize = yGridSize * yNumOfGrid;
-
-		// Create an array of grids
-		theGrid = new CGrid[ xNumOfGrid * yNumOfGrid ];
-
-		// Initialise the array of grids
-		for (int i = 0; i < xNumOfGrid; i++)
+		for (int j = 0; j < yNumOfGrid; j++)
 		{
-			for (int j = 0; j < yNumOfGrid; j++)
-			{
-				theGrid[i * yNumOfGrid + j].Init(i, j, xGridSize, yGridSize, (xSize >> 1), (ySize >> 1));
-			}
+			theGrid[i * yNumOfGrid + j].Init(i, j, xGridSize, yGridSize, (xSize >> 1), (ySize >> 1));
 		}
-
-		// Assign a Mesh to each Grid if available.
-		ApplyMesh();
-
-		// Create a migration list vector
-		MigrationList.clear();
-
-		return true;
 	}
-	return false;
+
+	// Assign a Mesh to each Grid if available.
+	ApplyMesh();
+
+	// Create a migration list vector
+	MigrationList.clear();
+
+	return true;
 }
 
 /********************************************************************************
