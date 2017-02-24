@@ -329,6 +329,9 @@
     <ClInclude Include="Source\Overworld\Town.h">
       <Filter>Overworld\World</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Character\InfoBase.h">
+      <Filter>Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animation">

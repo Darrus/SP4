@@ -157,7 +157,7 @@ void ShopScene::Init()
 	nextpage->SetScale(200, 100);
 	nextpage->SetPosition(700, 100);
 	nextpage->SetTextOffset(60, 15);
-	utilitybuttons->AddButton(nextpage);
+	shop_menu->SetNextButton(nextpage);
 
 	Increment_Button* prevpage = new Increment_Button();
 	prevpage->SetTargetValue(currentPage);
@@ -168,7 +168,7 @@ void ShopScene::Init()
 	prevpage->SetScale(200, 100);
 	prevpage->SetPosition(300, 100);
 	prevpage->SetTextOffset(35, 15);
-	utilitybuttons->AddButton(prevpage);
+	shop_menu->SetPreviousButton(prevpage);
 
 	//Exit back to overworld button
 	ChangeScene_Button* changeScene = new ChangeScene_Button();
@@ -183,8 +183,7 @@ void ShopScene::Init()
 
 	//TODO:
 	//GO TO TALK SCENE - But for now it's back to overworld
-	ChangeScene_Button* backbtn = new ChangeScene_Button();
-	changeScene->SetDesiredScene("Overworld");
+	PreviousScene_Button* backbtn = new PreviousScene_Button();
 	backbtn->SetText("Back");
 	backbtn->SetTextOffset(50, 0);
 	backbtn->SetScale(150, 100);
@@ -264,8 +263,23 @@ void ShopScene::Update()
 
 	utilitybuttons->Update();
 
+	//TODO:
+	//Shit keeps crashing. 
+	//Items disappear from cart when toggling - OK when buying, not so much when selling
+	//"vector subscript oor"
+
 	if (tgle_btn->m_isPressed)
+	{
+		//if (!buying_tab)
+		//{
+		//	for (unsigned i = 0; i < player_selling_menu->m_buttonList.size(); ++i)
+		//	{
+		//		player_selling_menu->m_buttonList[i]->RunFunction();
+		//	}
+		//}
+
 		cart_inventory->ClearInventory();
+	}
 
 	if (buying_tab)
 	{
@@ -276,6 +290,7 @@ void ShopScene::Update()
 		for (unsigned i = 0; i < cart_inventory->m_inventoryList.size(); ++i)
 			cart_cost += cart_inventory->m_inventoryList[i]->GetGoldValue();
 
+		//If player accepts the purchase
 		if (b_accept)
 		{
 			if (cart_cost > temp_player_gold)
@@ -285,7 +300,7 @@ void ShopScene::Update()
 				temp_player_gold -= cart_cost;
 
 				for (unsigned i = 0; i < cart_inventory->m_inventoryList.size(); ++i)
-					player_inventory->AddItem(cart_inventory->m_inventoryList[i]);
+					player_inventory->AddCopy(cart_inventory->m_inventoryList[i]);
 
 				cart_inventory->ClearInventory();
 

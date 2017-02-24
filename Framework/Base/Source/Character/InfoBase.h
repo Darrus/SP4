@@ -10,7 +10,7 @@ class InfoBase
 {
 public:
     InfoBase(){}
-    ~InfoBase(){}
+    virtual ~InfoBase(){}
 
 	// Name of entity
 	string name;

@@ -17,8 +17,13 @@ Inventory::~Inventory()
 
 void Inventory::AddItem(Item* itemToAdd)
 {
+	m_inventoryList.push_back(itemToAdd);
+}
+
+void Inventory::AddCopy(Item* itemToCopy)
+{
 	Item* toAdd = new Item();
-	*toAdd = *itemToAdd;
+	*toAdd = *itemToCopy;
 
 	m_inventoryList.push_back(toAdd);
 }

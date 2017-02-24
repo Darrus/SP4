@@ -77,6 +77,7 @@
     <ClInclude Include="Source\Battle\MonsterFactory.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Character\CharacterInfo.h" />
+    <ClInclude Include="Source\Character\InfoBase.h" />
     <ClInclude Include="Source\Character\Stat.h" />
     <ClInclude Include="Source\EnemyAI.h" />
     <ClInclude Include="Source\Entity\AssetEntity.h" />

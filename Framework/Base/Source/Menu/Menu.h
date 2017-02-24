@@ -67,6 +67,8 @@ protected:
 	int m_num_items_per_page;
 	Inventory *m_shop_inventory;
 	Inventory *m_cart_inventory;
+	Increment_Button* m_prev_btn;
+	Increment_Button* m_next_btn;
 
 public:
 	//Getters and Setters
@@ -74,6 +76,9 @@ public:
 	inline void SetCartInventory(Inventory* cart_inventory){ m_cart_inventory = cart_inventory; }
 	inline void SetCurrentPage(int &currentPage) { m_current_page = &currentPage; }
 	inline void SetItemsPerPage(int item_per_page){ m_num_items_per_page = item_per_page; }
+	inline void SetPreviousButton(Increment_Button* prev_btn){ m_prev_btn = prev_btn; }
+	inline void SetNextButton(Increment_Button* next_btn){ m_next_btn = next_btn; }
+
 	inline int GetCurrentPage() { return *m_current_page; }
 	inline int GetNumberOfItemsPerPage() { return m_num_items_per_page; }
 

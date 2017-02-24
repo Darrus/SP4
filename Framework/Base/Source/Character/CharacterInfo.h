@@ -6,9 +6,9 @@
 #include <list>
 #include "InfoBase.h"
 
-using std::list;
+#include "../Skills/Skill.h"
 
-class Skill;
+using std::list;
 
 class CharacterInfo : public InfoBase
 {
@@ -16,11 +16,13 @@ public:
 	//TODO:
 	// Equipment System
     CharacterInfo(){}
-    ~CharacterInfo(){}
+    virtual ~CharacterInfo(){}
 
 	// List of entity's skills
 	typedef list<Skill*> SkillList;
 	SkillList skills;
+
+	int skill_branch_index[NUM_BRANCHES];
 
 	// Entity EXP
 	int EXP = 0;
@@ -33,6 +35,8 @@ public:
 			stats.AddStatPoint(STAT_POINT_GAIN);
 			EXP -= stats.GetMaxEXP();
 			stats.UpdateStats();
+            HP = stats.GetMaxHP();
+            MP = stats.GetMaxMP();
 			levelsGained++;
 		}
 		return levelsGained;

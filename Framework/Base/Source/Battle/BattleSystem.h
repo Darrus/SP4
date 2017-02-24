@@ -9,7 +9,6 @@
 #include "..\Entity\SpriteEntity.h"
 #include "..\EnemyAI.h"
 #include "..\BattleLog.h"
-#include "..\Skills\Skill.h"
 
 class BattleSystem
 {
@@ -22,10 +21,11 @@ private:
     BattleEntity* pewpewpew;                                                    ///< Temporary Battle entity storage for players
     SpriteEntity* Arrow;                                                        ///< Sprite Entity for the Arrow
     EnemyAI* enemyAI;                                                           ///< Handles the A.I. of the enemy.
-    Skill* skills;                                                              ///< Skills of the Battle
-    PartySystem* partypew;                                                      ///< The Player's Party
     bool addEXP;                                                                ///< Boolean to check if EXP is added
     CharacterInfo* playerInfo;                                                  ///< Character Info's such as stats, HP, EXP
+    bool chooseItem;
+    int turnPt;
+    bool noMoreItems;
 
 public:
     BattleSystem();                                                             ///< Default Constructor
@@ -38,6 +38,7 @@ public:
 
     void RenderEntities();                                                      ///< For Rendering the Entities such as Players and Enemies
     void RenderUIStuff();                                                       ///< For Rendering User Interface such as Command Box, Turn Bar, Selection Arrow
+    void RenderInventory();
 
     ///< Choosing Target and checking if entity is alive
     BattleEntity* ChooseAtkTarget(BattleEntity* entity);                        ///< Returns a Target for the player to attack at except itself
@@ -62,6 +63,7 @@ public:
 
     ///< User Inputs
     void ChoosePlayerInput();
+    void ChooseItems(BattleEntity* entity);
 
     ///< Show Battle Results
     void ShowBattleResults();
@@ -70,8 +72,11 @@ public:
     ///< Battle End Check
     void CheckBattleEnd(BattleEntity* entity);
 
+    ///< Check
+    void NoMoreItems();
+
     // Assigning Party
-    void AssignPlayerParty(PartySystem* party);
+    void AssignPlayerParty();
 
     //CharacterInfo* playerInfo;                   ///< Get the player's Party
     SpriteEntity* BattleSprites;                ///< Battle Sprites
@@ -88,6 +93,9 @@ public:
     int attkselect;
     int commandselect;
     int skillselect;
+    int itemselect;
+
+    PartySystem* partypew;                                                      ///< The Player's Party
 
     enum SELECTIONAT
     {
@@ -96,6 +104,7 @@ public:
         CHOOSETARGET,
         CHOOSESKILL,
         CHOOSEDOWAT,
+        CHOOSEITEM
     };
     SELECTIONAT whichScreen;
     void GetInputSelection(BattleEntity* entity, SELECTIONAT screen, int selection);

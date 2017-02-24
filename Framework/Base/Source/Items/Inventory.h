@@ -21,6 +21,7 @@ public:
 	vector<Item*> m_inventoryList;
 
 	void AddItem(Item* itemToAdd);
+	void AddCopy(Item* itemToCopy);
 	bool UseItem(int index, CharacterInfo* chara);
 	void PrintInventory();
 
