@@ -63,7 +63,7 @@ void Town::Init()
 	spatial.SetMesh("Grid");
 
 	// Camera Init
-	camera.Init(40.f, 0.5f);
+	camera.Init(80.f, 0.5f);
 	camera.SetFollowSpeed(0.3f);
 	camera.SetRotSpeed(200.f);
 	camera.SetDistSpeed(100.f);

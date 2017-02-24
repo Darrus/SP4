@@ -41,6 +41,7 @@ void Overworld::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("background", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//overworldBG.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("twee", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//twee.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("mountain", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//mountain.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("town", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//town.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("Collider", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//collider.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("Grid", Color(0.f, 1.f, 0.f));
 	MeshBuilder::GetInstance()->GenerateText("text", 16, 16)->textureID = LoadTGA("FontData//pixelFont.tga");
@@ -74,7 +75,7 @@ void Overworld::Init()
 	spatial.SetMesh("Grid");
 
 	// Camera Init
-	camera.Init(40.f, 0.5f);
+	camera.Init(80.f, 0.5f);
 	camera.SetFollowSpeed(0.3f);
 	camera.SetRotSpeed(200.f);
 	camera.SetDistSpeed(100.f);
@@ -142,6 +143,24 @@ void Overworld::Init()
 	asset->SetCollider(new CCollider_2DAABB());
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
+
+	// Init Town
+	asset = new OverworldAsset("town");
+	asset->SetPosition(Vector3(0.f, 120.f, 0.1f));
+	asset->SetScale(Vector3(25.f, 25.f, 1.f));
+	asset->SetCamera(&camera);
+	EManager.AddEntity(asset);
+	spatial.Add(asset);
+
+	trigger = new TriggerScene();
+	trigger->SetPosition(asset->GetPosition());
+	trigger->SetScale(asset->GetScale());
+	trigger->SetCollider(new CCollider_2DAABB());
+	trigger->SetCamera(&camera);
+	trigger->SetScene("Town");
+	EManager.AddEntity(trigger);
+	spatial.Add(trigger);
+
 }
 
 void Overworld::Update()
