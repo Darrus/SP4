@@ -17,10 +17,7 @@ Inventory::~Inventory()
 
 void Inventory::AddItem(Item* itemToAdd)
 {
-	Item* toAdd = new Item();
-	*toAdd = *itemToAdd;
-
-	m_inventoryList.push_back(toAdd);
+    m_inventoryList.push_back(itemToAdd);
 }
 
 bool Inventory::UseItem(int index, CharacterInfo* chara)
