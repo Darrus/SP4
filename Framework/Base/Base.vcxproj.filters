@@ -151,6 +151,16 @@
     <ClCompile Include="Source\Overworld\TriggerDialogue.cpp">
       <Filter>Overworld\Entity\TriggerAreas</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Overworld\OverworldBase.cpp">
+      <Filter>Overworld\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\Town.cpp">
+      <Filter>Overworld\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\TownShop.cpp">
+      <Filter>Overworld\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\StaticAsset.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -308,6 +318,16 @@
     </ClInclude>
     <ClInclude Include="Source\Overworld\TriggerDialogue.h">
       <Filter>Overworld\Entity\TriggerAreas</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\OverworldBase.h">
+      <Filter>Overworld\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\TownShop.h">
+      <Filter>Overworld\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\StaticAsset.h" />
+    <ClInclude Include="Source\Overworld\Town.h">
+      <Filter>Overworld\World</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -45,8 +45,12 @@
     <ClCompile Include="Source\Overworld\NPC.cpp" />
     <ClCompile Include="Source\Overworld\Overworld.cpp" />
     <ClCompile Include="Source\Overworld\OverworldAsset.cpp" />
+    <ClCompile Include="Source\Overworld\OverworldBase.cpp" />
     <ClCompile Include="Source\Overworld\OverworldEntity.cpp" />
     <ClCompile Include="Source\Overworld\OverworldPlayer.cpp" />
+    <ClCompile Include="Source\Overworld\StaticAsset.cpp" />
+    <ClCompile Include="Source\Overworld\TownShop.cpp" />
+    <ClCompile Include="Source\Overworld\Town.cpp" />
     <ClCompile Include="Source\Overworld\TriggerArea.cpp" />
     <ClCompile Include="Source\Overworld\TriggerDialogue.cpp" />
     <ClCompile Include="Source\Overworld\TriggerScene.cpp" />
@@ -99,8 +103,12 @@
     <ClInclude Include="Source\Overworld\NPC.h" />
     <ClInclude Include="Source\Overworld\Overworld.h" />
     <ClInclude Include="Source\Overworld\OverworldAsset.h" />
+    <ClInclude Include="Source\Overworld\OverworldBase.h" />
     <ClInclude Include="Source\Overworld\OverworldEntity.h" />
     <ClInclude Include="Source\Overworld\OverworldPlayer.h" />
+    <ClInclude Include="Source\Overworld\StaticAsset.h" />
+    <ClInclude Include="Source\Overworld\TownShop.h" />
+    <ClInclude Include="Source\Overworld\Town.h" />
     <ClInclude Include="Source\Overworld\TriggerArea.h" />
     <ClInclude Include="Source\Overworld\TriggerDialogue.h" />
     <ClInclude Include="Source\Overworld\TriggerScene.h" />
