@@ -41,11 +41,8 @@ void NPC::Update()
 	OverworldEntity::Update();
 }
 
-void NPC::HandleCollision(EntityBase* entity)
+void NPC::Interact()
 {
-	if (entity)
-		return;
-
 	DialogueScene* scene = dynamic_cast<DialogueScene*>(SceneManager::GetInstance()->SetActiveScene("Dialogue", true));
 	if (scene)
 	{

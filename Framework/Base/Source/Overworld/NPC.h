@@ -19,8 +19,9 @@ public:
 	virtual ~NPC();
 
 	virtual void Update();
-	virtual void HandleCollision(EntityBase* entity);
 
+
+	void Interact();
 	void LoadDialogue(string name);
 
 	inline void SetTargetScene(const string& scene){ targetScene = scene; }

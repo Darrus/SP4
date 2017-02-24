@@ -79,7 +79,7 @@ void OverworldPlayer::Controls()
 					{
 						NPC* npc = dynamic_cast<NPC*>((*objects)[i]);
 						if (npc)
-							npc->HandleCollision(nullptr);
+							npc->Interact();
 					}
 				}
 			}
