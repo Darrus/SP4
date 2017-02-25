@@ -35,6 +35,9 @@ void CameraFollow::Init(float dist, float followSpeed)
 
 	defaultUp = Vector3(0.f, 1.f, 0.f);
 	up = Vector3(1.f, 0.f, 0.f).Cross(target - position);
+
+	mouseX = 0.f;
+	mouseY = 0.f;
 }
 
 void CameraFollow::Update()
@@ -136,10 +139,11 @@ void CameraFollow::Control()
 	{
 		double currMouseX, currMouseY;
 		MouseController::GetInstance()->GetMousePosition(currMouseX, currMouseY);
-
 		float diff = (float)(currMouseY - mouseY) * -1.f;
-		rotX += diff * 0.01f;
-		curRotX += diff * 0.01f;
+		
+		rotX += diff * 0.1f;
+		curRotX = rotX;
+		mouseY = currMouseY;
 
 		if (curRotX > 85.f)
 		{

@@ -99,11 +99,18 @@ void Town::Init()
 	spatial.Add(asset);
 
 	TriggerScene* trigger = new TriggerScene();
+	trigger->Init("TownShop", &camera, Vector3(0.f, -19.f, 0.f));
 	trigger->SetScale(Vector3(5.f, 5.f, 1.f));
 	trigger->SetPosition(Vector3(asset->GetPosition().x, asset->GetPosition().y - (asset->GetScale().y * 0.5f) + (trigger->GetScale().y * 0.5f) , asset->GetPosition().z));
 	trigger->SetCollider(new CCollider_2DAABB());
-	trigger->SetCamera(&camera);
-	trigger->SetScene("TownShop");
+	EManager.AddEntity(trigger);
+	spatial.Add(trigger);
+
+	trigger = new TriggerScene();
+	trigger->Init("Overworld", &camera, Vector3(0.f, 100.f, 0.f));
+	trigger->SetScale(Vector3(5.f, 5.f, 1.f));
+	trigger->SetPosition(Vector3(0.f, -150.f, 0.f));
+	trigger->SetCollider(new CCollider_2DAABB());
 	EManager.AddEntity(trigger);
 	spatial.Add(trigger);
 }
@@ -114,8 +121,8 @@ void Town::Update()
 		SceneManager::GetInstance()->quit = true;
 
 	camera.Update();
-	spatial.Update();
 	EManager.Update();
+	spatial.Update();
 }
 
 void Town::Render()
@@ -143,4 +150,15 @@ void Town::Render()
 void Town::Exit()
 {
 	OverworldBase::Exit();
+}
+
+void Town::UnPause()
+{
+	// Camera Init
+	camera.Init(80.f, 0.5f);
+	camera.SetFollowSpeed(0.3f);
+	camera.SetRotSpeed(200.f);
+	camera.SetDistSpeed(100.f);
+
+	camera.SetCameraTarget(player.GetPosition());
 }

@@ -20,7 +20,6 @@ public:
 
 	virtual void Update();
 
-
 	void Interact();
 	void LoadDialogue(string name);
 

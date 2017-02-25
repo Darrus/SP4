@@ -101,15 +101,6 @@ void Overworld::Init()
 	background.SetPosition(Vector3(0.f, 0.f, 0.f));
 	background.SetScale(Vector3(300, 300, 1.f));
 
-	TriggerScene* trigger = new TriggerScene();
-	trigger->SetPosition(Vector3(30.f, 10.f, 0.1f));
-	trigger->SetScale(Vector3(10.f, 10.f, 1.f));
-	trigger->SetCollider(new CCollider_2DAABB());
-	trigger->SetCamera(&camera);
-	trigger->SetScene("Shop");
-	EManager.AddEntity(trigger);
-	spatial.Add(trigger);
-
 	TriggerDialogue* trigger2 = new TriggerDialogue();
 	trigger2->SetPosition(Vector3(0.f, 0.f, 0.f));
 	trigger2->SetScale(Vector3(10.f, 10.f, 1.f));
@@ -152,15 +143,13 @@ void Overworld::Init()
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
 
-	trigger = new TriggerScene();
+	TriggerScene* trigger = new TriggerScene();
+	trigger->Init("Town", &camera, Vector3(0.f, -130.f, 0.f));
 	trigger->SetPosition(asset->GetPosition());
 	trigger->SetScale(asset->GetScale());
 	trigger->SetCollider(new CCollider_2DAABB());
-	trigger->SetCamera(&camera);
-	trigger->SetScene("Town");
 	EManager.AddEntity(trigger);
 	spatial.Add(trigger);
-
 }
 
 void Overworld::Update()
@@ -221,7 +210,12 @@ void Overworld::Exit()
 
 void Overworld::UnPause()
 {
+	// Camera Init
+	camera.Init(80.f, 0.5f);
 	camera.SetFollowSpeed(0.3f);
 	camera.SetRotSpeed(200.f);
+	camera.SetDistSpeed(100.f);
+
+	camera.SetCameraTarget(player.GetPosition());
 	battle = false;
 }

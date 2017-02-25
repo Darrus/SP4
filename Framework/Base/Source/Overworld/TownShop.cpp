@@ -97,6 +97,14 @@ void TownShop::Init()
 	npc->AttachCamera(&camera);
 	spatial.Add(npc);
 	EManager.AddEntity(npc);
+
+	TriggerScene* trigger = new TriggerScene();
+	trigger->Init("Town", &camera, Vector3(50.f, 30.f, 0.f));
+	trigger->SetScale(Vector3(5.f, 5.f, 1.f));
+	trigger->SetPosition(Vector3(0.f, -25.f, 1.f));
+	trigger->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(trigger);
+	spatial.Add(trigger);
 }
 
 void TownShop::Update()
@@ -105,8 +113,8 @@ void TownShop::Update()
 		SceneManager::GetInstance()->quit = true;
 
 	camera.Update();
-	spatial.Update();
 	EManager.Update();
+	spatial.Update();
 }
 
 void TownShop::Render()
