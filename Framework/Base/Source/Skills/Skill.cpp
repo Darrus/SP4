@@ -1,5 +1,6 @@
 #include "Skill.h"
 #include "..//Character//CharacterInfo.h"
+#include <iostream>
 
 class Heal : public Skill
 {
@@ -9,8 +10,20 @@ private:
 public:
 	inline void UseSkill(SkillParameters param)
 	{
-		param.caster->MP -= m_mana_cost;
-		param.targetList[0]->HP += m_heal_value * param.caster->stats.GetInt();
+        int i = 0;
+        if (param.caster->MP >= m_mana_cost)
+        {
+            param.caster->MP -= m_mana_cost;
+            for (auto itr = param.targetList.begin(); itr != param.targetList.end(); itr++)
+            {
+                param.targetList[i]->HP += m_heal_value * param.caster->stats.GetInt();
+                ++i;
+            }
+        }
+        else
+        {
+            std::cout << "Not Enough Mana" << std::endl;
+        }
 	}
 
 	//TODO:
@@ -18,7 +31,7 @@ public:
 	Heal() : Skill()
 	{
 		m_name = "Heal";
-		m_heal_value = 1000;
+		m_heal_value = 25;
 		m_mana_cost = 10;
 		m_max_target_num = 1;
 		m_ally_targetable = true;

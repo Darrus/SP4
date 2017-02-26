@@ -26,6 +26,7 @@ private:
     bool chooseItem;
     int turnPt;
     bool noMoreItems;
+    bool choosingSkill;
 
 public:
     BattleSystem();                                                             ///< Default Constructor
@@ -64,6 +65,7 @@ public:
     ///< User Inputs
     void ChoosePlayerInput();
     void ChooseItems(BattleEntity* entity);
+    void ChooseSkill();
 
     ///< Show Battle Results
     void ShowBattleResults();

@@ -12,10 +12,12 @@
 #include "KeyboardController.h"
 #include "SceneManager.h"
 #include "OverworldBase.h"
+#include "Overworld.h"
 
 
 OverworldPlayer::OverworldPlayer() :
-moveSpeed(25.f)
+moveSpeed(25.f),
+encounterRate(0.0f)
 {
 	view.Set(0.f, 1.f, 0.f);
 	defaultView = view;
@@ -47,14 +49,26 @@ void OverworldPlayer::Controls()
 	view = mx * defaultView;
 	right = view.Cross(Vector3(0.f, 0.f, 1.f));
 
-	if (KeyboardController::GetInstance()->IsKeyDown('W'))
-		velocity += view;
-	else if (KeyboardController::GetInstance()->IsKeyDown('S'))
-		velocity -= view;
-	if (KeyboardController::GetInstance()->IsKeyDown('D'))
-		velocity += right;
-	else if (KeyboardController::GetInstance()->IsKeyDown('A'))
-		velocity -= right;
+    if (KeyboardController::GetInstance()->IsKeyDown('W'))
+    {
+        velocity += view;
+        HandleEncounter(dt);
+    }
+    else if (KeyboardController::GetInstance()->IsKeyDown('S'))
+    {
+        velocity -= view;
+        HandleEncounter(dt);
+    }
+    if (KeyboardController::GetInstance()->IsKeyDown('D'))
+    {
+        velocity += right;
+        HandleEncounter(dt);
+    }
+    else if (KeyboardController::GetInstance()->IsKeyDown('A'))
+    {
+        velocity -= right;
+        HandleEncounter(dt);
+    }
 
 	if (velocity.LengthSquared() > 0)
 		velocity = velocity.Normalized() * moveSpeed * dt;
@@ -85,6 +99,19 @@ void OverworldPlayer::Controls()
 			}
 		}
 	}
+}
+void OverworldPlayer::HandleEncounter(float dt)
+{
+    encounterRate += dt;
+    if (encounterRate > 5.f)
+    {
+        if (Math::RandFloatMinMax(10, 110) <= encounterRate)
+        {
+            Overworld::battle = true;
+            camera->Transition(70.f, 0.f, 50.f);
+            encounterRate = 0.f;
+        }
+    }
 }
 
 void OverworldPlayer::HandleCollision(EntityBase* entity)

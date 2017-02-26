@@ -56,7 +56,8 @@ void EnemyAI::HighAggression(BattleEntity* entityAI, BattleEntity* player)
     else
     {
         //use skill
-        Defend(entityAI);
+        AttackPlayer(entityAI, player);
+        //Defend(entityAI);
     }
 }
 void EnemyAI::ModerateAggression(BattleEntity* entityAI, BattleEntity* player)
@@ -88,8 +89,23 @@ void EnemyAI::LowAggression(BattleEntity* entityAI, BattleEntity* player)
     StatSystem AIStats = entityAI->GetInfo()->stats;
     StatSystem playerStats = player->GetInfo()->stats;
 
-
-
+    if ((AIStats.GetRechargeRate() * 0.5) >= playerStats.GetRechargeRate())
+    {
+        if (entityAI->GetAttkTurnPt() < 2)
+            Defend(entityAI);
+        else
+            AttackPlayer(entityAI, player);
+    }
+    if (CheckDamage(entityAI->GetDamage(), playerStats.GetDefence()) > 0)
+    {
+        while (entityAI->GetAttkTurnPt() > 0)
+            AttackPlayer(entityAI, player);
+    }
+    else
+    {
+        //use skill
+        Defend(entityAI);
+    }
 }
 void EnemyAI::NeutralAggression(BattleEntity* entityAI, BattleEntity* player)
 {

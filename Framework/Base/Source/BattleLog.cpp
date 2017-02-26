@@ -37,6 +37,16 @@ defend_(defend)
     DMGDeal = false;
 }
 
+BattleLog::BattleLog(CharacterInfo* entity, std::string skillname) :
+m_entity_(entity),
+enemyname_(skillname)
+{
+
+    displayTime = 3;
+    DMGRecv = false;
+    DMGDeal = false;
+}
+
 BattleLog::~BattleLog()
 {
 
@@ -65,7 +75,7 @@ void BattleLog::Render()
             modelStack.PopMatrix();
 
             if ((*itr)->DMGRecv)
-            {
+            {   
                 modelStack.PushMatrix();
                 modelStack.Translate(windowWidth * 0.35, windowHeight * 0.9, 8);
                 modelStack.Scale(25.f, 25.f, 1.f);
@@ -75,6 +85,14 @@ void BattleLog::Render()
                     RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->entity_->GetInfo()->name + " has dodged the atk by " + (*itr)->enemyname_, Color(0, 1, 0));
                 else
                     RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->enemyname_ + " has dealt " + std::to_string((*itr)->damagedealt_) + " damage to " + (*itr)->entity_->GetInfo()->name, Color(0, 1, 0));
+                modelStack.PopMatrix();
+            }
+            else if ((*itr)->m_entity_ != nullptr)
+            {
+                modelStack.PushMatrix();
+                modelStack.Translate(windowWidth * 0.35, windowHeight * 0.9, 8);
+                modelStack.Scale(25.f, 25.f, 1.f);
+                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->m_entity_->name + " casted " + enemyname_ + "!.", Color(0, 1, 0));
                 modelStack.PopMatrix();
             }
             else if ((*itr)->defend_)
