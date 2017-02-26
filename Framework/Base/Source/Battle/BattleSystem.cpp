@@ -35,7 +35,8 @@ addEXP(false),
 turnPt(0),
 chooseItem(false),
 itemselect(0),
-noMoreItems(false)
+noMoreItems(false), 
+choosingSkill(false)
 {
     float windowWidth = Application::GetInstance().GetWindowWidth();
     float windowHeight = Application::GetInstance().GetWindowHeight();
@@ -149,7 +150,8 @@ void BattleSystem::Update()
         }
     }
 
-    if (whichScreen != CHOOSEPLAYER && whichScreen != CHOOSETARGET && whichScreen != CHOOSEDOWAT && whichScreen != CHOOSESKILL && whichScreen != CHOOSEITEM)
+    //if (whichScreen != CHOOSEPLAYER && whichScreen != CHOOSETARGET && whichScreen != CHOOSEDOWAT && whichScreen != CHOOSESKILL && whichScreen != CHOOSEITEM)
+    if (whichScreen == NOTHING)
     {
         if (KeyboardController::GetInstance()->IsKeyPressed(VK_DOWN))
         {
@@ -160,10 +162,10 @@ void BattleSystem::Update()
             playerselect++;
         }
 
-        if (playerselect > (Player::GetInstance().GetParty()->memberCount() - 1))
+        if (playerselect > (Player::GetInstance().GetParty()->memberCount() - 2))
             playerselect = 0;
         if (playerselect < 0)
-            playerselect = (Player::GetInstance().GetParty()->memberCount() - 1);
+            playerselect = (Player::GetInstance().GetParty()->memberCount() - 2);
     }
 
 
@@ -172,20 +174,21 @@ void BattleSystem::Update()
     if (commandselect >= 5)
         commandselect = 0;
 
-    if (playerselect >(Player::GetInstance().GetParty()->memberCount() - 1))
+    if (playerselect > (Player::GetInstance().GetParty()->memberCount() - 2))
         playerselect = 0;
     if (playerselect < 0)
-        playerselect = (Player::GetInstance().GetParty()->memberCount() - 1);
+        playerselect = (Player::GetInstance().GetParty()->memberCount() - 2);
 
     if (skillselect < 0)
         skillselect = 4;
     if (skillselect >= 5)
         skillselect = 0;
 
-    if (attkselect > 4)
-        attkselect = 3;
-    if (attkselect < 3)
-        attkselect = 4;
+
+    if (attkselect >((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1)))
+        attkselect = (Player::GetInstance().GetParty()->memberCount() - 1);
+    if (attkselect < (Player::GetInstance().GetParty()->memberCount() - 1))
+        attkselect = ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1));
 
 }
 
@@ -226,10 +229,10 @@ void BattleSystem::ChoosePlayerInput()
         whichScreen = CHOOSEPLAYER;
     }
 
-    if (playerselect > 2)
+    if (playerselect > (Player::GetInstance().GetParty()->memberCount() - 2))
         playerselect = 0;
     if (playerselect < 0)
-        playerselect = 2;
+        playerselect = (Player::GetInstance().GetParty()->memberCount() - 2);
 
     GetInputSelection(FindTarget(playerselect), whichScreen, playerselect);
 }
@@ -535,13 +538,14 @@ void BattleSystem::NoMoreItems()
     float windowHeight = Application::GetInstance().GetWindowHeight();
     float dt = (double)StopWatch::GetInstance()->GetDeltaTime();
     float pew = 0;
-    pew += dt;
+
     modelStack.PushMatrix();
     modelStack.Translate(windowWidth * 0.35, windowHeight * 0.7, 5.f);
     modelStack.Scale(30, 30, 1.f);
     RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "NO MORE ITEMS", Color(0, 1, 0));
     modelStack.PopMatrix();
 
+    pew += dt;
     if (pew > 3.f)
     {
         pew = 0.f;
@@ -569,16 +573,28 @@ void BattleSystem::RenderUIStuff()
             {
                 Arrow->SetPosition(Vector3(windowWidth * 0.8f, windowHeight * 0.55f, 10.f));
             }
+            if (playerselect == 3)
+            {
+                Arrow->SetPosition(Vector3(windowWidth * 0.8f, windowHeight * 0.7f, 10.f));
+            }
         }
         if (whichScreen == CHOOSETARGET)
         {
             if (attkselect == 3)
             {
-                Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * 0.5f, 10.f));
+                Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * 0.25f, 10.f));
             }
             if (attkselect == 4)
             {
-                Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * 0.25f, 10.f));
+                Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * 0.4f, 10.f));
+            }
+            if (attkselect == 5)
+            {
+                Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * 0.55f, 10.f));
+            }
+            if (attkselect == 6)
+            {
+                Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * 0.7f, 10.f));
             }
         }
         if (whichScreen == CHOOSEDOWAT)
@@ -862,51 +878,25 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
         }
 
         if (KeyboardController::GetInstance()->IsKeyReleased(VK_DOWN))
-        {
             attkselect--;
-        }
         if (KeyboardController::GetInstance()->IsKeyReleased(VK_UP))
-        {
             attkselect++;
-        }
         if (KeyboardController::GetInstance()->IsKeyReleased(VK_ESCAPE))
         {
             //anEntityTurn = false;
             whichScreen = CHOOSEDOWAT;
         }
 
-        if (attkselect > 4)
-            attkselect = 3;
-        if (attkselect < 3)
-            attkselect = 4;
+        if (attkselect > ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1)))
+            attkselect = (Player::GetInstance().GetParty()->memberCount() - 1);
+        if (attkselect < (Player::GetInstance().GetParty()->memberCount() - 1))
+            attkselect = ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1));
     }
     if (screen == CHOOSESKILL)
     {
         if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
         {
-            int i = 0;
-            for (auto itritr = Player::GetInstance().GetParty()->GetMember(playerselect)->skills.begin(); itritr != Player::GetInstance().GetParty()->GetMember(playerselect)->skills.end(); ++itritr)
-            {
-                if ((*itritr)->IsAllyTargetable())
-                {
-                    SkillParameters foo;
-                    foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
-                    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
-                    {
-                        if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
-                            foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
-                    }
-
-                    (*itritr)->UseSkill(foo);
-                }
-
-                ++i;
-            }
-
-            //skills->UseSkill();
-
-
-            //foo.caster = entity->GetInfo();
+            choosingSkill = true;
         }
 
         if (KeyboardController::GetInstance()->IsKeyPressed(VK_DOWN))
@@ -921,9 +911,12 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
         }
 
         if (skillselect < 0)
-            skillselect = 4;
-        if (skillselect >= 5)
+            skillselect = (Player::GetInstance().GetParty()->GetMember(playerselect)->skills.size() - 1);
+        if (skillselect >= (Player::GetInstance().GetParty()->GetMember(playerselect)->skills.size() - 1))
             skillselect = 0;
+
+        if (choosingSkill == true)
+            ChooseSkill();
     }
 
     if (screen == CHOOSEDOWAT)
@@ -957,32 +950,6 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
     {
         chooseItem = true;
         ChooseItems(entity);
-    }
-    if (screen == CHOOSESKILL)
-    {
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
-        {
-            if (skillselect == 0)
-                whichScreen = CHOOSETARGET;// Attack
-            if (skillselect == 1)
-                Defend(entity);             // Defend
-            if (skillselect == 2)
-                whichScreen = CHOOSETARGET; // Skill
-            if (skillselect == 3)
-                whichScreen = CHOOSEITEM;   // Items
-            if (skillselect == 4)
-                FleeBattle();               // Flee
-        }
-
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_DOWN))
-            skillselect++;
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_UP))
-            skillselect--;
-
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
-        {
-            whichScreen = NOTHING;
-        }
     }
 }
 
@@ -1021,6 +988,43 @@ void BattleSystem::ChooseItems(BattleEntity* entity)
     {
         whichScreen = CHOOSEDOWAT;
         chooseItem = false;
+    }
+}
+
+void BattleSystem::ChooseSkill()
+{
+    int i = 0;
+    for (auto itritr = Player::GetInstance().GetParty()->GetMember(playerselect)->skills.begin(); itritr != Player::GetInstance().GetParty()->GetMember(playerselect)->skills.end(); ++itritr)
+    {
+        if ((*itritr)->IsAllyTargetable())
+        {
+            SkillParameters foo;
+            foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
+            for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
+            {
+                if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
+                    foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
+            }
+            (*itritr)->UseSkill(foo);
+
+            enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
+            enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+            choosingSkill = false;
+        }
+        else if ((*itritr)->IsEnemyTargetable())
+        {
+            //SkillParameters foo;
+            //foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
+
+            //for (int i = 0; i < EnemyList.size(); ++i)
+            //{
+            //    if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
+            //        foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
+            //}
+            //(*itritr)->UseSkill(foo);
+        }
+
+        ++i;
     }
 }
 
