@@ -177,7 +177,7 @@ void CBattleState::Init()
 
     charahehe = new CharacterInfo();
     charahehe->stats.AddVit(86);
-    charahehe->stats.AddStr(1);
+    charahehe->stats.AddStr(60);
     charahehe->stats.AddInt(40);
     charahehe->stats.AddMind(30);
     charahehe->stats.AddDex(50);
@@ -231,14 +231,21 @@ void CBattleState::Update()
 
         testingBattle->AssignPlayerParty();
 
-        wow = efactory->CreateRandomEnemy(4);
-        wow2 = efactory->CreateRandomEnemy(3);
+        int randenemy = Math::RandIntMinMax(1, 4);
 
-        testingBattle->BattleList.push_back(wow);
-        testingBattle->BattleList.push_back(wow2);
+        for (int rand = 0; rand < randenemy; rand++)
+        {
+            wow = efactory->CreateRandomEnemy((Player::GetInstance().GetParty()->memberCount()-1) + rand);
+            testingBattle->BattleList.push_back(wow);
+            testingBattle->EnemyList.push_back(wow);
+        }
+        //wow2 = efactory->CreateRandomEnemy(3);
 
-        testingBattle->EnemyList.push_back(wow);
-        testingBattle->EnemyList.push_back(wow2);
+        //testingBattle->BattleList.push_back(wow);
+        //testingBattle->BattleList.push_back(wow2);
+
+        //testingBattle->EnemyList.push_back(wow);
+        //testingBattle->EnemyList.push_back(wow2);
     }
 }
 

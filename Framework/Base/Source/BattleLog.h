@@ -4,6 +4,7 @@
 #include <list>
 
 #include "Entity\BattleEntity.h"
+#include "Player\Player.h"
 
 class BattleLog : public BattleEntity
 {
@@ -14,10 +15,12 @@ private:
     int damagereceived_, damagedealt_;
     float displayTime;
     bool playerRender, enemyRender;
+    CharacterInfo* m_entity_;
 public:
     BattleLog();
     BattleLog(BattleEntity* entity, std::string enemyname, int damagedealt, int damagereceived, bool dodged, bool critical);
     BattleLog(BattleEntity* entity, bool defend);
+    BattleLog(CharacterInfo* entity, std::string skillname);
     ~BattleLog();
 
     void Render();

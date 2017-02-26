@@ -13,6 +13,9 @@ class OverworldPlayer :	public OverworldEntity
 	
 	void Controls();
 	void HandleBoundary();
+    void HandleEncounter(float dt);
+
+    float encounterRate;
 
 public:
 	OverworldPlayer();
