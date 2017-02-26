@@ -3,6 +3,9 @@
 
 class Town : public OverworldBase
 {
+private:
+	SkyBoxEntity wall;
+
 public:
 	Town();
 	virtual ~Town();

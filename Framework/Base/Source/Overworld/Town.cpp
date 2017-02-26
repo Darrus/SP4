@@ -19,6 +19,7 @@
 
 // Entities
 #include "OverworldAsset.h"
+#include "OverworldEntity.h"
 
 // Trigger Areas
 #include "TriggerScene.h"
@@ -35,20 +36,15 @@ Town::~Town()
 void Town::Init()
 {
 	// Skybox Init
-	MeshBuilder::GetInstance()->GenerateQuad("skybox_left", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//skybox_left.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("skybox_right", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//skybox_right.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("skybox_top", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//skybox_top.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("skybox_bottom", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//skybox_bottom.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("skybox_front", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//skybox_front.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("skybox_back", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//skybox_back.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skybox_left", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//sky_left.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skybox_right", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//sky_right.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skybox_front", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//sky_front.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skybox_back", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//sky_back.tga");
 
 	skybox.SetMesh(SkyBoxEntity::FRONT, MeshBuilder::GetInstance()->GetMesh("skybox_front"));
 	skybox.SetMesh(SkyBoxEntity::BACK, MeshBuilder::GetInstance()->GetMesh("skybox_back"));
 	skybox.SetMesh(SkyBoxEntity::LEFT, MeshBuilder::GetInstance()->GetMesh("skybox_left"));
 	skybox.SetMesh(SkyBoxEntity::RIGHT, MeshBuilder::GetInstance()->GetMesh("skybox_right"));
-	skybox.SetMesh(SkyBoxEntity::TOP, MeshBuilder::GetInstance()->GetMesh("skybox_top"));
-	skybox.SetMesh(SkyBoxEntity::BOTTOM, MeshBuilder::GetInstance()->GetMesh("skybox_bottom"));
-
 	skybox.SetScale(Vector3(1000.f, 1000.f, 1000.f));
 
 	// Background Init
@@ -56,7 +52,17 @@ void Town::Init()
 	background.SetMesh(MeshBuilder::GetInstance()->GetMesh("town_background"));
 	background.SetTextRenderMode(SpriteEntity::MODE_3D);
 	background.SetPosition(Vector3(0.f, 0.f, 0.f));
-	background.SetScale(Vector3(300, 300, 1.f));
+	background.SetScale(Vector3(300.f, 300.f, 300.f));
+
+	// Town Wall Init
+	MeshBuilder::GetInstance()->GenerateQuad("wall", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//wall.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("gate", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//gate.tga");
+	wall.SetMesh(SkyBoxEntity::FRONT, MeshBuilder::GetInstance()->GetMesh("wall"));
+	wall.SetMesh(SkyBoxEntity::BACK, MeshBuilder::GetInstance()->GetMesh("gate"));
+	wall.SetMesh(SkyBoxEntity::LEFT, MeshBuilder::GetInstance()->GetMesh("wall"));
+	wall.SetMesh(SkyBoxEntity::RIGHT, MeshBuilder::GetInstance()->GetMesh("wall"));
+	wall.SetScale(background.GetScale());
+	wall.SetPosition(Vector3(0.f, 0.f, wall.GetScale().z * 0.5f - 1.f));
 
 	// Spatial Partition Init
 	spatial.Init(300, 300, 10, 10);
@@ -98,6 +104,28 @@ void Town::Init()
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
 
+	// Fountain Init
+	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Fountain", 1, 4)->textureID = LoadTGA("Image//Town//fountain.tga");
+	AnimationsContainer::GetInstance()->AddAnimation("Fountain", new Animation("Fountain", 0, 3, 1.f, -1));
+	OverworldEntity* sprite = new OverworldEntity();
+	sprite->GetAnimator()->AddAnimation("Fountain");
+	sprite->GetAnimator()->PlayAnimation("Fountain");
+	sprite->AttachCamera(&camera);
+	sprite->SetScale(Vector3(20.f, 20.f, 1.f));
+	sprite->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(sprite);
+	spatial.Add(sprite);
+
+	// House Init
+	MeshBuilder::GetInstance()->GenerateQuad("House1", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house1.tga");
+	asset = new OverworldAsset("House1");
+	asset->SetPosition(Vector3(-50.f, 25.f, 1.1f));
+	asset->SetScale(Vector3(25.f, 25.f, 1.f));
+	asset->SetCamera(&camera);
+	asset->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(asset);
+	spatial.Add(asset);
+
 	TriggerScene* trigger = new TriggerScene();
 	trigger->Init("TownShop", &camera, Vector3(0.f, -19.f, 0.f));
 	trigger->SetScale(Vector3(5.f, 5.f, 1.f));
@@ -108,8 +136,8 @@ void Town::Init()
 
 	trigger = new TriggerScene();
 	trigger->Init("Overworld", &camera, Vector3(0.f, 100.f, 0.f));
-	trigger->SetScale(Vector3(5.f, 5.f, 1.f));
-	trigger->SetPosition(Vector3(0.f, -150.f, 0.f));
+	trigger->SetScale(Vector3(20.f, 20.f, 1.f));
+	trigger->SetPosition(Vector3(-5.f, -155.f, 0.f));
 	trigger->SetCollider(new CCollider_2DAABB());
 	EManager.AddEntity(trigger);
 	spatial.Add(trigger);
@@ -140,6 +168,7 @@ void Town::Render()
 	spatial.Render();
 	background.Render();
 	skybox.Render();
+	wall.Render();
 
 	// Setup 2D pipeline then render 2D
 	GraphicsManager::GetInstance()->SetOrthographicProjection(0.f, Application::GetInstance().GetWindowWidth(), 0.f, Application::GetInstance().GetWindowHeight(), -10, 10);

@@ -47,20 +47,16 @@ void Overworld::Init()
 	MeshBuilder::GetInstance()->GenerateText("text", 16, 16)->textureID = LoadTGA("FontData//pixelFont.tga");
 
 	// Skybox
-	MeshBuilder::GetInstance()->GenerateQuad("skybox_left", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//skybox_left.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("skybox_right", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//skybox_right.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("skybox_top", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//skybox_top.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("skybox_bottom", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//skybox_bottom.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("skybox_front", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//skybox_front.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("skybox_back", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//skybox_back.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skybox_left", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//sky_left.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skybox_right", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//sky_right.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skybox_front", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//sky_front.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skybox_back", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//sky_back.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("landscape", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//mountain.tga");
 
 	skybox.SetMesh(SkyBoxEntity::FRONT, MeshBuilder::GetInstance()->GetMesh("skybox_front"));
 	skybox.SetMesh(SkyBoxEntity::BACK, MeshBuilder::GetInstance()->GetMesh("skybox_back"));
 	skybox.SetMesh(SkyBoxEntity::LEFT, MeshBuilder::GetInstance()->GetMesh("skybox_left"));
 	skybox.SetMesh(SkyBoxEntity::RIGHT, MeshBuilder::GetInstance()->GetMesh("skybox_right"));
-	skybox.SetMesh(SkyBoxEntity::TOP, MeshBuilder::GetInstance()->GetMesh("skybox_top"));
-	skybox.SetMesh(SkyBoxEntity::BOTTOM, MeshBuilder::GetInstance()->GetMesh("skybox_bottom"));
-
 	skybox.SetScale(Vector3(1000.f, 1000.f, 1000.f));
 
 	EntityFactory::GetInstance()->AttachEntityManager(&EManager);
@@ -79,6 +75,7 @@ void Overworld::Init()
 	camera.SetFollowSpeed(0.3f);
 	camera.SetRotSpeed(200.f);
 	camera.SetDistSpeed(100.f);
+
 
 	// Player Init
 	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 1, 8, 1.f, -1));
@@ -99,7 +96,15 @@ void Overworld::Init()
 	background.SetMesh(MeshBuilder::GetInstance()->GetMesh("background"));
 	background.SetTextRenderMode(SpriteEntity::MODE_3D);
 	background.SetPosition(Vector3(0.f, 0.f, 0.f));
-	background.SetScale(Vector3(300, 300, 1.f));
+	background.SetScale(Vector3(300, 300, 300.f));
+
+	// Mountain Sky Init
+	mountain.SetMesh(SkyBoxEntity::FRONT, MeshBuilder::GetInstance()->GetMesh("landscape"));
+	mountain.SetMesh(SkyBoxEntity::BACK, MeshBuilder::GetInstance()->GetMesh("landscape"));
+	mountain.SetMesh(SkyBoxEntity::LEFT, MeshBuilder::GetInstance()->GetMesh("landscape"));
+	mountain.SetMesh(SkyBoxEntity::RIGHT, MeshBuilder::GetInstance()->GetMesh("landscape"));
+	mountain.SetScale(background.GetScale());
+	mountain.SetPosition(Vector3(0.f, 0.f, 20.f));
 
 	TriggerDialogue* trigger2 = new TriggerDialogue();
 	trigger2->SetPosition(Vector3(0.f, 0.f, 0.f));
@@ -196,6 +201,7 @@ void Overworld::Render()
 	spatial.Render();
 	background.Render();
 	skybox.Render();
+	mountain.Render();
 
 	// Setup 2D pipeline then render 2D
 	GraphicsManager::GetInstance()->SetOrthographicProjection(0.f, Application::GetInstance().GetWindowWidth(), 0.f, Application::GetInstance().GetWindowHeight(), -10, 10);

@@ -26,10 +26,10 @@ void SkyBoxEntity::Render()
 	modelStack.PushMatrix();
 
 		// Front
-	if (modelMesh[RIGHT])
+	if (modelMesh[FRONT])
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(position.x, position.y + scale.y * 0.5f, position.z);
+		modelStack.Translate(position.x, position.y + scale.y * 0.5f - 1.f, position.z);
 		modelStack.Rotate(90.f, 1.f, 0.f, 0.f);
 		modelStack.Scale(scale.x, scale.y, scale.z);
 		RenderHelper::RenderMesh(modelMesh[FRONT]);
@@ -40,7 +40,7 @@ void SkyBoxEntity::Render()
 	if (modelMesh[BACK])
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(position.x, position.y - scale.y * 0.5f, position.z);
+		modelStack.Translate(position.x, position.y - scale.y * 0.5f + 1.f, position.z);
 		modelStack.Rotate(180.f, 0.f, 0.f, 1.f);
 		modelStack.Rotate(90.f, 1.f, 0.f, 0.f);
 		modelStack.Scale(scale.x, scale.y, scale.z);
@@ -52,7 +52,7 @@ void SkyBoxEntity::Render()
 	if (modelMesh[RIGHT])
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(position.x + scale.x * 0.5f, position.y, position.z);
+		modelStack.Translate(position.x + scale.x * 0.5f - 1.f, position.y, position.z);
 		modelStack.Rotate(-90.f, 0.f, 0.f, 1.f);
 		modelStack.Rotate(90.f, 1.f, 0.f, 0.f);
 		modelStack.Scale(scale.x, scale.y, scale.z);
@@ -64,7 +64,7 @@ void SkyBoxEntity::Render()
 	if (modelMesh[LEFT])
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(position.x - scale.x * 0.5f, position.y, position.z);
+		modelStack.Translate(position.x - scale.x * 0.5f + 1.f, position.y, position.z);
 		modelStack.Rotate(90.f, 0.f, 0.f, 1.f);
 		modelStack.Rotate(90.f, 1.f, 0.f, 0.f);
 		modelStack.Scale(scale.x, scale.y, scale.z);

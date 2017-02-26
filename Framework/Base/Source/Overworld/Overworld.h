@@ -31,6 +31,8 @@ public:
 
 private:
     CBattleState* battlestate;
+
+	SkyBoxEntity mountain;
 };
 
 #endif
