@@ -184,6 +184,9 @@ void Overworld::Update()
     {
         player.SetRenderFlag(true);
     }
+
+	if (KeyboardController::GetInstance()->IsKeyPressed(VK_F10))
+		SceneManager::GetInstance()->SetActiveScene("PartyScene", true);
 }
 
 void Overworld::Render()

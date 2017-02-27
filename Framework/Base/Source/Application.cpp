@@ -31,6 +31,7 @@
 #include "Scenes\DialogueScene.h"
 #include "Scenes\ShopDialogueScene.h"
 #include "Scenes\ShopScene.h"
+#include "Scenes\PartyScene.h"
 
 #include "Overworld\Overworld.h"
 #include "Overworld\Town.h"
@@ -142,7 +143,6 @@ void Application::Init()
 	GraphicsManager::GetInstance()->Init();
 
 	SceneManager::GetInstance()->AddScene("IntroState", new CIntroState());
-	SceneManager::GetInstance()->AddScene("TestScene", new SkillTreeScene());
     SceneManager::GetInstance()->AddScene("BattleScene", new CBattleState());
 	SceneManager::GetInstance()->AddScene("Shop", new ShopScene());
 	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
@@ -150,9 +150,11 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("ShopDialogue", new ShopDialogueScene());
 	SceneManager::GetInstance()->AddScene("Town", new Town());
 	SceneManager::GetInstance()->AddScene("TownShop", new TownShop());
+	SceneManager::GetInstance()->AddScene("PartyScene", new PartyScene());
+	SceneManager::GetInstance()->AddScene("SkillTreeScene", new SkillTreeScene());
 
 	//Set the active scene
-	SceneManager::GetInstance()->SetActiveScene("Overworld");
+	SceneManager::GetInstance()->SetActiveScene("SkillTreeScene");
 
 	//Load Font Data
 	LoadFontData("FontData//pixelFontData.csv");

@@ -2,6 +2,7 @@
 #define BUTTON_H
 
 #include "GUIObject.h"
+#include "SkillDisplay.h"
 #include "../Items/Inventory.h"
 #include "../../Common/Source/SceneManager.h"
 #include "../Skills/SkillFunctions.h"
@@ -298,29 +299,18 @@ public:
 class Skill_Button : public Button
 {
 protected:
-	string m_skill_name;
-	CharacterInfo* m_target_character;
-	int m_index_in_branch;
-	int m_branch;
+	Skill* m_skill;
+	SkillDisplay* m_target_display;
 	bool m_is_skill_learnt;
 
 public:
-	inline void SetIndexInBranch(int index_at_branch){ m_index_in_branch = index_at_branch; }
-	inline void SetBranch(int branch){ m_branch = branch; }
-	inline void SetSkillName(string skill_name){ m_skill_name = skill_name; }
-	inline void SetTargetCharacter(CharacterInfo &target_character){ m_target_character = &target_character; }
+	inline void SetSkill(Skill* skill){ m_skill = skill; }
 	inline void SetIsSkillLearnt(bool skil_is_learnt){ m_is_skill_learnt = skil_is_learnt; }
+	inline void SetTargetDisplay(SkillDisplay* display){ m_target_display = display; }
+
 	inline void RunFunction()
 	{
-		if (!m_is_skill_learnt)
-		{
-			if (m_target_character->skill_branch_index[m_branch] == m_index_in_branch)
-			{
-				m_target_character->skill_branch_index[m_branch]++;
-				m_is_skill_learnt = true;
-				m_target_character->skills.push_back(SkillContainer::GetInstance()->GetSkill(m_skill_name));
-			}
-		}
+		m_target_display->SetSkillToDisplay(m_skill);
 	}
 	void Render();
 
@@ -328,5 +318,39 @@ public:
 	~Skill_Button(){};
 
 };
+
+//class Skill_Button : public Button
+//{
+//protected:
+//	string m_skill_name;
+//	CharacterInfo* m_target_character;
+//	int m_index_in_branch;
+//	int m_branch;
+//	bool m_is_skill_learnt;
+//
+//public:
+//	inline void SetIndexInBranch(int index_at_branch){ m_index_in_branch = index_at_branch; }
+//	inline void SetBranch(int branch){ m_branch = branch; }
+//	inline void SetSkillName(string skill_name){ m_skill_name = skill_name; }
+//	inline void SetTargetCharacter(CharacterInfo &target_character){ m_target_character = &target_character; }
+//	inline void SetIsSkillLearnt(bool skil_is_learnt){ m_is_skill_learnt = skil_is_learnt; }
+//	inline void RunFunction()
+//	{
+//		if (!m_is_skill_learnt)
+//		{
+//			if (m_target_character->skill_branch_index[m_branch] == m_index_in_branch)
+//			{
+//				m_target_character->skill_branch_index[m_branch]++;
+//				m_is_skill_learnt = true;
+//				m_target_character->skills.push_back(SkillContainer::GetInstance()->GetSkill(m_skill_name));
+//			}
+//		}
+//	}
+//	void Render();
+//
+//	Skill_Button(){};
+//	~Skill_Button(){};
+//
+//};
 
 #endif

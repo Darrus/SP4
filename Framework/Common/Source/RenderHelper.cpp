@@ -116,7 +116,7 @@ void RenderHelper::RenderText(Mesh* _mesh, const std::string& _text, Color _colo
 			x_offset = 0;
 		}
 		else
-			x_offset += char_width;
+			x_offset += char_width + 0.1f;
 
 		characterSpacing.SetToTranslation(x_offset, y_offset, 1.f); //1.0f is the spacing of each character, you may change this value
 		MVP = GraphicsManager::GetInstance()->GetProjectionMatrix() * GraphicsManager::GetInstance()->GetViewMatrix() * GraphicsManager::GetInstance()->GetModelStack().Top() * characterSpacing;

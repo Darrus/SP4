@@ -204,7 +204,7 @@ void Skill_Button::Render()
 		modelStack.Translate(-m_scale_x * 0.5, 0, 1);
 		modelStack.Translate(m_text_offset_x, m_text_offset_y, 0);
 		modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
-		RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_text, Color(1, 0, 0));	//NOTE: COLOUR DOESN'T WORK. THANKS ALOT, TOH.
+		RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_skill->GetName(), Color(1, 0, 0));
 	}
 
 	modelStack.PopMatrix();

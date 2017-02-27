@@ -21,6 +21,8 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
+	void SetCharacter(CharacterInfo* chara);
+
 private:
 	FPSCamera camera;
 	
@@ -30,6 +32,8 @@ private:
 	vector<Skill*> skill_branch[NUM_BRANCHES];
 
 	Menu* skill_menu;
+
+	SkillDisplay* m_display;
 
 	void dummy_values();
 	void init_skills();

@@ -29,25 +29,27 @@ void CharacterProfile_Button::Render()
 
 	modelStack.Translate(-m_scale_x * 0.5, 0, 1);
 
-	modelStack.Translate(0, 200, 0);
+	modelStack.Translate(0, 325, 0);
 	modelStack.PushMatrix();
 	modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
 	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_chara->name, Color(1, 0, 0));
 	modelStack.PopMatrix();
 
-	modelStack.Translate(0, -600, 0);
+	//Character animation/portrait goes here
+
+	modelStack.Translate(0, -525, 0);
 	modelStack.PushMatrix();
 	modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
 	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(m_chara->HP) + "/" + std::to_string(m_chara->stats.GetMaxHP()), Color(1, 0, 0));
 	modelStack.PopMatrix();
 
-	modelStack.Translate(0, -100, 0);
+	modelStack.Translate(0, -50, 0);
 	modelStack.PushMatrix();
 	modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
 	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(m_chara->MP) + "/" + std::to_string(m_chara->stats.GetMaxMP()), Color(1, 0, 0));
 	modelStack.PopMatrix();
 
-	modelStack.Translate(0, -100, 0);
+	modelStack.Translate(0, -50, 0);
 	modelStack.PushMatrix();
 	modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
 	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(m_chara->EXP) + "/" + std::to_string(m_chara->stats.GetMaxEXP()), Color(1, 0, 0));
