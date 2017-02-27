@@ -90,9 +90,9 @@ public:
 		sub.Damage = (main.Str + main.Level) * DAMAGE_MULTIPLIER;
 		sub.SpellDamage = (main.Int + main.Level) * SPELL_DAMAGE_MULTIPLIER;
 		sub.Defence = (main.Vit + main.Level) * DEFENCE_MULTIPLIER;
-		sub.DodgeRate = (main.Dex + main.Level) * DODGE_RATE_MULTIPLIER;
+        sub.DodgeRate = ((float)main.Dex + (float)main.Level) * DODGE_RATE_MULTIPLIER;
 		sub.CritRate = (main.Dex + main.Level) * CRIT_RATE_MULTIPLIER;
-		sub.RechargeRate = (main.Agi + main.Level) * RECHARGE_RATE_MULTIPLIER;
+        sub.RechargeRate = ((float)main.Agi + (float)main.Level) * RECHARGE_RATE_MULTIPLIER;
 	}
 };
 

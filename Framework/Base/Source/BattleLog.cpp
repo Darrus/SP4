@@ -26,6 +26,9 @@ critical_(critical)
         DMGRecv = true;
     if (damagedealt_ > 0)
         DMGDeal = true;
+
+    m_entity_ = nullptr;
+    defend_ = false;
 }
 
 BattleLog::BattleLog(BattleEntity* entity, bool defend):
@@ -35,6 +38,7 @@ defend_(defend)
     displayTime = 3;
     DMGRecv = false;
     DMGDeal = false;
+    m_entity_ = nullptr;
 }
 
 BattleLog::BattleLog(CharacterInfo* entity, std::string skillname) :
@@ -45,6 +49,18 @@ enemyname_(skillname)
     displayTime = 3;
     DMGRecv = false;
     DMGDeal = false;
+    m_entity_ = nullptr;
+    defend_ = false;
+}
+
+BattleLog::BattleLog(bool escapeAttempt) :
+escapeAttempt_(escapeAttempt)
+{
+    displayTime = 3;
+    DMGRecv = false;
+    DMGDeal = false;
+    m_entity_ = nullptr;
+    defend_ = false;
 }
 
 BattleLog::~BattleLog()
@@ -101,6 +117,22 @@ void BattleLog::Render()
                 modelStack.Translate(windowWidth * 0.35, windowHeight * 0.9, 8);
                 modelStack.Scale(25.f, 25.f, 1.f);
                 RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->entity_->GetInfo()->name + " defended", Color(0, 1, 0));
+                modelStack.PopMatrix();
+            }
+            else if ((*itr)->escapeAttempt_)
+            {
+                modelStack.PushMatrix();
+                modelStack.Translate(windowWidth * 0.35, windowHeight * 0.9, 8);
+                modelStack.Scale(25.f, 25.f, 1.f);
+                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Fled the Battle!", Color(0, 1, 0));
+                modelStack.PopMatrix();
+            }
+            else if (!(*itr)->escapeAttempt_)
+            {
+                modelStack.PushMatrix();
+                modelStack.Translate(windowWidth * 0.35, windowHeight * 0.9, 8);
+                modelStack.Scale(25.f, 25.f, 1.f);
+                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Failed to flee the Battle.", Color(0, 1, 0));
                 modelStack.PopMatrix();
             }
         }

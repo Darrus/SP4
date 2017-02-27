@@ -41,7 +41,8 @@ public:
     enum ENEMYTYPE
     {
         ENEMY = 0,
-        ALLY
+        ALLY,
+        BOSS
     };
 
     ENEMYTYPE enemyType;

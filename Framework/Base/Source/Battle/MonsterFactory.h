@@ -8,6 +8,7 @@ class MonsterFactory
 {
 private:
     int currID;
+    int avgLvl;
 public:
     MonsterFactory();
     ~MonsterFactory();
@@ -15,10 +16,12 @@ public:
     Enemy* CreateEnemy1(int id);
     Enemy* CreateEnemy2(int id);
     Enemy* CreateEnemy3(int id);
+    Enemy* CreateBoss(int id);
     Enemy* CreateRandomEnemy(int id);
+    void LevelSync();
 
-    float windowWidth = Application::GetInstance().GetWindowWidth();
-    float windowHeight = Application::GetInstance().GetWindowHeight();
+    float windowWidth = (float)Application::GetInstance().GetWindowWidth();
+    float windowHeight = (float)Application::GetInstance().GetWindowHeight();
 };
 
 #endif /* MONSTERFACTORY_H */
