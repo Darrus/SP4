@@ -20,6 +20,7 @@
 // Entities
 #include "OverworldAsset.h"
 #include "OverworldEntity.h"
+#include "StaticAsset.h"
 
 // Trigger Areas
 #include "TriggerScene.h"
@@ -241,7 +242,7 @@ void Town::InitBuilding()
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
 
-	asset = new OverworldAsset("House1");
+	asset = new StaticAsset("Tower1", "Tower2");
 	asset->SetPosition(Vector3(-60.f, -80.f, 1.1f));
 	asset->SetScale(Vector3(25.f, 25.f, 1.f));
 	asset->SetCamera(&camera);

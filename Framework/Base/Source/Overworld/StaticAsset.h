@@ -1,15 +1,21 @@
 #pragma once
+
 #include "OverworldAsset.h"
-class StaticAsset :
-	public OverworldAsset
+
+class StaticAsset : public OverworldAsset
 {
 	float rotZ;
+	Mesh* front;
+	Mesh* side;
+
+	Vector3 view;
 
 public:
-	StaticAsset(const string& meshName);
+	StaticAsset(const string& frontMeshName, const string& sideMeshName);
 	virtual ~StaticAsset();
 
+	virtual void Update();
 	virtual void Render();
-	inline void SetRotZ(float rotZ){ this->rotZ = rotZ; }
+	void SetRotZ(const float& rotZ);
 };
 
