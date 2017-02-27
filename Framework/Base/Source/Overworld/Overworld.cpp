@@ -8,6 +8,7 @@
 
 // Entity
 #include "../Entity/EntityFactory.h"
+#include "StaticAsset.h"
 #include "TriggerScene.h"
 #include "TriggerDialogue.h"
 
@@ -42,6 +43,7 @@ void Overworld::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("background", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//overworldBG.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("twee", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//twee.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("mountain", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//mountain.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("mountain_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//mountain_side.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("town", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//town.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("Collider", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//collider.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("Grid", Color(0.f, 1.f, 0.f));
@@ -133,7 +135,7 @@ void Overworld::Init()
 		spatial.Add(asset);
 	}
 
-	asset = new OverworldAsset("mountain");
+	asset = new StaticAsset("mountain", "mountain_side");
 	asset->SetPosition(Vector3(30.f, 30.f, 0.1f));
 	asset->SetScale(Vector3(50.f, 50.f, 1.f));
 	asset->SetCamera(&camera);
