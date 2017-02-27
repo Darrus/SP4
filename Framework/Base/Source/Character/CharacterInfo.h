@@ -7,6 +7,7 @@
 #include "InfoBase.h"
 
 #include "../Skills/Skill.h"
+#include "../Animation/Animator.h"
 
 using std::list;
 
@@ -18,14 +19,19 @@ public:
     CharacterInfo(){}
     virtual ~CharacterInfo(){}
 
+	// Animator
+	Animator anim;
+
 	// List of entity's skills
 	typedef list<Skill*> SkillList;
 	SkillList skills;
 
 	int skill_branch_index[NUM_BRANCHES];
 
-	// Entity EXP
-	int EXP = 0;
+	virtual void Update()
+	{
+		anim.Update();
+	}
 
 	inline int CheckLevelUp()
 	{

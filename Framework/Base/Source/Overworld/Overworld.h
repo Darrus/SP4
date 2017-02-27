@@ -18,6 +18,12 @@ using std::vector;
 class Overworld : public OverworldBase
 {
 public:
+	enum OVERWORLD_STATE
+	{
+		NAVIGATE,
+		BATTLE
+	};
+
 	Overworld();
 	virtual ~Overworld();
 
@@ -28,11 +34,12 @@ public:
 	virtual void UnPause();
 	
 	static bool battle;
-
 private:
-    CBattleState* battlestate;
-
 	SkyBoxEntity mountain;
+    CBattleState* battlestate;
+	float encounterRate;
+
+	void HandleEncounter(float dt);
 };
 
 #endif

@@ -11,15 +11,13 @@ class OverworldPlayer :	public OverworldEntity
 	SpriteEntity* ground;
 	float moveSpeed;
 	
-	void Controls();
 	void HandleBoundary();
-    void HandleEncounter(float dt);
-
-    float encounterRate;
 
 public:
 	OverworldPlayer();
 	virtual ~OverworldPlayer();
+
+	bool Controls();
 
 	virtual void Update();
 	virtual void HandleCollision(EntityBase* entity);
