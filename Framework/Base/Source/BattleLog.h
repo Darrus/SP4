@@ -9,18 +9,20 @@
 class BattleLog : public BattleEntity
 {
 private:
-    bool DMGRecv, DMGDeal, dodged_, critical_, defend_;
     BattleEntity* entity_;
-    std::string enemyname_;
-    int damagereceived_, damagedealt_;
-    float displayTime;
-    bool playerRender, enemyRender;
     CharacterInfo* m_entity_;
+    std::string enemyname_;
+    float displayTime;
+    int damagereceived_, damagedealt_;
+    bool DMGRecv, DMGDeal, dodged_, critical_, defend_;
+    bool playerRender, enemyRender;
+    bool escapeAttempt_;
 public:
     BattleLog();
     BattleLog(BattleEntity* entity, std::string enemyname, int damagedealt, int damagereceived, bool dodged, bool critical);
-    BattleLog(BattleEntity* entity, bool defend);
     BattleLog(CharacterInfo* entity, std::string skillname);
+    BattleLog(BattleEntity* entity, bool defend);
+    BattleLog(bool escapeAttempt);
     ~BattleLog();
 
     void Render();

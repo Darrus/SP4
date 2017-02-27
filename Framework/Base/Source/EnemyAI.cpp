@@ -43,15 +43,26 @@ void EnemyAI::HighAggression(BattleEntity* entityAI, BattleEntity* player)
 
     if ((AIStats.GetRechargeRate() * 0.5) >= playerStats.GetRechargeRate())
     {
+        if (playerStats.GetDodgeRate() >= 50 || playerStats.GetCritRate() >= 50)
+        {
+            if (entityAI->GetAttkTurnPt() < 4)
+                Defend(entityAI);
+            else
+            {
+                while (entityAI->GetAttkTurnPt() > 0)
+                    AttackPlayer(entityAI, player);
+            }
+        }
+        else
+                AttackPlayer(entityAI, player);
+    }
+    else if (entityAI->GetHP() <= AIStats.GetMaxHP() * 0.5)
+    {
         if (entityAI->GetAttkTurnPt() < 2)
             Defend(entityAI);
         else
-            AttackPlayer(entityAI, player);
-    }
-    if (CheckDamage(entityAI->GetDamage(), playerStats.GetDefence()) > 0)
-    {
-        while (entityAI->GetAttkTurnPt() > 0)
-            AttackPlayer(entityAI, player);
+            while (entityAI->GetAttkTurnPt() > 0)
+                AttackPlayer(entityAI, player);
     }
     else
     {
@@ -65,46 +76,54 @@ void EnemyAI::ModerateAggression(BattleEntity* entityAI, BattleEntity* player)
     StatSystem AIStats = entityAI->GetInfo()->stats;
     StatSystem playerStats = player->GetInfo()->stats;
 
-    if ((AIStats.GetRechargeRate() * 0.5) >= playerStats.GetRechargeRate())
+    if ((AIStats.GetDamage()) >= playerStats.GetDamage())
     {
         if (entityAI->GetAttkTurnPt() < 2)
             Defend(entityAI);
         else
-            AttackPlayer(entityAI, player);
+        {
+            while (entityAI->GetAttkTurnPt() > 0)
+                AttackPlayer(entityAI, player);
+        }
     }
-    if (CheckDamage(entityAI->GetDamage(), playerStats.GetDefence()) > 0)
-    {
-        while (entityAI->GetAttkTurnPt() > 0)
-            AttackPlayer(entityAI, player);
-    }
+    else if (entityAI->GetInfo()->HP > player->GetInfo()->HP)
+        AttackPlayer(entityAI, player);
     else
     {
-        //use skill
-        Defend(entityAI);
+        if (entityAI->GetAttkTurnPt() < 3)
+            Defend(entityAI);
+        else
+        {
+            while (entityAI->GetAttkTurnPt() > 0)
+                AttackPlayer(entityAI, player);
+        }
     }
-
 }
 void EnemyAI::LowAggression(BattleEntity* entityAI, BattleEntity* player)
 {
     StatSystem AIStats = entityAI->GetInfo()->stats;
     StatSystem playerStats = player->GetInfo()->stats;
 
-    if ((AIStats.GetRechargeRate() * 0.5) >= playerStats.GetRechargeRate())
+    if (entityAI->GetHP() <= (AIStats.GetMaxHP() * 0.5))
     {
-        if (entityAI->GetAttkTurnPt() < 2)
-            Defend(entityAI);
+        if (entityAI->GetAttkTurnPt() >= 2)
+        {
+            // Use Skill Here to heal
+
+            while (entityAI->GetAttkTurnPt() > 0)
+                AttackPlayer(entityAI, player);
+        }
         else
-            AttackPlayer(entityAI, player);
-    }
-    if (CheckDamage(entityAI->GetDamage(), playerStats.GetDefence()) > 0)
-    {
-        while (entityAI->GetAttkTurnPt() > 0)
-            AttackPlayer(entityAI, player);
+            Defend(entityAI);
+        
     }
     else
     {
-        //use skill
-        Defend(entityAI);
+        if (CheckDamage(entityAI->GetDamage(), playerStats.GetDefence()) > 0)
+        {
+            while (entityAI->GetAttkTurnPt() > 0)
+                AttackPlayer(entityAI, player);
+        }
     }
 }
 void EnemyAI::NeutralAggression(BattleEntity* entityAI, BattleEntity* player)
@@ -112,23 +131,11 @@ void EnemyAI::NeutralAggression(BattleEntity* entityAI, BattleEntity* player)
     StatSystem AIStats = entityAI->GetInfo()->stats;
     StatSystem playerStats = player->GetInfo()->stats;
 
-    if (entityAI->GetHP() <= (AIStats.GetMaxHP() * 0.5))
-    {
-        if (entityAI->GetDefending() < 1.5)
-            Defend(entityAI);
-        else
-        {
-            if (CheckDamage(entityAI->GetDamage(), playerStats.GetDefence()) > 0)
-            {
-                while (entityAI->GetAttkTurnPt() > 0)
-                    AttackPlayer(entityAI, player);
-            }
-        }
-    }
+    if (entityAI->GetHP() <= (AIStats.GetMaxHP() * 0.5) && entityAI->GetAttkTurnPt() < 5)
+        Defend(entityAI);
     else
-    {
-        AttackPlayer(entityAI, player);
-    }
+        while (entityAI->GetAttkTurnPt() > 0)
+            AttackPlayer(entityAI, player);
 }
 
 void EnemyAI::AttackPlayer(BattleEntity* entityAI, BattleEntity* targetPlayer)
@@ -140,9 +147,6 @@ void EnemyAI::AttackPlayer(BattleEntity* entityAI, BattleEntity* targetPlayer)
 
     if (targetPlayer != nullptr)
     {
-        std::cout << targEntity->name << "'s Health: " << targetPlayer->GetHP() << std::endl;
-        std::cout << myEntity->name << "'s Health : " << entityAI->GetHP() << std::endl;
-
         int DamageDeal;
         CheckCrit(myEntity->stats.GetCritRate());
         CheckDodge(targEntity->stats.GetDodgeRate());
@@ -150,7 +154,6 @@ void EnemyAI::AttackPlayer(BattleEntity* entityAI, BattleEntity* targetPlayer)
         {
             if (iCrit)
             {
-                std::cout << myEntity->name << " has Crited!" << std::endl;
                 DamageDeal = (myEntity->stats.GetDamage() * 1.5) - (targEntity->stats.GetDefence() * targetPlayer->GetDefending());
                 if (DamageDeal <= 0)
                     DamageDeal = 0;
@@ -164,27 +167,17 @@ void EnemyAI::AttackPlayer(BattleEntity* entityAI, BattleEntity* targetPlayer)
             targetPlayer->TakeDamage(DamageDeal);
             battlelog = new BattleLog(targetPlayer, myEntity->name, DamageDeal, DamageDeal, iDodge, iCrit);
             battlelog->battleloglist.push_back(battlelog);
-
-            std::cout << "Dealt " << DamageDeal << " to " << targEntity->name << std::endl;
         }
         else
-        {
             DamageDeal = 0;
-            std::cout << targEntity->name << " has Dodged the Attack!" << std::endl;
-        }
 
         if (targetPlayer->GetHP() <= 0)
-        {
             targetPlayer->GetInfo()->HP = 0;
-            std::cout << targEntity->name << " Eliminated!" << std::endl;
-        }
 
         entityAI->SetDefending(1);
         entityAI->DecreaseAttkTurnPt(1);
 
-        if (entityAI->GetAttkTurnPt() > 0)
-            std::cout << "You gain another turn!" << std::endl << std::endl;
-        else
+        if (entityAI->GetAttkTurnPt() <= 0)
             ResetAIBar(entityAI);
     }
 }
@@ -210,14 +203,19 @@ void EnemyAI::Defend(BattleEntity* entityAI)
 
 void EnemyAI::ResetAIBar(BattleEntity* entityAI)
 {
-    std::cout << "Turn ended" << std::endl << std::endl;
     entityAI->SetATB(0.0);
     entityAI->SetReady(false);
 }
 
 void EnemyAI::CheckCrit(float crit)
 {
-    if (crit >= (Math::RandFloatMinMax(0, 100)))
+    int critcrit = 0;
+    if (crit >= 80)
+        critcrit = 80;
+    else
+        critcrit = crit;
+
+    if (critcrit >= (Math::RandFloatMinMax(0, 100)))
         iCrit = true;
     else
         iCrit = false;
@@ -225,7 +223,13 @@ void EnemyAI::CheckCrit(float crit)
 
 void EnemyAI::CheckDodge(float dodge)
 {
-    if (dodge >= (Math::RandFloatMinMax(0, 100)))
+    int dodgedodge = 0;
+    if (dodge >= 80)
+        dodgedodge = 80;
+    else
+        dodgedodge = dodge;
+
+    if (dodgedodge >= (Math::RandFloatMinMax(0, 100)))
         iDodge = true;
     else
         iDodge = false;
