@@ -158,4 +158,42 @@ public:
 	~SellingCart_Menu(){};
 };
 
+
+//======================================================================================//
+
+
+class Skill_Menu : public Menu
+{
+protected:
+	//double m_timer;
+	//double m_accept_limit = 1.f;
+	Button* m_pressed_button;
+
+public:
+	inline void Update()
+	{
+		//m_timer += StopWatch::GetInstance()->GetDeltaTime();
+		Menu::Update();
+
+		for (unsigned i = 0; i < m_buttonList.size(); ++i)
+		{
+			if (!m_buttonList[i]->GetIsActive())
+				continue;
+
+			if (m_buttonList[i]->m_isPressed)
+			{
+				if (m_pressed_button == m_buttonList[i])
+				{
+					dynamic_cast<Skill_Button*>(m_pressed_button)->LearnSkill();
+					break;
+				}
+				else
+					m_pressed_button = m_buttonList[i];
+			}
+		}
+	}
+
+	Skill_Menu() : m_pressed_button(nullptr){};
+	~Skill_Menu(){};
+};
 #endif

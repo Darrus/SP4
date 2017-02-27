@@ -46,7 +46,7 @@ void SkillTreeScene::Init()
 
 	//Skill Display
 	m_display = new SkillDisplay();
-	m_display->SetPosition(1350, 600);
+	m_display->SetPosition(1450, 600);
 	m_display->SetScale(800,600);
 	m_display->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 
@@ -82,7 +82,7 @@ void SkillTreeScene::Init()
 	skill_branch[BRANCH_M_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
 
 	//Make a menu for the skill buttons
-	skill_menu = new Menu();
+	skill_menu = new Skill_Menu();
 	dummy_values();
 
 	init_skills();
@@ -136,8 +136,8 @@ void SkillTreeScene::init_skills()
 
 			Skill_Button* skill_btn = new Skill_Button();
 			skill_btn->SetText(skill_branch[currentBranch][index_in_branch]->GetName());
-			skill_btn->SetPosition(index_in_branch * 110.f + 100.f, offset_y);
-			skill_btn->SetScale(100.f, 100.f);
+			skill_btn->SetPosition(index_in_branch * 150.f + 150.f, offset_y);
+			skill_btn->SetScale(125.f, 125.f);
 			skill_btn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 			skill_btn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 
@@ -145,9 +145,12 @@ void SkillTreeScene::init_skills()
 			skill_btn->SetIsSkillLearnt(skill_learnt);
 			skill_btn->SetSkill(skill_branch[currentBranch][index_in_branch]);
 			skill_btn->SetTargetDisplay(m_display);
+			skill_btn->SetTargetCharacter(character);
+			skill_btn->SetBranch(currentBranch);
+			skill_btn->SetIndexInBranch(index_in_branch);
 			skill_menu->AddButton(skill_btn);
 		}
-		offset_y -= 120.f;
+		offset_y -= 225.f;
 	}
 }
 

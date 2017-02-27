@@ -31,7 +31,7 @@ private:
 
 	vector<Skill*> skill_branch[NUM_BRANCHES];
 
-	Menu* skill_menu;
+	Skill_Menu* skill_menu;
 
 	SkillDisplay* m_display;
 
