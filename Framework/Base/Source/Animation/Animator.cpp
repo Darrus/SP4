@@ -9,7 +9,8 @@ Animator::Animator() :
 currentFrame(0),
 currentTime(0.f),
 playCount(0),
-isDone(false)
+isDone(false),
+activeAnim(nullptr)
 {
 }
 
