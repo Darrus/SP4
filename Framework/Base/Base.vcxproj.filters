@@ -160,9 +160,11 @@
     <ClCompile Include="Source\Overworld\TownShop.cpp">
       <Filter>Overworld\World</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Overworld\StaticAsset.cpp" />
     <ClCompile Include="Source\Scenes\ShopDialogueScene.cpp">
       <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\StaticAsset.cpp">
+      <Filter>Overworld\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -328,7 +330,6 @@
     <ClInclude Include="Source\Overworld\TownShop.h">
       <Filter>Overworld\World</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Overworld\StaticAsset.h" />
     <ClInclude Include="Source\Overworld\Town.h">
       <Filter>Overworld\World</Filter>
     </ClInclude>
@@ -337,6 +338,12 @@
     </ClInclude>
     <ClInclude Include="Source\Scenes\ShopDialogueScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Character\EnemyInfo.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\StaticAsset.h">
+      <Filter>Overworld\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

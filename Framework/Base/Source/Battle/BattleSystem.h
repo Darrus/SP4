@@ -27,6 +27,8 @@ private:
     int turnPt;
     bool noMoreItems;
     bool choosingSkill;
+    bool escapeAnot;
+    float temp = 0;
 
 public:
     BattleSystem();                                                             ///< Default Constructor
@@ -53,7 +55,7 @@ public:
     void SpellCast(BattleEntity* entity, BattleEntity* targetEntity);  ///< Attack the targetEntity
     void Defend(BattleEntity* entity);
     void PassTurn(BattleEntity* entity);
-    void FleeBattle();
+    bool FleeBattle(int playerLevel);
 
     ///< Battle Checks
     void CheckCrit(float critRate);             ///< Function to check if player crits
@@ -70,6 +72,7 @@ public:
     ///< Show Battle Results
     void ShowBattleResults();
     void DefeatGameOver();
+    void EscapeBattle();
 
     ///< Battle End Check
     void CheckBattleEnd(BattleEntity* entity);

@@ -1,10 +1,10 @@
 #ifndef BATTLE_ENTITY_H
 #define BATTLE_ENTITY_H
 
-#include "Entity2D.h"
+#include "EntityBase.h"
 #include "../Character/InfoBase.h"
 
-class BattleEntity : public Entity2D
+class BattleEntity : public EntityBase
 {
     InfoBase* info;
     const float maxATB;
@@ -41,7 +41,8 @@ public:
     enum ENEMYTYPE
     {
         ENEMY = 0,
-        ALLY
+        ALLY,
+        BOSS
     };
 
     ENEMYTYPE enemyType;

@@ -137,56 +137,59 @@ void CBattleState::Init()
     //testEntity->GetInfo()->stats.UpdateStats();
     //party = new PartySystem();
 
-    efactory = new MonsterFactory();
+
     testingBattle = new BattleSystem();
     charahehe = new CharacterInfo();
     party = new PartySystem();
 
-    charahehe->stats.AddVit(50);
-    charahehe->stats.AddStr(50);
-    charahehe->stats.AddInt(65);
-    charahehe->stats.AddMind(50);
-    charahehe->stats.AddDex(40);
+    charahehe->stats.AddVit(5);
+    charahehe->stats.AddStr(5);
+    charahehe->stats.AddInt(6);
+    charahehe->stats.AddMind(5);
+    charahehe->stats.AddDex(4);
     charahehe->stats.AddAgi(3);
     charahehe->stats.AddLevel(5);
     charahehe->name = "Randall";
     charahehe->id = 0;
     charahehe->stats.UpdateStats();
     charahehe->HP = charahehe->stats.GetMaxHP();
+    charahehe->MP = charahehe->stats.GetMaxMP();
     SkillContainer::GetInstance()->Init();
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
     //testingBattle->partypew->AddMember(charahehe);
     party->AddMember(charahehe);
 
     charahehe = new CharacterInfo();
-    charahehe->stats.AddVit(40);
-    charahehe->stats.AddStr(60);
-    charahehe->stats.AddInt(70);
-    charahehe->stats.AddMind(150);
-    charahehe->stats.AddDex(30);
+    charahehe->stats.AddVit(4);
+    charahehe->stats.AddStr(6);
+    charahehe->stats.AddInt(7);
+    charahehe->stats.AddMind(15);
+    charahehe->stats.AddDex(3);
     charahehe->stats.AddAgi(1);
     charahehe->stats.AddLevel(5);
     charahehe->name = "Darrus";
     charahehe->id = 1;
     charahehe->stats.UpdateStats();
     charahehe->HP = charahehe->stats.GetMaxHP();
+    charahehe->MP = charahehe->stats.GetMaxMP();
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
     //testingBattle->partypew->AddMember(charahehe);
     party->AddMember(charahehe);
 
     charahehe = new CharacterInfo();
-    charahehe->stats.AddVit(86);
-    charahehe->stats.AddStr(60);
-    charahehe->stats.AddInt(40);
-    charahehe->stats.AddMind(30);
-    charahehe->stats.AddDex(50);
-    charahehe->stats.AddAgi(935);
+    charahehe->stats.AddVit(9);
+    charahehe->stats.AddStr(6);
+    charahehe->stats.AddInt(4);
+    charahehe->stats.AddMind(3);
+    charahehe->stats.AddDex(5);
+    charahehe->stats.AddAgi(15);
     charahehe->stats.AddLevel(5);
     charahehe->name = "Reuben";
     charahehe->id = 2;
     charahehe->stats.UpdateStats();
     charahehe->HP = charahehe->stats.GetMaxHP();
+    charahehe->MP = charahehe->stats.GetMaxMP();
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
     party->AddMember(charahehe);
@@ -197,6 +200,8 @@ void CBattleState::Init()
     std::cout << party->memberCount() << std::endl;
     std::cout << Player::GetInstance().GetParty()->memberCount() << std::endl; 
     testingBattle->AssignPlayerParty();
+
+    efactory = new MonsterFactory();
 
     wow = efactory->CreateRandomEnemy(4);
     wow2 = efactory->CreateRandomEnemy(3);
@@ -226,6 +231,7 @@ void CBattleState::Update()
 
         for (auto pepepe = testingBattle->PlayerList.begin(); pepepe != testingBattle->PlayerList.end(); pepepe++)
             delete (*pepepe);
+
         testingBattle->PlayerList.clear();
         testingBattle->BattleList.clear();
 

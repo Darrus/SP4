@@ -21,11 +21,16 @@ BattleEntity::~BattleEntity()
 
 void BattleEntity::Update()
 {
-	if (info->HP <= 0.f)
+	if (info)
 	{
-		isDead = true;
-		return;
+		info->Update();
+		if (info->HP <= 0.f)
+		{
+			isDead = true;
+			return;
+		}
 	}
+	
 
 	float dt = (double)StopWatch::GetInstance()->GetDeltaTime();
 

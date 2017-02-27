@@ -23,7 +23,8 @@
 
 bool Overworld::battle = false;
 
-Overworld::Overworld()
+Overworld::Overworld() :
+encounterRate(0.f)
 {
 }
 
@@ -159,18 +160,21 @@ void Overworld::Init()
 
 void Overworld::Update()
 {
+	float dt = StopWatch::GetInstance()->GetDeltaTime();
+
 	EManager.Update();
+	if (player.Controls())
+		HandleEncounter(dt);
 	camera.Update();
 	spatial.Update();
 
-	float dt = StopWatch::GetInstance()->GetDeltaTime();
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
 		SceneManager::GetInstance()->quit = true;
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
 	{
-		camera.Transition(70.f, 0.f, 50.f);
+		camera.Transition(70.f, camera.GetRotZ(), 50.f);
 		battle = true;
 	}
 	if (battle && camera.GetState() == CameraFollow::IDLE)
@@ -227,4 +231,18 @@ void Overworld::UnPause()
 
 	camera.SetCameraTarget(player.GetPosition());
 	battle = false;
+}
+
+void Overworld::HandleEncounter(float dt)
+{
+	encounterRate += dt;
+	if (encounterRate > 5.f)
+	{
+		if (Math::RandFloatMinMax(10, 110) <= encounterRate)
+		{
+			battle = true;
+			camera.Transition(70.f, camera.GetRotZ(), 50.f);
+			encounterRate = 0.f;
+		}
+	}
 }

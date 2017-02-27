@@ -12,6 +12,8 @@ public:
     InfoBase(){}
     virtual ~InfoBase(){}
 
+	virtual void Update(){}
+
 	// Name of entity
 	string name;
 	
