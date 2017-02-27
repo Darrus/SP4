@@ -175,6 +175,7 @@
     <ClCompile Include="Source\Scenes\PartyScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Overworld\MountainTop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -363,6 +364,7 @@
     <ClInclude Include="Source\Scenes\PartyScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Overworld\MountainTop.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animation">
