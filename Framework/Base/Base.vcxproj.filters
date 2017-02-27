@@ -166,6 +166,15 @@
     <ClCompile Include="Source\Overworld\StaticAsset.cpp">
       <Filter>Overworld\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Menu\CharacterProfile_Button.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Menu\SkillDisplay.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\PartyScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -344,6 +353,15 @@
     </ClInclude>
     <ClInclude Include="Source\Overworld\StaticAsset.h">
       <Filter>Overworld\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Menu\CharacterProfile_Button.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Menu\SkillDisplay.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\PartyScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

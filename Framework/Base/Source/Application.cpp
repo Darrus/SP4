@@ -154,7 +154,7 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("SkillTreeScene", new SkillTreeScene());
 
 	//Set the active scene
-	SceneManager::GetInstance()->SetActiveScene("SkillTreeScene");
+	SceneManager::GetInstance()->SetActiveScene("Overworld");
 
 	//Load Font Data
 	LoadFontData("FontData//pixelFontData.csv");
