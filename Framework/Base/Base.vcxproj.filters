@@ -338,6 +338,9 @@
     <ClInclude Include="Source\Scenes\ShopDialogueScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Character\EnemyInfo.h">
+      <Filter>Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animation">

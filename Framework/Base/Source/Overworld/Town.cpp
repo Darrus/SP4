@@ -90,20 +90,6 @@ void Town::Init()
 	EManager.AddEntity(&player);
 	spatial.Add(&player);
 
-	// Assets Init
-	OverworldAsset* asset;
-	Math::InitRNG();
-
-	// Shop Init
-	MeshBuilder::GetInstance()->GenerateQuad("Shop", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//town_shop.tga");
-	asset = new OverworldAsset("Shop");
-	asset->SetPosition(Vector3(50.f, 50.f, 1.1f));
-	asset->SetScale(Vector3(25.f, 17.f, 1.f));
-	asset->SetCamera(&camera);
-	asset->SetCollider(new CCollider_2DAABB());
-	EManager.AddEntity(asset);
-	spatial.Add(asset);
-
 	// Fountain Init
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Fountain", 1, 4)->textureID = LoadTGA("Image//Town//fountain.tga");
 	AnimationsContainer::GetInstance()->AddAnimation("Fountain", new Animation("Fountain", 0, 3, 1.f, -1));
@@ -116,25 +102,9 @@ void Town::Init()
 	EManager.AddEntity(sprite);
 	spatial.Add(sprite);
 
-	// House Init
-	MeshBuilder::GetInstance()->GenerateQuad("House1", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house1.tga");
-	asset = new OverworldAsset("House1");
-	asset->SetPosition(Vector3(-50.f, 25.f, 1.1f));
-	asset->SetScale(Vector3(25.f, 25.f, 1.f));
-	asset->SetCamera(&camera);
-	asset->SetCollider(new CCollider_2DAABB());
-	EManager.AddEntity(asset);
-	spatial.Add(asset);
+	InitBuilding();
 
 	TriggerScene* trigger = new TriggerScene();
-	trigger->Init("TownShop", &camera, Vector3(0.f, -19.f, 0.f));
-	trigger->SetScale(Vector3(5.f, 5.f, 1.f));
-	trigger->SetPosition(Vector3(asset->GetPosition().x, asset->GetPosition().y - (asset->GetScale().y * 0.5f) + (trigger->GetScale().y * 0.5f) , asset->GetPosition().z));
-	trigger->SetCollider(new CCollider_2DAABB());
-	EManager.AddEntity(trigger);
-	spatial.Add(trigger);
-
-	trigger = new TriggerScene();
 	trigger->Init("Overworld", &camera, Vector3(0.f, 100.f, 0.f));
 	trigger->SetScale(Vector3(20.f, 20.f, 1.f));
 	trigger->SetPosition(Vector3(-5.f, -155.f, 0.f));
@@ -190,4 +160,92 @@ void Town::UnPause()
 	camera.SetDistSpeed(100.f);
 
 	camera.SetCameraTarget(player.GetPosition());
+}
+
+void Town::InitBuilding()
+{
+	// Assets Init
+	OverworldAsset* asset;
+
+	// Shop Init
+	MeshBuilder::GetInstance()->GenerateQuad("Shop", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//town_shop.tga");
+	asset = new OverworldAsset("Shop");
+	asset->SetPosition(Vector3(50.f, 50.f, 1.1f));
+	asset->SetScale(Vector3(25.f, 17.f, 1.f));
+	asset->SetCamera(&camera);
+	asset->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(asset);
+	spatial.Add(asset);
+
+	TriggerScene* trigger = new TriggerScene();
+	trigger->Init("TownShop", &camera, Vector3(0.f, -19.f, 0.f));
+	trigger->SetScale(Vector3(5.f, 5.f, 1.f));
+	trigger->SetPosition(Vector3(asset->GetPosition().x, asset->GetPosition().y - (asset->GetScale().y * 0.5f) + (trigger->GetScale().y * 0.5f), asset->GetPosition().z));
+	trigger->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(trigger);
+	spatial.Add(trigger);
+
+	// House Init
+	MeshBuilder::GetInstance()->GenerateQuad("House1", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house1.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("House2", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house2.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("House3", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house3.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("Tower1", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//tower1.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("Tower2", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//tower2.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("Tower3", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//tower3.tga");
+
+	asset = new OverworldAsset("House1");
+	asset->SetPosition(Vector3(-50.f, 25.f, 1.1f));
+	asset->SetScale(Vector3(25.f, 25.f, 1.f));
+	asset->SetCamera(&camera);
+	asset->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(asset);
+	spatial.Add(asset);
+
+	asset = new OverworldAsset("Tower2");
+	asset->SetPosition(Vector3(-100.f, 75.f, 1.1f));
+	asset->SetScale(Vector3(25.f, 25.f, 1.f));
+	asset->SetCamera(&camera);
+	asset->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(asset);
+	spatial.Add(asset);
+
+	asset = new OverworldAsset("House3");
+	asset->SetPosition(Vector3(-130.f, -50.f, 1.1f));
+	asset->SetScale(Vector3(25.f, 25.f, 1.f));
+	asset->SetCamera(&camera);
+	asset->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(asset);
+	spatial.Add(asset);
+
+	asset = new OverworldAsset("Tower1");
+	asset->SetPosition(Vector3(110.f, -20.f, 1.1f));
+	asset->SetScale(Vector3(25.f, 25.f, 1.f));
+	asset->SetCamera(&camera);
+	asset->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(asset);
+	spatial.Add(asset);
+
+	asset = new OverworldAsset("House2");
+	asset->SetPosition(Vector3(60.f, -50.f, 1.1f));
+	asset->SetScale(Vector3(25.f, 25.f, 1.f));
+	asset->SetCamera(&camera);
+	asset->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(asset);
+	spatial.Add(asset);
+
+	asset = new OverworldAsset("House3");
+	asset->SetPosition(Vector3(120.f, 50.f, 1.1f));
+	asset->SetScale(Vector3(25.f, 25.f, 1.f));
+	asset->SetCamera(&camera);
+	asset->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(asset);
+	spatial.Add(asset);
+
+	asset = new OverworldAsset("House1");
+	asset->SetPosition(Vector3(-60.f, -80.f, 1.1f));
+	asset->SetScale(Vector3(25.f, 25.f, 1.f));
+	asset->SetCamera(&camera);
+	asset->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(asset);
+	spatial.Add(asset);
 }

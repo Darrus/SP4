@@ -6,6 +6,8 @@ class Town : public OverworldBase
 private:
 	SkyBoxEntity wall;
 
+	void InitBuilding();
+
 public:
 	Town();
 	virtual ~Town();
@@ -16,5 +18,6 @@ public:
 	virtual void Exit();
 
 	virtual void UnPause();
+
 };
 
