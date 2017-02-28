@@ -22,6 +22,9 @@
 #include "MatrixStack.h"
 #include "../Application.h"
 
+// Player
+#include "../Player/Player.h"
+
 bool Overworld::battle = false;
 
 Overworld::Overworld() :
@@ -48,6 +51,7 @@ void Overworld::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("Collider", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//collider.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("Grid", Color(0.f, 1.f, 0.f));
 	MeshBuilder::GetInstance()->GenerateText("text", 16, 16)->textureID = LoadTGA("FontData//pixelFont.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("paper_background", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Buttons//paper_background.tga");
 
 	// Skybox
 	MeshBuilder::GetInstance()->GenerateQuad("skybox_left", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//sky_left.tga");
@@ -93,6 +97,8 @@ void Overworld::Init()
 	player.SetGround(&background);
 	EManager.AddEntity(&player);
 	spatial.Add(&player);
+
+	Player::GetInstance().LoadGame("01");
 
 	// Background Init
 	background.SetMesh(MeshBuilder::GetInstance()->GetMesh("background"));
@@ -191,7 +197,7 @@ void Overworld::Update()
     }
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_F10))
-		SceneManager::GetInstance()->SetActiveScene("PartyScene", true);
+		SceneManager::GetInstance()->SetActiveScene("PauseScene", true);
 }
 
 void Overworld::Render()

@@ -3,11 +3,15 @@
 #include <lua.hpp>
 #include <map>
 #include <string>
+#include <vector>
 #include "SingletonTemplate.h"
 #include "Vector3.h"
 
+
+
 #define Lua CLuaInterface::GetInstance()
 
+using std::vector;
 using std::string;
 using std::map;
 using std::pair;
@@ -24,14 +28,12 @@ public:
 	CLuaInterface();
 	virtual ~CLuaInterface();
 
-	bool Init();
-	void Run();
 	void Drop();
 	void DropFile(string name);
 	void RegisterFunction(string name, int(*luaFunc)(lua_State*));
 	void DoActiveState();
 
-	void LoadFile(const string name);
+	bool LoadFile(const string name);
 
 	float Getfield(const char *key);
 	void error(const char *errorCode);
@@ -44,8 +46,11 @@ public:
 	float GetFloatValue(const char* varName);
 	// Get String Value
 	string GetStringValue(const char* varName);
+	// Get Array of Strings
+	vector<string> GetStringTable(const char* varName);
 	// Get Vector3 values
 	Vector3 GetVector3Values(const char* varName);
+	
 
 	// Save an integer value through the Lua Interface Class
 	void SaveIntValue(const char *fileName, const char* varName, const int value, const bool bOverwrite = NULL);

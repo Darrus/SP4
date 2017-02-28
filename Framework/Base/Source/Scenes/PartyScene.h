@@ -12,9 +12,6 @@ using std::string;
 class PartyScene : public Scene
 {
 protected:
-	//GUIObjects
-	GUIObject* m_header_text;
-
 	//Dummy holder for party to be taken from player class
 	CharacterInfo* chara_info[4];
 	

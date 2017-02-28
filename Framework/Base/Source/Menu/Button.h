@@ -117,7 +117,7 @@ public:
 };
 
 //============================================================================//
-//Brief: A button object that adds a copy of a set item into target inventory.//
+//Brief: A button object that changes the active scene.						  //
 //============================================================================//
 
 class ChangeScene_Button : public Button
@@ -236,10 +236,30 @@ public:
 
 	ShopItem_Button()
 	{
-		//Scale ratio of about 3:1 is ideal
 		SetScale(650, 150);
 	};
 	~ShopItem_Button(){};
+};
+
+//============================================================================//
+//Brief: A button object makes an Item pointer point to the held item.		  //
+//============================================================================//
+class Inventory_Button : public Button
+{
+protected:
+	Item* m_item_holder;
+
+public:
+	Item* m_item;
+	int index;
+
+	inline void SetTargetItemHolder(Item* target_inven){ m_item_holder = target_inven; }
+	inline void SetItem(Item* item){ m_item = item; }
+	inline void RunFunction(){ m_item_holder = m_item; }
+	virtual void Render();
+
+	Inventory_Button(){ SetScale(650, 150); }
+	~Inventory_Button(){};
 };
 
 //============================================================================//

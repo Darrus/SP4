@@ -5,7 +5,7 @@
 
 class PartySystem
 {
-	static const size_t maxPartySize = 4;
+	static const int maxPartySize = 4;
 	CharacterInfo* party[maxPartySize];
     int currPartySize;
 public:
@@ -14,8 +14,14 @@ public:
 
 	CharacterInfo* GetMember(int id);
 	CharacterInfo* RemoveMember(int id);
+
+	CharacterInfo* GetParty();
+
 	void AddMember(CharacterInfo* member);
     int memberCount();
+
+	inline int GetMaxPartySize() { return maxPartySize; }
+
     //void UpdateMemberInfo(CharacterInfo* info);
 };
 

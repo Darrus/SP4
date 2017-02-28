@@ -24,10 +24,14 @@ public:
 	void AddScene(const std::string& _name, Scene* _scene);
 	void RemoveScene(const std::string& _name);
 	Scene* SetActiveScene(const std::string& _name, bool overlay = false);
+	
 	bool CheckSceneExist(const std::string& _name);
 	void PreviousScene();
 
-	inline Scene* GetActiveScene() { return activeScene.back(); }
+
+	inline Scene* GetActiveScene() { return activeScene.front(); }
+	inline std::string GetActiveSceneName() { return name; }
+	inline Scene* GetScene(std::string scene_name){ return sceneMap.find(scene_name)->second; };
 
 private:
 	SceneManager();
@@ -36,6 +40,7 @@ private:
 	std::map<std::string, Scene*> sceneMap;
 	SceneList activeScene;
 	Scene* nextScene;
+	std::string name;
 
 	bool overlay;
 	bool back;

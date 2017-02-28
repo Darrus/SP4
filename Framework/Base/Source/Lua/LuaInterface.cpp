@@ -21,38 +21,6 @@ CLuaInterface::~CLuaInterface()
 	Drop();
 }
 
-bool CLuaInterface::Init()
-{
-	//bool result = false;
-
-	//// Create lua state
-	//theLuaState = lua_open();
-
-	//if (theLuaState)
-	//{
-	//	// Load lua auxiliary libraries
-	//	luaL_openlibs(theLuaState);
-
-	//	// Load lua script
-	//	luaL_dofile(theLuaState, "Lua//DM2240.lua");
-	//}
-
-	//theErrorState = lua_open();
-	//if (theLuaState && theErrorState)
-	//{
-	//	// Load lua auxiliary libraries
-	//	luaL_openlibs(theErrorState);
-
-	//	// Load lua script
-	//	luaL_dofile(theErrorState, "Lua//errorLookup.lua");
-
-	//	result = true;
-	//}
-
-	//return result;
-	return false;
-}
-
 float CLuaInterface::Getfield(const char *key)
 {
 	int result;
@@ -63,28 +31,6 @@ float CLuaInterface::Getfield(const char *key)
 	result = (int)lua_tonumber(currentState.second, -1);
 	lua_pop(currentState.second, 1);
 	return result;
-}
-
-void CLuaInterface::Run()
-{
-	//if (theLuaState == nullptr)
-	//	return;
-
-	//// Read the variables
-	//lua_getglobal(theLuaState, "title");
-	//// extract value, index -1 as variable is already retrieved using lua_getglobal
-	//const char *title = lua_tostring(theLuaState, -1);
-
-	//lua_getglobal(theLuaState, "width");
-	//int width = lua_tointeger(theLuaState, -1);
-
-	//lua_getglobal(theLuaState, "height");
-	//int height = lua_tointeger(theLuaState, -1);
-
-	//cout << title << endl;
-	//cout << "----------------------------------------" << endl;
-	//cout << "Width of screen : " << width << endl;
-	//cout << "Height of screen : " << height << endl;
 }
 
 // Get an integer value through the Lua Interface Class
@@ -107,6 +53,26 @@ string CLuaInterface::GetStringValue(const char* varName)
 	const char *title = lua_tostring(currentState.second, -1);
 	string result = title;
 	return result;
+}
+
+vector<string> CLuaInterface::GetStringTable(const char* varName)
+{
+	vector<string> container;
+	lua_getglobal(currentState.second, varName);
+	if (lua_isnil(currentState.second, -1)) {
+		return container;
+	}
+	lua_pushnil(currentState.second);
+
+	while (lua_next(currentState.second, -2))
+	{
+		const char *temp = lua_tostring(currentState.second, -1);
+		string convert = temp;
+		container.push_back(convert);
+		lua_pop(currentState.second, 1);
+	}
+
+	return container;
 }
 
 Vector3 CLuaInterface::GetVector3Values(const char* varName)
@@ -218,14 +184,14 @@ void CLuaInterface::DropFile(string name)
 	luaStates.erase(it);
 }
 
-void CLuaInterface::LoadFile(const string name)
+bool CLuaInterface::LoadFile(const string name)
 {
 	map<string, lua_State*>::iterator it = luaStates.find(name);
 
 	if (it != luaStates.end())
 	{
 		currentState = (*it);
-		return;
+		return true;
 	}
 
 	lua_State *result = lua_open();
@@ -237,13 +203,18 @@ void CLuaInterface::LoadFile(const string name)
 
 		// Load lua script
 		if (!luaL_dofile(result, fileName.c_str()))
+		{
 			std::cout << "Succesfully loaded " << fileName << std::endl;
+			currentState = std::pair<string, lua_State*>(name, result);
+			luaStates.insert(currentState);
+			return true;
+		}
 		else
+		{
 			std::cout << "Failed to load " << fileName << std::endl;
+			return false;
+		}
 	}
-
-	currentState = std::pair<string, lua_State*>(name, result);
-	luaStates.insert(currentState);
 }
 
 void CLuaInterface::RegisterFunction(string name, int(*luaFunc)(lua_State*))

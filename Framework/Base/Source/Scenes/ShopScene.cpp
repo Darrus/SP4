@@ -11,14 +11,6 @@
 #include "KeyboardController.h"
 #include "SceneManager.h"
 
-#include "../Lua/LuaInterface.h"
-#include "SoundEngine\SoundEngine.h"
-
-#include "../Entity/EntityFactory.h"
-#include "../Entity/Entity2D.h"
-
-#include "Collider\Collider_2DAABB.h"
-
 #include "../Animation/AnimationsContainer.h"
 
 #include "../Player/Player.h"
@@ -41,9 +33,6 @@ void ShopScene::Init()
 	GraphicsManager::GetInstance()->AttachCamera(&camera);
 
 	// Load all the meshes
-	MeshBuilder::GetInstance()->GenerateQuad("INTROSTATE_BKGROUND", Color(1, 1, 1), 1.f);
-	MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND")->textureID = LoadTGA("Image//splash.tga");
-
 	MeshBuilder::GetInstance()->GenerateQuad("button_background", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GetMesh("button_background")->textureID = LoadTGA("Image//Buttons//button_background.tga");
 
@@ -59,8 +48,6 @@ void ShopScene::Init()
 	
 	MeshBuilder::GetInstance()->GenerateQuad("Collider", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//collider.tga");
 
-	EntityFactory::GetInstance()->AttachEntityManager(&EManager);
-
 	float windowWidth = Application::GetInstance().GetWindowWidth();
 	float windowHeight = Application::GetInstance().GetWindowHeight();
 
@@ -74,6 +61,8 @@ void ShopScene::Init()
 	b_accept = false;
 	buying_tab = true;
 
+	//TODO:
+	//Use Player's actual inventory
 	//init inventory
 	shop_inventory = new Inventory();
 	cart_inventory = new Inventory();
@@ -182,7 +171,6 @@ void ShopScene::Init()
 	utilitybuttons->AddButton(changeScene);
 
 	//TODO:
-	//GO TO TALK SCENE - But for now it's back to overworld
 	PreviousScene_Button* backbtn = new PreviousScene_Button();
 	backbtn->SetText("Back");
 	backbtn->SetTextOffset(50, 0);
@@ -244,42 +232,14 @@ void ShopScene::Init()
 }
 void ShopScene::Update()
 {
-	//============================================================================================//
-	/*TODO:
-	---------------------------------------------------
-	some stuff should be handled in a containter class
-	---------------------------------------------------
-	To include in the container class:
-	-Cart Inventory
-	-Cart Menu
-	-Positon
-	-Animation functions -->> This should be done in the scene itself
-	-Confirm purchase / Add to inventory button
-	->Add a Prompt for confirmation
-	->Reject if player does not have enough gold */
-	//============================================================================================//
 	float dt = StopWatch::GetInstance()->GetDeltaTime();
 	camera.Update(dt);
 
 	utilitybuttons->Update();
 
-	//TODO:
-	//Shit keeps crashing. 
-	//Items disappear from cart when toggling - OK when buying, not so much when selling
-	//"vector subscript oor"
-
+	//Always clear inventory when swapping between buying and selling
 	if (tgle_btn->m_isPressed)
-	{
-		//if (!buying_tab)
-		//{
-		//	for (unsigned i = 0; i < player_selling_menu->m_buttonList.size(); ++i)
-		//	{
-		//		player_selling_menu->m_buttonList[i]->RunFunction();
-		//	}
-		//}
-
 		cart_inventory->ClearInventory();
-	}
 
 	if (buying_tab)
 	{
@@ -335,8 +295,6 @@ void ShopScene::Update()
 		shop_selling_menu->Update();
 	}
 
-	EManager.Update();
-
 	//Cheat keys
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
 		SceneManager::GetInstance()->quit = true;
@@ -356,9 +314,6 @@ void ShopScene::Render()
 															  Application::GetInstance().GetWindowHeight(), 
 															  -10, 10);
 	GraphicsManager::GetInstance()->DetachCamera();
-
-	// Render stuff
-	EManager.Render();
 
 	if (buying_tab)
 	{
@@ -384,14 +339,15 @@ void ShopScene::Render()
 	Create to a Generic GUIObject
 	-That points to an int or something*/
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
-
-	//Page
-	modelStack.PushMatrix();
-	modelStack.Translate(465, 95, 0);
-	modelStack.Scale(70.f, 70.f, 1.f);
-	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(currentPage + 1), Color(0, 1, 0));
-	modelStack.PopMatrix();
-
+	if (buying_tab)
+	{
+		//Page
+		modelStack.PushMatrix();
+		modelStack.Translate(465, 95, 0);
+		modelStack.Scale(70.f, 70.f, 1.f);
+		RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(currentPage + 1), Color(0, 1, 0));
+		modelStack.PopMatrix();
+	}
 	//Cart cost
 	modelStack.PushMatrix();
 	modelStack.Translate(1050, 900, 0);
@@ -413,18 +369,23 @@ void ShopScene::Render()
 
 void ShopScene::Exit()
 {
-	// Remove the meshes which are specific to ShopScene
-	MeshBuilder::GetInstance()->RemoveMesh("INTROSTATE_BKGROUND");
-
 	EManager.ClearEntityList();
 
 	// Detach camera from other entities
 	GraphicsManager::GetInstance()->DetachCamera();
 }
 
-void ShopScene::moveShopOut()
+void ShopScene::Pause()
 {
-	shop_menu->SetPosition(-1000, 0);
-	shop_menu->ClearButtonList();
+	currentPage = 0;
+	prompt->SetActive(false);
+}
+
+void ShopScene::UnPause()
+{
+	shop_menu->SetCurrentPage(currentPage);
 	shop_menu->UpdateButtonPositions();
+	cart_menu->InitialiseButtons();
+	player_selling_menu->InitialiseButtons();
+	shop_selling_menu->InitialiseButtons();
 }

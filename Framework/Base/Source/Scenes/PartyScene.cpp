@@ -12,6 +12,11 @@
 
 PartyScene::PartyScene()
 {
+	//Initialise as nullptrs
+	chara_info[0] = nullptr;
+	chara_info[1] = nullptr;
+	chara_info[2] = nullptr;
+	chara_info[3] = nullptr;
 }
 
 
@@ -21,12 +26,6 @@ PartyScene::~PartyScene()
 
 void PartyScene::Init()
 {
-	//Initialise as nullptrs
-	chara_info[0] = nullptr;
-	chara_info[1] = nullptr;
-	chara_info[2] = nullptr;
-	chara_info[3] = nullptr;
-
 	SetInit(true);
 
 	utility_menu = new Menu();
@@ -40,14 +39,6 @@ void PartyScene::Init()
 	backbtn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	backbtn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 	utility_menu->AddButton(backbtn);
-
-	//GUIObjects
-	m_header_text = new GUIObject();
-	m_header_text->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5, 1050);
-	m_header_text->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
-	m_header_text->SetScale(500, 100);
-	m_header_text->SetTextOffset(180, 0 );
-	m_header_text->SetText("Party");
 
 	//Dummy characters
 	for (unsigned i = 0; i < 4; ++i)
@@ -74,7 +65,7 @@ void PartyScene::Init()
 	}
 
 	//Loop take makes buttons for every slot that isn't empty or if it finished the loop
-	float offset_x = 450;
+	float offset_x = 375.f;
 	for (unsigned i = 0; i < 4; ++i)
 	{
 		//Stop loop at the first empty slot it reaches
@@ -92,7 +83,7 @@ void PartyScene::Init()
 
 		//Add the button to the menu list
 		utility_menu->AddButton(chara_btn[i]);
-		offset_x += 400;
+		offset_x += 425;
 	}
 }
 
@@ -109,11 +100,8 @@ void PartyScene::Update()
 
 void PartyScene::Render()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	GraphicsManager::GetInstance()->SetOrthographicProjection(0, Application::GetInstance().GetWindowWidth(), 0, Application::GetInstance().GetWindowHeight(), -10, 10);
 
-	m_header_text->Render();
 	utility_menu->Render();
 }
 
