@@ -36,6 +36,8 @@
 #include "Overworld\Overworld.h"
 #include "Overworld\Town.h"
 #include "Overworld\TownShop.h"
+#include "Overworld\Cave.h"
+
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -150,6 +152,7 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("ShopDialogue", new ShopDialogueScene());
 	SceneManager::GetInstance()->AddScene("Town", new Town());
 	SceneManager::GetInstance()->AddScene("TownShop", new TownShop());
+	SceneManager::GetInstance()->AddScene("Cave", new Cave());
 	SceneManager::GetInstance()->AddScene("PartyScene", new PartyScene());
 	SceneManager::GetInstance()->AddScene("SkillTreeScene", new SkillTreeScene());
 
