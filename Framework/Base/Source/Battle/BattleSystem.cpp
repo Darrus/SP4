@@ -56,14 +56,16 @@ escapeAnot(false)
     Arrow->SetScale(Vector3(windowWidth * 0.05f, windowHeight * 0.05f, 0.f));
 
     // Enemy Battle Sprites
-    BattleSprites = new SpriteEntity(MeshBuilder::GetInstance()->GetMesh("enemysprite"));
+
+
+    BattleSprites = new SpriteEntity(MeshBuilder::GetInstance()->GetMesh("Kayne West"));
     BattleSprites->SetTextRenderMode(SpriteEntity::MODE_2D);
     BattleSprites->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.5f, 1.f));
     BattleSprites->SetScale(Vector3(windowWidth * 0.2f, windowHeight * 0.2f, 0.f));
     SpriteList.push_back(BattleSprites);
     BattleSprites = nullptr;
 
-    BattleSprites = new SpriteEntity(MeshBuilder::GetInstance()->GetMesh("enemysprite"));
+    BattleSprites = new SpriteEntity(MeshBuilder::GetInstance()->GetMesh("Kayne West"));
     BattleSprites->SetTextRenderMode(SpriteEntity::MODE_2D);
     BattleSprites->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.3f, 1.f));
     BattleSprites->SetScale(Vector3(windowWidth * 0.2f, windowHeight * 0.2f, 0.f));
@@ -118,6 +120,7 @@ It gives the Unit who filled their bar up first, and stops all other bar updates
 *****************************************/
 void BattleSystem::Update()
 {
+    int playerPartySize = (Player::GetInstance().GetParty()->memberCount() - 1); // start from 0
     //if (!battlelog->Update())
     enemyAI->battlelog->Update();
 
@@ -132,10 +135,12 @@ void BattleSystem::Update()
                 (*itr)->Update(); ///< Updates the enemy ATB;
             else
             {
-                std::cout << (*itr)->GetInfo()->name << " Launched an Attack!" << std::endl;
                 BattleEntity* test = FindTarget(Math::RandIntMinMax(0, 2));
 
                 enemyAI->aggroLvl = EnemyAI::HIGH;
+
+                while (test->GetDead())
+                    test = FindTarget(Math::RandIntMinMax(0, playerPartySize));
 
                 if (test != nullptr)
                     enemyAI->DetermineAction((*itr), test);
@@ -167,11 +172,6 @@ void BattleSystem::Update()
             {
                 playerselect++;
             }
-
-            if (playerselect > (Player::GetInstance().GetParty()->memberCount() - 2))
-                playerselect = 0;
-            if (playerselect < 0)
-                playerselect = (Player::GetInstance().GetParty()->memberCount() - 2);
         }
 
 
@@ -180,21 +180,22 @@ void BattleSystem::Update()
         if (commandselect >= 5)
             commandselect = 0;
 
-        if (playerselect > (Player::GetInstance().GetParty()->memberCount() - 2))
+        if (playerselect > playerPartySize)
             playerselect = 0;
         if (playerselect < 0)
-            playerselect = (Player::GetInstance().GetParty()->memberCount() - 2);
+            playerselect = playerPartySize;
 
         if (skillselect < 0)
-            skillselect = 4;
-        if (skillselect >= 5)
+            skillselect = playerPartySize;
+        if (skillselect >= playerPartySize)
             skillselect = 0;
 
+        std::cout << EnemyList.size() << std::endl;
 
-        if (attkselect > ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1)))
-            attkselect = (Player::GetInstance().GetParty()->memberCount() - 1);
-        if (attkselect < (Player::GetInstance().GetParty()->memberCount() - 1))
-            attkselect = ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1));
+        if (attkselect >(playerPartySize + (EnemyList.size() - 1)))
+            attkselect = playerPartySize;
+        if (attkselect < playerPartySize)
+            attkselect = (playerPartySize + (EnemyList.size() - 1));
     }
 }
 
@@ -651,10 +652,30 @@ void BattleSystem::RenderUIStuff()
         if (whichScreen == CHOOSESKILL)
         {
             int i = 0;
+            modelStack.PushMatrix();
+            modelStack.Translate(windowWidth * 0.65, windowHeight * 0.5, 8.f);
+            modelStack.Scale(windowWidth *0.3, windowHeight *0.5, 1.f);
+            RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
+            modelStack.PopMatrix();
+
+
+            float DIST = 0.75;
+            if (skillselect == 0)
+                Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.7, 10.f));
+            if (skillselect == 1)
+                Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.65, 10.f));
+            if (skillselect == 2)
+                Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.6, 10.f));
+            if (skillselect == 3)
+                Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.55, 10.f));
+            if (skillselect == 4)
+                Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.5, 10.f));
+
+
             for (auto itritr = Player::GetInstance().GetParty()->GetMember(playerselect)->skills.begin(); itritr != Player::GetInstance().GetParty()->GetMember(playerselect)->skills.end(); ++itritr)
             {
                 modelStack.PushMatrix();
-                modelStack.Translate(windowWidth * 0.5f, windowHeight *  (0.7f + (i * -0.05f)), 5.f);
+                modelStack.Translate(windowWidth * 0.5f, windowHeight *  (0.7f + (i * -0.05f)), 8.5f);
                 modelStack.Scale(30.f, 30.f, 1.f);
                 RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itritr)->GetName(), Color(0, 1, 0));
                 modelStack.PopMatrix();
@@ -837,7 +858,7 @@ void BattleSystem::ShowBattleResults()
         for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
         {
             //std::cout << pew->GetMember(i)->CheckLevelUp() << std::endl;
-            std::cout << pew->GetMember(i)->name << std::endl;
+            //std::cout << pew->GetMember(i)->name << std::endl;
             
             //std::cout << pew->GetMember(i)->EXP << std::endl;
             modelStack.PushMatrix();
@@ -865,7 +886,6 @@ void BattleSystem::AssignPlayerParty()
     float windowWidth = Application::GetInstance().GetWindowWidth();
     float windowHeight = Application::GetInstance().GetWindowHeight();
 
-    Player::GetInstance().GetParty();
     for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
     {
         CharacterInfo* MemberInfo = Player::GetInstance().GetParty()->GetMember(i);
@@ -879,6 +899,34 @@ void BattleSystem::AssignPlayerParty()
             pewpewpew->SetPosition((Vector3(windowWidth * 0.75f, windowHeight * (0.15f * (i + 1.5)), 1.f)));
             BattleList.push_back(pewpewpew);
             PlayerList.push_back(pewpewpew);
+        }
+    }
+}
+
+/***************************************
+///< AssignEnemies
+passes in the player party to be in the battlelist
+*****************************************/
+void BattleSystem::AssignEnemies()
+{
+    float windowWidth = Application::GetInstance().GetWindowWidth();
+    float windowHeight = Application::GetInstance().GetWindowHeight();
+
+    for (auto itr = EnemyInfoList.begin(); itr != EnemyInfoList.end(); itr++)
+    {
+        EnemyInfo* MonsterInfo = (*itr);
+        MonsterInfo->stats.UpdateStats();
+
+        pewpewpew = new BattleEntity();
+        pewpewpew->enemyType = BattleEntity::ENEMY;
+        pewpewpew->SetInfo(MonsterInfo);
+
+        if (MonsterInfo != nullptr)
+        {
+            pewpewpew->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * (0.15f * MonsterInfo->id), 1.f));
+
+            BattleList.push_back(pewpewpew);
+            EnemyList.push_back(pewpewpew);
         }
     }
 }
@@ -975,9 +1023,15 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
             whichScreen = NOTHING;
         }
 
+        if (KeyboardController::GetInstance()->IsKeyPressed(VK_RIGHT))
+        {
+            whichScreen = CHOOSEDOWAT;
+            choosingSkill = false;
+        }
+
         if (skillselect < 0)
             skillselect = (Player::GetInstance().GetParty()->GetMember(playerselect)->skills.size() - 1);
-        if (skillselect >= (Player::GetInstance().GetParty()->GetMember(playerselect)->skills.size() - 1))
+        if (skillselect > (Player::GetInstance().GetParty()->GetMember(playerselect)->skills.size() - 1))
             skillselect = 0;
 
         if (choosingSkill == true)
@@ -1004,10 +1058,6 @@ void BattleSystem::EscapeBattle()
 
 void BattleSystem::ChooseItems(BattleEntity* entity)
 {
-    //Player::GetInstance().GetInventory()->PrintInventory();
-
-    Player::GetInstance().GetInventory()->m_inventoryList;
-
     if (KeyboardController::GetInstance()->IsKeyPressed(VK_UP))
         itemselect--;
     if (KeyboardController::GetInstance()->IsKeyPressed(VK_DOWN))
@@ -1016,10 +1066,7 @@ void BattleSystem::ChooseItems(BattleEntity* entity)
     if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
     {
         if (Player::GetInstance().GetInventory()->m_inventoryList.size() <= 0)
-        {
-            std::cout << "No Items to use" << std::endl;
             noMoreItems = true;
-        }
         else
         {
             Player::GetInstance().GetInventory()->UseItem(itemselect, dynamic_cast<CharacterInfo*>(entity->GetInfo()));
@@ -1038,6 +1085,12 @@ void BattleSystem::ChooseItems(BattleEntity* entity)
         whichScreen = CHOOSEDOWAT;
         chooseItem = false;
     }
+
+    if (KeyboardController::GetInstance()->IsKeyPressed(VK_RIGHT))
+    {
+        whichScreen = CHOOSEDOWAT;
+        chooseItem = false;
+    }
 }
 
 void BattleSystem::ChooseSkill()
@@ -1047,34 +1100,36 @@ void BattleSystem::ChooseSkill()
 
     for (auto itritr = Player::GetInstance().GetParty()->GetMember(playerselect)->skills.begin(); itritr != Player::GetInstance().GetParty()->GetMember(playerselect)->skills.end(); ++itritr)
     {
-        if ((*itritr)->IsAllyTargetable())
+        if (skillselect == i)
         {
-            SkillParameters foo;
-            foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
-            for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
+            if ((*itritr)->IsAllyTargetable())
             {
-                if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
-                    foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
+                SkillParameters foo;
+                foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
+                for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
+                {
+                    if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
+                        foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
+                }
+                (*itritr)->UseSkill(foo);
+
+                enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
+                enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+                choosingSkill = false;
             }
-            (*itritr)->UseSkill(foo);
+            else if ((*itritr)->IsEnemyTargetable())
+            {
+                //SkillParameters foo;
+                //foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
 
-            enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
-            enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
-            choosingSkill = false;
+                //for (int i = 0; i < EnemyList.size(); ++i)
+                //{
+                //    if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
+                //        foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
+                //}
+                //(*itritr)->UseSkill(foo);
+            }
         }
-        else if ((*itritr)->IsEnemyTargetable())
-        {
-            //SkillParameters foo;
-            //foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
-
-            //for (int i = 0; i < EnemyList.size(); ++i)
-            //{
-            //    if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
-            //        foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
-            //}
-            //(*itritr)->UseSkill(foo);
-        }
-
         ++i;
     }
 }

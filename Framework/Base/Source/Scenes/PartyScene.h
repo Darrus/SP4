@@ -12,7 +12,8 @@ using std::string;
 class PartyScene : public Scene
 {
 protected:
-	PreviousScene_Button* back_btn;
+	//GUIObjects
+	GUIObject* m_header_text;
 
 	//Dummy holder for party to be taken from player class
 	CharacterInfo* chara_info[4];

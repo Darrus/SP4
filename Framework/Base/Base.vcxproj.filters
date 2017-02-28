@@ -112,9 +112,6 @@
     <ClCompile Include="Source\Battle\MonsterFactory.cpp">
       <Filter>BattleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Battle\Enemy.cpp">
-      <Filter>BattleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Skills\Skill.cpp">
       <Filter>Skills</Filter>
     </ClCompile>
@@ -176,6 +173,9 @@
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\Overworld\MountainTop.cpp" />
+    <ClCompile Include="Source\Menu\SkillPoint_Display.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -292,9 +292,6 @@
     <ClInclude Include="Source\Battle\MonsterFactory.h">
       <Filter>BattleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Battle\Enemy.h">
-      <Filter>BattleSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Skills\Skill.h">
       <Filter>Skills</Filter>
     </ClInclude>
@@ -365,6 +362,9 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Overworld\MountainTop.h" />
+    <ClInclude Include="Source\Menu\SkillPoint_Display.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animation">
@@ -387,9 +387,6 @@
     </Filter>
     <Filter Include="Main">
       <UniqueIdentifier>{bec4556f-0a4e-4e6f-95d1-7358cd335c00}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Skills">
-      <UniqueIdentifier>{0e252905-0f64-4fa9-801c-0a016baf948b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Player">
       <UniqueIdentifier>{30ef3d00-559c-4bc7-be35-ed472f892f56}</UniqueIdentifier>
@@ -414,6 +411,9 @@
     </Filter>
     <Filter Include="Overworld\Entity\TriggerAreas">
       <UniqueIdentifier>{85e2a74a-dfba-471b-be09-52eac65ed24e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Skills">
+      <UniqueIdentifier>{0e252905-0f64-4fa9-801c-0a016baf948b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

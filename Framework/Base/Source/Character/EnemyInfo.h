@@ -7,16 +7,19 @@
 #include "../Skills/Skill.h"
 
 #include "MeshBuilder.h"
+#include "../Application.h"
 
 using std::list;
 
 class EnemyInfo : public InfoBase
 {
-	EnemyInfo(string name)
-	{
-		mesh = MeshBuilder::GetInstance()->GetMesh(name);
-	}
-	virtual ~EnemyInfo(){}
+public:
+    EnemyInfo(){}
+    EnemyInfo(string name)
+    {
+        mesh = MeshBuilder::GetInstance()->GetMesh(name);
+    }
+    virtual ~EnemyInfo(){}
 
 	// List of entity's skills
 	typedef list<Skill*> SkillList;

@@ -3,6 +3,7 @@
 
 #include "../Application.h"
 #include "Button.h"
+#include "CharacterProfile_Button.h"
 #include <vector>
 
 using std::vector;
@@ -195,5 +196,32 @@ public:
 
 	Skill_Menu() : m_pressed_button(nullptr){};
 	~Skill_Menu(){};
+};
+
+
+//======================================================================================//
+
+
+class CharacterProfile_Menu : public Menu
+{
+protected:
+public:
+	//inline void Update()
+	//{
+	//	//m_timer += StopWatch::GetInstance()->GetDeltaTime();
+	//	Menu::Update();
+
+	//	for (unsigned i = 0; i < m_buttonList.size(); ++i)
+	//	{
+	//		if (!m_buttonList[i]->GetIsActive())
+	//			continue;
+
+	//		if (m_buttonList[i]->m_isHovered)
+	//			dynamic_cast<CharacterProfile_Button*>(m_buttonList[i])->UpdateAnimation();
+	//	}
+	//}
+
+	CharacterProfile_Menu(){};
+	~CharacterProfile_Menu(){};
 };
 #endif

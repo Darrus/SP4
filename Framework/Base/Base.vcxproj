@@ -17,7 +17,6 @@
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\BattleLog.cpp" />
     <ClCompile Include="Source\Battle\BattleSystem.cpp" />
-    <ClCompile Include="Source\Battle\Enemy.cpp" />
     <ClCompile Include="Source\Battle\MonsterFactory.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\EnemyAI.cpp" />
@@ -42,6 +41,7 @@
     <ClCompile Include="Source\Menu\CharacterProfile_Button.cpp" />
     <ClCompile Include="Source\Menu\Menu.cpp" />
     <ClCompile Include="Source\Menu\SkillDisplay.cpp" />
+    <ClCompile Include="Source\Menu\SkillPoint_Display.cpp" />
     <ClCompile Include="Source\OBJMesh.cpp" />
     <ClCompile Include="Source\Overworld\CameraFollow.cpp" />
     <ClCompile Include="Source\Overworld\MountainTop.cpp" />
@@ -78,7 +78,6 @@
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\BattleLog.h" />
     <ClInclude Include="Source\Battle\BattleSystem.h" />
-    <ClInclude Include="Source\Battle\Enemy.h" />
     <ClInclude Include="Source\Battle\MonsterFactory.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Character\CharacterInfo.h" />
@@ -107,6 +106,7 @@
     <ClInclude Include="Source\Menu\GUIObject.h" />
     <ClInclude Include="Source\Menu\Menu.h" />
     <ClInclude Include="Source\Menu\SkillDisplay.h" />
+    <ClInclude Include="Source\Menu\SkillPoint_Display.h" />
     <ClInclude Include="Source\OBJMesh.h" />
     <ClInclude Include="Source\Overworld\CameraFollow.h" />
     <ClInclude Include="Source\Overworld\MountainTop.h" />
