@@ -70,7 +70,7 @@ public:
     {
         m_name = "Sweep";
         m_dmg_ratio = 2;
-        m_mana_cost = 10;
+        m_mana_cost = 55;
         m_max_target_num = 1;
         m_ally_targetable = false;
         m_enemy_targetable = true;

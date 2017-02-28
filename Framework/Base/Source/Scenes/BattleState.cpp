@@ -142,11 +142,11 @@ void CBattleState::Init()
     charahehe = new CharacterInfo();
     party = new PartySystem();
 
-    charahehe->stats.AddVit(99);
-    charahehe->stats.AddStr(99);
+    charahehe->stats.AddVit(10);
+    charahehe->stats.AddStr(8);
     charahehe->stats.AddInt(6);
     charahehe->stats.AddMind(5);
-    charahehe->stats.AddDex(4);
+    charahehe->stats.AddDex(11);
     charahehe->stats.AddAgi(3);
     charahehe->stats.AddLevel(5);
     charahehe->name = "Randall";
@@ -161,11 +161,11 @@ void CBattleState::Init()
     party->AddMember(charahehe);
 
     charahehe = new CharacterInfo();
-    charahehe->stats.AddVit(99);
-    charahehe->stats.AddStr(99);
+    charahehe->stats.AddVit(4);
+    charahehe->stats.AddStr(6);
     charahehe->stats.AddInt(7);
     charahehe->stats.AddMind(15);
-    charahehe->stats.AddDex(3);
+    charahehe->stats.AddDex(8);
     charahehe->stats.AddAgi(1);
     charahehe->stats.AddLevel(5);
     charahehe->name = "Darrus";
@@ -180,19 +180,18 @@ void CBattleState::Init()
     party->AddMember(charahehe);
 
     charahehe = new CharacterInfo();
-    charahehe->stats.AddVit(99);
-    charahehe->stats.AddStr(99);
+    charahehe->stats.AddVit(5);
+    charahehe->stats.AddStr(6);
     charahehe->stats.AddInt(4);
     charahehe->stats.AddMind(3);
-    charahehe->stats.AddDex(5);
-    charahehe->stats.AddAgi(99);
+    charahehe->stats.AddDex(7);
+    charahehe->stats.AddAgi(10);
     charahehe->stats.AddLevel(5);
     charahehe->name = "Reuben";
     charahehe->id = 2;
     charahehe->stats.UpdateStats();
     charahehe->HP = charahehe->stats.GetMaxHP();
     charahehe->MP = charahehe->stats.GetMaxMP();
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Sweep"));
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Sweep"));
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Fire Blast"));
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Hero Maker"));

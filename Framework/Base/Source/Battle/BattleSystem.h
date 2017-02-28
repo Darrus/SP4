@@ -31,6 +31,7 @@ private:
     bool escapeAnot;
     float temp = 0;
     bool input;
+    int EXPGAIN;
 
 public:
     BattleSystem();                                                             ///< Default Constructor
@@ -54,7 +55,7 @@ public:
     ///< Battle Command Moves
     void EntityTurn(BattleEntity* entity);      ///< Give an Entity the Turn
     void Attack(BattleEntity* entity, BattleEntity* targetEntity);  ///< Attack the targetEntity
-    void SpellCast(BattleEntity* entity, BattleEntity* targetEntity);  ///< Attack the targetEntity
+    void SpellCast(BattleEntity* entity);  ///< Attack the targetEntity
     void Defend(BattleEntity* entity);
     void PassTurn(BattleEntity* entity);
     bool FleeBattle(int playerLevel);
@@ -69,7 +70,6 @@ public:
     ///< User Inputs
     void ChoosePlayerInput();
     void ChooseItems(BattleEntity* entity);
-    void ChooseSkill();
 
     ///< Show Battle Results
     void ShowBattleResults();

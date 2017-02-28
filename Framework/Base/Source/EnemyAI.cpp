@@ -177,7 +177,11 @@ void EnemyAI::AttackPlayer(BattleEntity* entityAI, BattleEntity* targetPlayer)
             battlelog->battleloglist.push_back(battlelog);
         }
         else
-            DamageDeal = 0;
+        {
+            DamageDeal = 3;
+            battlelog = new BattleLog(targetPlayer, myEntity->name, DamageDeal, DamageDeal, iDodge, iCrit);
+            battlelog->battleloglist.push_back(battlelog);
+        }
 
         if (targetPlayer->GetHP() <= 0)
             targetPlayer->GetInfo()->HP = 0;
