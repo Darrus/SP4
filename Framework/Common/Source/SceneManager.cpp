@@ -13,6 +13,18 @@ SceneManager::~SceneManager()
 
 void SceneManager::Update()
 {
+	if (back)
+	{
+		if (activeScene.size() > 1)
+		{
+			activeScene.back()->Pause();
+			activeScene.pop_back();
+			back = false;
+		}
+		else
+			std::cout << "There is no previous scene to go back to." << std::endl;
+	}
+
 	if (nextScene)
 	{
 		if (!overlay)
@@ -28,18 +40,6 @@ void SceneManager::Update()
 		activeScene.back()->UnPause();
 		nextScene = nullptr;
 		overlay = false;
-	}
-
-	if (back)
-	{
-		if (activeScene.size() > 1)
-		{
-			activeScene.back()->Pause();
-			activeScene.pop_back();
-			back = false;
-		}
-		else
-			std::cout << "There is no previous scene to go back to." << std::endl;
 	}
 
 	activeScene.back()->Update();

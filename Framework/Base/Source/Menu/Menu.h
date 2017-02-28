@@ -58,8 +58,35 @@ public:
 
 
 //======================================================================================//
+class Inventory_Menu : public Menu
+{
+protected:
+	Inventory *m_player_inventory;
+	Increment_Button* m_prev_btn;
+	Increment_Button* m_next_btn;
+	int *m_current_page;
+	int m_num_items_per_page;
 
+public:
+	//Getters and setters
+	inline void SetPlayerInventory(Inventory* player_inventory){ m_player_inventory = player_inventory; }
+	inline void SetCurrentPage(int &currentPage) { m_current_page = &currentPage; }
+	inline void SetItemsPerPage(int item_per_page){ m_num_items_per_page = item_per_page; }
+	inline void SetPreviousButton(Increment_Button* prev_btn){ m_prev_btn = prev_btn; }
+	inline void SetNextButton(Increment_Button* next_btn){ m_next_btn = next_btn; }
 
+	//Updates buttons according to the page
+	virtual void UpdateButtonPositions(Item* target_holder);
+
+	//Checks if buttons are pressed
+	virtual void Update();
+
+	//Renders the menu
+	virtual void Render();
+
+	Inventory_Menu(){}
+	~Inventory_Menu(){}
+};
 
 class Shop_Menu : public Menu
 {
@@ -166,14 +193,11 @@ public:
 class Skill_Menu : public Menu
 {
 protected:
-	//double m_timer;
-	//double m_accept_limit = 1.f;
 	Button* m_pressed_button;
 
 public:
 	inline void Update()
 	{
-		//m_timer += StopWatch::GetInstance()->GetDeltaTime();
 		Menu::Update();
 
 		for (unsigned i = 0; i < m_buttonList.size(); ++i)
@@ -202,26 +226,5 @@ public:
 //======================================================================================//
 
 
-class CharacterProfile_Menu : public Menu
-{
-protected:
-public:
-	//inline void Update()
-	//{
-	//	//m_timer += StopWatch::GetInstance()->GetDeltaTime();
-	//	Menu::Update();
 
-	//	for (unsigned i = 0; i < m_buttonList.size(); ++i)
-	//	{
-	//		if (!m_buttonList[i]->GetIsActive())
-	//			continue;
-
-	//		if (m_buttonList[i]->m_isHovered)
-	//			dynamic_cast<CharacterProfile_Button*>(m_buttonList[i])->UpdateAnimation();
-	//	}
-	//}
-
-	CharacterProfile_Menu(){};
-	~CharacterProfile_Menu(){};
-};
 #endif

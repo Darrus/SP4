@@ -32,6 +32,9 @@
 #include "Scenes\ShopDialogueScene.h"
 #include "Scenes\ShopScene.h"
 #include "Scenes\PartyScene.h"
+#include "Scenes\CharacterProfileScene.h"
+#include "Scenes\PauseScene.h"
+#include "Scenes\InventoryScene.h"
 
 #include "Overworld\Overworld.h"
 #include "Overworld\Town.h"
@@ -152,6 +155,9 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("TownShop", new TownShop());
 	SceneManager::GetInstance()->AddScene("PartyScene", new PartyScene());
 	SceneManager::GetInstance()->AddScene("SkillTreeScene", new SkillTreeScene());
+	SceneManager::GetInstance()->AddScene("CharacterProfileScene", new CharacterProfileScene());
+	SceneManager::GetInstance()->AddScene("PauseScene", new PauseScene());
+	SceneManager::GetInstance()->AddScene("InventoryScene", new InventoryScene());
 
 	//Set the active scene
 	SceneManager::GetInstance()->SetActiveScene("Overworld");

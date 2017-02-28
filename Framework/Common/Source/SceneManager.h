@@ -27,6 +27,7 @@ public:
 	bool CheckSceneExist(const std::string& _name);
 	void PreviousScene();
 
+	inline Scene* GetScene(std::string scene_name){ return sceneMap.find(scene_name)->second; };
 	inline Scene* GetActiveScene() { return activeScene.back(); }
 
 private:

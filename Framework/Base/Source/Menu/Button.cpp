@@ -209,3 +209,58 @@ void Skill_Button::Render()
 
 	modelStack.PopMatrix();
 }
+
+void Inventory_Button::Render()
+{
+	if (!m_isActive)
+		return;
+
+	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
+	modelStack.PushMatrix();
+	modelStack.Translate(m_pos_x, m_pos_y, 0);
+
+	//Render Background image
+	modelStack.Scale(m_scale_x, m_scale_y, 1);
+	if (m_meshList[m_isHovered] != nullptr)
+		RenderHelper::RenderMesh(m_meshList[m_isHovered]);
+
+	//Render Item icon
+	modelStack.PushMatrix();
+	modelStack.Translate(-0.375f, 0, 1);
+	modelStack.Scale(0.2f, 0.8f, 1);
+	RenderHelper::RenderMesh(m_item->GetMesh());
+	modelStack.PopMatrix();
+
+	//Render Item Name
+	modelStack.PushMatrix();
+	modelStack.Translate(-0.25f, 0.3f, 1.f);
+	modelStack.Scale(0.045f, 0.2f, 1);
+	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_item->GetName(), Color(1, 0, 0));
+	modelStack.PopMatrix();
+
+	//Render Item gold value
+	modelStack.PushMatrix();
+	modelStack.Translate(0.35f, 0.3f, 1.f);
+
+	modelStack.PushMatrix();
+	modelStack.Scale(0.045f, 0.2f, 1);
+	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(m_item->GetGoldValue()), Color(1, 0, 0));
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-0.02f, 0.0f, 1);
+	modelStack.Scale(0.045f, 0.2f, 1);
+	RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Gold"));
+	modelStack.PopMatrix();
+
+	modelStack.PopMatrix();
+
+	//Render Item Description
+	modelStack.PushMatrix();
+	modelStack.Translate(-0.25f, 0.05f, 1.f);
+	modelStack.Scale(0.035f, 0.15f, 1);
+	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_item->GetDescription(), Color(1, 0, 0));
+	modelStack.PopMatrix();
+
+	modelStack.PopMatrix();
+}

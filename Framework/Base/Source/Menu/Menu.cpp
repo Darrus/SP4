@@ -261,3 +261,142 @@ void SellingCart_Menu::InitialiseButtons()
 		m_buttonList.push_back(button);
 	}
 }
+
+void Inventory_Menu::Update()
+{
+	Menu::Update();
+
+	if (m_next_btn->GetIsActive())
+	{
+		m_next_btn->m_isPressed = false;
+
+		if (checkForHover(m_next_btn))
+		{
+			m_next_btn->m_isHovered = true;
+
+			if (MouseController::GetInstance()->IsButtonReleased(MouseController::LMB))
+			{
+				m_next_btn->m_isPressed = true;
+				m_next_btn->RunFunction();
+			}
+		}
+		else
+			m_next_btn->m_isHovered = false;
+	}
+
+	if (m_prev_btn->GetIsActive())
+	{
+		m_prev_btn->m_isPressed = false;
+
+		if (checkForHover(m_prev_btn))
+		{
+			m_prev_btn->m_isHovered = true;
+
+			if (MouseController::GetInstance()->IsButtonReleased(MouseController::LMB))
+			{
+				m_prev_btn->m_isPressed = true;
+				m_prev_btn->RunFunction();
+			}
+		}
+		else
+			m_prev_btn->m_isHovered = false;
+	}
+
+	//Loops back to start or end when out of bounds
+	//Check if it's perfect pages
+	if (m_buttonList.size() % m_num_items_per_page)
+	{
+		//when back from 0
+		if (*m_current_page < 0)
+			*m_current_page = (m_buttonList.size() / m_num_items_per_page);
+
+		//when past max tab
+		if (*m_current_page > m_buttonList.size() / m_num_items_per_page)
+			*m_current_page = 0;
+	}
+	else
+	{
+		//when back from 0
+		if (*m_current_page < 0)
+			*m_current_page = (m_buttonList.size() / m_num_items_per_page) - 1;
+		//when past max tab
+		else if (*m_current_page >= m_buttonList.size() / m_num_items_per_page)
+			*m_current_page = 0;
+	}
+
+	//Set all buttons to inactive first
+	for (unsigned i = 0; i < m_buttonList.size(); ++i)
+		m_buttonList[i]->SetActive(false);
+
+	//If all items can be fit in one page
+	if (m_buttonList.size() / m_num_items_per_page == 0)
+	{
+		for (unsigned i = 0; i < m_buttonList.size(); ++i)
+			m_buttonList[i]->SetActive(true);
+	}
+	else
+	{
+		//If current page has more items than what the list is holding
+		if ((*m_current_page + 1) * m_num_items_per_page > m_buttonList.size())
+		{
+			//Renders "leftovers"
+			for (unsigned i = *m_current_page * m_num_items_per_page; i < m_buttonList.size(); ++i)
+				m_buttonList[i]->SetActive(true);
+		}
+		else
+		{
+			//Renders full page
+			for (unsigned i = *m_current_page * m_num_items_per_page; i < *m_current_page * m_num_items_per_page + m_num_items_per_page; ++i)
+				m_buttonList[i]->SetActive(true);
+		}
+	}
+}
+
+void Inventory_Menu::Render()
+{
+	//If all items can be fit in one page
+	if (m_buttonList.size() / m_num_items_per_page == 0)
+	{
+		for (unsigned i = 0; i < m_buttonList.size(); ++i)
+			m_buttonList[i]->Render();
+	}
+	else
+	{
+		//Start rendering "start" of page
+		if (*m_current_page * m_num_items_per_page >= m_buttonList.size() / m_num_items_per_page)
+		{
+			for (unsigned i = *m_current_page * m_num_items_per_page; i < m_buttonList.size(); ++i)
+				m_buttonList[i]->Render();
+		}
+		else
+		{
+			for (unsigned i = *m_current_page * m_num_items_per_page; i < *m_current_page * m_num_items_per_page + m_num_items_per_page; ++i)
+				m_buttonList[i]->Render();
+		}
+	}
+
+	m_next_btn->Render();
+	m_prev_btn->Render();
+}
+
+void Inventory_Menu::UpdateButtonPositions(Item* target_holder)
+{
+	int offset = 0;
+	for (unsigned i = 0; i < m_player_inventory->m_inventoryList.size(); ++i)
+	{
+		if (offset % m_num_items_per_page == 0)
+			offset = 0;
+
+		Inventory_Button* btn = new Inventory_Button();
+		btn->SetPosition(m_position.x, (m_position.y - offset * 170) - 80);
+		btn->SetActive(true);
+		btn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+		btn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+		btn->SetTargetItemHolder(target_holder);
+		btn->SetItem(m_player_inventory->m_inventoryList[i]);
+		btn->index = i;
+		this->AddButton(btn);
+
+		offset++;
+	}
+}
