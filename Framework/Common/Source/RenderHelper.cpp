@@ -106,7 +106,7 @@ void RenderHelper::RenderText(Mesh* _mesh, const std::string& _text, Color _colo
 		float char_width = 0;
 		Mtx44 characterSpacing, MVP;
 
-		char_width = Application::GetInstance().GetCharacterOffset(_text[i]);
+        char_width = (float)Application::GetInstance().GetCharacterOffset(_text[i]);
 		char_width *= 0.013f;
 		//char_width = 1.0f - char_width;
 

@@ -17,108 +17,95 @@ MonsterFactory::~MonsterFactory()
 
 }
 
-Enemy* MonsterFactory::CreateEnemy1(int id)
+EnemyInfo* MonsterFactory::CreateEnemy1(int id)
 {
     LevelSync();
-    Enemy* newEnemy = new Enemy();
+    EnemyInfo* newEnemy = new EnemyInfo("Carbonara");
 
-    newEnemy->GetInfo()->stats.AddVit(avgLvl);
-    newEnemy->GetInfo()->stats.AddStr(8);
-    newEnemy->GetInfo()->stats.AddInt(5);
-    newEnemy->GetInfo()->stats.AddMind(2);
-    newEnemy->GetInfo()->stats.AddDex(1);
-    newEnemy->GetInfo()->stats.AddAgi(7);
-    newEnemy->GetInfo()->stats.AddLevel(avgLvl);
-    newEnemy->GetInfo()->name = "Triple H";
-    newEnemy->GetInfo()->id = id;
-    newEnemy->enemyType = BattleEntity::ENEMY;
-    newEnemy->GetInfo()->stats.UpdateStats();
-    newEnemy->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * (0.15f * id), 1.f));
-    newEnemy->GetInfo()->HP = newEnemy->GetInfo()->stats.GetMaxHP();
-
-    newEnemy->AddStats(newEnemy->GetInfo()->stats);
+    newEnemy->stats.AddVit(1);
+    newEnemy->stats.AddStr(1);
+    newEnemy->stats.AddInt(3);
+    newEnemy->stats.AddMind(2);
+    newEnemy->stats.AddDex(1);
+    newEnemy->stats.AddAgi(3);
+    newEnemy->stats.AddLevel(avgLvl);
+    newEnemy->name = "Carbonara";
+    newEnemy->id = id;
+    newEnemy->stats.UpdateStats();
+    newEnemy->HP = newEnemy->stats.GetMaxHP();
+    newEnemy->MP = newEnemy->stats.GetMaxMP();
 
     return newEnemy;
 }
 
-Enemy* MonsterFactory::CreateEnemy2(int id)
+EnemyInfo* MonsterFactory::CreateEnemy2(int id)
 {
     LevelSync();
-    Enemy* newEnemy = new Enemy();
+    EnemyInfo* newEnemy = new EnemyInfo("Kayne West");
 
-    newEnemy->GetInfo()->stats.AddVit(avgLvl);
-    newEnemy->GetInfo()->stats.AddStr(3);
-    newEnemy->GetInfo()->stats.AddInt(1);
-    newEnemy->GetInfo()->stats.AddMind(2);
-    newEnemy->GetInfo()->stats.AddDex(8);
-    newEnemy->GetInfo()->stats.AddAgi(10);
-    newEnemy->GetInfo()->stats.AddLevel(avgLvl);
-    newEnemy->GetInfo()->name = "Kayne West";
-    newEnemy->GetInfo()->id = id;
-    newEnemy->enemyType = BattleEntity::ENEMY;
-    newEnemy->GetInfo()->stats.UpdateStats();
-    newEnemy->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * (0.15f * id), 1.f));
-    newEnemy->GetInfo()->HP = newEnemy->GetInfo()->stats.GetMaxHP();
+    newEnemy->stats.AddVit(2);
+    newEnemy->stats.AddStr(3);
+    newEnemy->stats.AddInt(1);
+    newEnemy->stats.AddMind(2);
+    newEnemy->stats.AddDex(8);
+    newEnemy->stats.AddAgi(10);
+    newEnemy->stats.AddLevel(avgLvl);
+    newEnemy->name = "Kayne West";
+    newEnemy->id = id;
+    //newEnemy->enemyType = BattleEntity::ENEMY;
+    newEnemy->stats.UpdateStats();
+    //newEnemy->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * (0.15f * id), 1.f));
+    newEnemy->HP = newEnemy->stats.GetMaxHP();
+    newEnemy->MP = newEnemy->stats.GetMaxMP();
 
     return newEnemy;
 }
 
-Enemy* MonsterFactory::CreateEnemy3(int id)
+EnemyInfo* MonsterFactory::CreateEnemy3(int id)
 {
     LevelSync();
-    Enemy* newEnemy = new Enemy();
+    EnemyInfo* newEnemy = new EnemyInfo("Dwayne Johnson");
 
-    newEnemy->GetInfo()->stats.AddVit(avgLvl);
-    newEnemy->GetInfo()->stats.AddStr(2);
-    newEnemy->GetInfo()->stats.AddInt(2);
-    newEnemy->GetInfo()->stats.AddMind(5);
-    newEnemy->GetInfo()->stats.AddDex(12);
-    newEnemy->GetInfo()->stats.AddAgi(10);
-    newEnemy->GetInfo()->stats.AddLevel(avgLvl);
-    newEnemy->GetInfo()->name = "Dwayne Johnson";
-    newEnemy->GetInfo()->id = id;
-    newEnemy->enemyType = BattleEntity::ENEMY;
-    newEnemy->GetInfo()->stats.UpdateStats();
-    newEnemy->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * (0.15f * id), 1.f));
-    newEnemy->GetInfo()->HP = newEnemy->GetInfo()->stats.GetMaxHP() * 0.2;
+    newEnemy->stats.AddVit(1);
+    newEnemy->stats.AddStr(2);
+    newEnemy->stats.AddInt(2);
+    newEnemy->stats.AddMind(5);
+    newEnemy->stats.AddDex(4);
+    newEnemy->stats.AddAgi(4);
+    newEnemy->stats.AddLevel(avgLvl);
+    newEnemy->name = "Dwayne Johnson";
+    newEnemy->id = id;
+    newEnemy->stats.UpdateStats();
+    newEnemy->HP = newEnemy->stats.GetMaxHP();
+    newEnemy->MP = newEnemy->stats.GetMaxMP();
 
     return newEnemy;
 }
 
-Enemy* MonsterFactory::CreateBoss(int id)
+EnemyInfo* MonsterFactory::CreateBoss(int id)
 {
     LevelSync();
-    Enemy* newEnemy = new Enemy();
+    EnemyInfo* newEnemy = new EnemyInfo("Alishpata");
 
-    newEnemy->GetInfo()->stats.AddVit(2);
-    newEnemy->GetInfo()->stats.AddStr(2);
-    newEnemy->GetInfo()->stats.AddInt(2);
-    newEnemy->GetInfo()->stats.AddMind(5);
-    newEnemy->GetInfo()->stats.AddDex(7);
-    newEnemy->GetInfo()->stats.AddAgi(10);
-    newEnemy->GetInfo()->stats.AddLevel(avgLvl + 5);
-    newEnemy->GetInfo()->name = "Alishpata";
-    newEnemy->GetInfo()->id = id;
-    newEnemy->enemyType = BattleEntity::BOSS;
-    newEnemy->GetInfo()->stats.UpdateStats();
-    newEnemy->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * (0.15f * id), 1.f));
-    newEnemy->GetInfo()->HP = newEnemy->GetInfo()->stats.GetMaxHP() * 0.2;
+    newEnemy->stats.AddVit(2);
+    newEnemy->stats.AddStr(2);
+    newEnemy->stats.AddInt(2);
+    newEnemy->stats.AddMind(5);
+    newEnemy->stats.AddDex(7);
+    newEnemy->stats.AddAgi(10);
+    newEnemy->stats.AddLevel(avgLvl + 2);
+    newEnemy->name = "Alishpata";
+    newEnemy->id = id;
+    newEnemy->stats.UpdateStats();
+    newEnemy->HP = newEnemy->stats.GetMaxHP();
+    newEnemy->MP = newEnemy->stats.GetMaxMP();
 
     return newEnemy;
 }
 
-void MonsterFactory::LevelSync()
+EnemyInfo* MonsterFactory::CreateRandomEnemy(int id)
 {
-    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
-    {
-        avgLvl += Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel();
-    }
-    avgLvl /= (Player::GetInstance().GetParty()->memberCount() - 1);
-}
-
-Enemy* MonsterFactory::CreateRandomEnemy(int id)
-{
-    int randChoice = Math::RandIntMinMax(1, 10);
+    int randChoice = Math::RandIntMinMax(1, 3);
     if (randChoice >= 4)
         randChoice = Math::RandIntMinMax(1, 3);
 
@@ -128,4 +115,13 @@ Enemy* MonsterFactory::CreateRandomEnemy(int id)
         return CreateEnemy2(id);
     if (randChoice == 3)
         return CreateEnemy3(id);
+}
+
+void MonsterFactory::LevelSync()
+{
+    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
+    {
+        avgLvl += Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel();
+    }
+    avgLvl /= (Player::GetInstance().GetParty()->memberCount() - 1);
 }

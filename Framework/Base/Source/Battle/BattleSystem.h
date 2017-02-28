@@ -4,6 +4,7 @@
 #include <list>
 
 #include "..\Character\CharacterInfo.h"
+#include "..\Character\EnemyInfo.h"
 #include "..\Player\Player.h"
 #include "..\Entity\BattleEntity.h"
 #include "..\Entity\SpriteEntity.h"
@@ -18,7 +19,7 @@ private:
     SpriteEntity* CommandBox;                                                   ///< Sprite Entity for the Command Box
     bool isPassTurn;                                                            ///< Boolean to check if the Entity passed the turn
     bool battleEnded;                                                           ///< Boolean to check if battle has ended
-    BattleEntity* pewpewpew;                                                    ///< Temporary Battle entity storage for players
+    BattleEntity* pewpewpew;                                                    ///< Temporary Battle entity storage for players/enemies
     SpriteEntity* Arrow;                                                        ///< Sprite Entity for the Arrow
     EnemyAI* enemyAI;                                                           ///< Handles the A.I. of the enemy.
     bool addEXP;                                                                ///< Boolean to check if EXP is added
@@ -29,6 +30,7 @@ private:
     bool choosingSkill;
     bool escapeAnot;
     float temp = 0;
+    bool input;
 
 public:
     BattleSystem();                                                             ///< Default Constructor
@@ -82,6 +84,7 @@ public:
 
     // Assigning Party
     void AssignPlayerParty();
+    void AssignEnemies();
 
     //CharacterInfo* playerInfo;                   ///< Get the player's Party
     SpriteEntity* BattleSprites;                ///< Battle Sprites
@@ -91,6 +94,7 @@ public:
     std::list<BattleEntity*> PlayerList;        ///< Store Player Data
     std::list<SpriteEntity*> SpriteList;        ///< Store Battle Sprites
     std::list<CharacterInfo*> PlayerInfoList;
+    std::list<EnemyInfo*> EnemyInfoList;
 
     // U.I. Stuff, in testintg
     int selection[5];

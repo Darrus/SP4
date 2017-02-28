@@ -29,15 +29,12 @@ OverworldPlayer::~OverworldPlayer()
 
 void OverworldPlayer::Update()
 {
+	OverworldEntity::Update();
+	HandleBoundary();
 	position += velocity;
 	velocity.SetZero();
 
-	OverworldEntity::Update();
-	Controls();
-	HandleBoundary();
-
 	camera->SetEntityPos(position);
-	collider->SetOffset(velocity);
 }
 
 bool OverworldPlayer::Controls()
@@ -100,6 +97,7 @@ bool OverworldPlayer::Controls()
 		}
 	}
 
+	collider->SetOffset(velocity);
 	return moving;
 }
 
@@ -107,6 +105,9 @@ void OverworldPlayer::HandleCollision(EntityBase* entity)
 {
 	TriggerArea* trigger = dynamic_cast<TriggerArea*>(entity);
 	if (trigger)
+		return;
+
+	if (entity == ground)
 		return;
 
 	CCollider_2DAABB check;

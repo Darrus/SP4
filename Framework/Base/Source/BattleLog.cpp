@@ -49,7 +49,6 @@ enemyname_(skillname)
     displayTime = 3;
     DMGRecv = false;
     DMGDeal = false;
-    m_entity_ = nullptr;
     defend_ = false;
 }
 
@@ -85,15 +84,15 @@ void BattleLog::Render()
         if (displayTime > 0)
         {
             modelStack.PushMatrix();
-            modelStack.Translate(windowWidth * 0.5, windowHeight * 0.9, 5.f);
-            modelStack.Scale(windowWidth *0.4, windowHeight *0.1, 1.f);
+            modelStack.Translate(windowWidth * 0.5f, windowHeight * 0.9f, 5.f);
+            modelStack.Scale(windowWidth *0.4f, windowHeight *0.1f, 1.f);
             RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
             modelStack.PopMatrix();
 
             if ((*itr)->DMGRecv)
             {   
                 modelStack.PushMatrix();
-                modelStack.Translate(windowWidth * 0.35, windowHeight * 0.9, 8);
+                modelStack.Translate(windowWidth * 0.32f, windowHeight * 0.9f, 8.f);
                 modelStack.Scale(25.f, 25.f, 1.f);
                 if ((*itr)->critical_)
                     RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->enemyname_ + " has crit for " + std::to_string((*itr)->damagedealt_) + " to " + (*itr)->entity_->GetInfo()->name, Color(0, 1, 0));
@@ -106,7 +105,7 @@ void BattleLog::Render()
             else if ((*itr)->m_entity_ != nullptr)
             {
                 modelStack.PushMatrix();
-                modelStack.Translate(windowWidth * 0.35, windowHeight * 0.9, 8);
+                modelStack.Translate(windowWidth * 0.32f, windowHeight * 0.9f, 8.f);
                 modelStack.Scale(25.f, 25.f, 1.f);
                 RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->m_entity_->name + " casted " + enemyname_ + "!.", Color(0, 1, 0));
                 modelStack.PopMatrix();
@@ -114,7 +113,7 @@ void BattleLog::Render()
             else if ((*itr)->defend_)
             {
                 modelStack.PushMatrix();
-                modelStack.Translate(windowWidth * 0.35, windowHeight * 0.9, 8);
+                modelStack.Translate(windowWidth * 0.32f, windowHeight * 0.9f, 8.f);
                 modelStack.Scale(25.f, 25.f, 1.f);
                 RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->entity_->GetInfo()->name + " defended", Color(0, 1, 0));
                 modelStack.PopMatrix();
@@ -122,7 +121,7 @@ void BattleLog::Render()
             else if ((*itr)->escapeAttempt_)
             {
                 modelStack.PushMatrix();
-                modelStack.Translate(windowWidth * 0.35, windowHeight * 0.9, 8);
+                modelStack.Translate(windowWidth * 0.32f, windowHeight * 0.9f, 8);
                 modelStack.Scale(25.f, 25.f, 1.f);
                 RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Fled the Battle!", Color(0, 1, 0));
                 modelStack.PopMatrix();
@@ -130,7 +129,7 @@ void BattleLog::Render()
             else if (!(*itr)->escapeAttempt_)
             {
                 modelStack.PushMatrix();
-                modelStack.Translate(windowWidth * 0.35, windowHeight * 0.9, 8);
+                modelStack.Translate(windowWidth * 0.32f, windowHeight * 0.9f, 8);
                 modelStack.Scale(25.f, 25.f, 1.f);
                 RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Failed to flee the Battle.", Color(0, 1, 0));
                 modelStack.PopMatrix();

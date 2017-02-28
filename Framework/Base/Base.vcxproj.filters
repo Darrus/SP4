@@ -112,9 +112,6 @@
     <ClCompile Include="Source\Battle\MonsterFactory.cpp">
       <Filter>BattleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Battle\Enemy.cpp">
-      <Filter>BattleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Skills\Skill.cpp">
       <Filter>Skills</Filter>
     </ClCompile>
@@ -128,9 +125,6 @@
       <Filter>Overworld\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Source\Overworld\OverworldEntity.cpp">
-      <Filter>Overworld\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Overworld\NPC.cpp">
       <Filter>Overworld\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Source\Overworld\Overworld.cpp">
@@ -175,9 +169,17 @@
     <ClCompile Include="Source\Scenes\PartyScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Overworld\MountainTop.cpp" />
     <ClCompile Include="Source\Menu\SkillPoint_Display.cpp">
       <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\Cave.cpp">
+      <Filter>Overworld\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\NPC.cpp">
+      <Filter>Overworld\Entity\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\ShopNPC.cpp">
+      <Filter>Overworld\Entity\NPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,9 +297,6 @@
     <ClInclude Include="Source\Battle\MonsterFactory.h">
       <Filter>BattleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Battle\Enemy.h">
-      <Filter>BattleSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Skills\Skill.h">
       <Filter>Skills</Filter>
     </ClInclude>
@@ -311,9 +310,6 @@
       <Filter>Overworld\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\Overworld\OverworldAsset.h">
-      <Filter>Overworld\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Overworld\NPC.h">
       <Filter>Overworld\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\Overworld\Overworld.h">
@@ -367,9 +363,17 @@
     <ClInclude Include="Source\Scenes\PartyScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Overworld\MountainTop.h" />
     <ClInclude Include="Source\Menu\SkillPoint_Display.h">
       <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\Cave.h">
+      <Filter>Overworld\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\NPC.h">
+      <Filter>Overworld\Entity\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\ShopNPC.h">
+      <Filter>Overworld\Entity\NPC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -420,6 +424,9 @@
     </Filter>
     <Filter Include="Skills">
       <UniqueIdentifier>{0e252905-0f64-4fa9-801c-0a016baf948b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Overworld\Entity\NPC">
+      <UniqueIdentifier>{b35337af-e04d-4fa1-a3fd-ff1c7b56506a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

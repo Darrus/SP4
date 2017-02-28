@@ -48,14 +48,14 @@ void CBattleState::Init()
     MeshBuilder::GetInstance()->GenerateQuad("Commandselect", Color(1, 1, 1), 1.f);
     MeshBuilder::GetInstance()->GetMesh("Commandselect")->textureID = LoadTGA("Image//Buttons//button_background.tga");
 
-    MeshBuilder::GetInstance()->GenerateQuad("enemysprite", Color(1, 1, 1), 1.f);
-    MeshBuilder::GetInstance()->GetMesh("enemysprite")->textureID = LoadTGA("Image//enemy.tga");
+    MeshBuilder::GetInstance()->GenerateQuad("Kayne West", Color(1, 1, 1), 1.f);
+    MeshBuilder::GetInstance()->GetMesh("Kayne West")->textureID = LoadTGA("Image//enemy.tga");
 
-    MeshBuilder::GetInstance()->GenerateQuad("enemysprite2", Color(1, 1, 1), 1.f);
-    MeshBuilder::GetInstance()->GetMesh("enemysprite2")->textureID = LoadTGA("Image//enemy2.tga");
+    MeshBuilder::GetInstance()->GenerateQuad("Dwayne Johnson", Color(1, 1, 1), 1.f);
+    MeshBuilder::GetInstance()->GetMesh("Dwayne Johnson")->textureID = LoadTGA("Image//enemy2.tga");
 
-    MeshBuilder::GetInstance()->GenerateQuad("enemysprite3", Color(1, 1, 1), 1.f);
-    MeshBuilder::GetInstance()->GetMesh("enemysprite3")->textureID = LoadTGA("Image//enemy3.tga");
+    MeshBuilder::GetInstance()->GenerateQuad("Carbonara", Color(1, 1, 1), 1.f);
+    MeshBuilder::GetInstance()->GetMesh("Carbonara")->textureID = LoadTGA("Image//enemy3.tga");
 
 
     MeshBuilder::GetInstance()->GenerateQuad("player1", Color(1, 1, 1), 1.f);
@@ -142,8 +142,8 @@ void CBattleState::Init()
     charahehe = new CharacterInfo();
     party = new PartySystem();
 
-    charahehe->stats.AddVit(5);
-    charahehe->stats.AddStr(5);
+    charahehe->stats.AddVit(99);
+    charahehe->stats.AddStr(99);
     charahehe->stats.AddInt(6);
     charahehe->stats.AddMind(5);
     charahehe->stats.AddDex(4);
@@ -156,12 +156,13 @@ void CBattleState::Init()
     charahehe->MP = charahehe->stats.GetMaxMP();
     SkillContainer::GetInstance()->Init();
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Fire Blast"));
     //testingBattle->partypew->AddMember(charahehe);
     party->AddMember(charahehe);
 
     charahehe = new CharacterInfo();
-    charahehe->stats.AddVit(4);
-    charahehe->stats.AddStr(6);
+    charahehe->stats.AddVit(99);
+    charahehe->stats.AddStr(99);
     charahehe->stats.AddInt(7);
     charahehe->stats.AddMind(15);
     charahehe->stats.AddDex(3);
@@ -172,49 +173,56 @@ void CBattleState::Init()
     charahehe->stats.UpdateStats();
     charahehe->HP = charahehe->stats.GetMaxHP();
     charahehe->MP = charahehe->stats.GetMaxMP();
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Hero Maker"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Fire Blast"));
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
     //testingBattle->partypew->AddMember(charahehe);
     party->AddMember(charahehe);
 
     charahehe = new CharacterInfo();
-    charahehe->stats.AddVit(9);
-    charahehe->stats.AddStr(6);
+    charahehe->stats.AddVit(99);
+    charahehe->stats.AddStr(99);
     charahehe->stats.AddInt(4);
     charahehe->stats.AddMind(3);
     charahehe->stats.AddDex(5);
-    charahehe->stats.AddAgi(3);
+    charahehe->stats.AddAgi(99);
     charahehe->stats.AddLevel(5);
     charahehe->name = "Reuben";
     charahehe->id = 2;
     charahehe->stats.UpdateStats();
     charahehe->HP = charahehe->stats.GetMaxHP();
     charahehe->MP = charahehe->stats.GetMaxMP();
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Sweep"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Sweep"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Fire Blast"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Hero Maker"));
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
     party->AddMember(charahehe);
     //testingBattle->partypew->AddMember(charahehe);
 
     Player::GetInstance().SetParty(*party);
 
-    std::cout << party->memberCount() << std::endl;
-    std::cout << Player::GetInstance().GetParty()->memberCount() << std::endl; 
     testingBattle->AssignPlayerParty();
 
     efactory = new MonsterFactory();
 
-    wow = efactory->CreateRandomEnemy(4);
-    wow2 = efactory->CreateRandomEnemy(3);
+    testingBattle->EnemyInfoList.push_back(efactory->CreateEnemy2(3));
+    testingBattle->EnemyInfoList.push_back(efactory->CreateEnemy1(4));
 
-    testingBattle->BattleList.push_back(wow);
-    testingBattle->BattleList.push_back(wow2);
+    testingBattle->AssignEnemies();
 
-    testingBattle->EnemyList.push_back(wow);
-    testingBattle->EnemyList.push_back(wow2);
-
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
     Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
     Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
     Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
@@ -227,13 +235,14 @@ void CBattleState::Update()
 {
     //if (testingBattle->CheckAnyAlive() != nullptr)
     testingBattle->Update();
-    entity.Update();
+    //entity.Update();
 
     if (testingBattle->CheckAnyAlive() == nullptr && Overworld::battle == false)
     {
         for (auto pewpew = testingBattle->EnemyList.begin(); pewpew != testingBattle->EnemyList.end(); pewpew++)
             delete (*pewpew);
         testingBattle->EnemyList.clear();
+        testingBattle->EnemyInfoList.clear();
 
         for (auto pepepe = testingBattle->PlayerList.begin(); pepepe != testingBattle->PlayerList.end(); pepepe++)
             delete (*pepepe);
@@ -247,17 +256,10 @@ void CBattleState::Update()
 
         for (int rand = 0; rand < randenemy; rand++)
         {
-            wow = efactory->CreateRandomEnemy((Player::GetInstance().GetParty()->memberCount()-1) + rand);
-            testingBattle->BattleList.push_back(wow);
-            testingBattle->EnemyList.push_back(wow);
+            enemyhehe = efactory->CreateRandomEnemy((Player::GetInstance().GetParty()->memberCount() - 1) + rand);
+            testingBattle->EnemyInfoList.push_back(enemyhehe);
         }
-        //wow2 = efactory->CreateRandomEnemy(3);
-
-        //testingBattle->BattleList.push_back(wow);
-        //testingBattle->BattleList.push_back(wow2);
-
-        //testingBattle->EnemyList.push_back(wow);
-        //testingBattle->EnemyList.push_back(wow2);
+        testingBattle->AssignEnemies();
     }
 }
 

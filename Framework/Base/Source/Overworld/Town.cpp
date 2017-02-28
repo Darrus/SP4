@@ -21,6 +21,7 @@
 #include "OverworldAsset.h"
 #include "OverworldEntity.h"
 #include "StaticAsset.h"
+#include "NPC.h"
 
 // Trigger Areas
 #include "TriggerScene.h"
@@ -104,6 +105,7 @@ void Town::Init()
 	spatial.Add(sprite);
 
 	InitBuilding();
+	InitNPC();
 
 	TriggerScene* trigger = new TriggerScene();
 	trigger->Init("Overworld", &camera, Vector3(0.f, 100.f, 0.f));
@@ -119,9 +121,10 @@ void Town::Update()
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
 		SceneManager::GetInstance()->quit = true;
 
-	camera.Update();
-	EManager.Update();
+	player.Controls();
 	spatial.Update();
+	EManager.Update();
+	camera.Update();
 }
 
 void Town::Render()
@@ -170,7 +173,8 @@ void Town::InitBuilding()
 
 	// Shop Init
 	MeshBuilder::GetInstance()->GenerateQuad("Shop", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//town_shop.tga");
-	asset = new OverworldAsset("Shop");
+	MeshBuilder::GetInstance()->GenerateQuad("Shop_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//town_shop_side.tga");
+	asset = new StaticAsset("Shop", "Shop_side");
 	asset->SetPosition(Vector3(50.f, 50.f, 1.1f));
 	asset->SetScale(Vector3(25.f, 17.f, 1.f));
 	asset->SetCamera(&camera);
@@ -253,4 +257,83 @@ void Town::InitBuilding()
 	asset->SetCollider(new CCollider_2DAABB());
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
+}
+
+void Town::InitNPC()
+{
+	// NPC Init
+	NPC* npc = new NPC();
+	npc->GetAnimator()->AddAnimation("npc");
+	npc->GetAnimator()->PlayAnimation("npc");
+	npc->SetScale(Vector3(5.f, 5.f, 1.f));
+	npc->SetPosition(Vector3(50.f, -65.f, 1.f));
+	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
+	npc->SetTargetScene("Shop");
+	npc->SetCollider(new CCollider_2DAABB());
+	npc->AttachCamera(&camera);
+	npc->SetMoveSpeed(20.f);
+	npc->AddWaypoint(Vector3(50.f, -80.f, 1.f));
+	npc->AddWaypoint(Vector3(50.f, -65.f, 1.f));
+	spatial.Add(npc);
+	EManager.AddEntity(npc);
+
+	npc = new NPC();
+	npc->GetAnimator()->AddAnimation("npc");
+	npc->GetAnimator()->PlayAnimation("npc");
+	npc->SetScale(Vector3(5.f, 5.f, 1.f));
+	npc->SetPosition(Vector3(-70.f, 0.f, 1.f));
+	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
+	npc->SetTargetScene("Shop");
+	npc->SetCollider(new CCollider_2DAABB());
+	npc->AttachCamera(&camera);
+	npc->SetMoveSpeed(20.f);
+	npc->AddWaypoint(Vector3(-50.f, 0.f, 1.f));
+	npc->AddWaypoint(Vector3(-70.f, 0.f, 1.f));
+	spatial.Add(npc);
+	EManager.AddEntity(npc);
+
+	npc = new NPC();
+	npc->GetAnimator()->AddAnimation("npc");
+	npc->GetAnimator()->PlayAnimation("npc");
+	npc->SetScale(Vector3(5.f, 5.f, 1.f));
+	npc->SetPosition(Vector3(30.f, 20.f, 1.f));
+	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
+	npc->SetTargetScene("Shop");
+	npc->SetCollider(new CCollider_2DAABB());
+	npc->AttachCamera(&camera);
+	npc->SetMoveSpeed(20.f);
+	npc->AddWaypoint(Vector3(40.f, 20.f, 1.f));
+	npc->AddWaypoint(Vector3(30.f, 20.f, 1.f));
+	spatial.Add(npc);
+	EManager.AddEntity(npc);
+
+	npc = new NPC();
+	npc->GetAnimator()->AddAnimation("npc");
+	npc->GetAnimator()->PlayAnimation("npc");
+	npc->SetScale(Vector3(5.f, 5.f, 1.f));
+	npc->SetPosition(Vector3(-70.f, -60.f, 1.f));
+	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
+	npc->SetTargetScene("Shop");
+	npc->SetCollider(new CCollider_2DAABB());
+	npc->AttachCamera(&camera);
+	npc->SetMoveSpeed(20.f);
+	npc->AddWaypoint(Vector3(-80.f, -30.f, 1.f));
+	npc->AddWaypoint(Vector3(-80.f, -60.f, 1.f));
+	spatial.Add(npc);
+	EManager.AddEntity(npc);
+
+	npc = new NPC();
+	npc->GetAnimator()->AddAnimation("npc");
+	npc->GetAnimator()->PlayAnimation("npc");
+	npc->SetScale(Vector3(5.f, 5.f, 1.f));
+	npc->SetPosition(Vector3(-30.f, 90.f, 1.f));
+	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
+	npc->SetTargetScene("Shop");
+	npc->SetCollider(new CCollider_2DAABB());
+	npc->AttachCamera(&camera);
+	npc->SetMoveSpeed(20.f);
+	npc->AddWaypoint(Vector3(-30.f, 70.f, 1.f));
+	npc->AddWaypoint(Vector3(-30.f, 90.f, 1.f));
+	spatial.Add(npc);
+	EManager.AddEntity(npc);
 }
