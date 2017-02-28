@@ -1,6 +1,7 @@
 #ifndef STAT_H
 #define STAT_H
 
+#define STAT_PER_LEVEL 5;
 #define HP_MULTIPLIER 50
 #define MP_MULTIPLIER 20
 #define DAMAGE_MULTIPLIER 10
@@ -13,14 +14,14 @@
 
 struct MainStat
 {
+	int Level = 0;
     int Str = 0; 
 	int Vit = 0;
 	int Int = 0;
 	int Mind = 0;
 	int Dex = 0;
 	int Agi = 0;
-	int Level = 1;
-	int statPoints = 0;
+	int StatPoints = 0;
 	int SkillPoints = 0;
 };
 
@@ -46,25 +47,29 @@ public:
     StatSystem(){}
     ~StatSystem(){}
 	
-	inline void AddLevel(int amt) { main.Level += amt; }
-	inline void AddStr(int amt){ main.Str += amt; }
-	inline void AddVit(int amt){ main.Vit += amt; }
-	inline void AddInt(int amt){ main.Int += amt; }
-	inline void AddMind(int amt){ main.Mind += amt; }
-	inline void AddDex(int amt){ main.Dex += amt; }
-	inline void AddAgi(int amt){ main.Agi += amt; }
-	inline void AddStatPoint(int amt) { main.statPoints += amt; }
-	inline void AddSkillPoint(int amt) { main.SkillPoints += amt; }
+	inline void AddLevel(int amt) 
+	{ 
+		main.Level += amt; 
+		main.StatPoints += amt * STAT_PER_LEVEL; 
+	}
+	inline void AddStr(int amt){ if (main.StatPoints > 0) main.Str += amt; }
+	inline void AddVit(int amt){ if (main.StatPoints > 0) main.Vit += amt; }
+	inline void AddInt(int amt){ if (main.StatPoints > 0) main.Int += amt; }
+	inline void AddMind(int amt){ if (main.StatPoints > 0) main.Mind += amt; }
+	inline void AddDex(int amt){ if (main.StatPoints > 0) main.Dex += amt; }
+	inline void AddAgi(int amt){ if (main.StatPoints > 0) main.Agi += amt; }
+	inline void AddStatPoint(int amt) { if (main.StatPoints > 0) main.StatPoints += amt; }
+	inline void AddSkillPoint(int amt) { if (main.StatPoints > 0) main.SkillPoints += amt; }
 
-	inline void DeductLevel(int amt) { main.Level -= amt; }
-	inline void DeductStr(int amt){ main.Str -= amt; }
-	inline void DeductVit(int amt){ main.Vit -= amt; }
-	inline void DeductInt(int amt){ main.Int -= amt; }
-	inline void DeductMind(int amt){ main.Mind -= amt; }
-	inline void DeductDex(int amt){ main.Dex -= amt; }
-	inline void DeductAgi(int amt){ main.Agi -= amt; }
-	inline void DeductStatPoint(int amt) { main.statPoints -= amt; }
-	inline void DeductSkillPoints(int amt) { main.SkillPoints -= amt; }
+	inline void DeductLevel(int amt) { main.Level -= amt; main.StatPoints += amt; }
+	inline void DeductStr(int amt){ main.Str -= amt; main.StatPoints += amt; }
+	inline void DeductVit(int amt){ main.Vit -= amt; main.StatPoints += amt; }
+	inline void DeductInt(int amt){ main.Int -= amt; main.StatPoints += amt; }
+	inline void DeductMind(int amt){ main.Mind -= amt; main.StatPoints += amt; }
+	inline void DeductDex(int amt){ main.Dex -= amt; main.StatPoints += amt; }
+	inline void DeductAgi(int amt){ main.Agi -= amt; main.StatPoints += amt; }
+	inline void DeductStatPoint(int amt) { main.StatPoints -= amt; main.StatPoints += amt; }
+	inline void DeductSkillPoints(int amt) { main.SkillPoints -= amt; main.StatPoints += amt; }
 
 	inline int Getlevel(){ return main.Level; }
 	inline int GetStr(){ return main.Str; }
@@ -73,7 +78,7 @@ public:
 	inline int GetMind(){ return main.Mind; }
 	inline int GetDex(){ return main.Dex; }
 	inline int GetAgi(){ return main.Agi; }
-	inline int GetStatPoints(){ return main.statPoints; }
+	inline int GetStatPoints(){ return main.StatPoints; }
 	inline int GetSkillPoints(){ return main.SkillPoints; }
 
 	inline int GetMaxEXP() { return sub.MaxEXP; }

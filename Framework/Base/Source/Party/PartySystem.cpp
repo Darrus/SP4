@@ -49,6 +49,11 @@ CharacterInfo* PartySystem::RemoveMember(int id)
 	}
 }
 
+CharacterInfo* PartySystem::GetParty()
+{
+	return party[0];
+}
+
 int PartySystem::memberCount()
 {
     int count = 0;

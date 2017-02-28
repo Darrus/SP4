@@ -22,6 +22,9 @@
 #include "MatrixStack.h"
 #include "../Application.h"
 
+// Player
+#include "../Player/Player.h"
+
 bool Overworld::battle = false;
 
 Overworld::Overworld() :
@@ -93,6 +96,8 @@ void Overworld::Init()
 	player.SetGround(&background);
 	EManager.AddEntity(&player);
 	spatial.Add(&player);
+
+	Player::GetInstance().LoadGame("01");
 
 	// Background Init
 	background.SetMesh(MeshBuilder::GetInstance()->GetMesh("background"));

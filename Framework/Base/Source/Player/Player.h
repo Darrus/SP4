@@ -17,6 +17,8 @@ private:
 	Vector3 m_overworld_pos;
 
 	//TODO:
+	CharacterInfo* LoadCharacter(string fileName, int index);
+	void SaveCharacter(string fileName, int index);
 	//Store a respawnpoint?
 
 public:
@@ -28,8 +30,8 @@ public:
 
 	//Helper functions
 	void DoDie();
-	void SaveGame(string path);
-	void LoadGame(string path);
+	void SaveGame(string fileName);
+	void LoadGame(string fileName);
 
 	void Init();
 	void Update();

@@ -36,10 +36,11 @@ void SceneManager::Update()
 		{
 			activeScene.back()->Pause();
 			activeScene.pop_back();
-			back = false;
 		}
 		else
 			std::cout << "There is no previous scene to go back to." << std::endl;
+
+		back = false;
 	}
 
 	activeScene.back()->Update();
@@ -112,6 +113,8 @@ Scene* SceneManager::SetActiveScene(const std::string& _name, bool overlay)
 	// Scene exist, set the next scene pointer to that scene
 	nextScene = sceneMap[_name];
 	this->overlay = overlay;
+	if (!overlay)
+		name = _name;
 	return nextScene;
 }
 
