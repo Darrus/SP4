@@ -215,6 +215,18 @@ void CBattleState::Init()
     Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
     Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
     Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
     Player::GetInstance().GetInventory()->AddItem(new MaxHealthPotion());
 }
 void CBattleState::Update()

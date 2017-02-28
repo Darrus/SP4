@@ -30,6 +30,7 @@ private:
     bool choosingSkill;
     bool escapeAnot;
     float temp = 0;
+    bool input;
 
 public:
     BattleSystem();                                                             ///< Default Constructor

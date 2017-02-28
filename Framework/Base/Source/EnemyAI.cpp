@@ -64,6 +64,14 @@ void EnemyAI::HighAggression(BattleEntity* entityAI, BattleEntity* player)
             while (entityAI->GetAttkTurnPt() > 0)
                 AttackPlayer(entityAI, player);
     }
+    else if (player->GetHP() <= playerStats.GetMaxHP() * 0.5)
+    {
+        if (entityAI->GetAttkTurnPt() < 2)
+            Defend(entityAI);
+        else
+            while (entityAI->GetAttkTurnPt() > 0)
+                AttackPlayer(entityAI, player);
+    }
     else
     {
         //use skill
