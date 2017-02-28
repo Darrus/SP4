@@ -79,7 +79,6 @@ void Overworld::Init()
 	camera.SetRotSpeed(200.f);
 	camera.SetDistSpeed(100.f);
 
-
 	// Player Init
 	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 1, 8, 1.f, -1));
 	AnimationsContainer::GetInstance()->AddAnimation("npc", new Animation("moogle", 0, 1, 1.f, -1));
@@ -164,11 +163,11 @@ void Overworld::Update()
 {
 	float dt = StopWatch::GetInstance()->GetDeltaTime();
 
-	EManager.Update();
 	if (player.Controls())
 		HandleEncounter(dt);
-	camera.Update();
 	spatial.Update();
+	EManager.Update();
+	camera.Update();
 
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))

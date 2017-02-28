@@ -7,6 +7,7 @@ private:
 	SkyBoxEntity wall;
 
 	void InitBuilding();
+	void InitNPC();
 
 public:
 	Town();

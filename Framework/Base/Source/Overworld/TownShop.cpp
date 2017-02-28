@@ -19,6 +19,7 @@
 
 // Entities
 #include "OverworldAsset.h"
+#include "ShopNPC.h"
 
 // Trigger Areas
 #include "TriggerScene.h"
@@ -86,15 +87,16 @@ void TownShop::Init()
 	Math::InitRNG();
 	
 	// NPC Init
-	npc = new NPC();
+	ShopNPC* npc = new ShopNPC();
 	npc->GetAnimator()->AddAnimation("npc");
 	npc->GetAnimator()->PlayAnimation("npc");
 	npc->SetScale(Vector3(5.f, 5.f, 1.f));
 	npc->SetPosition(Vector3(0.f, 20.f, 1.f));
 	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
-	npc->SetTargetScene("ShopDialogue");
+	npc->SetTargetScene("Shop");
 	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
+	npc->SetMoveSpeed(20.f);
 	spatial.Add(npc);
 	EManager.AddEntity(npc);
 
@@ -112,9 +114,10 @@ void TownShop::Update()
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
 		SceneManager::GetInstance()->quit = true;
 
-	camera.Update();
-	EManager.Update();
+	player.Controls();
 	spatial.Update();
+	EManager.Update();
+	camera.Update();
 }
 
 void TownShop::Render()

@@ -172,7 +172,7 @@ void ShopScene::Init()
 
 	//Exit back to overworld button
 	ChangeScene_Button* changeScene = new ChangeScene_Button();
-	changeScene->SetDesiredScene("Overworld");
+	changeScene->SetDesiredScene("TownShop");
 	changeScene->SetText("Exit");
 	changeScene->SetTextOffset(35, 0);
 	changeScene->SetScale(140, 100);

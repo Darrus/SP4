@@ -3,9 +3,6 @@
 class TownShop :
 	public OverworldBase
 {
-private:
-	NPC* npc;
-
 public:
 	TownShop();
 	virtual ~TownShop();
