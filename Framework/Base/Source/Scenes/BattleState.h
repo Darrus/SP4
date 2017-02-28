@@ -41,6 +41,7 @@ public:
     BattleEntity* wow2;
 
     CharacterInfo* charahehe;
+    EnemyInfo* enemyhehe;
 
 private:
 	FPSCamera camera;

@@ -112,9 +112,6 @@
     <ClCompile Include="Source\Battle\MonsterFactory.cpp">
       <Filter>BattleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Battle\Enemy.cpp">
-      <Filter>BattleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Skills\Skill.cpp">
       <Filter>Skills</Filter>
     </ClCompile>
@@ -293,9 +290,6 @@
       <Filter>BattleSystem</Filter>
     </ClInclude>
     <ClInclude Include="Source\Battle\MonsterFactory.h">
-      <Filter>BattleSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Battle\Enemy.h">
       <Filter>BattleSystem</Filter>
     </ClInclude>
     <ClInclude Include="Source\Skills\Skill.h">

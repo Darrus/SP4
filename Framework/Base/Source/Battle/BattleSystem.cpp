@@ -56,14 +56,16 @@ escapeAnot(false)
     Arrow->SetScale(Vector3(windowWidth * 0.05f, windowHeight * 0.05f, 0.f));
 
     // Enemy Battle Sprites
-    BattleSprites = new SpriteEntity(MeshBuilder::GetInstance()->GetMesh("enemysprite"));
+
+
+    BattleSprites = new SpriteEntity(MeshBuilder::GetInstance()->GetMesh("Kayne West"));
     BattleSprites->SetTextRenderMode(SpriteEntity::MODE_2D);
     BattleSprites->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.5f, 1.f));
     BattleSprites->SetScale(Vector3(windowWidth * 0.2f, windowHeight * 0.2f, 0.f));
     SpriteList.push_back(BattleSprites);
     BattleSprites = nullptr;
 
-    BattleSprites = new SpriteEntity(MeshBuilder::GetInstance()->GetMesh("enemysprite"));
+    BattleSprites = new SpriteEntity(MeshBuilder::GetInstance()->GetMesh("Kayne West"));
     BattleSprites->SetTextRenderMode(SpriteEntity::MODE_2D);
     BattleSprites->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.3f, 1.f));
     BattleSprites->SetScale(Vector3(windowWidth * 0.2f, windowHeight * 0.2f, 0.f));
@@ -118,6 +120,7 @@ It gives the Unit who filled their bar up first, and stops all other bar updates
 *****************************************/
 void BattleSystem::Update()
 {
+    int playerPartySize = (Player::GetInstance().GetParty()->memberCount() - 1); // start from 0
     //if (!battlelog->Update())
     enemyAI->battlelog->Update();
 
@@ -132,10 +135,12 @@ void BattleSystem::Update()
                 (*itr)->Update(); ///< Updates the enemy ATB;
             else
             {
-                std::cout << (*itr)->GetInfo()->name << " Launched an Attack!" << std::endl;
                 BattleEntity* test = FindTarget(Math::RandIntMinMax(0, 2));
 
                 enemyAI->aggroLvl = EnemyAI::HIGH;
+
+                while (test->GetDead())
+                    test = FindTarget(Math::RandIntMinMax(0, playerPartySize));
 
                 if (test != nullptr)
                     enemyAI->DetermineAction((*itr), test);
@@ -167,11 +172,6 @@ void BattleSystem::Update()
             {
                 playerselect++;
             }
-
-            if (playerselect > (Player::GetInstance().GetParty()->memberCount() - 2))
-                playerselect = 0;
-            if (playerselect < 0)
-                playerselect = (Player::GetInstance().GetParty()->memberCount() - 2);
         }
 
 
@@ -180,21 +180,22 @@ void BattleSystem::Update()
         if (commandselect >= 5)
             commandselect = 0;
 
-        if (playerselect > (Player::GetInstance().GetParty()->memberCount() - 2))
+        if (playerselect > playerPartySize)
             playerselect = 0;
         if (playerselect < 0)
-            playerselect = (Player::GetInstance().GetParty()->memberCount() - 2);
+            playerselect = playerPartySize;
 
         if (skillselect < 0)
-            skillselect = (Player::GetInstance().GetParty()->GetMember(playerselect)->skills.size() - 1);
-        if (skillselect >= (Player::GetInstance().GetParty()->GetMember(playerselect)->skills.size() - 1))
+            skillselect = playerPartySize;
+        if (skillselect >= playerPartySize)
             skillselect = 0;
 
+        std::cout << EnemyList.size() << std::endl;
 
-        if (attkselect > ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1)))
-            attkselect = (Player::GetInstance().GetParty()->memberCount() - 1);
-        if (attkselect < (Player::GetInstance().GetParty()->memberCount() - 1))
-            attkselect = ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1));
+        if (attkselect >(playerPartySize + (EnemyList.size() - 1)))
+            attkselect = playerPartySize;
+        if (attkselect < playerPartySize)
+            attkselect = (playerPartySize + (EnemyList.size() - 1));
     }
 }
 
@@ -857,7 +858,7 @@ void BattleSystem::ShowBattleResults()
         for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
         {
             //std::cout << pew->GetMember(i)->CheckLevelUp() << std::endl;
-            std::cout << pew->GetMember(i)->name << std::endl;
+            //std::cout << pew->GetMember(i)->name << std::endl;
             
             //std::cout << pew->GetMember(i)->EXP << std::endl;
             modelStack.PushMatrix();
@@ -885,7 +886,6 @@ void BattleSystem::AssignPlayerParty()
     float windowWidth = Application::GetInstance().GetWindowWidth();
     float windowHeight = Application::GetInstance().GetWindowHeight();
 
-    Player::GetInstance().GetParty();
     for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
     {
         CharacterInfo* MemberInfo = Player::GetInstance().GetParty()->GetMember(i);
@@ -899,6 +899,34 @@ void BattleSystem::AssignPlayerParty()
             pewpewpew->SetPosition((Vector3(windowWidth * 0.75f, windowHeight * (0.15f * (i + 1.5)), 1.f)));
             BattleList.push_back(pewpewpew);
             PlayerList.push_back(pewpewpew);
+        }
+    }
+}
+
+/***************************************
+///< AssignEnemies
+passes in the player party to be in the battlelist
+*****************************************/
+void BattleSystem::AssignEnemies()
+{
+    float windowWidth = Application::GetInstance().GetWindowWidth();
+    float windowHeight = Application::GetInstance().GetWindowHeight();
+
+    for (auto itr = EnemyInfoList.begin(); itr != EnemyInfoList.end(); itr++)
+    {
+        EnemyInfo* MonsterInfo = (*itr);
+        MonsterInfo->stats.UpdateStats();
+
+        pewpewpew = new BattleEntity();
+        pewpewpew->enemyType = BattleEntity::ENEMY;
+        pewpewpew->SetInfo(MonsterInfo);
+
+        if (MonsterInfo != nullptr)
+        {
+            pewpewpew->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * (0.15f * MonsterInfo->id), 1.f));
+
+            BattleList.push_back(pewpewpew);
+            EnemyList.push_back(pewpewpew);
         }
     }
 }
