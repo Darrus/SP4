@@ -25,9 +25,6 @@
     <ClCompile Include="Source\Entity\EntityManager.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scenes\IntroState.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Items\Item.cpp">
       <Filter>Items</Filter>
     </ClCompile>
@@ -70,9 +67,6 @@
     <ClCompile Include="Source\Menu\Menu.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scenes\BattleState.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Camera.cpp">
       <Filter>Main</Filter>
     </ClCompile>
@@ -81,9 +75,6 @@
     </ClCompile>
     <ClCompile Include="Source\Items\Equipment.cpp">
       <Filter>Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Scenes\ShopScene.cpp">
-      <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\Overworld\CameraFollow.cpp">
       <Filter>Overworld</Filter>
@@ -118,9 +109,6 @@
     <ClCompile Include="Source\Skills\SkillFunctions.cpp">
       <Filter>Skills</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scenes\DialogueScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Overworld\OverworldAsset.cpp">
       <Filter>Overworld\Entity</Filter>
     </ClCompile>
@@ -154,9 +142,6 @@
     <ClCompile Include="Source\Overworld\TownShop.cpp">
       <Filter>Overworld\World</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scenes\ShopDialogueScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Overworld\StaticAsset.cpp">
       <Filter>Overworld\Entity</Filter>
     </ClCompile>
@@ -165,9 +150,6 @@
     </ClCompile>
     <ClCompile Include="Source\Menu\SkillDisplay.cpp">
       <Filter>Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Scenes\PartyScene.cpp">
-      <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\Menu\SkillPoint_Display.cpp">
       <Filter>Menu</Filter>
@@ -180,6 +162,36 @@
     </ClCompile>
     <ClCompile Include="Source\Overworld\ShopNPC.cpp">
       <Filter>Overworld\Entity\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\BattleState.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\CharacterProfileScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\DialogueScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\IntroState.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\InventoryScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\PartyScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\PauseScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\ShopDialogueScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\ShopScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Menu\CharacterStatsDisplay.cpp">
+      <Filter>Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,9 +221,6 @@
     </ClInclude>
     <ClInclude Include="Source\Entity\EntityManager.h">
       <Filter>Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scenes\IntroState.h">
-      <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Items\Item.h">
       <Filter>Items</Filter>
@@ -255,9 +264,6 @@
     <ClInclude Include="Source\Menu\Menu.h">
       <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scenes\BattleState.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Camera.h">
       <Filter>Main</Filter>
     </ClInclude>
@@ -266,9 +272,6 @@
     </ClInclude>
     <ClInclude Include="Source\Items\Equipment.h">
       <Filter>Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scenes\ShopScene.h">
-      <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Overworld\CameraFollow.h">
       <Filter>Overworld</Filter>
@@ -302,9 +305,6 @@
     </ClInclude>
     <ClInclude Include="Source\Skills\SkillFunctions.h">
       <Filter>Skills</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scenes\DialogueScene.h">
-      <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Overworld\OverworldEntity.h">
       <Filter>Overworld\Entity</Filter>
@@ -345,9 +345,6 @@
     <ClInclude Include="Source\Character\InfoBase.h">
       <Filter>Character</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scenes\ShopDialogueScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Character\EnemyInfo.h">
       <Filter>Character</Filter>
     </ClInclude>
@@ -360,9 +357,6 @@
     <ClInclude Include="Source\Menu\SkillDisplay.h">
       <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scenes\PartyScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Menu\SkillPoint_Display.h">
       <Filter>Menu</Filter>
     </ClInclude>
@@ -374,6 +368,36 @@
     </ClInclude>
     <ClInclude Include="Source\Overworld\ShopNPC.h">
       <Filter>Overworld\Entity\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\BattleState.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\CharacterProfileScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\DialogueScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\IntroState.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\InventoryScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\PartyScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\PauseScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\ShopDialogueScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\ShopScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Menu\CharacterStatsDisplay.h">
+      <Filter>Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
