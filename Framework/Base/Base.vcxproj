@@ -42,8 +42,10 @@
     <ClCompile Include="Source\Menu\CharacterProfile_Button.cpp" />
     <ClCompile Include="Source\Menu\Menu.cpp" />
     <ClCompile Include="Source\Menu\SkillDisplay.cpp" />
+    <ClCompile Include="Source\Menu\SkillPoint_Display.cpp" />
     <ClCompile Include="Source\OBJMesh.cpp" />
     <ClCompile Include="Source\Overworld\CameraFollow.cpp" />
+    <ClCompile Include="Source\Overworld\MountainTop.cpp" />
     <ClCompile Include="Source\Overworld\NPC.cpp" />
     <ClCompile Include="Source\Overworld\Overworld.cpp" />
     <ClCompile Include="Source\Overworld\OverworldAsset.cpp" />
@@ -106,8 +108,10 @@
     <ClInclude Include="Source\Menu\GUIObject.h" />
     <ClInclude Include="Source\Menu\Menu.h" />
     <ClInclude Include="Source\Menu\SkillDisplay.h" />
+    <ClInclude Include="Source\Menu\SkillPoint_Display.h" />
     <ClInclude Include="Source\OBJMesh.h" />
     <ClInclude Include="Source\Overworld\CameraFollow.h" />
+    <ClInclude Include="Source\Overworld\MountainTop.h" />
     <ClInclude Include="Source\Overworld\NPC.h" />
     <ClInclude Include="Source\Overworld\Overworld.h" />
     <ClInclude Include="Source\Overworld\OverworldAsset.h" />

@@ -302,6 +302,7 @@ protected:
 	Skill* m_skill;
 	SkillDisplay* m_target_display;
 	CharacterInfo* m_target_character;
+	PopUp_Button* m_popup;
 	bool m_is_skill_learnt;
 	int m_branch;
 	int m_index_in_branch;
@@ -313,16 +314,32 @@ public:
 	inline void SetBranch(int branch){ m_branch = branch; }
 	inline void SetIndexInBranch(int index_in_branch){ m_index_in_branch = index_in_branch; }
 	inline void SetTargetCharacter(CharacterInfo* target_character){ m_target_character = target_character; }
+	inline void SetPopUpButton(PopUp_Button* popup){ m_popup = popup; }
 
 	inline void LearnSkill()
 	{
+		//Can only learn skill if it hasn't already been learnt
 		if (!m_is_skill_learnt)
 		{
+			//Can only learn skills if it's next in the skill tree branch
 			if (m_target_character->skill_branch_index[m_branch] == m_index_in_branch)
 			{
-				m_target_character->skill_branch_index[m_branch]++;
-				m_is_skill_learnt = true;
-				m_target_character->skills.push_back(SkillContainer::GetInstance()->GetSkill(m_skill->GetName()));
+				//Rejects learning the skill if character does not have enough skill points
+				if (m_target_character->stats.GetSkillPoints() < 1)
+				{
+					m_popup->SetText("Not Enough Skill Points!\n\nClick this box to continue");
+					m_popup->SetActive(true);
+				}
+				//Displays a popup when skill is learnt 
+				else
+				{
+					m_popup->SetText(m_target_character->name + " Learnt " + m_skill->GetName() + "!\n\nClick this box to continue");
+					m_popup->SetActive(true);
+					m_target_character->stats.DeductSkillPoints(1);
+					m_target_character->skill_branch_index[m_branch]++;
+					m_target_character->skills.push_back(SkillContainer::GetInstance()->GetSkill(m_skill->GetName()));
+					m_is_skill_learnt = true;
+				}
 			}
 		}
 	}
@@ -337,33 +354,5 @@ public:
 	~Skill_Button(){};
 
 };
-
-//class Skill_Button : public Button
-//{
-//protected:
-//	Skill* m_skill;
-//	CharacterInfo* m_target_character;
-//
-//public:
-//	inline void SetTargetCharacter(CharacterInfo &target_character){ m_target_character = &target_character; }
-//	inline void SetSkill(Skill* skill){ m_skill = skill; }
-//	inline void RunFunction()
-//	{
-//		if (!m_is_skill_learnt)
-//		{
-//			if (m_target_character->skill_branch_index[m_branch] == m_index_in_branch)
-//			{
-//				m_target_character->skill_branch_index[m_branch]++;
-//				m_is_skill_learnt = true;
-//				m_target_character->skills.push_back(SkillContainer::GetInstance()->GetSkill(m_skill_name));
-//			}
-//		}
-//	}
-//	void Render();
-//
-//	Skill_Button(){};
-//	~Skill_Button(){};
-//
-//};
 
 #endif

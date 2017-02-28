@@ -21,6 +21,7 @@ struct MainStat
 	int Agi = 0;
 	int Level = 1;
 	int statPoints = 0;
+	int SkillPoints = 0;
 };
 
 struct SubStat
@@ -53,6 +54,7 @@ public:
 	inline void AddDex(int amt){ main.Dex += amt; }
 	inline void AddAgi(int amt){ main.Agi += amt; }
 	inline void AddStatPoint(int amt) { main.statPoints += amt; }
+	inline void AddSkillPoint(int amt) { main.SkillPoints += amt; }
 
 	inline void DeductLevel(int amt) { main.Level -= amt; }
 	inline void DeductStr(int amt){ main.Str -= amt; }
@@ -62,6 +64,7 @@ public:
 	inline void DeductDex(int amt){ main.Dex -= amt; }
 	inline void DeductAgi(int amt){ main.Agi -= amt; }
 	inline void DeductStatPoint(int amt) { main.statPoints -= amt; }
+	inline void DeductSkillPoints(int amt) { main.SkillPoints -= amt; }
 
 	inline int Getlevel(){ return main.Level; }
 	inline int GetStr(){ return main.Str; }
@@ -71,6 +74,7 @@ public:
 	inline int GetDex(){ return main.Dex; }
 	inline int GetAgi(){ return main.Agi; }
 	inline int GetStatPoints(){ return main.statPoints; }
+	inline int GetSkillPoints(){ return main.SkillPoints; }
 
 	inline int GetMaxEXP() { return sub.MaxEXP; }
 	inline int GetDamage() { return sub.Damage; }

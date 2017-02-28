@@ -14,8 +14,6 @@
 #include "../Lua/LuaInterface.h"
 #include "SoundEngine\SoundEngine.h"
 
-#include "../Entity/EntityFactory.h"
-
 using namespace std;
 
 SkillTreeScene::SkillTreeScene()
@@ -50,6 +48,7 @@ void SkillTreeScene::Init()
 	m_display->SetScale(800,600);
 	m_display->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 
+	//Initialise the Skill Container
 	SkillContainer::GetInstance()->Init();
 
 	//Add some dummy skills
@@ -81,15 +80,95 @@ void SkillTreeScene::Init()
 	skill_branch[BRANCH_M_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
 	skill_branch[BRANCH_M_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
 
-	//Make a menu for the skill buttons
-	skill_menu = new Skill_Menu();
+	//A dummy character for placeholder
 	dummy_values();
 
+	//Make a menu for the skill buttons
+	skill_menu = new Skill_Menu();
+	utility_menu = new Menu();
+
+	//BUTTONS 
+	//Back button
+	PreviousScene_Button* backbtn = new PreviousScene_Button();
+	backbtn->SetText("Back");
+	backbtn->SetTextOffset(50, 0);
+	backbtn->SetScale(150, 100);
+	backbtn->SetPosition(50, 1000);
+	backbtn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	backbtn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+	utility_menu->AddButton(backbtn);
+
+	//Popup button
+	m_popup = new PopUp_Button();
+	m_popup->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5f, Application::GetInstance().GetWindowHeight() * 0.5f);
+	m_popup->SetScale(800,600);
+	m_popup->SetActive(false);
+	m_popup->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	m_popup->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+	m_popup->SetTextOffset(150, 0);
+	utility_menu->AddButton(m_popup);
+
+	//GUIObjects for utilities notifications around the screen
+	GUIObject* m_skill_click_notification = new GUIObject();
+	m_skill_click_notification->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	m_skill_click_notification->SetPosition(1450, 200);
+	m_skill_click_notification->SetScale(700, 100);
+	m_skill_click_notification->SetText("Double-click to learn a skill");
+	m_skill_click_notification->SetTextOffset(70, 0);
+	GUIObject_list.push_back(m_skill_click_notification);
+
+	GUIObject* p_atk = new GUIObject();
+	p_atk->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	p_atk->SetPosition(410, 890);
+	p_atk->SetScale(650, 60);
+	p_atk->SetText("Physical Attack Branch");
+	GUIObject_list.push_back(p_atk);
+
+	GUIObject* p_def = new GUIObject();
+	p_def->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	p_def->SetPosition(410, 665);
+	p_def->SetScale(650, 60);
+	p_def->SetText("Physical Defense Branch");
+	GUIObject_list.push_back(p_def);
+
+	GUIObject* m_atk = new GUIObject();
+	m_atk->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	m_atk->SetPosition(410, 440);
+	m_atk->SetScale(650, 60);
+	m_atk->SetText("Magical Attack Branch");
+	GUIObject_list.push_back(m_atk);
+
+	GUIObject* m_def = new GUIObject();
+	m_def->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	m_def->SetPosition(410, 215);
+	m_def->SetScale(650, 60);
+	m_def->SetText("Magical Defense Branch");
+	GUIObject_list.push_back(m_def);
+
+	//Character info display stuff
+	display_skill_points = new SkillPoint_Display();
+	display_skill_points->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	display_skill_points->SetPosition(1800, 1000);
+	display_skill_points->SetScale(350, 60);
+	display_skill_points->SetText("Skill Points");
+	display_skill_points->SetTargetCharacter(character);
+	GUIObject_list.push_back(display_skill_points);
+
+	display_character_name = new CharacterName_Display();
+	display_character_name->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5, 1050);
+	display_character_name->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	display_character_name->SetScale(500, 100);
+	display_character_name->SetTargetCharacter(character);
+	GUIObject_list.push_back(display_character_name);
+
+
+	//Init the skill buttons
 	init_skills();
 }
 
 void SkillTreeScene::Update()
 {
+	utility_menu->Update();
 	skill_menu->Update();
 }
 
@@ -106,11 +185,16 @@ void SkillTreeScene::Render()
 		-10, 10);
 	GraphicsManager::GetInstance()->DetachCamera();
 
-	//character->skills.push_back();
-	//glBlendFunc(1.5, 1);
+	utility_menu->Render();
 	skill_menu->Render();
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_display->Render();
+
+	//GUI Objects 
+	for (unsigned i = 0; i < GUIObject_list.size(); ++i)
+		GUIObject_list[i]->Render();
+
+	//glBlendFunc(1.5, 1);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void SkillTreeScene::Exit()
@@ -148,6 +232,7 @@ void SkillTreeScene::init_skills()
 			skill_btn->SetTargetCharacter(character);
 			skill_btn->SetBranch(currentBranch);
 			skill_btn->SetIndexInBranch(index_in_branch);
+			skill_btn->SetPopUpButton(m_popup);
 			skill_menu->AddButton(skill_btn);
 		}
 		offset_y -= 225.f;
@@ -162,10 +247,20 @@ void SkillTreeScene::dummy_values()
 	character->skill_branch_index[BRANCH_M_ATK] = 4;
 	character->skill_branch_index[BRANCH_P_DEF] = 2;
 	character->skill_branch_index[BRANCH_M_DEF] = 3;
+	character->stats.AddSkillPoint(3);
+	character->name = "Dogshit";
 }
+
 void SkillTreeScene::SetCharacter(CharacterInfo* chara)
 {
-	skill_menu->ClearButtonList();
+	//Set the new character
 	character = chara;
+
+	//Clear and reinitialise the skill buttons
+	skill_menu->ClearButtonList();
 	init_skills();
+
+	//Update the display info stuff
+	display_skill_points->SetTargetCharacter(character);
+	display_character_name->SetTargetCharacter(character);
 }
