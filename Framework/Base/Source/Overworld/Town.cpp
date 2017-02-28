@@ -190,11 +190,15 @@ void Town::InitBuilding()
 	MeshBuilder::GetInstance()->GenerateQuad("House1", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house1.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("House2", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house2.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("House3", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house3.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("Tower1", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//tower1.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("Tower2", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//tower2.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("Tower3", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//tower3.tga");
 
-	asset = new OverworldAsset("House1");
+	MeshBuilder::GetInstance()->GenerateQuad("House1_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house1_side.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("House2_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house2_side.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("House3_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house3_side.tga");
+
+	MeshBuilder::GetInstance()->GenerateQuad("Tower", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//tower1.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("Tower_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//tower2.tga");
+
+	asset = new StaticAsset("House1", "House1_side");
 	asset->SetPosition(Vector3(-50.f, 25.f, 1.1f));
 	asset->SetScale(Vector3(25.f, 25.f, 1.f));
 	asset->SetCamera(&camera);
@@ -202,7 +206,7 @@ void Town::InitBuilding()
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
 
-	asset = new OverworldAsset("Tower2");
+	asset = new StaticAsset("Tower", "Tower_side");
 	asset->SetPosition(Vector3(-100.f, 75.f, 1.1f));
 	asset->SetScale(Vector3(25.f, 25.f, 1.f));
 	asset->SetCamera(&camera);
@@ -210,7 +214,7 @@ void Town::InitBuilding()
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
 
-	asset = new OverworldAsset("House3");
+	asset = new StaticAsset("House3", "House3_side");
 	asset->SetPosition(Vector3(-130.f, -50.f, 1.1f));
 	asset->SetScale(Vector3(25.f, 25.f, 1.f));
 	asset->SetCamera(&camera);
@@ -218,7 +222,7 @@ void Town::InitBuilding()
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
 
-	asset = new OverworldAsset("Tower1");
+	asset = new StaticAsset("Tower", "Tower_side");
 	asset->SetPosition(Vector3(110.f, -20.f, 1.1f));
 	asset->SetScale(Vector3(25.f, 25.f, 1.f));
 	asset->SetCamera(&camera);
@@ -226,7 +230,7 @@ void Town::InitBuilding()
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
 
-	asset = new OverworldAsset("House2");
+	asset = new StaticAsset("House2", "House2_side");
 	asset->SetPosition(Vector3(60.f, -50.f, 1.1f));
 	asset->SetScale(Vector3(25.f, 25.f, 1.f));
 	asset->SetCamera(&camera);
@@ -234,7 +238,7 @@ void Town::InitBuilding()
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
 
-	asset = new OverworldAsset("House3");
+	asset = new StaticAsset("House3", "House3_side");
 	asset->SetPosition(Vector3(120.f, 50.f, 1.1f));
 	asset->SetScale(Vector3(25.f, 25.f, 1.f));
 	asset->SetCamera(&camera);
@@ -242,7 +246,7 @@ void Town::InitBuilding()
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
 
-	asset = new StaticAsset("Tower1", "Tower2");
+	asset = new StaticAsset("Tower", "Tower_side");
 	asset->SetPosition(Vector3(-60.f, -80.f, 1.1f));
 	asset->SetScale(Vector3(25.f, 25.f, 1.f));
 	asset->SetCamera(&camera);

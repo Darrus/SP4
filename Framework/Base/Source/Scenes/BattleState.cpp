@@ -183,13 +183,16 @@ void CBattleState::Init()
     charahehe->stats.AddInt(4);
     charahehe->stats.AddMind(3);
     charahehe->stats.AddDex(5);
-    charahehe->stats.AddAgi(15);
+    charahehe->stats.AddAgi(3);
     charahehe->stats.AddLevel(5);
     charahehe->name = "Reuben";
     charahehe->id = 2;
     charahehe->stats.UpdateStats();
     charahehe->HP = charahehe->stats.GetMaxHP();
     charahehe->MP = charahehe->stats.GetMaxMP();
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
     party->AddMember(charahehe);
@@ -212,6 +215,9 @@ void CBattleState::Init()
     testingBattle->EnemyList.push_back(wow);
     testingBattle->EnemyList.push_back(wow2);
 
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
+    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
     Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
     Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
     Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
