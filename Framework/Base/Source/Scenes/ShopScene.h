@@ -28,6 +28,8 @@ public:
 	virtual void Update();
 	virtual void Render();
 	virtual void Exit();
+	virtual void Pause();
+	virtual void UnPause();
 
 private:
 	FPSCamera camera;
@@ -66,6 +68,4 @@ private:
 	SellingCart_Menu* shop_selling_menu;
 
 	Menu* utilitybuttons;
-
-	void moveShopOut();
 };

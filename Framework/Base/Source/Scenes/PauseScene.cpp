@@ -42,9 +42,9 @@ void PauseScene::Init()
 	inventory_btn->SetText("Inventory");
 	inventory_btn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	inventory_btn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
-	inventory_btn->SetDesiredScene("Inventory");
-	inventory_btn->SetIsOverlay(false);
-	inventory_btn->SetTextOffset(120, 0);
+	inventory_btn->SetDesiredScene("InventoryScene");
+	inventory_btn->SetIsOverlay(true);
+	inventory_btn->SetTextOffset(100, 0);
 
 	party_btn = new ChangeScene_Button();
 	party_btn->SetPosition(1200, 1000);
@@ -52,9 +52,9 @@ void PauseScene::Init()
 	party_btn->SetText("Party");
 	party_btn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	party_btn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
-	party_btn->SetDesiredScene("Party");
-	party_btn->SetIsOverlay(false);
-	party_btn->SetTextOffset(150, 0);
+	party_btn->SetDesiredScene("PartyScene");
+	party_btn->SetIsOverlay(true);
+	party_btn->SetTextOffset(135, 0);
 
 	options_btn = new ChangeScene_Button();
 	options_btn->SetPosition(1600, 1000);
@@ -62,9 +62,9 @@ void PauseScene::Init()
 	options_btn->SetText("Options");
 	options_btn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	options_btn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));;
-	options_btn->SetDesiredScene("Options");
+	options_btn->SetDesiredScene("OptionsScene");
 	options_btn->SetIsOverlay(false);
-	options_btn->SetTextOffset(130,0);
+	options_btn->SetTextOffset(115,0);
 
 	pause_menu->AddButton(unpause_btn);
 	pause_menu->AddButton(inventory_btn);

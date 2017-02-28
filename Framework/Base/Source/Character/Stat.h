@@ -8,8 +8,8 @@
 #define SPELL_DAMAGE_MULTIPLIER 10
 #define DEFENCE_MULTIPLIER 5
 #define MAX_EXP_MULTIPLIER 10
-#define CRIT_RATE_MULTIPLIER 0.5
-#define DODGE_RATE_MULTIPLIER 0.2
+#define CRIT_RATE_MULTIPLIER 0.5f
+#define DODGE_RATE_MULTIPLIER 0.2f
 #define RECHARGE_RATE_MULTIPLIER 1
 
 struct MainStat
@@ -91,6 +91,9 @@ public:
 	inline float GetCritRate(){ return sub.CritRate; }
 	inline float GetRechargeRate(){ return sub.RechargeRate; }
 
+    inline void AddDamage(int amt) { sub.Damage += amt; }
+    inline void AddSpellDamage(int amt){ sub.SpellDamage += amt; }
+
 	inline void UpdateStats()
 	{
 		sub.MaxEXP = main.Level * MAX_EXP_MULTIPLIER;
@@ -100,7 +103,7 @@ public:
 		sub.SpellDamage = (main.Int + main.Level) * SPELL_DAMAGE_MULTIPLIER;
 		sub.Defence = (main.Vit + main.Level) * DEFENCE_MULTIPLIER;
         sub.DodgeRate = ((float)main.Dex + (float)main.Level) * DODGE_RATE_MULTIPLIER;
-		sub.CritRate = (main.Dex + main.Level) * CRIT_RATE_MULTIPLIER;
+        sub.CritRate = ((float)main.Dex + (float)main.Level) * CRIT_RATE_MULTIPLIER;
         sub.RechargeRate = ((float)main.Agi + (float)main.Level) * RECHARGE_RATE_MULTIPLIER;
 	}
 };

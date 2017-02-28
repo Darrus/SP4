@@ -17,6 +17,12 @@ void SkillContainer::Init()
 {
 	Heal* heal = new Heal();
 	m_skill_container.insert(std::make_pair(heal->GetName(), heal));
+    Sweep* sweep = new Sweep();
+    m_skill_container.insert(std::make_pair(sweep->GetName(), sweep));
+    FireBlast* blast = new FireBlast();
+    m_skill_container.insert(std::make_pair(blast->GetName(), blast));
+    HeroMaker* hero = new HeroMaker();
+    m_skill_container.insert(std::make_pair(hero->GetName(), hero));
 }
 
 Skill* SkillContainer::GetSkill(string name)

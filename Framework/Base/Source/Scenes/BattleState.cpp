@@ -156,6 +156,7 @@ void CBattleState::Init()
     charahehe->MP = charahehe->stats.GetMaxMP();
     SkillContainer::GetInstance()->Init();
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Fire Blast"));
     //testingBattle->partypew->AddMember(charahehe);
     party->AddMember(charahehe);
 
@@ -172,7 +173,8 @@ void CBattleState::Init()
     charahehe->stats.UpdateStats();
     charahehe->HP = charahehe->stats.GetMaxHP();
     charahehe->MP = charahehe->stats.GetMaxMP();
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Hero Maker"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Fire Blast"));
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
     //testingBattle->partypew->AddMember(charahehe);
     party->AddMember(charahehe);
@@ -190,10 +192,10 @@ void CBattleState::Init()
     charahehe->stats.UpdateStats();
     charahehe->HP = charahehe->stats.GetMaxHP();
     charahehe->MP = charahehe->stats.GetMaxMP();
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Sweep"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Sweep"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Fire Blast"));
+    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Hero Maker"));
     charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
     party->AddMember(charahehe);
     //testingBattle->partypew->AddMember(charahehe);

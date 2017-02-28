@@ -9,11 +9,12 @@ using std::string;
 using std::vector;
 
 class CharacterInfo;
+class InfoBase;
 
 struct SkillParameters
 {
 	CharacterInfo* caster;
-	vector<CharacterInfo*> targetList;
+	vector<InfoBase*> targetList;
 };
 
 enum SKILLTREE_BRANCH

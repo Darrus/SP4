@@ -192,9 +192,6 @@ void SkillTreeScene::Render()
 	//GUI Objects 
 	for (unsigned i = 0; i < GUIObject_list.size(); ++i)
 		GUIObject_list[i]->Render();
-
-	//glBlendFunc(1.5, 1);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void SkillTreeScene::Exit()

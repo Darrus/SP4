@@ -185,7 +185,7 @@ void BattleSystem::Update()
     if (commandselect >= 5)
         commandselect = 0;
 
-    if (attkselect >((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1)))
+    if (attkselect > ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1)))
         attkselect = (Player::GetInstance().GetParty()->memberCount() - 1);
     if (attkselect < (Player::GetInstance().GetParty()->memberCount() - 1))
         attkselect = ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1));
@@ -197,9 +197,15 @@ void BattleSystem::CheckBattleEnd(BattleEntity* entity)
     {
         for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); i++)
         {
-            Player::GetInstance().GetParty()->GetMember(i)->EXP += Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel() * 9;
+            Player::GetInstance().GetParty()->GetMember(i)->EXP += Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel() * 4;
             if (Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel() < 100)
+            {
                 Player::GetInstance().GetParty()->GetMember(i)->stats.AddLevel(Player::GetInstance().GetParty()->GetMember(i)->CheckLevelUp());
+
+                 // Add the Health Back
+                Player::GetInstance().GetParty()->GetMember(i)->HP = Player::GetInstance().GetParty()->GetMember(i)->stats.GetMaxHP();
+                Player::GetInstance().GetParty()->GetMember(i)->MP = Player::GetInstance().GetParty()->GetMember(i)->stats.GetMaxMP();
+            }
             else if (Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel() >= 100)
             {
                 int testy = Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel() - 100;
@@ -207,9 +213,6 @@ void BattleSystem::CheckBattleEnd(BattleEntity* entity)
             }
 
             Player::GetInstance().GetParty()->GetMember(i)->stats.UpdateStats();
-
-            Player::GetInstance().GetParty()->GetMember(i)->HP = Player::GetInstance().GetParty()->GetMember(i)->stats.GetMaxHP();
-            Player::GetInstance().GetParty()->GetMember(i)->MP = Player::GetInstance().GetParty()->GetMember(i)->stats.GetMaxMP();
         }
         addEXP = true;
     }
@@ -647,24 +650,35 @@ void BattleSystem::RenderUIStuff()
         RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
         modelStack.PopMatrix();
     
-    
-        float DIST = 0.75;
+        for (auto itritr = PlayerList.begin(); itritr != PlayerList.end(); itritr++)
+        {
+            if ((*itritr)->GetInfo()->id == playerselect)
+            {
+                modelStack.PushMatrix();
+                modelStack.Translate(windowWidth * 0.5f, windowHeight *  0.7f, 8.5f);
+                modelStack.Scale(30.f, 30.f, 1.f);
+                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "MP: " + std::to_string((*itritr)->GetInfo()->MP) + " / " + std::to_string((*itritr)->GetInfo()->stats.GetMaxMP()), Color(0, 1, 0));
+                modelStack.PopMatrix();
+            }
+        }
+
+        float DIST = 0.65;
         if (skillselect == 0)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.7, 10.f));
+            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * DIST, 10.f));
         if (skillselect == 1)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.65, 10.f));
+            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * (DIST - 0.05), 10.f));
         if (skillselect == 2)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.6, 10.f));
+            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * (DIST - 0.1), 10.f));
         if (skillselect == 3)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.55, 10.f));
+            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * (DIST - 0.15), 10.f));
         if (skillselect == 4)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.5, 10.f));
+            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * (DIST - 0.2), 10.f));
     
     
         for (auto itritr = Player::GetInstance().GetParty()->GetMember(playerselect)->skills.begin(); itritr !=     Player::GetInstance().GetParty()->GetMember(playerselect)->skills.end(); ++itritr)
         {
             modelStack.PushMatrix();
-            modelStack.Translate(windowWidth * 0.5f, windowHeight *  (0.7f + (i * -0.05f)), 8.5f);
+            modelStack.Translate(windowWidth * 0.5f, windowHeight *  (DIST + (i * -0.05f)), 8.5f);
             modelStack.Scale(30.f, 30.f, 1.f);
             RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itritr)->GetName(), Color(0, 1, 0));
             modelStack.PopMatrix();
@@ -973,7 +987,10 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
                 whichScreen = CHOOSEITEM;   // Items
             if (commandselect == 4)
                 if (!FleeBattle(entity->GetInfo()->stats.Getlevel()))          // Flee
+                {
                     ResetATB(entity);
+                    entity->DecreaseAttkTurnPt(1);
+                }
                 else
                     escapeAnot = true;
         }
@@ -997,9 +1014,9 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
             choosingSkill = true;
 
         if (KeyboardController::GetInstance()->IsKeyPressed(VK_DOWN))
-            skillselect--;
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_UP))
             skillselect++;
+        if (KeyboardController::GetInstance()->IsKeyPressed(VK_UP))
+            skillselect--;
 
         if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
         {
@@ -1033,6 +1050,13 @@ void BattleSystem::EscapeBattle()
     temp += StopWatch::GetInstance()->GetDeltaTime();
     if (temp >= 3.f)
     {
+        EnemyList.clear();
+        EnemyInfoList.clear();
+        anEntityTurn = false;
+        isPassTurn = false;
+        iCrit = false;
+        input = false;
+        whichScreen = NOTHING;
         escapeAnot = false;
         Overworld::battle = false;
         SceneManager::GetInstance()->PreviousScene();
@@ -1102,15 +1126,18 @@ void BattleSystem::ChooseSkill()
             }
             else if ((*itritr)->IsEnemyTargetable())
             {
-                //SkillParameters foo;
-                //foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
+                SkillParameters foo;
+                foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
+                for (auto it = EnemyInfoList.begin(); it != EnemyInfoList.end(); it++)
+                {
+                    if ((*it) != nullptr)
+                        foo.targetList.push_back((*it));
+                }
+                (*itritr)->UseSkill(foo);
 
-                //for (int i = 0; i < EnemyList.size(); ++i)
-                //{
-                //    if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
-                //        foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
-                //}
-                //(*itritr)->UseSkill(foo);
+                enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
+                enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+                choosingSkill = false;
             }
         }
         ++i;
