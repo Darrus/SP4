@@ -96,31 +96,17 @@ void ShopScene::Init()
 
 	cart_cost = 0;
 
-	//Some items in the "Shop"
-	shop_inventory->AddItem(new HealthPotion());
-	shop_inventory->AddItem(new HealthPotion());	
-	shop_inventory->AddItem(new MaxHealthPotion());
-	shop_inventory->AddItem(new HealthPotion());
-	shop_inventory->AddItem(new HealthPotion());	
-	shop_inventory->AddItem(new MaxHealthPotion());
+	//Some items in the Shop
 	shop_inventory->AddItem(new HealthPotion());
 	shop_inventory->AddItem(new MaxHealthPotion());
-	shop_inventory->AddItem(new MaxHealthPotion());	
-	shop_inventory->AddItem(new MaxHealthPotion());
-	shop_inventory->AddItem(new MaxHealthPotion());
-
-	//A special item
-	HealthPotion* specialPotion = new HealthPotion();
-	specialPotion->SetName("LingLongDingDong");
-	specialPotion->SetMesh(MeshBuilder::GetInstance()->GetMesh("character"));
-	shop_inventory->AddItem(specialPotion);
-
-	//An equipment item
-	Equipment *swordy = new Equipment(TYPE_WEAPON, 10, 0, 0, 0);
-	swordy->SetName("Black Sword");
-	swordy->SetDescription("What a black sword.");
-	swordy->SetMesh(MeshBuilder::GetInstance()->GetMesh("INTROSTATE_BKGROUND"));
-	shop_inventory->AddItem(swordy);
+	shop_inventory->AddItem(new ManaPotion());
+	shop_inventory->AddItem(new MaxManaPotion());
+	shop_inventory->AddItem(new StrengthPotion());
+	shop_inventory->AddItem(new VitalityPotion());
+	shop_inventory->AddItem(new IntelligencePotion());
+//	shop_inventory->AddItem(new MindPotion());
+	shop_inventory->AddItem(new DexterityPotion());
+	shop_inventory->AddItem(new AgilityPotion());
 	
 	//Utility buttons
 	acceptpurchasebtn = new SetBool_Button();

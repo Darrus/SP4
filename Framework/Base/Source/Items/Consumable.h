@@ -41,7 +41,6 @@ public:
 	~HealthPotion(){};
 };
 
-
 class MaxHealthPotion : public Consumable
 {
 private:
@@ -51,6 +50,103 @@ public:
 
 	MaxHealthPotion();
 	~MaxHealthPotion(){};
+};
+
+class ManaPotion : public Consumable
+{
+private:
+	int m_mana_gain;
+
+public:
+	virtual void UseOn(CharacterInfo* chara);
+
+	ManaPotion();
+	~ManaPotion(){};
+};
+
+class MaxManaPotion : public Consumable
+{
+private:
+
+public:
+	virtual void UseOn(CharacterInfo* chara);
+
+	MaxManaPotion();
+	~MaxManaPotion(){};
+};
+
+// STAT POTIONS // 
+
+class StrengthPotion : public Consumable
+{
+private:
+	int m_str_increase_value;
+
+public:
+	virtual void UseOn(CharacterInfo* chara);
+
+	StrengthPotion();
+	~StrengthPotion(){};
+};
+
+class VitalityPotion : public Consumable
+{
+private:
+	int m_vit_increase_value;
+
+public:
+	virtual void UseOn(CharacterInfo* chara);
+
+	VitalityPotion();
+	~VitalityPotion(){};
+};
+
+class IntelligencePotion : public Consumable
+{
+private:
+	int m_int_increase_value;
+
+public:
+	virtual void UseOn(CharacterInfo* chara);
+
+	IntelligencePotion();
+	~IntelligencePotion(){};
+};
+
+class MindPotion : public Consumable
+{
+private:
+	int m_mind_increase_value;
+
+public:
+	virtual void UseOn(CharacterInfo* chara);
+
+	MindPotion();
+	~MindPotion(){};
+};
+
+class DexterityPotion : public Consumable
+{
+private:
+	int m_dex_increase_value;
+
+public:
+	virtual void UseOn(CharacterInfo* chara);
+
+	DexterityPotion();
+	~DexterityPotion(){};
+};
+
+class AgilityPotion : public Consumable
+{
+private:
+	int m_agi_increase_value;
+
+public:
+	virtual void UseOn(CharacterInfo* chara);
+
+	AgilityPotion();
+	~AgilityPotion(){};
 };
 
 #endif

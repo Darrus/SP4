@@ -55,7 +55,7 @@ void CharacterProfile_Button::Render()
 	modelStack.Translate(m_scale_x * 0.5f, -175, 0);
 	modelStack.PushMatrix();
 	modelStack.Scale(m_scale_x + 50, 350, 1);
-	m_chara->anim.Render();
+	//m_chara->anim.Render(); //TODO: Make sure the characters have animation (TO:REUBEN)
 	modelStack.PopMatrix();
 
 	//HP

@@ -424,4 +424,49 @@ public:
 
 };
 
+//============================================================================//
+//Brief: A button object that loads a Save Slot into the current game session //
+//============================================================================//
+class LoadGame_Button : public Button
+{
+protected:
+	int load_index;
+
+public:
+	inline void SetLoadSlotIndex(int index){ load_index = index; }
+
+	inline void RunFunction()
+	{
+		Player::GetInstance().LoadGame(std::to_string(load_index));
+	}
+
+	//virtual void Render();
+
+	LoadGame_Button(){};
+	~LoadGame_Button(){};
+};
+
+//============================================================================//
+//Brief: A button object that saves the current game session into a game slot //
+//============================================================================//
+class SaveGame_Button : public Button
+{
+protected:
+	int save_index;
+
+public:
+	inline void SetSaveSlotIndex(int index){ save_index = index; }
+
+	inline void RunFunction()
+	{
+		Player::GetInstance().SaveGame(std::to_string(save_index));
+	}
+
+	//virtual void Render();
+
+	SaveGame_Button(){};
+	~SaveGame_Button(){};
+};
+
+
 #endif

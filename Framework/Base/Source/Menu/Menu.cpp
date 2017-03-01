@@ -90,6 +90,7 @@ void Shop_Menu::Update()
 {
 	Menu::Update();
 
+	//Check if next button was pressed
 	if (m_next_btn->GetIsActive())
 	{
 		m_next_btn->m_isPressed = false;
@@ -108,6 +109,7 @@ void Shop_Menu::Update()
 			m_next_btn->m_isHovered = false;
 	}
 
+	//Check if prev button was pressed
 	if (m_prev_btn->GetIsActive())
 	{
 		m_prev_btn->m_isPressed = false;

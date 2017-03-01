@@ -36,8 +36,8 @@ void MainMenuScene::Init()
 	new_game->SetText("New Game");
 	new_game->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	new_game->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
-	new_game->SetTextOffset(130, 0);
-	new_game->SetDesiredScene("Overworld");//<- to do something as "new game". Maybe enable the collider box in over world of something.
+	new_game->SetTextOffset(110, 0);
+	new_game->SetDesiredScene("Overworld");//<- TODO: something as "new game". Maybe enable the collider box in over world of something.
 	new_game->SetIsOverlay(false);
 	utility_menu->AddButton(new_game);
 
@@ -48,7 +48,7 @@ void MainMenuScene::Init()
 	load_game->SetText("Load Game");
 	load_game->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	load_game->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
-	load_game->SetTextOffset(130, 0);
+	load_game->SetTextOffset(110, 0);
 	load_game->SetDesiredScene("LoadGameScene");
 	load_game->SetIsOverlay(false);
 	utility_menu->AddButton(load_game);
@@ -60,7 +60,7 @@ void MainMenuScene::Init()
 	exit_game->SetText("Exit Game");
 	exit_game->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	exit_game->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
-	exit_game->SetTextOffset(130, 0);
+	exit_game->SetTextOffset(110, 0);
 	utility_menu->AddButton(exit_game);
 }
 

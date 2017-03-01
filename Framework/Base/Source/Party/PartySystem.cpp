@@ -26,21 +26,32 @@ CharacterInfo* PartySystem::GetMember(int id)
 
 bool PartySystem::AddMember(CharacterInfo* member)
 {
-    if (!member)
-        return false;
+	if (!member)
+		return false;
 
-	std::cout << "Adding... " << member->id << std::endl;
 	for (int i = 0; i < maxPartySize; ++i)
 	{
 		if (party[i] == nullptr)
 		{
 			party[i] = member;
 			std::cout << "Added!!" << member->id << std::endl;
-            currPartySize++;
+			currPartySize++;
 			return true;
 		}
 	}
-	std::cout << "Failed to add!! " << member->id << std::endl;
+
+	return false;
+}
+
+bool PartySystem::AddMember(CharacterInfo* member, int index)
+{
+	party[index] = member;
+	if (party[index] != nullptr)
+	{
+		std::cout << "Added!!" << member->id << std::endl;
+		currPartySize++;
+		return true;
+	}
 	return false;
 }
 

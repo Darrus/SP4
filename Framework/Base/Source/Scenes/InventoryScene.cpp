@@ -55,20 +55,6 @@ void InventoryScene::Init()
 	item_holder = nullptr;
 
 	//Init inventory
-	//player_inventory = new Inventory();
-
-	////Some items in the "Shop"
-	//player_inventory->AddItem(new HealthPotion());
-	//player_inventory->AddItem(new HealthPotion());
-	//player_inventory->AddItem(new MaxHealthPotion());
-	//player_inventory->AddItem(new HealthPotion());
-	//player_inventory->AddItem(new HealthPotion());
-	//player_inventory->AddItem(new MaxHealthPotion());
-	//player_inventory->AddItem(new HealthPotion()); 
-	//player_inventory->AddItem(new MaxHealthPotion());
-	//player_inventory->AddItem(new MaxHealthPotion());
-	//player_inventory->AddItem(new MaxHealthPotion());
-	//player_inventory->AddItem(new MaxHealthPotion());
 	player_inventory = Player::GetInstance().GetInventory();
 
 	//Init Menus
@@ -121,10 +107,6 @@ void InventoryScene::Init()
 	float offset_y = 700.f;
 	for (unsigned i = 0; i < 4; ++i)
 	{
-		//Stop loop at the first empty slot it reaches
-		/*if (Player::GetInstance().GetParty()->GetMemberByIndex(i) == nullptr)
-			continue;*/
-
 		if (i == 2)
 		{
 			offset_x = 1200.f;

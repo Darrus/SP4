@@ -23,6 +23,7 @@ public:
 	vector<CharacterInfo*> GetParty();
 
 	bool AddMember(CharacterInfo* member);
+	bool AddMember(CharacterInfo* member, int index);
     int memberCount();
 
 	inline int GetMaxPartySize() { return maxPartySize; }

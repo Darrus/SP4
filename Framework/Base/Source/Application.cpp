@@ -36,7 +36,10 @@
 #include "Scenes\PauseScene.h"
 #include "Scenes\InventoryScene.h"
 #include "Scenes\TavernScene.h"
+
 #include "Scenes\MainMenuScene.h"
+#include "Scenes\LoadGameScene.h"
+#include "Scenes\SaveGameScene.h"
 
 #include "Overworld\Overworld.h"
 #include "Overworld\Town.h"
@@ -44,7 +47,9 @@
 #include "Overworld\Cave.h"
 #include "Overworld\TownTavern.h"
 
-
+//Todo:
+//Remove this:
+#include "LoadTGA.h"
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
@@ -149,16 +154,22 @@ void Application::Init()
 
 	// Init systems
 	GraphicsManager::GetInstance()->Init();
+	MeshBuilder::GetInstance()->GenerateQuad("health_potion", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Items//health_potion.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("max_health_potion", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Items//max_health_potion.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("mana_potion", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Items//mana_potion.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("max_mana_potion", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Items//max_mana_potion.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("stat_potion", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Items//stat_potion.tga");
 
 	//Init Player
 	Player::GetInstance().Init();
+	Player::GetInstance().LoadGame("1");
 
 	SceneManager::GetInstance()->AddScene("IntroState", new CIntroState());
+
+	//Battle Scene
 	SceneManager::GetInstance()->AddScene("BattleScene", new CBattleState());
-	SceneManager::GetInstance()->AddScene("Shop", new ShopScene());
-	SceneManager::GetInstance()->AddScene("Dialogue", new DialogueScene());
-	SceneManager::GetInstance()->AddScene("ShopDialogue", new ShopDialogueScene());
 	
+	//GUI 
 	SceneManager::GetInstance()->AddScene("PartyScene", new PartyScene());
 	SceneManager::GetInstance()->AddScene("SkillTreeScene", new SkillTreeScene());
 	SceneManager::GetInstance()->AddScene("CharacterProfileScene", new CharacterProfileScene());
@@ -166,6 +177,13 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("InventoryScene", new InventoryScene());
 	SceneManager::GetInstance()->AddScene("TavernScene", new TavernScene());
 	SceneManager::GetInstance()->AddScene("MainMenuScene", new MainMenuScene());
+	SceneManager::GetInstance()->AddScene("Shop", new ShopScene());
+	SceneManager::GetInstance()->AddScene("Dialogue", new DialogueScene());
+	SceneManager::GetInstance()->AddScene("ShopDialogue", new ShopDialogueScene());
+
+	//Save Load Game
+	SceneManager::GetInstance()->AddScene("SaveGameScene", new SaveGameScene());
+	SceneManager::GetInstance()->AddScene("LoadGameScene", new LoadGameScene());
 
 	// Overworld Scenes
 	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
@@ -175,9 +193,8 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("Cave", new Cave());
 
 	//Set the active scene
-	Player::GetInstance().LoadGame("1");
-
-	//SceneManager::GetInstance()->SetActiveScene("Overworld");
+	OverworldBase* scene = dynamic_cast<OverworldBase*>(SceneManager::GetInstance()->SetActiveScene(Player::GetInstance().GetScene()));
+	scene->SetStartPos(Player::GetInstance().GetOverworldPosition());
 
 	//Load Font Data
 	LoadFontData("FontData//pixelFontData.csv");
@@ -219,7 +236,7 @@ void Application::Run()
 		UpdateInput();
 		
 		if (KeyboardController::GetInstance()->IsKeyPressed(VK_F6))
-			std::cout << Player::GetInstance().GetInventory()->m_inventoryList.size();
+			Player::GetInstance().SaveGame("1");
 
 		SceneManager::GetInstance()->Update();
 		SceneManager::GetInstance()->Render();
@@ -232,7 +249,7 @@ void Application::Run()
 		
 		PostInputUpdate();
 	}
-	Player::GetInstance().SaveGame("1");
+	
 	SceneManager::GetInstance()->Exit();
 }
 
