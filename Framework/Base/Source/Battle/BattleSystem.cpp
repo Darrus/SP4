@@ -604,6 +604,7 @@ void BattleSystem::ResetATB(BattleEntity* entity)
     entity->SetATB(0.0);
     entity->GetInfo()->stats.UpdateStats();
     entity->SetReady(false);
+    entity->GetInfo()->MP += (entity->GetInfo()->stats.GetMaxMP() * 0.2);
     anEntityTurn = false;
     isPassTurn = false;
     iCrit = false;
@@ -726,8 +727,9 @@ void BattleSystem::RenderSkillInterface()
         }
     }
     CharacterInfo *pewchara = Player::GetInstance().GetParty()->GetMember(playerselect);
+    ///< Arrow
     float DIST = 0.65;
-    for (int i = 0; i < (pewchara->skills.size() - 1); i++)
+    for (int i = 0; i < (pewchara->skills.size()); i++)
         if (skillselect == i)
             Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * (DIST - (0.05 * i)), 10.f));
 
