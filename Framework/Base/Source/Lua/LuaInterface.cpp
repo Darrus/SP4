@@ -138,10 +138,12 @@ void CLuaInterface::SaveStringTable(const char *fileName, const char* varName, c
 	lua_getglobal(functions, "SaveToLuaFile");
 	char file[80];
 	sprintf(file, "Script/%s.lua", fileName);
-	char outputString[80];
-	sprintf(outputString, "%s = { %s } \n", varName, value);
+	string outputString = varName;
+	outputString += "= \n{\n";
+	outputString += value;
+	outputString += "\n} \n";
 	lua_pushstring(functions, file);
-	lua_pushstring(functions, outputString);
+	lua_pushstring(functions, outputString.c_str());
 	lua_pushinteger(functions, bOverwrite);
 	lua_call(functions, 3, 0); cout << "..................";
 }

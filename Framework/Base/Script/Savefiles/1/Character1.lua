@@ -7,4 +7,11 @@ Dex = 99
 Agi = 69
 StatPoint = 256
 SkillPoint = 57
-Skills = { "Illusion", "Charisma", "Hero Maker", "Curate", "Heal" } 
+Skills= 
+{
+"Illusion",
+"Charisma",
+"Hero Maker",
+"Curate",
+"Heal"
+} 

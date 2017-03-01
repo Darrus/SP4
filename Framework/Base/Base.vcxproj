@@ -35,6 +35,7 @@
     <ClCompile Include="Source\Items\Equipment.cpp" />
     <ClCompile Include="Source\Items\Inventory.cpp" />
     <ClCompile Include="Source\Items\Item.cpp" />
+    <ClCompile Include="Source\Items\ItemFactory.cpp" />
     <ClCompile Include="Source\Light.cpp" />
     <ClCompile Include="Source\Lua\LuaInterface.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="Source\Items\Equipment.h" />
     <ClInclude Include="Source\Items\Inventory.h" />
     <ClInclude Include="Source\Items\Item.h" />
+    <ClInclude Include="Source\Items\ItemFactory.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\Lua\LuaInterface.h" />
     <ClInclude Include="Source\Menu\Button.h" />

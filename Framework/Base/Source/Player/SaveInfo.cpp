@@ -8,6 +8,9 @@
 #include "../Lua/LuaInterface.h"
 #include "SceneManager.h"
 
+// Items
+#include "../Items/ItemFactory.h"
+
 // Skills
 #include "../Skills/SkillFunctions.h"
 #include "..\Scenes\BattleState.h"
@@ -46,6 +49,25 @@ void SaveInfo::SaveGame(string fileName)
 		if (partyVec[i])
 			SaveCharacter(fileName, partyVec[i], i);
 	}
+
+	// Save Inventory Info
+	fileLoc = "Savefiles//" + fileName + "//Inventory";
+	vector<Item*> itemList = m_inventory.GetItemList();
+	vector<Item*>::iterator it = itemList.begin();
+	string itemNames = "";
+	while (it != itemList.end())
+	{
+		itemNames += ("\"" + (*it)->GetName() + "\",\n");
+		it++;
+	}
+	
+	if (itemNames != "")
+	{
+		itemNames.pop_back();
+		itemNames.pop_back();
+	}
+	
+	Lua->SaveStringTable(fileLoc.c_str(), "Inventory", itemNames.c_str(), true);
 }
 
 void SaveInfo::SaveCharacter(string fileName, CharacterInfo* character, int index)
@@ -66,12 +88,16 @@ void SaveInfo::SaveCharacter(string fileName, CharacterInfo* character, int inde
 	string skillNames;
 	while (it != character->skills.end())
 	{
-		skillNames += ("\"" + (*it)->GetName() + "\", ");
+		skillNames += ("\"" + (*it)->GetName() + "\",\n");
 		it++;
 	}
 
-	skillNames.pop_back();
-	skillNames.pop_back();
+	if (skillNames != "")
+	{
+		skillNames.pop_back();
+		skillNames.pop_back();
+	}
+	
 
 	Lua->SaveStringTable(fileLoc.str().c_str(), "Skills", skillNames.c_str());
 }
@@ -89,6 +115,16 @@ void SaveInfo::LoadGame(string fileName)
 	for (int i = 0; i < (m_party.GetMaxPartySize()); ++i)
 	{
 		m_party.AddMember(LoadCharacter(fileName, i), i);
+	}
+	
+	// Load Inventory Info
+	fileLoc = "Savefiles//" + fileName + "//Inventory";
+	Lua->LoadFile(fileLoc);
+	vector<string> itemNames = Lua->GetStringTable("Inventory");
+	while (itemNames.size() > 0)
+	{
+		m_inventory.AddItem(ItemFactory::CreateItem(itemNames.back()));
+		itemNames.pop_back();
 	}
 }
 

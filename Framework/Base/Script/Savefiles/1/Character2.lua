@@ -7,4 +7,11 @@ Dex = 99
 Agi = 69
 StatPoint = 253
 SkillPoint = 57
-Skills = { "BliFirga", "Blizzaga", "Ice Blast", "Firaga", "Fire Blast" } 
+Skills= 
+{
+"BliFirga",
+"Blizzaga",
+"Ice Blast",
+"Firaga",
+"Fire Blast"
+} 
