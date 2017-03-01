@@ -205,6 +205,9 @@
     <ClCompile Include="Source\Scenes\TavernScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scenes\MainMenuScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -421,6 +424,9 @@
       <Filter>Character</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scenes\TavernScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\MainMenuScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
