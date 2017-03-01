@@ -30,25 +30,27 @@ void Player::DoDie()
 
 void Player::SaveGame(string fileName)
 {
-	// Load Player Info
+	// Save Player Info
+	OverworldBase* scene = dynamic_cast<OverworldBase*>(SceneManager::GetInstance()->GetActiveScene());
 	string fileLoc = "Savefiles//" + fileName + "//PlayerInfo";
 	Lua->LoadFile(fileLoc);
 	Lua->SaveStringValue(fileLoc.c_str(), "Scene", SceneManager::GetInstance()->GetActiveSceneName().c_str(), true);
-	for (int i = 0; i < m_party.GetMaxPartySize(); ++i)
+	Lua->SaveVector3Values(fileLoc.c_str(), "Position", scene->GetPlayerPos());
+	Lua->SaveIntValue(fileLoc.c_str(), "Gold", m_gold);
+	
+	vector<CharacterInfo*> partyVec = m_party.GetParty();
+
+	for (int i = 0; i < partyVec.size(); ++i)
 	{
-		SaveCharacter(fileName, i);
+		if (partyVec[i])
+			SaveCharacter(fileName, partyVec[i], i);
 	}
-	//Lua->SaveVector3Values(fileLoc.c_str(), "Position", SceneManager::GetInstance()->GetActiveScene(), true);
 }
 
-void Player::SaveCharacter(string fileName, int index)
+void Player::SaveCharacter(string fileName, CharacterInfo* character, int index)
 {
 	stringstream fileLoc;
 	fileLoc << "Savefiles//" << fileName << "//Character" << index + 1;
-	CharacterInfo* character = m_party.GetParty() + index;
-	if (!character)
-		return;
-
 	Lua->SaveStringValue(fileLoc.str().c_str(), "Name", character->name.c_str(), true);
 	Lua->SaveIntValue(fileLoc.str().c_str(), "Str", character->stats.GetStr());
 	Lua->SaveIntValue(fileLoc.str().c_str(), "Vit", character->stats.GetVit());
@@ -58,6 +60,19 @@ void Player::SaveCharacter(string fileName, int index)
 	Lua->SaveIntValue(fileLoc.str().c_str(), "Agi", character->stats.GetAgi());
 	Lua->SaveIntValue(fileLoc.str().c_str(), "StatPoint", character->stats.GetStatPoints());
 	Lua->SaveIntValue(fileLoc.str().c_str(), "SkillPoint", character->stats.GetSkillPoints());
+
+	CharacterInfo::SkillList::iterator it = character->skills.begin();
+	string skillNames;
+	while (it != character->skills.end())
+	{
+		skillNames += ("\"" + (*it)->GetName() + "\", ");
+		it++;
+	}
+
+	skillNames.pop_back();
+	skillNames.pop_back();
+
+	Lua->SaveStringTable(fileLoc.str().c_str(), "Skills", skillNames.c_str());
 }
 
 void Player::LoadGame(string fileName)
@@ -68,14 +83,14 @@ void Player::LoadGame(string fileName)
 
 	string sceneName = Lua->GetStringValue("Scene");
 	Vector3 position = Lua->GetVector3Values("Position");
-	//OverworldBase* scene = dynamic_cast<OverworldBase*>(SceneManager::GetInstance()->SetActiveScene(sceneName));
-	//scene->SetStartPos(position);
+	OverworldBase* scene = dynamic_cast<OverworldBase*>(SceneManager::GetInstance()->SetActiveScene(sceneName));
+	scene->SetStartPos(position);
 
 	// Load Party Info
-	//for (int i = 0; i < m_party.GetMaxPartySize(); ++i)
-	//{
-		LoadCharacter(fileName, 1);
-	//}
+	for (int i = 0; i < m_party.GetMaxPartySize(); ++i)
+	{
+		LoadCharacter(fileName, i + 1 );
+	}
 }
 
 CharacterInfo* Player::LoadCharacter(string fileName, int index)
@@ -89,6 +104,13 @@ CharacterInfo* Player::LoadCharacter(string fileName, int index)
 	{
 		character = new CharacterInfo();
 		character->name = Lua->GetStringValue("Name");
+		
+		if (character->name == "")
+		{
+			delete character;
+			return nullptr;
+		}
+
 		character->stats.AddLevel(Lua->GetIntValue("Level"));
 		character->stats.AddStr(Lua->GetIntValue("Str"));
 		character->stats.AddVit(Lua->GetIntValue("Vit"));

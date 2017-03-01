@@ -19,7 +19,6 @@ protected:
 
 	vector<string> dialogue;
 	vector<Vector3> waypoints;
-	string targetScene;
 	NPC_STATES state;
 	int currentPoint;
 	float idleTime;
@@ -40,7 +39,6 @@ public:
 	virtual void HandleCollision(EntityBase* entity);
 	void LoadDialogue(string name);
 
-	inline void SetTargetScene(const string& scene){ targetScene = scene; }
 	inline void SetMoveSpeed(float speed){ moveSpeed = speed; }
 	void AddWaypoint(const Vector3& waypoint);
 };

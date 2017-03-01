@@ -1,4 +1,4 @@
-#include "TownShop.h"
+#include "TownTavern.h"
 
 // Graphic includes
 #include "GL\glew.h"
@@ -24,16 +24,16 @@
 // Trigger Areas
 #include "TriggerScene.h"
 
-TownShop::TownShop()
+TownTavern::TownTavern()
 {
 }
 
 
-TownShop::~TownShop()
+TownTavern::~TownTavern()
 {
 }
 
-void TownShop::Init()
+void TownTavern::Init()
 {
 	// Skybox
 	MeshBuilder::GetInstance()->GenerateQuad("shop_left", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//shop_left.tga");
@@ -85,14 +85,14 @@ void TownShop::Init()
 	// Assets Init
 	OverworldAsset* asset;
 	Math::InitRNG();
-	
+
 	// NPC Init
 	ShopNPC* npc = new ShopNPC();
 	npc->GetAnimator()->AddAnimation("npc");
 	npc->GetAnimator()->PlayAnimation("npc");
 	npc->SetScale(Vector3(5.f, 5.f, 1.f));
 	npc->SetPosition(Vector3(0.f, 20.f, 1.f));
-	npc->LoadDialogue("SHOP_NPC_SHOPKEEPER");
+	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
 	npc->SetTargetScene("Shop");
 	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
@@ -101,7 +101,7 @@ void TownShop::Init()
 	EManager.AddEntity(npc);
 
 	TriggerScene* trigger = new TriggerScene();
-	trigger->Init("Town", &camera, Vector3(50.f, 30.f, 0.f));
+	trigger->Init("Town", &camera, Vector3(120.f, 35.f, 0.f));
 	trigger->SetScale(Vector3(5.f, 5.f, 1.f));
 	trigger->SetPosition(Vector3(0.f, -25.f, 1.f));
 	trigger->SetCollider(new CCollider_2DAABB());
@@ -109,7 +109,7 @@ void TownShop::Init()
 	spatial.Add(trigger);
 }
 
-void TownShop::Update()
+void TownTavern::Update()
 {
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
 		SceneManager::GetInstance()->quit = true;
@@ -120,7 +120,7 @@ void TownShop::Update()
 	camera.Update();
 }
 
-void TownShop::Render()
+void TownTavern::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -142,12 +142,12 @@ void TownShop::Render()
 	EManager.RenderUI();
 }
 
-void TownShop::Exit()
+void TownTavern::Exit()
 {
 	OverworldBase::Exit();
 }
 
-void TownShop::UnPause()
+void TownTavern::UnPause()
 {
 	// Camera Init
 	camera.Init(80.f, 0.3f);
