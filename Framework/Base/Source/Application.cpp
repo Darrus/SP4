@@ -177,7 +177,8 @@ void Application::Init()
 	//Set the active scene
 	Player::GetInstance().LoadGame("1");
 
-	//SceneManager::GetInstance()->SetActiveScene("Overworld");
+	OverworldBase* scene = dynamic_cast<OverworldBase*>(SceneManager::GetInstance()->SetActiveScene(Player::GetInstance().GetScene()));
+	scene->SetStartPos(Player::GetInstance().GetOverworldPosition());
 
 	//Load Font Data
 	LoadFontData("FontData//pixelFontData.csv");

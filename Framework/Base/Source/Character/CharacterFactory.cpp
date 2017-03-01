@@ -5,7 +5,7 @@
 
 void CharacterFactory::Init()
 {
-
+	 
 }
 
 CharacterInfo* CharacterFactory::CreateCharacter(string name)
