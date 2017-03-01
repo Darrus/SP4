@@ -172,10 +172,10 @@ void BattleSystem::Update()
         {
             playerselect++;
         }
-        if (playerselect >  playerPartySize)
+        if (playerselect >  playerPartySize - 1)
             playerselect = 0;
         if (playerselect < 0)
-            playerselect = playerPartySize;
+            playerselect = playerPartySize - 1;
     }
     if (input)
         ChoosePlayerInput();
@@ -410,10 +410,10 @@ void BattleSystem::SpellCast(BattleEntity* entity)
                 foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
                 if ((*itritr)->GetMaxNumberOfTargets() >= 4)
                 {
-                    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount()); ++i)
+                    for (auto itritr = PlayerList.begin(); itritr != PlayerList.end(); itritr++)
                     {
-                        if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
-                            foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
+                        if ((*itritr) != nullptr)
+                            foo.targetList.push_back((*itritr)->GetInfo());
                     }
                     (*itritr)->UseSkill(foo);
 
@@ -442,10 +442,10 @@ void BattleSystem::SpellCast(BattleEntity* entity)
 
                 if ((*itritr)->GetMaxNumberOfTargets() >= 4)
                 {
-                    for (auto it = EnemyInfoList.begin(); it != EnemyInfoList.end(); it++)
+                    for (auto it = EnemyList.begin(); it != EnemyList.end(); it++)
                     {
                         if ((*it) != nullptr)
-                            foo.targetList.push_back((*it));
+                            foo.targetList.push_back((*it)->GetInfo());
                     }
                     (*itritr)->UseSkill(foo);
 
@@ -821,7 +821,7 @@ void BattleSystem::RenderNameHP()
         modelStack.PushMatrix();
         modelStack.Translate(windowWidth * 0.5, windowHeight * (0.05f * (Player::GetInstance().GetParty()->GetMember(i)->id + 1)), 5.f);
         modelStack.Scale(35.f, 35.f, 1.f);
-        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), charapew->name + "   HP:" + std::to_string(charapew->HP) + "/" + std::to_string(charapew->stats.GetMaxHP()), Color(0, 1, 0));
+        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), charapew->name + " (HP:" + std::to_string(charapew->HP) + "/" + std::to_string(charapew->stats.GetMaxHP()) + ")(MP:" + std::to_string(charapew->MP) + "/" + std::to_string(charapew->stats.GetMaxMP()) + ")", Color(0, 1, 0));
         modelStack.PopMatrix();
     }
     // Monster UI- Name and HP
@@ -830,7 +830,7 @@ void BattleSystem::RenderNameHP()
         modelStack.PushMatrix();
         modelStack.Translate(windowWidth * 0.05, windowHeight * (0.05f * ((*it)->GetInfo()->id - 2)), 5.f);
         modelStack.Scale(35.f, 35.f, 1.f);
-        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*it)->GetInfo()->name + "   HP:" + std::to_string((*it)->GetHP()) + "/" + std::to_string((*it)->GetInfo()->stats.GetMaxHP()), Color(0, 1, 0));
+        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*it)->GetInfo()->name + " (HP:" + std::to_string((*it)->GetHP()) + "/" + std::to_string((*it)->GetInfo()->stats.GetMaxHP()), Color(0, 1, 0));
         modelStack.PopMatrix();
     }
 }
@@ -842,6 +842,22 @@ void BattleSystem::RenderATB()
     {
         if (!(*it)->GetDead() && !escapeAnot)
         {
+            if ((*it)->enemyType == BattleEntity::ENEMY)
+            {
+                for (auto itr = EnemyInfoList.begin(); itr != EnemyInfoList.end(); itr++)
+                {
+                    if ((*it)->GetInfo()->id == (*itr)->id)
+                    {
+                        (*itr)->mesh;
+                        modelStack.PushMatrix();
+                        modelStack.Translate(windowWidth * 0.05, windowHeight * (0.05f * ((*it)->GetInfo()->id - 2)), 5.f);
+                        modelStack.Scale(200.f, 200.f, 1.f);
+                        RenderHelper::RenderMesh((*itr)->mesh);
+                        modelStack.PopMatrix();
+                    }
+                }
+            }
+
             modelStack.PushMatrix();
             modelStack.Translate((*it)->GetPosition().x - 50.f, (*it)->GetPosition().y + 70.f, (*it)->GetPosition().z + 4);
             modelStack.Scale(25.f, 25.f, 1.f);
@@ -984,8 +1000,8 @@ void BattleSystem::AssignPlayerParty()
     {
         CharacterInfo* MemberInfo = Player::GetInstance().GetParty()->GetMember(i);
         MemberInfo->stats.UpdateStats();
-
-        PlayerInfoList.push_back(MemberInfo);
+        if (MemberInfo->HP > 0)
+            PlayerInfoList.push_back(MemberInfo);
 
         pewpewpew = new BattleEntity();
         pewpewpew->enemyType = BattleEntity::ALLY;

@@ -40,6 +40,8 @@ private:
 	float encounterRate;
 
 	void HandleEncounter(float dt);
+	void SpawnTrees(float radius, Vector3 center, int count);
+	void SpawnTrees(Vector3 min, Vector3 max, int count);
 };
 
 #endif

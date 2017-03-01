@@ -208,6 +208,10 @@
     <ClCompile Include="Source\Scenes\MainMenuScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Player\SaveInfo.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Items\ItemFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -429,6 +433,10 @@
     <ClInclude Include="Source\Scenes\MainMenuScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Player\SaveInfo.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Items\ItemFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animation">

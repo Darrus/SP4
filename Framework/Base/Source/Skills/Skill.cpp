@@ -150,7 +150,7 @@ public:
     Charisma() : Skill()
     {
         m_name = "Charisma";
-        m_dmg_boost = 120;
+        m_dmg_boost = 400;
         m_mana_cost = 170;
         m_max_target_num = 4;
         m_ally_targetable = true;

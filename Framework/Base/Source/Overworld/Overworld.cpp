@@ -124,21 +124,6 @@ void Overworld::Init()
 	OverworldAsset* asset;
 	Math::InitRNG();
 
-	// Assets Init
-	for (int i = 0; i < 500; ++i)
-	{
-		float posX = Math::RandFloatMinMax(-150.f, 150.f);
-		float posY = Math::RandFloatMinMax(-150.f, 150.f);
-		asset = new OverworldAsset("twee");
-		asset->SetPosition(Vector3(posX, posY, 1.1f));
-		asset->SetScale(Vector3(10.f, 10.f, 1.f));
-		asset->SetCamera(&camera);
-		asset->SetCollider(new CCollider_2DAABB());
-		asset->GetCollider()->SetScale(Vector3(4.f, 4.f, 1.f));
-		EManager.AddEntity(asset);
-		spatial.Add(asset);
-	}
-
 	// Init Town
 	asset = new OverworldAsset("town");
 	asset->SetPosition(Vector3(0.f, 120.f, 0.1f));
@@ -173,6 +158,10 @@ void Overworld::Init()
 	trigger->SetCollider(new CCollider_2DAABB());
 	EManager.AddEntity(trigger);
 	spatial.Add(trigger);
+
+	// Assets Init
+	//SpawnTrees(50.f, Vector3(30.f, 30.f, 1.f), 100);
+	SpawnTrees(Vector3(-50.f, -50.f, 1.f), Vector3(50.f, 50.f, 1.f), 100);
 }
 
 void Overworld::Update()
@@ -187,6 +176,8 @@ void Overworld::Update()
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
 		SceneManager::GetInstance()->quit = true;
+    if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
+        Overworld::battle = true;
 
 	if (battle && camera.GetState() == CameraFollow::IDLE)
 	{
@@ -253,5 +244,79 @@ void Overworld::HandleEncounter(float dt)
 			camera.Transition(70.f, camera.GetRotZ(), 50.f);
 			encounterRate = 0.f;
 		}
+	}
+}
+
+void Overworld::SpawnTrees(float radius, Vector3 center, int count)
+{
+	OverworldAsset* asset;
+	for (int i = 0; i < count; ++i)
+	{
+		asset = new OverworldAsset("twee");
+		asset->SetScale(Vector3(10.f, 10.f, 1.f));
+		asset->SetCamera(&camera);
+		asset->SetCollider(new CCollider_2DAABB());
+		asset->GetCollider()->SetScale(Vector3(4.f, 4.f, 1.f));
+
+		while (true)
+		{
+			float t = 2 * Math::PI * Math::RandFloatMinMax(-1.f, 1.f);
+			float r = Math::RandFloatMinMax(0.f, radius);
+
+			asset->SetPosition(Vector3(r * cos(t) + center.x, r * sin(t) + center.y, 1.1f));
+			CGrid* grid = spatial.GetGrid(asset->GetPosition());
+			vector<EntityBase*>* entities = grid->GetListOfObject();
+			bool collide = false;
+			for (int i = 0; i < grid->GetObjectCount(); ++i)
+			{
+				if (asset->GetCollider()->CheckCollision((*entities)[i]->GetCollider()))
+				{
+					collide = true;
+					break;
+				}
+			}
+			if (!collide)
+				break;
+		}
+
+		EManager.AddEntity(asset);
+		spatial.Add(asset);
+	}
+}
+
+void Overworld::SpawnTrees(Vector3 min, Vector3 max, int count)
+{
+	OverworldAsset* asset;
+	for (int i = 0; i < count; ++i)
+	{
+		asset = new OverworldAsset("twee");
+		asset->SetScale(Vector3(10.f, 10.f, 1.f));
+		asset->SetCamera(&camera);
+		asset->SetCollider(new CCollider_2DAABB());
+		asset->GetCollider()->SetScale(Vector3(4.f, 4.f, 1.f));
+
+		while (true)
+		{
+			float posX = Math::RandFloatMinMax(min.x, max.x);
+			float posY = Math::RandFloatMinMax(min.y, max.y);
+
+			asset->SetPosition(Vector3(posX, posY, 1.1f));
+			CGrid* grid = spatial.GetGrid(asset->GetPosition());
+			vector<EntityBase*>* entities = grid->GetListOfObject();
+			bool collide = false;
+			for (int i = 0; i < grid->GetObjectCount(); ++i)
+			{
+				if (asset->GetCollider()->CheckCollision((*entities)[i]->GetCollider()))
+				{
+					collide = true;
+					break;
+				}
+			}
+			if (!collide)
+				break;
+		}
+
+		EManager.AddEntity(asset);
+		spatial.Add(asset);
 	}
 }
