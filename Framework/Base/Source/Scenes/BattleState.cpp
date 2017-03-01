@@ -224,7 +224,7 @@ void CBattleState::Update()
 
         for (int rand = 0; rand < randenemy; rand++)
         {
-            enemyhehe = efactory->CreateRandomEnemy((Player::GetInstance().GetParty()->memberCount() - 1) + rand);
+            enemyhehe = efactory->CreateRandomEnemy((Player::GetInstance().GetParty()->memberCount()) + rand);
             testingBattle->EnemyInfoList.push_back(enemyhehe);
         }
         testingBattle->AssignEnemies();

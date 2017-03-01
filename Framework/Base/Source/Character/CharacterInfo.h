@@ -47,9 +47,6 @@ public:
             HP = stats.GetMaxHP();
             MP = stats.GetMaxMP();
 		}
-
-        
-
 		return levelsGained;
 	}
 };
