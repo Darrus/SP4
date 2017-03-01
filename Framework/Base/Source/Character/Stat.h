@@ -61,6 +61,15 @@ public:
 	inline void AddStatPoint(int amt) { if (main.StatPoints > 0) main.StatPoints += amt; }
 	inline void AddSkillPoint(int amt) { if (main.StatPoints > 0) main.SkillPoints += amt; }
 
+    inline void SetStr(int amt){main.Str = amt; }
+    inline void SetVit(int amt){ main.Vit = amt; }
+    inline void SetInt(int amt){ main.Int = amt; }
+    inline void SetMind(int amt){ main.Mind = amt; }
+    inline void SetDex(int amt){ main.Dex = amt; }
+    inline void SetAgi(int amt){ main.Agi = amt; }
+    inline void SetStatPoint(int amt) { main.StatPoints = amt; }
+    inline void SetSkillPoint(int amt) { main.SkillPoints = amt; }
+
 	inline void DeductLevel(int amt) { main.Level -= amt; main.StatPoints += amt; }
 	inline void DeductStr(int amt){ main.Str -= amt; main.StatPoints += amt; }
 	inline void DeductVit(int amt){ main.Vit -= amt; main.StatPoints += amt; }

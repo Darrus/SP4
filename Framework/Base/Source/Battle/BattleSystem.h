@@ -3,6 +3,9 @@
 
 #include <list>
 
+#include "GraphicsManager.h"
+#include "../Application.h"
+
 #include "..\Character\CharacterInfo.h"
 #include "..\Character\EnemyInfo.h"
 #include "..\Player\Player.h"
@@ -32,6 +35,12 @@ private:
     float temp = 0;
     bool input;
     int EXPGAIN;
+    int playerPartySize, enemyStart, enemyEnd;
+    int tempCast;
+
+    MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
+    float windowWidth = Application::GetInstance().GetWindowWidth();
+    float windowHeight = Application::GetInstance().GetWindowHeight();
 
 public:
     BattleSystem();                                                             ///< Default Constructor
@@ -42,12 +51,16 @@ public:
     virtual void Render();                                                      ///< virtual Render as for Polymorphism, only want call this class's Render
     virtual void Exit();                                                        ///< virtual Exit as for Polymorphism, only want call this class's Exit
 
+    ///< Rendering User Interfaces
     void RenderEntities();                                                      ///< For Rendering the Entities such as Players and Enemies
     void RenderUIStuff();                                                       ///< For Rendering User Interface such as Command Box, Turn Bar, Selection Arrow
     void RenderInventory();
+    void RenderATB();
+    void RenderNameHP();
+    void RenderSkillInterface();
+    void RenderBattleInterface();
 
     ///< Choosing Target and checking if entity is alive
-    BattleEntity* ChooseAtkTarget(BattleEntity* entity);                        ///< Returns a Target for the player to attack at except itself
     BattleEntity* ChooseAtkTarget(int selection);                               ///< Returns a Target for the player to attack base on the selection
     BattleEntity* FindTarget(int selection);                                    ///< Returns a 
     BattleEntity* CheckAnyAlive();
@@ -70,6 +83,8 @@ public:
     ///< User Inputs
     void ChoosePlayerInput();
     void ChooseItems(BattleEntity* entity);
+    EnemyInfo* ChooseSkillTarget();
+    CharacterInfo* ChooseSkillTargetP();
 
     ///< Show Battle Results
     void ShowBattleResults();
@@ -113,7 +128,9 @@ public:
         CHOOSETARGET,
         CHOOSESKILL,
         CHOOSEDOWAT,
-        CHOOSEITEM
+        CHOOSEITEM,
+        CHOOSESKILLTP,
+        CHOOSESKILLTE,
     };
     SELECTIONAT whichScreen;
     void GetInputSelection(BattleEntity* entity, SELECTIONAT screen, int selection);

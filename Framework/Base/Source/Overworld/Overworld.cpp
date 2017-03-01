@@ -98,7 +98,7 @@ void Overworld::Init()
 	EManager.AddEntity(&player);
 	spatial.Add(&player);
 
-	Player::GetInstance().LoadGame("01");
+	//Player::GetInstance().LoadGame("01");
 
 	// Background Init
 	background.SetMesh(MeshBuilder::GetInstance()->GetMesh("background"));

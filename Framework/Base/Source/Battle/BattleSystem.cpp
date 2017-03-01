@@ -1,6 +1,5 @@
 #include "BattleSystem.h"
 #include "../Entity/EntityFactory.h"
-#include "../Application.h"
 
 #include "KeyboardController.h"
 #include "SceneManager.h"
@@ -9,7 +8,6 @@
 #include "RenderHelper.h"
 #include "MeshBuilder.h"
 #include "MatrixStack.h"
-#include "GraphicsManager.h"
 
 #include "..\Overworld\Overworld.h"
 #include "..\Player\Player.h"
@@ -27,7 +25,7 @@ isPassTurn(false),
 battleEnded(false),
 iDodge(false),
 playerselect(0),
-attkselect(),
+attkselect(0),
 commandselect(0),
 skillselect(0),
 whichScreen(NOTHING),
@@ -39,7 +37,8 @@ noMoreItems(false),
 choosingSkill(false),
 escapeAnot(false),
 input(false),
-EXPGAIN(0)
+EXPGAIN(0),
+tempCast(0)
 {
     float windowWidth = (float)Application::GetInstance().GetWindowWidth();
     float windowHeight = (float)Application::GetInstance().GetWindowHeight();
@@ -97,13 +96,12 @@ EXPGAIN(0)
     SpriteList.push_back(BattleSprites);
     BattleSprites = nullptr;
 
-    for (int i = 0; i < 5; i++)
-    {
-        selection[i] = i;
-    }
-
     enemyAI = new EnemyAI();
+
     //enemyAI->battlelog = new BattleLog();
+    playerPartySize = (Player::GetInstance().GetParty()->memberCount() - 1);
+    enemyStart = (Player::GetInstance().GetParty()->memberCount() - 1);
+    enemyEnd = ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1));
 }
 
 /***************************************
@@ -122,9 +120,12 @@ It gives the Unit who filled their bar up first, and stops all other bar updates
 *****************************************/
 void BattleSystem::Update()
 {
-    int playerPartySize = (Player::GetInstance().GetParty()->memberCount() - 1); // start from 0
+    //int playerPartySize = (Player::GetInstance().GetParty()->memberCount() - 1); // start from 0
     //if (!battlelog->Update())
     enemyAI->battlelog->Update();
+
+    enemyStart = (Player::GetInstance().GetParty()->memberCount() - 1);
+    enemyEnd = ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1));
 
     if (escapeAnot)
         EscapeBattle();
@@ -185,10 +186,13 @@ void BattleSystem::Update()
     if (commandselect >= 5)
         commandselect = 0;
 
-    if (attkselect > ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1)))
-        attkselect = (Player::GetInstance().GetParty()->memberCount() - 1);
-    if (attkselect < (Player::GetInstance().GetParty()->memberCount() - 1))
-        attkselect = ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1));
+    if (ChooseAtkTarget(attkselect) == nullptr)
+        attkselect++;
+
+    if (attkselect > enemyEnd)
+        attkselect = enemyStart;
+    if (attkselect < enemyStart)
+        attkselect = enemyEnd;
 }
 
 void BattleSystem::CheckBattleEnd(BattleEntity* entity)
@@ -253,27 +257,6 @@ void BattleSystem::ChoosePlayerInput()
     }
 
     GetInputSelection(FindTarget(playerselect), whichScreen, playerselect);
-}
-
-/***************************************
-///< ChooseAtkTarget
-    Chooses a Target to return to the player
-///< param entity
-    Passes in the entity to cross-check that it doesn't return itself and attack itself
-
-///< returns (*itr)
-    Returns an Entity for the target to attack.
-*****************************************/
-BattleEntity* BattleSystem::ChooseAtkTarget(BattleEntity* entity)
-{
-    for (std::list<BattleEntity*>::iterator itr = EnemyList.begin(); itr != EnemyList.end(); itr++)
-    {
-        if ((*itr) != entity && (*itr)->GetHP() > 0)
-        {
-            return (*itr);
-        }
-    }
-    return nullptr;
 }
 
 /***************************************
@@ -426,43 +409,89 @@ void BattleSystem::SpellCast(BattleEntity* entity)
             {
                 SkillParameters foo;
                 foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
-                for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
+                if ((*itritr)->GetMaxNumberOfTargets() >= 4)
                 {
-                    if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
-                        foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
-                }
-                (*itritr)->UseSkill(foo);
+                    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
+                    {
+                        if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
+                            foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
+                    }
+                    (*itritr)->UseSkill(foo);
 
-                enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
-                enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
-                choosingSkill = false;
+                    enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
+                    enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+                    choosingSkill = false;
+                    entity->DecreaseAttkTurnPt(1);
+                    //targEntity->HP - myEntity->stats.GetDamage();
+
+                    if (entity->GetAttkTurnPt() > 0)
+                        std::cout << "You gain another turn!" << std::endl << std::endl;
+                    else
+                        ResetATB(entity);
+                }
+                else if ((*itritr)->GetMaxNumberOfTargets() <= 1)
+                {
+                    tempCast = playerselect;
+                    whichScreen = CHOOSESKILLTP;
+                    choosingSkill = false;
+                }
             }
             else if ((*itritr)->IsEnemyTargetable())
             {
                 SkillParameters foo;
                 foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
-                for (auto it = EnemyInfoList.begin(); it != EnemyInfoList.end(); it++)
-                {
-                    if ((*it) != nullptr)
-                        foo.targetList.push_back((*it));
-                }
-                (*itritr)->UseSkill(foo);
 
-                enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
-                enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
-                choosingSkill = false;
+                if ((*itritr)->GetMaxNumberOfTargets() >= 4)
+                {
+                    for (auto it = EnemyInfoList.begin(); it != EnemyInfoList.end(); it++)
+                    {
+                        if ((*it) != nullptr)
+                            foo.targetList.push_back((*it));
+                    }
+                    (*itritr)->UseSkill(foo);
+
+                    enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
+                    enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+                    choosingSkill = false;
+                    entity->DecreaseAttkTurnPt(1);
+                    //targEntity->HP - myEntity->stats.GetDamage();
+
+                    if (entity->GetAttkTurnPt() > 0)
+                        std::cout << "You gain another turn!" << std::endl << std::endl;
+                    else
+                        ResetATB(entity);
+                }
+                else if ((*itritr)->GetMaxNumberOfTargets() <= 1)
+                {
+                    whichScreen = CHOOSESKILLTE;
+                    choosingSkill = false;
+                    //foo.targetList.push_back
+                }
             }
         }
         ++i;
     }
+}
 
-    entity->DecreaseAttkTurnPt(1);
-    //targEntity->HP - myEntity->stats.GetDamage();
+EnemyInfo* BattleSystem::ChooseSkillTarget()
+{
+    for (auto it = EnemyInfoList.begin(); it != EnemyInfoList.end(); it++)
+    {
+        if ((*it)->id == attkselect && (*it) != nullptr)
+            return (*it);
+    }
+}
 
-    if (entity->GetAttkTurnPt() > 0)
-        std::cout << "You gain another turn!" << std::endl << std::endl;
-    else
-        ResetATB(entity);
+CharacterInfo* BattleSystem::ChooseSkillTargetP()
+{
+    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
+    {
+        if (playerselect == i)
+        {
+            if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
+                return (Player::GetInstance().GetParty()->GetMember(i));
+        }
+    }
 }
 
 /***************************************
@@ -573,6 +602,7 @@ The entity that has used up all turn point or defended.
 void BattleSystem::ResetATB(BattleEntity* entity)
 {
     entity->SetATB(0.0);
+    entity->GetInfo()->stats.UpdateStats();
     entity->SetReady(false);
     anEntityTurn = false;
     isPassTurn = false;
@@ -608,13 +638,10 @@ void BattleSystem::Render()
 
 void BattleSystem::NoMoreItems()
 {
-    MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
-    float windowWidth = Application::GetInstance().GetWindowWidth();
-    float windowHeight = Application::GetInstance().GetWindowHeight();
     float dt = (double)StopWatch::GetInstance()->GetDeltaTime();
 
     modelStack.PushMatrix();
-    modelStack.Translate(windowWidth * 0.35, windowHeight * 0.7, 5.f);
+    modelStack.Translate(windowWidth * 0.45, windowHeight * 0.7, 5.f);
     modelStack.Scale(30, 30, 1.f);
     RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "NO MORE ITEMS", Color(0, 1, 0));
     modelStack.PopMatrix();
@@ -630,192 +657,186 @@ void BattleSystem::NoMoreItems()
 void BattleSystem::RenderUIStuff()
 {
     float TEXTSCALE = 35.f;
-    MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
-    float windowWidth = Application::GetInstance().GetWindowWidth();
-    float windowHeight = Application::GetInstance().GetWindowHeight();
-    if (whichScreen == NOTHING)
+
+    switch (whichScreen)
     {
-        if (playerselect == 0)
+    case NOTHING:
+        for (int i = 0; i < playerPartySize; ++i)
         {
-            Arrow->SetPosition(Vector3(windowWidth * 0.8f, windowHeight * 0.25f, 10.f));
+            if (playerselect == i)
+                Arrow->SetPosition(Vector3(windowWidth * 0.8f, windowHeight * (0.25f + (0.15f * i)), 10.f));
         }
-        if (playerselect == 1)
+        break;
+    case CHOOSESKILLTP:
+        for (int i = 0; i < playerPartySize; ++i)
         {
-            Arrow->SetPosition(Vector3(windowWidth * 0.8f, windowHeight * 0.4f, 10.f));
+            if (playerselect == i)
+                Arrow->SetPosition(Vector3(windowWidth * 0.8f, windowHeight * (0.25f + (0.15f * i)), 10.f));
         }
-        if (playerselect == 2)
-        {
-            Arrow->SetPosition(Vector3(windowWidth * 0.8f, windowHeight * 0.55f, 10.f));
-        }
-        if (playerselect == 3)
-        {
-            Arrow->SetPosition(Vector3(windowWidth * 0.8f, windowHeight * 0.7f, 10.f));
-        }
-    }
-    if (whichScreen == CHOOSETARGET)
-    {
-        if (attkselect == 3)
-        {
-            Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * 0.25f, 10.f));
-        }
-        if (attkselect == 4)
-        {
-            Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * 0.4f, 10.f));
-        }
-        if (attkselect == 5)
-        {
-            Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * 0.55f, 10.f));
-        }
-        if (attkselect == 6)
-        {
-            Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * 0.7f, 10.f));
-        }
-    }
-    if (whichScreen == CHOOSEDOWAT)
+        break;
+    case CHOOSETARGET:
+        for (int i = 3; i < 7; i++)
+            if (attkselect == i)
+                Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * (0.25f + (0.1f * (i - 3))), 10.f));
+        break;
+    case CHOOSESKILLTE:
+        for (int i = 3; i < 7; i++)
+            if (attkselect == i)
+                Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * (0.25f + (0.1f * (i - 3))), 10.f));
+        break;
+    case CHOOSEDOWAT:
     {
         float DIST = 0.95;
-        if (commandselect == 0)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.65, 10.f));
-        if (commandselect == 1)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.6, 10.f));
-        if (commandselect == 2)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.55, 10.f));
-        if (commandselect == 3)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.5, 10.f));
-        if (commandselect == 4)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.45, 10.f));
-    }
-    if (whichScreen == CHOOSESKILL)
-    {
-        int i = 0;
-        modelStack.PushMatrix();
-        modelStack.Translate(windowWidth * 0.65, windowHeight * 0.5, 8.f);
-        modelStack.Scale(windowWidth *0.3, windowHeight *0.5, 1.f);
-        RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
-        modelStack.PopMatrix();
-    
-        for (auto itritr = PlayerList.begin(); itritr != PlayerList.end(); itritr++)
+        for (int i = 0; i < 5; ++i)
         {
-            if ((*itritr)->GetInfo()->id == playerselect)
-            {
-                modelStack.PushMatrix();
-                modelStack.Translate(windowWidth * 0.5f, windowHeight *  0.7f, 8.5f);
-                modelStack.Scale(30.f, 30.f, 1.f);
-                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "MP: " + std::to_string((*itritr)->GetInfo()->MP) + " / " + std::to_string((*itritr)->GetInfo()->stats.GetMaxMP()), Color(0, 1, 0));
-                modelStack.PopMatrix();
-            }
-        }
-
-        float DIST = 0.65;
-        if (skillselect == 0)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * DIST, 10.f));
-        if (skillselect == 1)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * (DIST - 0.05), 10.f));
-        if (skillselect == 2)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * (DIST - 0.1), 10.f));
-        if (skillselect == 3)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * (DIST - 0.15), 10.f));
-        if (skillselect == 4)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * (DIST - 0.2), 10.f));
-    
-    
-        for (auto itritr = Player::GetInstance().GetParty()->GetMember(playerselect)->skills.begin(); itritr !=     Player::GetInstance().GetParty()->GetMember(playerselect)->skills.end(); ++itritr)
-        {
-            modelStack.PushMatrix();
-            modelStack.Translate(windowWidth * 0.5f, windowHeight *  (DIST + (i * -0.05f)), 8.5f);
-            modelStack.Scale(30.f, 30.f, 1.f);
-            RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itritr)->GetName() + " - Cost: " + std::to_string((*itritr)->GetManaCost()), Color(0, 1, 0));
-            modelStack.PopMatrix();
-            ++i;
+            if (commandselect == i)
+                Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * (0.65 - (0.05 * i)), 10.f));
         }
     }
-
-    if (anEntityTurn)
-    {
-        float FIRSTONE = 0.65;
-        modelStack.PushMatrix();
-        modelStack.Translate(windowWidth * 0.9, windowHeight * 0.55, 5.f);
-        modelStack.Scale(windowWidth *0.15, windowHeight *0.4, 1.f);
-        RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
-        modelStack.PopMatrix();
-    
-        modelStack.PushMatrix();
-        modelStack.Translate(windowWidth * 0.85, windowHeight * 0.7, 5.f);
-        modelStack.Scale(TEXTSCALE, TEXTSCALE, 1.f);
-        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Turn Pt: " + std::to_string(turnPt), Color(0, 1,     0));
-        modelStack.PopMatrix();
-    
-        modelStack.PushMatrix();
-        modelStack.Translate(windowWidth * 0.85, windowHeight * FIRSTONE, 5.f);
-        modelStack.Scale(TEXTSCALE, TEXTSCALE, 1.f);
-        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Attack", Color(0, 1, 0));
-        modelStack.PopMatrix();
-    
-        modelStack.PushMatrix();
-        modelStack.Translate(windowWidth * 0.85, windowHeight * (FIRSTONE - 0.05), 5.f);
-        modelStack.Scale(TEXTSCALE, TEXTSCALE, 1.f);
-        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Defend", Color(0, 1, 0));
-        modelStack.PopMatrix();
-    
-        modelStack.PushMatrix();
-        modelStack.Translate(windowWidth * 0.85, windowHeight * (FIRSTONE - 0.1), 5.f);
-        modelStack.Scale(TEXTSCALE, TEXTSCALE, 1.f);
-        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Skills", Color(0, 1, 0));
-        modelStack.PopMatrix();
-    
-        modelStack.PushMatrix();
-        modelStack.Translate(windowWidth * 0.85, windowHeight * (FIRSTONE - 0.15), 5.f);
-        modelStack.Scale(TEXTSCALE, TEXTSCALE, 1.f);
-        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Item", Color(0, 1, 0));
-        modelStack.PopMatrix();
-    
-        modelStack.PushMatrix();
-        modelStack.Translate(windowWidth * 0.85, windowHeight * (FIRSTONE - 0.2), 5.f);
-        modelStack.Scale(TEXTSCALE, TEXTSCALE, 1.f);
-        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Flee", Color(0, 1, 0));
-        modelStack.PopMatrix();
+    break;
+    case CHOOSESKILL:
+        RenderSkillInterface();
+        break;
     }
-    modelStack.PushMatrix();
-    modelStack.Translate(windowWidth * 0.5, windowHeight * 0.1, 5.f);
-    modelStack.Scale(windowWidth, windowHeight *0.2, 1.f);
-    RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
-    modelStack.PopMatrix();
+
+    if (anEntityTurn && !escapeAnot)
+        RenderBattleInterface();
 
     Arrow->RenderUI();
 }
 
+void BattleSystem::RenderSkillInterface()
+{
+    int i = 0;
+    modelStack.PushMatrix();
+    modelStack.Translate(windowWidth * 0.65, windowHeight * 0.5, 8.f);
+    modelStack.Scale(windowWidth *0.3, windowHeight *0.5, 1.f);
+    RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
+    modelStack.PopMatrix();
+
+    for (auto itritr = PlayerList.begin(); itritr != PlayerList.end(); itritr++)
+    {
+        if ((*itritr)->GetInfo()->id == playerselect)
+        {
+            modelStack.PushMatrix();
+            modelStack.Translate(windowWidth * 0.5f, windowHeight *  0.7f, 8.5f);
+            modelStack.Scale(30.f, 30.f, 1.f);
+            RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "MP: " + std::to_string((*itritr)->GetInfo()->MP) + " / " + std::to_string((*itritr)->GetInfo()->stats.GetMaxMP()), Color(0, 1, 0));
+            modelStack.PopMatrix();
+        }
+    }
+    CharacterInfo *pewchara = Player::GetInstance().GetParty()->GetMember(playerselect);
+    float DIST = 0.65;
+    for (int i = 0; i < (pewchara->skills.size() - 1); i++)
+        if (skillselect == i)
+            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * (DIST - (0.05 * i)), 10.f));
+
+
+    for (auto itritr = pewchara->skills.begin(); itritr != pewchara->skills.end(); ++itritr)
+    {
+        modelStack.PushMatrix();
+        modelStack.Translate(windowWidth * 0.5f, windowHeight *  (DIST + (i * -0.05f)), 8.5f);
+        modelStack.Scale(30.f, 30.f, 1.f);
+        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itritr)->GetName() + " - Cost: " + std::to_string((*itritr)->GetManaCost()), Color(0, 1, 0));
+        modelStack.PopMatrix();
+        ++i;
+    }
+}
+
+void BattleSystem::RenderBattleInterface()
+{
+    float TEXTSCALE = 35.f;
+    float FIRSTONE = 0.65;
+
+    modelStack.PushMatrix();
+    modelStack.Translate(windowWidth * 0.9, windowHeight * 0.55, 5.f);
+    modelStack.Scale(windowWidth *0.15, windowHeight *0.4, 1.f);
+    RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
+    modelStack.PopMatrix();
+
+    modelStack.PushMatrix();
+    modelStack.Translate(windowWidth * 0.85, windowHeight * 0.7, 5.f);
+    modelStack.Scale(TEXTSCALE, TEXTSCALE, 1.f);
+    RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Turn Pt: " + std::to_string(turnPt), Color(0, 1, 0));
+    modelStack.PopMatrix();
+
+    modelStack.PushMatrix();
+    modelStack.Translate(windowWidth * 0.85, windowHeight * FIRSTONE, 5.f);
+    modelStack.Scale(TEXTSCALE, TEXTSCALE, 1.f);
+    RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Attack", Color(0, 1, 0));
+    modelStack.PopMatrix();
+
+    modelStack.PushMatrix();
+    modelStack.Translate(windowWidth * 0.85, windowHeight * (FIRSTONE - 0.05), 5.f);
+    modelStack.Scale(TEXTSCALE, TEXTSCALE, 1.f);
+    RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Defend", Color(0, 1, 0));
+    modelStack.PopMatrix();
+
+    modelStack.PushMatrix();
+    modelStack.Translate(windowWidth * 0.85, windowHeight * (FIRSTONE - 0.1), 5.f);
+    modelStack.Scale(TEXTSCALE, TEXTSCALE, 1.f);
+    RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Skills", Color(0, 1, 0));
+    modelStack.PopMatrix();
+
+    modelStack.PushMatrix();
+    modelStack.Translate(windowWidth * 0.85, windowHeight * (FIRSTONE - 0.15), 5.f);
+    modelStack.Scale(TEXTSCALE, TEXTSCALE, 1.f);
+    RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Item", Color(0, 1, 0));
+    modelStack.PopMatrix();
+
+    modelStack.PushMatrix();
+    modelStack.Translate(windowWidth * 0.85, windowHeight * (FIRSTONE - 0.2), 5.f);
+    modelStack.Scale(TEXTSCALE, TEXTSCALE, 1.f);
+    RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Flee", Color(0, 1, 0));
+    modelStack.PopMatrix();
+}
+
 void BattleSystem::RenderEntities()
 {
-    MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
-    float windowWidth = Application::GetInstance().GetWindowWidth();
-    float windowHeight = Application::GetInstance().GetWindowHeight();
+    RenderNameHP();
+    RenderATB();
 
-    //for (std::list<BattleEntity*>::iterator it = PlayerList.begin(); it != PlayerList.end(); it++)
-    //{
-    //    modelStack.PushMatrix();
-    //    modelStack.Translate(windowWidth * 0.5, windowHeight * (0.05f * ((*it)->GetInfo()->id + 1)), 5.f);
-    //    modelStack.Scale(35.f, 35.f, 1.f);
-    //    RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*it)->GetInfo()->name + "   HP:   " + std::to_string((*it)->GetHP()), Color(0, 1, 0));
-    //    modelStack.PopMatrix();
-    //}
+    // Entity Render
+    for (std::list<SpriteEntity*>::iterator itr = SpriteList.begin(); itr != SpriteList.end(); itr++)
+    {
+        (*itr)->RenderUI();
+    }
+}
+
+void BattleSystem::RenderNameHP()
+{
+    // Bottom Background
+    modelStack.PushMatrix();
+    modelStack.Translate(windowWidth * 0.5, windowHeight * 0.125, 5.f);
+    modelStack.Scale(windowWidth, windowHeight *0.25, 1.f);
+    RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
+    modelStack.PopMatrix();
+
+    // Player UI - Name and HP
     for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); i++)
     {
+        CharacterInfo * charapew = Player::GetInstance().GetParty()->GetMember(i);
+
         modelStack.PushMatrix();
         modelStack.Translate(windowWidth * 0.5, windowHeight * (0.05f * (Player::GetInstance().GetParty()->GetMember(i)->id + 1)), 5.f);
         modelStack.Scale(35.f, 35.f, 1.f);
-        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), Player::GetInstance().GetParty()->GetMember(i)->name + "   HP:   " + std::to_string(Player::GetInstance().GetParty()->GetMember(i)->HP), Color(0, 1, 0));
+        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), charapew->name + "   HP:" + std::to_string(charapew->HP) + "/" + std::to_string(charapew->stats.GetMaxHP()), Color(0, 1, 0));
         modelStack.PopMatrix();
     }
-
+    // Monster UI- Name and HP
     for (std::list<BattleEntity*>::iterator it = EnemyList.begin(); it != EnemyList.end(); it++)
     {
         modelStack.PushMatrix();
         modelStack.Translate(windowWidth * 0.05, windowHeight * (0.05f * ((*it)->GetInfo()->id - 2)), 5.f);
         modelStack.Scale(35.f, 35.f, 1.f);
-        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*it)->GetInfo()->name + "   HP:   " + std::to_string((*it)->GetHP()), Color(0, 1, 0));
+        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*it)->GetInfo()->name + "   HP:" + std::to_string((*it)->GetHP()) + "/" + std::to_string((*it)->GetInfo()->stats.GetMaxHP()), Color(0, 1, 0));
         modelStack.PopMatrix();
     }
+}
 
+void BattleSystem::RenderATB()
+{
+    // Attack Turn Bar
     for (std::list<BattleEntity*>::iterator it = BattleList.begin(); it != BattleList.end(); it++)
     {
         if (!(*it)->GetDead() && !escapeAnot)
@@ -839,17 +860,10 @@ void BattleSystem::RenderEntities()
             modelStack.PopMatrix();
         }
     }
-    for (std::list<SpriteEntity*>::iterator itr = SpriteList.begin(); itr != SpriteList.end(); itr++)
-    {
-        (*itr)->RenderUI();
-    }
 }
 
 void BattleSystem::RenderInventory()
 {
-    float windowWidth = Application::GetInstance().GetWindowWidth();
-    float windowHeight = Application::GetInstance().GetWindowHeight();
-    MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 
     Inventory* pewinventory = Player::GetInstance().GetInventory();
     
@@ -894,10 +908,6 @@ void BattleSystem::RenderInventory()
 
 void BattleSystem::ShowBattleResults()
 {
-    MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
-    float windowWidth = Application::GetInstance().GetWindowWidth();
-    float windowHeight = Application::GetInstance().GetWindowHeight();
-
     modelStack.PushMatrix();
     modelStack.Translate(windowWidth * 0.5, windowHeight * 0.5, 8.5f);
     modelStack.Scale(windowWidth *0.8, windowHeight * 0.8, 1.f);
@@ -917,7 +927,6 @@ void BattleSystem::ShowBattleResults()
             modelStack.PopMatrix();
 
             modelStack.PushMatrix();
-
             modelStack.Translate(windowWidth * 0.2, windowHeight * (0.75f + (i * -0.1)), 9.f);
             modelStack.Scale(40.f, 40.f, 1.f);
             if ((*it)->id == i)
@@ -990,8 +999,9 @@ void BattleSystem::AssignEnemies()
 
 void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, int selection)
 {
-    if (screen == CHOOSEPLAYER)
+    switch (screen)
     {
+    case CHOOSEPLAYER:
         if (!anEntityTurn)
             entity->AddAttkTurnPt(1);
 
@@ -1007,9 +1017,8 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
             entity->DecreaseAttkTurnPt(1);
             whichScreen = NOTHING;
         }
-    }
-    if (screen == CHOOSETARGET)
-    {
+        break;
+    case CHOOSETARGET:
         turnPt = entity->GetAttkTurnPt();
         if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
         {
@@ -1027,13 +1036,12 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
             whichScreen = CHOOSEDOWAT;
         }
 
-        if (attkselect > ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1)))
-            attkselect = (Player::GetInstance().GetParty()->memberCount() - 1);
-        if (attkselect < (Player::GetInstance().GetParty()->memberCount() - 1))
-            attkselect = ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1));
-    }
-    if (screen == CHOOSEDOWAT)
-    {
+        if (attkselect > enemyEnd)
+            attkselect = enemyStart;
+        if (attkselect < enemyStart)
+            attkselect = enemyEnd;
+        break;
+    case CHOOSEDOWAT:
         if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
         {
             if (commandselect == 0)
@@ -1066,9 +1074,8 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
             entity->DecreaseAttkTurnPt(1);
             whichScreen = NOTHING;
         }
-    }
-    if (screen == CHOOSESKILL)
-    {
+        break;
+    case CHOOSESKILL:
         if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
             choosingSkill = true;
 
@@ -1091,16 +1098,119 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
 
         if (skillselect < 0)
             skillselect = (Player::GetInstance().GetParty()->GetMember(playerselect)->skills.size() - 1);
-        if (skillselect > (Player::GetInstance().GetParty()->GetMember(playerselect)->skills.size() - 1))
+        if (skillselect >(Player::GetInstance().GetParty()->GetMember(playerselect)->skills.size() - 1))
             skillselect = 0;
 
         if (choosingSkill == true)
             SpellCast(entity);
-    }
-    if (screen == CHOOSEITEM)
+        break;
+    case CHOOSESKILLTE:
     {
+        if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
+        {
+            int i = 0;
+            SkillParameters foo;
+            foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
+            if (ChooseSkillTarget() != nullptr)
+            {
+                for (auto itritr = Player::GetInstance().GetParty()->GetMember(playerselect)->skills.begin(); itritr != Player::GetInstance().GetParty()->GetMember(playerselect)->skills.end(); ++itritr)
+                {
+                    if (skillselect == i)
+                    {
+                        foo.targetList.push_back(ChooseSkillTarget());
+
+                        (*itritr)->UseSkill(foo);
+
+                        enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
+                        enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+                        choosingSkill = false;
+                        //whichScreen = NOTHING;
+                        
+                        entity->DecreaseAttkTurnPt(1);
+                        //targEntity->HP - myEntity->stats.GetDamage();
+
+                        if (entity->GetAttkTurnPt() > 0)
+                            std::cout << "You gain another turn!" << std::endl << std::endl;
+                        else
+                            ResetATB(entity);
+                    }
+                    ++i;
+                }
+
+            }
+        }
+
+        if (KeyboardController::GetInstance()->IsKeyReleased(VK_DOWN))
+            attkselect--;
+        if (KeyboardController::GetInstance()->IsKeyReleased(VK_UP))
+            attkselect++;
+        if (KeyboardController::GetInstance()->IsKeyReleased(VK_ESCAPE))
+        {
+            //anEntityTurn = false;
+            whichScreen = CHOOSESKILL;
+        }
+
+        if (attkselect > enemyEnd)
+            attkselect = enemyStart;
+        if (attkselect < enemyStart)
+            attkselect = enemyEnd;
+        break;
+    }
+    case CHOOSESKILLTP:
+    {
+        if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
+        {
+            int i = 0;
+            SkillParameters foo;
+            foo.caster = Player::GetInstance().GetParty()->GetMember(tempCast);
+
+            if (ChooseSkillTarget() != nullptr)
+            {
+                for (auto itritr = Player::GetInstance().GetParty()->GetMember(tempCast)->skills.begin(); itritr != Player::GetInstance().GetParty()->GetMember(tempCast)->skills.end(); ++itritr)
+                {
+                    if (skillselect == i)
+                    {
+                        foo.targetList.push_back(ChooseSkillTargetP());
+
+                        (*itritr)->UseSkill(foo);
+
+                        enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
+                        enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+                        choosingSkill = false;
+                        //whichScreen = NOTHING;
+                        FindTarget(tempCast)->DecreaseAttkTurnPt(1);
+
+                        if (FindTarget(tempCast)->GetAttkTurnPt() > 0)
+                            std::cout << "You gain another turn!" << std::endl << std::endl;
+                        else
+                            ResetATB(FindTarget(tempCast));
+                    }
+                    ++i;
+                }
+
+            }
+        }
+
+        if (KeyboardController::GetInstance()->IsKeyReleased(VK_DOWN))
+            playerselect--;
+        if (KeyboardController::GetInstance()->IsKeyReleased(VK_UP))
+            playerselect++;
+        if (KeyboardController::GetInstance()->IsKeyReleased(VK_ESCAPE))
+        {
+            //anEntityTurn = false;
+            whichScreen = CHOOSESKILL;
+        }
+
+        if (playerselect >  playerPartySize - 1)
+            playerselect = 0;
+        if (playerselect < 0)
+            playerselect = playerPartySize - 1;
+        break;
+    }
+    case CHOOSEITEM:
         chooseItem = true;
         ChooseItems(entity);
+        break;
     }
 }
 
@@ -1159,6 +1269,7 @@ void BattleSystem::ChooseItems(BattleEntity* entity)
         chooseItem = false;
     }
 }
+
 void BattleSystem::Exit()
 {
     // Remove the meshes which are specific to CBattleState

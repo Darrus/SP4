@@ -216,6 +216,7 @@ void EnemyAI::Defend(BattleEntity* entityAI)
 void EnemyAI::ResetAIBar(BattleEntity* entityAI)
 {
     entityAI->SetATB(0.0);
+    entityAI->GetInfo()->stats.UpdateStats();
     entityAI->SetReady(false);
 }
 
