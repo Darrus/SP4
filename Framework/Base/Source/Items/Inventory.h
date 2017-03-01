@@ -28,6 +28,8 @@ public:
 	void RenderItem(int index, float pos_x, float pos_y, float scale_x, float scale_y);
 	void ClearInventory();
 
+	inline vector<Item*> GetItemList() { return m_inventoryList; }
+
 	Inventory();
 	~Inventory();
 };

@@ -82,6 +82,7 @@ void Overworld::Init()
 	camera.SetFollowSpeed(0.3f);
 	camera.SetRotSpeed(200.f);
 	camera.SetDistSpeed(100.f);
+	camera.SetGround(&background);
 
 	// Player Init
 	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 1, 8, 1.f, -1));
@@ -184,16 +185,9 @@ void Overworld::Update()
 	EManager.Update();
 	camera.Update();
 
-
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
 		SceneManager::GetInstance()->quit = true;
 
-	if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
-	{
-		camera.Transition(80.f, 0.f, 50.f);
-		battle = true;
-	}
-	
 	if (battle && camera.GetState() == CameraFollow::IDLE)
 	{
         player.SetRenderFlag(false);

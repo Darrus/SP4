@@ -1,8 +1,6 @@
 #ifndef CHARACTER_INFO_H
 #define CHARACTER_INFO_H
 
-#define STAT_POINT_GAIN 5
-
 #include <list>
 #include "InfoBase.h"
 
@@ -15,7 +13,11 @@ class CharacterInfo : public InfoBase
 {
 public:
 	// Equipment System
-    CharacterInfo(){}
+    CharacterInfo()
+    {
+        for (int i = 0; i < NUM_BRANCHES; ++i)
+            skill_branch_index[i] = 0;
+    }
     virtual ~CharacterInfo(){}
 
 	// Animator
@@ -37,12 +39,12 @@ public:
 		int levelsGained = 0;
 		while (EXP >= stats.GetMaxEXP())
 		{
-			stats.AddStatPoint(STAT_POINT_GAIN);
-			EXP -= stats.GetMaxEXP();
-			stats.UpdateStats();
+			levelsGained++;
+            EXP -= stats.GetMaxEXP();
+            stats.AddLevel(1);
+            stats.UpdateStats();
             HP = stats.GetMaxHP();
             MP = stats.GetMaxMP();
-			levelsGained++;
 		}
 		return levelsGained;
 	}

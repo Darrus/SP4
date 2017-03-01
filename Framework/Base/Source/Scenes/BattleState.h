@@ -29,6 +29,8 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
+    virtual void UnPause();
+
 	void AttackBarFill(double dt = 0.033f); ///< Fills Up the Attack Turn Bar of every entity that is in Battle. Stops filling when anyone is full.
     void PlayerCommand(/*Pass in the Entity here to access commands*/); ///< Basically a Popup when it's Player's Turn to Attack.
 

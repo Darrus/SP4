@@ -99,9 +99,8 @@ tempCast(0)
     enemyAI = new EnemyAI();
 
     //enemyAI->battlelog = new BattleLog();
-    playerPartySize = (Player::GetInstance().GetParty()->memberCount() - 1);
-    enemyStart = (Player::GetInstance().GetParty()->memberCount() - 1);
-    enemyEnd = ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1));
+    //enemyStart = (Player::GetInstance().GetParty()->memberCount());
+    //enemyEnd = ((Player::GetInstance().GetParty()->memberCount()) + (EnemyList.size() - 1));
 }
 
 /***************************************
@@ -123,9 +122,9 @@ void BattleSystem::Update()
     //int playerPartySize = (Player::GetInstance().GetParty()->memberCount() - 1); // start from 0
     //if (!battlelog->Update())
     enemyAI->battlelog->Update();
-
-    enemyStart = (Player::GetInstance().GetParty()->memberCount() - 1);
-    enemyEnd = ((Player::GetInstance().GetParty()->memberCount() - 1) + (EnemyList.size() - 1));
+    playerPartySize = (Player::GetInstance().GetParty()->memberCount());
+    enemyStart = (Player::GetInstance().GetParty()->memberCount());
+    enemyEnd = ((Player::GetInstance().GetParty()->memberCount()) + (EnemyList.size() - 1));
 
     if (escapeAnot)
         EscapeBattle();
@@ -173,10 +172,10 @@ void BattleSystem::Update()
         {
             playerselect++;
         }
-        if (playerselect >  playerPartySize - 1)
+        if (playerselect >  playerPartySize)
             playerselect = 0;
         if (playerselect < 0)
-            playerselect = playerPartySize -1;
+            playerselect = playerPartySize;
     }
     if (input)
         ChoosePlayerInput();
@@ -199,14 +198,14 @@ void BattleSystem::CheckBattleEnd(BattleEntity* entity)
 {
     if (!addEXP)
     {
-        for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); i++)
+        for (int i = 0; i < playerPartySize; i++)
         {
             EXPGAIN = Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel() * (8 - (Player::GetInstance().GetParty()->memberCount()));
             Player::GetInstance().GetParty()->GetMember(i)->EXP += EXPGAIN;
 
             if (Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel() < 100)
             {
-                Player::GetInstance().GetParty()->GetMember(i)->stats.AddLevel(Player::GetInstance().GetParty()->GetMember(i)->CheckLevelUp());
+                Player::GetInstance().GetParty()->GetMember(i)->CheckLevelUp();
 
                  // Add the Health Back
                 Player::GetInstance().GetParty()->GetMember(i)->HP = Player::GetInstance().GetParty()->GetMember(i)->stats.GetMaxHP();
@@ -411,7 +410,7 @@ void BattleSystem::SpellCast(BattleEntity* entity)
                 foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
                 if ((*itritr)->GetMaxNumberOfTargets() >= 4)
                 {
-                    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
+                    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount()); ++i)
                     {
                         if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
                             foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
@@ -484,7 +483,7 @@ EnemyInfo* BattleSystem::ChooseSkillTarget()
 
 CharacterInfo* BattleSystem::ChooseSkillTargetP()
 {
-    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
+    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount()); ++i)
     {
         if (playerselect == i)
         {
@@ -604,6 +603,7 @@ void BattleSystem::ResetATB(BattleEntity* entity)
     entity->SetATB(0.0);
     entity->GetInfo()->stats.UpdateStats();
     entity->SetReady(false);
+    entity->GetInfo()->MP += (entity->GetInfo()->stats.GetMaxMP() * 0.2);
     anEntityTurn = false;
     isPassTurn = false;
     iCrit = false;
@@ -726,8 +726,9 @@ void BattleSystem::RenderSkillInterface()
         }
     }
     CharacterInfo *pewchara = Player::GetInstance().GetParty()->GetMember(playerselect);
+    ///< Arrow
     float DIST = 0.65;
-    for (int i = 0; i < (pewchara->skills.size() - 1); i++)
+    for (int i = 0; i < (pewchara->skills.size()); i++)
         if (skillselect == i)
             Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * (DIST - (0.05 * i)), 10.f));
 
@@ -813,7 +814,7 @@ void BattleSystem::RenderNameHP()
     modelStack.PopMatrix();
 
     // Player UI - Name and HP
-    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); i++)
+    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount()); i++)
     {
         CharacterInfo * charapew = Player::GetInstance().GetParty()->GetMember(i);
 
@@ -917,7 +918,7 @@ void BattleSystem::ShowBattleResults()
     PartySystem* pew = Player::GetInstance().GetParty();
     for (auto it = PlayerInfoList.begin(); it != PlayerInfoList.end(); it++)
     {
-        for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
+        for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount()); ++i)
         {
             modelStack.PushMatrix();
             modelStack.Translate(windowWidth * 0.2, windowHeight * (0.8f + (i * -0.1)), 9.f);
@@ -952,15 +953,44 @@ void BattleSystem::AssignPlayerParty()
     float windowWidth = Application::GetInstance().GetWindowWidth();
     float windowHeight = Application::GetInstance().GetWindowHeight();
 
-    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
+    /*std::vector<CharacterInfo*> party = Player::GetInstance().GetParty()->GetParty();
+    std::vector<CharacterInfo*>::iterator it, end;
+    it = party.begin();
+    end = party.end();
+    int i = 0;
+    while (it != end)
+    {
+        if (*it)
+        {
+            CharacterInfo* MemberInfo = (*it);
+            (*it)->stats.UpdateStats();
+
+            PlayerInfoList.push_back(MemberInfo);
+
+            pewpewpew = new BattleEntity();
+            pewpewpew->enemyType = BattleEntity::ALLY;
+            pewpewpew->SetInfo(MemberInfo);
+            if (MemberInfo != nullptr)
+            {
+                pewpewpew->SetPosition((Vector3(windowWidth * 0.75f, windowHeight * (0.15f * (i + 1.5)), 1.f)));
+                BattleList.push_back(pewpewpew);
+                PlayerList.push_back(pewpewpew);
+            }
+            ++i;
+        }
+    }*/
+
+    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount()); ++i)
     {
         CharacterInfo* MemberInfo = Player::GetInstance().GetParty()->GetMember(i);
-        Player::GetInstance().GetParty()->GetMember(i)->stats.UpdateStats();
-        PlayerInfoList.push_back(Player::GetInstance().GetParty()->GetMember(i));
+        MemberInfo->stats.UpdateStats();
+
+        PlayerInfoList.push_back(MemberInfo);
+
         pewpewpew = new BattleEntity();
         pewpewpew->enemyType = BattleEntity::ALLY;
-        pewpewpew->SetInfo((Player::GetInstance().GetParty()->GetMember(i)));
-        if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
+        pewpewpew->SetInfo(MemberInfo);
+        if (MemberInfo != nullptr)
         {
             pewpewpew->SetPosition((Vector3(windowWidth * 0.75f, windowHeight * (0.15f * (i + 1.5)), 1.f)));
             BattleList.push_back(pewpewpew);

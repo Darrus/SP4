@@ -70,6 +70,7 @@ void Cave::Init()
 	camera.SetFollowSpeed(0.3f);
 	camera.SetRotSpeed(200.f);
 	camera.SetDistSpeed(100.f);
+	camera.SetGround(&background);
 
 	// Player Init
 	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 1, 8, 1.f, -1));
@@ -195,5 +196,11 @@ void Cave::Exit()
 
 void Cave::UnPause()
 {
+	// Camera Init
+	camera.Init(80.f, 0.5f);
+	camera.SetFollowSpeed(0.3f);
+	camera.SetRotSpeed(200.f);
+	camera.SetDistSpeed(100.f);
 
+	camera.SetCameraTarget(player.GetPosition());
 }

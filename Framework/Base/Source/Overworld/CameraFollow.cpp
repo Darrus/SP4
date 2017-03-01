@@ -4,6 +4,7 @@
 #include "timer.h"
 #include "MatrixStack.h"
 #include "MouseController.h"
+#include "KeyboardController.h"
 #include "../Application.h"
 
 CameraFollow::CameraFollow() :
@@ -12,7 +13,7 @@ rotSpeed(1.f),
 curRotX(0.f), curRotZ(0.f),
 rotX(0.f), rotZ(0.f),
 mouseX(0.0), mouseY(0.0),
-state(IDLE)
+state(IDLE), ground(nullptr)
 {
 }
 
@@ -122,10 +123,12 @@ void CameraFollow::Update()
 	right = mx * right;
 
 	position = target - front * curDist;
+	HandleBoundary();
 	up = right.Cross(front);
 
 	if (check)
 		state = IDLE;
+
 }
 
 void CameraFollow::Control()
@@ -170,6 +173,11 @@ void CameraFollow::Control()
 		state = TRANSITION;
 	}
 
+	if (KeyboardController::GetInstance()->IsKeyPressed('E'))
+		rotZ += 90;
+	else if (KeyboardController::GetInstance()->IsKeyPressed('Q'))
+		rotZ -= 90;
+
 	double scroll = MouseController::GetInstance()->GetMouseScrollStatus(MouseController::SCROLL_TYPE_YOFFSET);
 	if (scroll != 0.0)
 	{
@@ -188,4 +196,24 @@ void CameraFollow::Transition(float rotX, float rotZ, float dist)
 	SetRotZ(rotZ);
 	SetDist(dist);
 	state = TRANSITION;
+}
+
+void CameraFollow::HandleBoundary()
+{
+	if (!ground)
+		return;
+
+	Vector3 boundary = ground->GetScale() * 0.5f;
+
+	if (position.x > boundary.x - 1.f)
+		position.x = boundary.x - 1.f;
+	else if (position.x < -boundary.x + 1.f)
+		position.x = -boundary.x + 1.f;
+
+	if (position.y > boundary.y - 1.f)
+		position.y = boundary.y - 1.f;
+	else if (position.y < -boundary.y + 1.f)
+		position.y = -boundary.y + 1.f;
+
+	std::cout << position << std::endl;
 }

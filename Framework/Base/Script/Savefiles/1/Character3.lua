@@ -1,10 +1,10 @@
 Name = "Reuben"
-Str = 0
+Str = 99
 Vit = 999
-Int = 0
-Mind = 0
-Dex = 0
-Agi = 0
-StatPoint = -974
-SkillPoint = 5
+Int = 99
+Mind = 99
+Dex = 99
+Agi = 84
+StatPoint = -889
+SkillPoint = 22
 Skills = { "Thrust", "Sweep", "Feint", "Speed Boost", "Power Thrust" } 
