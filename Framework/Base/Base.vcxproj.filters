@@ -212,6 +212,12 @@
       <Filter>Player</Filter>
     </ClCompile>
     <ClCompile Include="Source\Items\ItemFactory.cpp" />
+    <ClCompile Include="Source\Scenes\LoadGameScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\SaveGameScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -437,6 +443,12 @@
       <Filter>Player</Filter>
     </ClInclude>
     <ClInclude Include="Source\Items\ItemFactory.h" />
+    <ClInclude Include="Source\Scenes\LoadGameScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\SaveGameScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animation">

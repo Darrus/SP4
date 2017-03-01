@@ -71,9 +71,11 @@
     <ClCompile Include="Source\Scenes\DialogueScene.cpp" />
     <ClCompile Include="Source\Scenes\IntroState.cpp" />
     <ClCompile Include="Source\Scenes\InventoryScene.cpp" />
+    <ClCompile Include="Source\Scenes\LoadGameScene.cpp" />
     <ClCompile Include="Source\Scenes\MainMenuScene.cpp" />
     <ClCompile Include="Source\Scenes\PartyScene.cpp" />
     <ClCompile Include="Source\Scenes\PauseScene.cpp" />
+    <ClCompile Include="Source\Scenes\SaveGameScene.cpp" />
     <ClCompile Include="Source\Scenes\ShopDialogueScene.cpp" />
     <ClCompile Include="Source\Scenes\ShopScene.cpp" />
     <ClCompile Include="Source\Scenes\SkillTreeScene.cpp" />
@@ -148,9 +150,11 @@
     <ClInclude Include="Source\Scenes\DialogueScene.h" />
     <ClInclude Include="Source\Scenes\IntroState.h" />
     <ClInclude Include="Source\Scenes\InventoryScene.h" />
+    <ClInclude Include="Source\Scenes\LoadGameScene.h" />
     <ClInclude Include="Source\Scenes\MainMenuScene.h" />
     <ClInclude Include="Source\Scenes\PartyScene.h" />
     <ClInclude Include="Source\Scenes\PauseScene.h" />
+    <ClInclude Include="Source\Scenes\SaveGameScene.h" />
     <ClInclude Include="Source\Scenes\ShopDialogueScene.h" />
     <ClInclude Include="Source\Scenes\ShopScene.h" />
     <ClInclude Include="Source\Scenes\SkillTreeScene.h" />
