@@ -92,7 +92,7 @@ void TownShop::Init()
 	npc->GetAnimator()->PlayAnimation("npc");
 	npc->SetScale(Vector3(5.f, 5.f, 1.f));
 	npc->SetPosition(Vector3(0.f, 20.f, 1.f));
-	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
+	npc->LoadDialogue("SHOP_NPC_SHOPKEEPER");
 	npc->SetTargetScene("Shop");
 	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
@@ -145,4 +145,14 @@ void TownShop::Render()
 void TownShop::Exit()
 {
 	OverworldBase::Exit();
+}
+
+void TownShop::UnPause()
+{
+	// Camera Init
+	camera.Init(80.f, 0.3f);
+	camera.SetRotSpeed(200.f);
+	camera.SetDistSpeed(100.f);
+
+	camera.SetCameraTarget(player.GetPosition());
 }

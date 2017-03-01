@@ -27,6 +27,7 @@ public:
 	inline CSpatialPartition* GetSpatialPartition() { return &spatial; }
 
 	inline void SetStartPos(const Vector3& position){ player.SetPosition(position); }
+	inline Vector3 GetPlayerPos() { return player.GetPosition(); }
 
 protected:
 	CameraFollow camera;

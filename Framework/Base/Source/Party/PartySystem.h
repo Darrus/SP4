@@ -1,7 +1,10 @@
 #ifndef PARTY_SYSTEM_H
 #define PARTY_SYSTEM_H
 
+#include <vector>
 #include "../Character/CharacterInfo.h"
+
+using std::vector;
 
 class PartySystem
 {
@@ -17,7 +20,7 @@ public:
 	CharacterInfo* RemoveMember(int id);
 	CharacterInfo* RemoveMemberByIndex(int index);
 
-	CharacterInfo* GetParty();
+	vector<CharacterInfo*> GetParty();
 
 	bool AddMember(CharacterInfo* member);
     int memberCount();

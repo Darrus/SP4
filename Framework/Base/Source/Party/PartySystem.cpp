@@ -62,9 +62,14 @@ CharacterInfo* PartySystem::RemoveMemberByIndex(int index)
 	return result;
 }
 
-CharacterInfo* PartySystem::GetParty()
+vector<CharacterInfo*> PartySystem::GetParty()
 {
-	return party[0];
+	vector<CharacterInfo*> partyVec;
+	for (int i = 0; i < maxPartySize; ++i)
+	{
+		partyVec.push_back(party[i]);
+	}
+	return partyVec;
 }
 
 int PartySystem::memberCount()

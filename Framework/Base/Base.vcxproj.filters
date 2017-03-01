@@ -76,9 +76,6 @@
     <ClCompile Include="Source\Items\Equipment.cpp">
       <Filter>Items</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Overworld\CameraFollow.cpp">
-      <Filter>Overworld</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Battle\BattleSystem.cpp">
       <Filter>BattleSystem</Filter>
     </ClCompile>
@@ -193,6 +190,21 @@
     <ClCompile Include="Source\Menu\CharacterStatsDisplay.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Overworld\EnemyNPC.cpp">
+      <Filter>Overworld\Entity\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\TownTavern.cpp">
+      <Filter>Overworld\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Overworld\CameraFollow.cpp">
+      <Filter>Overworld</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Character\CharacterFactory.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\TavernScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animator.h">
@@ -272,9 +284,6 @@
     </ClInclude>
     <ClInclude Include="Source\Items\Equipment.h">
       <Filter>Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Overworld\CameraFollow.h">
-      <Filter>Overworld</Filter>
     </ClInclude>
     <ClInclude Include="Source\Battle\BattleSystem.h">
       <Filter>BattleSystem</Filter>
@@ -398,6 +407,21 @@
     </ClInclude>
     <ClInclude Include="Source\Menu\CharacterStatsDisplay.h">
       <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\EnemyNPC.h">
+      <Filter>Overworld\Entity\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\TownTavern.h">
+      <Filter>Overworld\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Overworld\CameraFollow.h">
+      <Filter>Overworld</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Character\CharacterFactory.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\TavernScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

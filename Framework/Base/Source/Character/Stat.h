@@ -2,6 +2,7 @@
 #define STAT_H
 
 #define STAT_PER_LEVEL 5;
+#define SKILL_PER_LEVEL 1;
 #define HP_MULTIPLIER 50
 #define MP_MULTIPLIER 20
 #define DAMAGE_MULTIPLIER 10
@@ -47,29 +48,39 @@ public:
     StatSystem(){}
     ~StatSystem(){}
 	
-	inline void AddLevel(int amt) 
+	void AddLevel(int amt) 
 	{ 
 		main.Level += amt; 
 		main.StatPoints += amt * STAT_PER_LEVEL; 
+		main.SkillPoints += amt * SKILL_PER_LEVEL;
 	}
-	inline void AddStr(int amt){ if (main.StatPoints > 0) main.Str += amt; }
-	inline void AddVit(int amt){ if (main.StatPoints > 0) main.Vit += amt; }
-	inline void AddInt(int amt){ if (main.StatPoints > 0) main.Int += amt; }
-	inline void AddMind(int amt){ if (main.StatPoints > 0) main.Mind += amt; }
-	inline void AddDex(int amt){ if (main.StatPoints > 0) main.Dex += amt; }
-	inline void AddAgi(int amt){ if (main.StatPoints > 0) main.Agi += amt; }
-	inline void AddStatPoint(int amt) { if (main.StatPoints > 0) main.StatPoints += amt; }
-	inline void AddSkillPoint(int amt) { if (main.StatPoints > 0) main.SkillPoints += amt; }
+	void AddStr(int amt){ if (main.StatPoints > 0) { main.Str += amt; DeductStatPoint(amt); } }
+	void AddVit(int amt){ if (main.StatPoints > 0) { main.Vit += amt; DeductStatPoint(amt); } }
+	void AddInt(int amt){ if (main.StatPoints > 0) { main.Int += amt; DeductStatPoint(amt); } }
+	void AddMind(int amt){ if (main.StatPoints > 0) { main.Mind += amt; DeductStatPoint(amt); } }
+	void AddDex(int amt){ if (main.StatPoints > 0) { main.Dex += amt; DeductStatPoint(amt); } }
+	void AddAgi(int amt){ if (main.StatPoints > 0) { main.Agi += amt; DeductStatPoint(amt); } }
+	void AddStatPoint(int amt) { main.StatPoints += amt; }
+	void AddSkillPoint(int amt) { main.SkillPoints += amt; }
 
-	inline void DeductLevel(int amt) { main.Level -= amt; main.StatPoints += amt; }
-	inline void DeductStr(int amt){ main.Str -= amt; main.StatPoints += amt; }
-	inline void DeductVit(int amt){ main.Vit -= amt; main.StatPoints += amt; }
-	inline void DeductInt(int amt){ main.Int -= amt; main.StatPoints += amt; }
-	inline void DeductMind(int amt){ main.Mind -= amt; main.StatPoints += amt; }
-	inline void DeductDex(int amt){ main.Dex -= amt; main.StatPoints += amt; }
-	inline void DeductAgi(int amt){ main.Agi -= amt; main.StatPoints += amt; }
-	inline void DeductStatPoint(int amt) { main.StatPoints -= amt; main.StatPoints += amt; }
-	inline void DeductSkillPoints(int amt) { main.SkillPoints -= amt; main.StatPoints += amt; }
+    inline void SetStr(int amt){main.Str = amt; }
+    inline void SetVit(int amt){ main.Vit = amt; }
+    inline void SetInt(int amt){ main.Int = amt; }
+    inline void SetMind(int amt){ main.Mind = amt; }
+    inline void SetDex(int amt){ main.Dex = amt; }
+    inline void SetAgi(int amt){ main.Agi = amt; }
+    inline void SetStatPoint(int amt) { main.StatPoints = amt; }
+    inline void SetSkillPoint(int amt) { main.SkillPoints = amt; }
+
+	void DeductLevel(int amt) { main.Level -= amt; main.StatPoints += amt; }
+	void DeductStr(int amt){ if (main.Str > 0) { main.Str -= amt; main.StatPoints += amt;} }
+	void DeductVit(int amt){ if (main.Vit > 0) { main.Vit -= amt; main.StatPoints += amt; } }
+	void DeductInt(int amt){ if (main.Int > 0) { main.Int -= amt; main.StatPoints += amt; } }
+	void DeductMind(int amt){ if (main.Mind > 0) { main.Mind -= amt; main.StatPoints += amt; } }
+	void DeductDex(int amt){ if (main.Dex > 0) { main.Dex -= amt; main.StatPoints += amt; } }
+	void DeductAgi(int amt){ if (main.StatPoints) { main.Agi -= amt; main.StatPoints += amt; } }
+	void DeductStatPoint(int amt) { main.StatPoints -= amt;}
+	void DeductSkillPoints(int amt) { main.SkillPoints -= amt;}
 
 	inline int Getlevel(){ return main.Level; }
 	inline int GetStr(){ return main.Str; }
@@ -94,7 +105,7 @@ public:
     inline void AddDamage(int amt) { sub.Damage += amt; }
     inline void AddSpellDamage(int amt){ sub.SpellDamage += amt; }
 
-	inline void UpdateStats()
+	void UpdateStats()
 	{
 		sub.MaxEXP = main.Level * MAX_EXP_MULTIPLIER;
 		sub.MaxHP = (main.Vit + main.Level) * HP_MULTIPLIER;

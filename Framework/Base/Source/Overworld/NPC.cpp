@@ -52,7 +52,6 @@ void NPC::Interact()
 	if (scene)
 	{
 		scene->SetDialogue(dialogue);
-		scene->SetTargetScene(targetScene);
 	}
 }
 

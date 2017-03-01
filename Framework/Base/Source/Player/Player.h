@@ -15,7 +15,7 @@ private:
 	Vector3 m_overworld_pos;
 
 	CharacterInfo* LoadCharacter(string fileName, int index);
-	void SaveCharacter(string fileName, int index);
+	void SaveCharacter(string fileName, CharacterInfo* character, int index);
 
 public:
 	int m_gold;

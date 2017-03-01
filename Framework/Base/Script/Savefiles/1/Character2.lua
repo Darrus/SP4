@@ -1,0 +1,10 @@
+Name = "Darrus"
+Str = 6
+Vit = 4
+Int = 7
+Mind = 15
+Dex = 0
+Agi = 0
+StatPoint = -7
+SkillPoint = 5
+Skills = { "Fire Blast", "Firaga", "Ice Blast", "Blizzaga", "BliFirga" } 

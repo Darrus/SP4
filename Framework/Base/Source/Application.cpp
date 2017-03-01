@@ -41,6 +41,7 @@
 #include "Overworld\Town.h"
 #include "Overworld\TownShop.h"
 #include "Overworld\Cave.h"
+#include "Overworld\TownTavern.h"
 
 
 GLFWwindow* m_window;
@@ -152,14 +153,11 @@ void Application::Init()
 	Player::GetInstance().Init();
 
 	SceneManager::GetInstance()->AddScene("IntroState", new CIntroState());
-   // SceneManager::GetInstance()->AddScene("BattleScene", new CBattleState());
+	SceneManager::GetInstance()->AddScene("BattleScene", new CBattleState());
 	SceneManager::GetInstance()->AddScene("Shop", new ShopScene());
-	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
 	SceneManager::GetInstance()->AddScene("Dialogue", new DialogueScene());
 	SceneManager::GetInstance()->AddScene("ShopDialogue", new ShopDialogueScene());
-	SceneManager::GetInstance()->AddScene("Town", new Town());
-	SceneManager::GetInstance()->AddScene("TownShop", new TownShop());
-	SceneManager::GetInstance()->AddScene("Cave", new Cave());
+	
 	SceneManager::GetInstance()->AddScene("PartyScene", new PartyScene());
 	SceneManager::GetInstance()->AddScene("SkillTreeScene", new SkillTreeScene());
 	SceneManager::GetInstance()->AddScene("CharacterProfileScene", new CharacterProfileScene());
@@ -167,8 +165,17 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("InventoryScene", new InventoryScene());
 	SceneManager::GetInstance()->AddScene("TavernScene", new TavernScene());
 
+	// Overworld Scenes
+	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
+	SceneManager::GetInstance()->AddScene("Town", new Town());
+	SceneManager::GetInstance()->AddScene("TownShop", new TownShop());
+	SceneManager::GetInstance()->AddScene("TownTavern", new TownTavern());
+	SceneManager::GetInstance()->AddScene("Cave", new Cave());
+
 	//Set the active scene
-	SceneManager::GetInstance()->SetActiveScene("Overworld");
+	Player::GetInstance().LoadGame("1");
+
+	//SceneManager::GetInstance()->SetActiveScene("Overworld");
 
 	//Load Font Data
 	LoadFontData("FontData//pixelFontData.csv");
@@ -220,6 +227,7 @@ void Application::Run()
 		
 		PostInputUpdate();
 	}
+	Player::GetInstance().SaveGame("1");
 	SceneManager::GetInstance()->Exit();
 }
 
