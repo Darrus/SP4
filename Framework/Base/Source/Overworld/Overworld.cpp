@@ -98,8 +98,6 @@ void Overworld::Init()
 	EManager.AddEntity(&player);
 	spatial.Add(&player);
 
-	//Player::GetInstance().LoadGame("01");
-
 	// Background Init
 	background.SetMesh(MeshBuilder::GetInstance()->GetMesh("background"));
 	background.SetTextRenderMode(SpriteEntity::MODE_3D);
@@ -140,6 +138,23 @@ void Overworld::Init()
 		spatial.Add(asset);
 	}
 
+	// Init Town
+	asset = new OverworldAsset("town");
+	asset->SetPosition(Vector3(0.f, 120.f, 0.1f));
+	asset->SetScale(Vector3(25.f, 25.f, 1.f));
+	asset->SetCamera(&camera);
+	asset->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(asset);
+	spatial.Add(asset);
+
+	TriggerScene* trigger = new TriggerScene();
+	trigger->Init("Town", &camera, Vector3(0.f, -130.f, 0.f));
+	trigger->SetPosition(asset->GetPosition());
+	trigger->SetScale(asset->GetScale());
+	trigger->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(trigger);
+	spatial.Add(trigger);
+
 	asset = new StaticAsset("mountain", "mountain_side");
 	asset->SetPosition(Vector3(30.f, 30.f, 0.1f));
 	asset->SetScale(Vector3(50.f, 50.f, 1.f));
@@ -148,18 +163,12 @@ void Overworld::Init()
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
 
-	// Init Town
-	asset = new OverworldAsset("town");
-	asset->SetPosition(Vector3(0.f, 120.f, 0.1f));
-	asset->SetScale(Vector3(25.f, 25.f, 1.f));
-	asset->SetCamera(&camera);
-	EManager.AddEntity(asset);
-	spatial.Add(asset);
-
-	TriggerScene* trigger = new TriggerScene();
-	trigger->Init("Town", &camera, Vector3(0.f, -130.f, 0.f));
-	trigger->SetPosition(asset->GetPosition());
-	trigger->SetScale(asset->GetScale());
+	Vector3 mountPos = asset->GetPosition();
+	Vector3 mountScale = asset->GetScale();
+	trigger = new TriggerScene();
+	trigger->Init("Cave", &camera, Vector3(0.f, -130.f, 0.f));
+	trigger->SetPosition(Vector3(mountPos.x, mountPos.y - mountScale.y * 0.5f, mountPos.z));
+	trigger->SetScale(Vector3(5.f, 5.f, 5.f));
 	trigger->SetCollider(new CCollider_2DAABB());
 	EManager.AddEntity(trigger);
 	spatial.Add(trigger);
@@ -181,15 +190,14 @@ void Overworld::Update()
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
 	{
-		camera.Transition(70.f, camera.GetRotZ(), 50.f);
+		camera.Transition(80.f, 0.f, 50.f);
 		battle = true;
 	}
+	
 	if (battle && camera.GetState() == CameraFollow::IDLE)
 	{
         player.SetRenderFlag(false);
         SceneManager::GetInstance()->SetActiveScene("BattleScene", true);
-
-        camera.Transition(0, 0, 80);
 	}
     else
     {

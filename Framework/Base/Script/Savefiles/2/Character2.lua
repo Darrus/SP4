@@ -1,0 +1,10 @@
+Name = "Darrus"
+Str = 0
+Vit = 0
+Int = 0
+Mind = 0
+Dex = 0
+Agi = 0
+StatPoint = 25
+SkillPoint = 5
+Skills = { "Hero Maker", "Fire Blast", "Heal" } 

@@ -58,8 +58,11 @@ public:
 	void SaveFloatValue(const char *fileName, const char* varName, const float value, const bool bOverwrite = NULL);
 	// Save String value
 	void SaveStringValue(const char *fileName, const char* varName, const char* value, const bool bOverwrite = NULL);
+	// Save string as a table
+	void SaveStringTable(const char *fileName, const char* varName, const char* value, const bool bOverwrite = NULL);
 	// Save Vector3 value
 	void SaveVector3Values(const char *fileName, const char* varName, Vector3 value, const bool bOverwrite = NULL);
+
 
 	// Get Bool Value
 	bool GetBoolValue(const char* varName);

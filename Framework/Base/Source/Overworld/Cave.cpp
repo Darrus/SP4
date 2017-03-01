@@ -11,6 +11,7 @@
 #include "StaticAsset.h"
 #include "TriggerScene.h"
 #include "TriggerDialogue.h"
+#include "EnemyNPC.h"
 
 // Collider
 #include "Collider\Collider_2DAABB.h"
@@ -85,12 +86,24 @@ void Cave::Init()
 	EManager.AddEntity(&player);
 	spatial.Add(&player);
 
+	// NPC Init
+	EnemyNPC* npc = new EnemyNPC();
+	npc->GetAnimator()->AddAnimation("npc");
+	npc->GetAnimator()->PlayAnimation("npc");
+	npc->SetScale(Vector3(20.f, 20.f, 1.f));
+	npc->SetPosition(Vector3(0.f, 80.f, 1.f));
+	npc->LoadDialogue("CAVE_NPC_BOSS");
+	npc->SetCollider(new CCollider_2DAABB());
+	npc->AttachCamera(&camera);
+	npc->SetMoveSpeed(20.f);
+	spatial.Add(npc);
+	EManager.AddEntity(npc);
+
+	// Assets Init
 	OverworldAsset* asset;
 	MeshBuilder::GetInstance()->GenerateQuad("boulder", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Cave//boulder.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("spike", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Cave//spike.tga");
-
-
-	// Assets Init
+	
 	asset = new OverworldAsset("boulder");
 	asset->SetPosition(Vector3(-100.f, 20.f, 1.1f));
 	asset->SetScale(Vector3(20.f, 20.f, 1.f));

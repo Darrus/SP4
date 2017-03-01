@@ -26,8 +26,8 @@ public:
 	inline void SetDistSpeed(float distSpeed){ this->distSpeed = distSpeed; }
 	inline void SetFollowSpeed(float followSpeed) { this->followSpeed = followSpeed; }
 
-	inline void SetRotX(float rotX){ this->rotX = rotX; }
-	inline void SetRotZ(float rotZ){ this->rotZ = rotZ; }
+	inline void SetRotX(float rotX){ this->rotX = rotX; this->curRotX = rotX; }
+	inline void SetRotZ(float rotZ){ this->rotZ = rotZ; this->curRotZ = rotZ; }
 	inline void SetRotSpeed(float rotSpeed){ this->rotSpeed = rotSpeed; }
 
 	inline float GetRotX() { return curRotX; }

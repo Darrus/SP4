@@ -1,11 +1,11 @@
 #pragma once
 #include "OverworldBase.h"
-class TownShop :
-	public OverworldBase
+
+class TownTavern : public OverworldBase
 {
 public:
-	TownShop();
-	virtual ~TownShop();
+	TownTavern();
+	virtual ~TownTavern();
 
 	virtual void Init();
 	virtual void Update();

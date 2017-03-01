@@ -71,8 +71,7 @@ void Town::Init()
 	spatial.SetMesh("Grid");
 
 	// Camera Init
-	camera.Init(80.f, 0.5f);
-	camera.SetFollowSpeed(0.3f);
+	camera.Init(80.f, 0.3f);
 	camera.SetRotSpeed(200.f);
 	camera.SetDistSpeed(100.f);
 
@@ -158,8 +157,7 @@ void Town::Exit()
 void Town::UnPause()
 {
 	// Camera Init
-	camera.Init(80.f, 0.5f);
-	camera.SetFollowSpeed(0.3f);
+	camera.Init(80.f, 0.3f);
 	camera.SetRotSpeed(200.f);
 	camera.SetDistSpeed(100.f);
 
@@ -168,12 +166,27 @@ void Town::UnPause()
 
 void Town::InitBuilding()
 {
-	// Assets Init
+	// Variables
 	OverworldAsset* asset;
+	TriggerScene* trigger;
 
-	// Shop Init
+	// Mesh Init
+	MeshBuilder::GetInstance()->GenerateQuad("House1", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house1.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("House2", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house2.tga");
+
+	MeshBuilder::GetInstance()->GenerateQuad("House1_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house1_side.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("House2_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house2_side.tga");
+
+	MeshBuilder::GetInstance()->GenerateQuad("Tower", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//tower1.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("Tower_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//tower2.tga");
+
 	MeshBuilder::GetInstance()->GenerateQuad("Shop", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//town_shop.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("Shop_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//town_shop_side.tga");
+
+	MeshBuilder::GetInstance()->GenerateQuad("Tavern", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//tavern.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("Tavern_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//tavern_side.tga");
+
+	// Shop Init
 	asset = new StaticAsset("Shop", "Shop_side");
 	asset->SetPosition(Vector3(50.f, 50.f, 1.1f));
 	asset->SetScale(Vector3(25.f, 17.f, 1.f));
@@ -182,7 +195,7 @@ void Town::InitBuilding()
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
 
-	TriggerScene* trigger = new TriggerScene();
+	trigger = new TriggerScene();
 	trigger->Init("TownShop", &camera, Vector3(0.f, -19.f, 0.f));
 	trigger->SetScale(Vector3(5.f, 5.f, 1.f));
 	trigger->SetPosition(Vector3(asset->GetPosition().x, asset->GetPosition().y - (asset->GetScale().y * 0.5f) + (trigger->GetScale().y * 0.5f), asset->GetPosition().z));
@@ -190,19 +203,25 @@ void Town::InitBuilding()
 	EManager.AddEntity(trigger);
 	spatial.Add(trigger);
 
+	// Tavern Init
+	asset = new StaticAsset("Tavern", "Tavern_side");
+	asset->SetPosition(Vector3(120.f, 50.f, 1.1f));
+	asset->SetScale(Vector3(25.f, 25.f, 1.f));
+	asset->SetCamera(&camera);
+	asset->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(asset);
+	spatial.Add(asset);
+
+	trigger = new TriggerScene();
+	trigger->Init("TownTavern", &camera, Vector3(0.f, -19.f, 0.f));
+	trigger->SetScale(Vector3(5.f, 5.f, 1.f));
+	trigger->SetPosition(Vector3(asset->GetPosition().x - 1.f, asset->GetPosition().y - (asset->GetScale().y * 0.5f) + (trigger->GetScale().y * 0.5f), asset->GetPosition().z));
+	trigger->SetCollider(new CCollider_2DAABB());
+	EManager.AddEntity(trigger);
+	spatial.Add(trigger);
+
 	// House Init
-	MeshBuilder::GetInstance()->GenerateQuad("House1", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house1.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("House2", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house2.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("House3", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house3.tga");
-
-	MeshBuilder::GetInstance()->GenerateQuad("House1_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house1_side.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("House2_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house2_side.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("House3_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//house3_side.tga");
-
-	MeshBuilder::GetInstance()->GenerateQuad("Tower", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//tower1.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("Tower_side", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//tower2.tga");
-
-	asset = new StaticAsset("House1", "House1_side");
+	asset = new StaticAsset("House2", "House2_side");
 	asset->SetPosition(Vector3(-50.f, 25.f, 1.1f));
 	asset->SetScale(Vector3(25.f, 25.f, 1.f));
 	asset->SetCamera(&camera);
@@ -218,7 +237,7 @@ void Town::InitBuilding()
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
 
-	asset = new StaticAsset("House3", "House3_side");
+	asset = new StaticAsset("House1", "House1_side");
 	asset->SetPosition(Vector3(-130.f, -50.f, 1.1f));
 	asset->SetScale(Vector3(25.f, 25.f, 1.f));
 	asset->SetCamera(&camera);
@@ -242,14 +261,6 @@ void Town::InitBuilding()
 	EManager.AddEntity(asset);
 	spatial.Add(asset);
 
-	asset = new StaticAsset("House3", "House3_side");
-	asset->SetPosition(Vector3(120.f, 50.f, 1.1f));
-	asset->SetScale(Vector3(25.f, 25.f, 1.f));
-	asset->SetCamera(&camera);
-	asset->SetCollider(new CCollider_2DAABB());
-	EManager.AddEntity(asset);
-	spatial.Add(asset);
-
 	asset = new StaticAsset("Tower", "Tower_side");
 	asset->SetPosition(Vector3(-60.f, -80.f, 1.1f));
 	asset->SetScale(Vector3(25.f, 25.f, 1.f));
@@ -267,8 +278,7 @@ void Town::InitNPC()
 	npc->GetAnimator()->PlayAnimation("npc");
 	npc->SetScale(Vector3(5.f, 5.f, 1.f));
 	npc->SetPosition(Vector3(50.f, -65.f, 1.f));
-	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
-	npc->SetTargetScene("Shop");
+	npc->LoadDialogue("TOWN_NPC_CHAT1");
 	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
 	npc->SetMoveSpeed(20.f);
@@ -282,8 +292,7 @@ void Town::InitNPC()
 	npc->GetAnimator()->PlayAnimation("npc");
 	npc->SetScale(Vector3(5.f, 5.f, 1.f));
 	npc->SetPosition(Vector3(-70.f, 0.f, 1.f));
-	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
-	npc->SetTargetScene("Shop");
+	npc->LoadDialogue("TOWN_NPC_CHAT2");
 	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
 	npc->SetMoveSpeed(20.f);
@@ -297,8 +306,7 @@ void Town::InitNPC()
 	npc->GetAnimator()->PlayAnimation("npc");
 	npc->SetScale(Vector3(5.f, 5.f, 1.f));
 	npc->SetPosition(Vector3(30.f, 20.f, 1.f));
-	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
-	npc->SetTargetScene("Shop");
+	npc->LoadDialogue("TOWN_NPC_CHAT3");
 	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
 	npc->SetMoveSpeed(20.f);
@@ -312,8 +320,7 @@ void Town::InitNPC()
 	npc->GetAnimator()->PlayAnimation("npc");
 	npc->SetScale(Vector3(5.f, 5.f, 1.f));
 	npc->SetPosition(Vector3(-70.f, -60.f, 1.f));
-	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
-	npc->SetTargetScene("Shop");
+	npc->LoadDialogue("TOWN_NPC_CHAT4");
 	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
 	npc->SetMoveSpeed(20.f);
@@ -327,8 +334,7 @@ void Town::InitNPC()
 	npc->GetAnimator()->PlayAnimation("npc");
 	npc->SetScale(Vector3(5.f, 5.f, 1.f));
 	npc->SetPosition(Vector3(-30.f, 90.f, 1.f));
-	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
-	npc->SetTargetScene("Shop");
+	npc->LoadDialogue("TOWN_NPC_CHAT5");
 	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
 	npc->SetMoveSpeed(20.f);

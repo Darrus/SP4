@@ -18,7 +18,7 @@ private:
 
 	//TODO:
 	CharacterInfo* LoadCharacter(string fileName, int index);
-	void SaveCharacter(string fileName, int index);
+	void SaveCharacter(string fileName, CharacterInfo* character, int index);
 	//Store a respawnpoint?
 
 public:
