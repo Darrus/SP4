@@ -19,13 +19,16 @@ CharacterInfo* PartySystem::GetMember(int id)
 {
 	for (int i = 0; i < maxPartySize; ++i)
 	{
-		if (party[i]->id == id)
-			return party[i];
+            if (party[i]->id == id)
+                return party[i];
 	}
 }
 
 bool PartySystem::AddMember(CharacterInfo* member)
 {
+    if (!member)
+        return false;
+
 	std::cout << "Adding... " << member->id << std::endl;
 	for (int i = 0; i < maxPartySize; ++i)
 	{
@@ -33,6 +36,7 @@ bool PartySystem::AddMember(CharacterInfo* member)
 		{
 			party[i] = member;
 			std::cout << "Added!!" << member->id << std::endl;
+            currPartySize++;
 			return true;
 		}
 	}
@@ -48,6 +52,7 @@ CharacterInfo* PartySystem::RemoveMember(int id)
 		{
 			CharacterInfo* result = party[i];
 			party[i] = nullptr;
+            currPartySize--;
 			return result;
 		}
 	}
@@ -58,7 +63,7 @@ CharacterInfo* PartySystem::RemoveMemberByIndex(int index)
 	CharacterInfo* result = party[index];
 
 	party[index] = nullptr;
-
+    currPartySize--;
 	return result;
 }
 
@@ -74,11 +79,5 @@ vector<CharacterInfo*> PartySystem::GetParty()
 
 int PartySystem::memberCount()
 {
-    int count = 0;
-    for (int i = 0; i < maxPartySize; ++i)
-    {
-		if (party[i] != nullptr)
-			count++;
-    }
-    return count;
+    return currPartySize;
 }

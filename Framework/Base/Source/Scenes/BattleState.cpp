@@ -103,74 +103,74 @@ void CBattleState::Init()
 	cout << "CBattleState loaded\n" << endl;
 
     testingBattle = new BattleSystem();
-    charahehe = new CharacterInfo();
-    party = new PartySystem();
-    charahehe->stats.AddLevel(1);
-    charahehe->stats.SetVit(10);
-    charahehe->stats.SetStr(10);
-    charahehe->stats.SetInt(8);
-    charahehe->stats.SetMind(5);
-    charahehe->stats.SetDex(11);
-    charahehe->stats.SetAgi(10);
-    charahehe->name = "Randall";
-    charahehe->id = 0;
-    charahehe->stats.UpdateStats();
-    charahehe->HP = charahehe->stats.GetMaxHP();
-    charahehe->MP = charahehe->stats.GetMaxMP();
-    SkillContainer::GetInstance()->Init();
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Curate"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Hero Maker"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Charisma"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Illusion"));
+    //party = new PartySystem();
+    //charahehe->stats.AddLevel(1);
+    //charahehe->stats.SetVit(10);
+    //charahehe->stats.SetStr(10);
+    //charahehe->stats.SetInt(8);
+    //charahehe->stats.SetMind(5);
+    //charahehe->stats.SetDex(11);
+    //charahehe->stats.SetAgi(10);
+    //charahehe->name = "Randall";
+    //charahehe->id = 0;
+    //charahehe->stats.UpdateStats();
+    //charahehe->HP = charahehe->stats.GetMaxHP();
+    //charahehe->MP = charahehe->stats.GetMaxMP();
+    //SkillContainer::GetInstance()->Init();
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Curate"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Hero Maker"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Charisma"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Illusion"));
+    ////testingBattle->partypew->AddMember(charahehe);
+    //party->AddMember(charahehe);
+
+    //charahehe = new CharacterInfo();
+    //charahehe->stats.AddLevel(1);
+    //charahehe->stats.SetVit(6);
+    //charahehe->stats.SetStr(10);
+    //charahehe->stats.SetInt(10);
+    //charahehe->stats.SetMind(15);
+    //charahehe->stats.SetDex(8);
+    //charahehe->stats.SetAgi(8);
+    //charahehe->name = "Darrus";
+    //charahehe->id = 1;
+    //charahehe->stats.UpdateStats();
+    //charahehe->HP = charahehe->stats.GetMaxHP();
+    //charahehe->MP = charahehe->stats.GetMaxMP();
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Fire Blast"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Firaga"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Ice Blast"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Blizzaga"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("BliFirga"));
+    ////testingBattle->partypew->AddMember(charahehe);
+    //party->AddMember(charahehe);
+
+    //charahehe = new CharacterInfo();
+    //charahehe->stats.AddLevel(1);
+    //charahehe->stats.SetVit(10);
+    //charahehe->stats.SetStr(15);
+    //charahehe->stats.SetInt(4);
+    //charahehe->stats.SetMind(6);
+    //charahehe->stats.SetDex(4);
+    //charahehe->stats.SetAgi(7);
+    //charahehe->name = "Reuben";
+    //charahehe->id = 2;
+    //charahehe->stats.UpdateStats();
+    //charahehe->HP = charahehe->stats.GetMaxHP();
+    //charahehe->MP = charahehe->stats.GetMaxMP();
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Thrust"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Sweep"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Feint"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Speed Boost"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Power Thrust"));
+    //party->AddMember(charahehe);
     //testingBattle->partypew->AddMember(charahehe);
-    party->AddMember(charahehe);
 
-    charahehe = new CharacterInfo();
-    charahehe->stats.AddLevel(1);
-    charahehe->stats.SetVit(6);
-    charahehe->stats.SetStr(10);
-    charahehe->stats.SetInt(10);
-    charahehe->stats.SetMind(15);
-    charahehe->stats.SetDex(8);
-    charahehe->stats.SetAgi(8);
-    charahehe->name = "Darrus";
-    charahehe->id = 1;
-    charahehe->stats.UpdateStats();
-    charahehe->HP = charahehe->stats.GetMaxHP();
-    charahehe->MP = charahehe->stats.GetMaxMP();
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Fire Blast"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Firaga"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Ice Blast"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Blizzaga"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("BliFirga"));
-    //testingBattle->partypew->AddMember(charahehe);
-    party->AddMember(charahehe);
+    //Player::GetInstance().SetParty(*party);
 
-    charahehe = new CharacterInfo();
-    charahehe->stats.AddLevel(1);
-    charahehe->stats.SetVit(10);
-    charahehe->stats.SetStr(15);
-    charahehe->stats.SetInt(4);
-    charahehe->stats.SetMind(6);
-    charahehe->stats.SetDex(4);
-    charahehe->stats.SetAgi(7);
-    charahehe->name = "Reuben";
-    charahehe->id = 2;
-    charahehe->stats.UpdateStats();
-    charahehe->HP = charahehe->stats.GetMaxHP();
-    charahehe->MP = charahehe->stats.GetMaxMP();
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Thrust"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Sweep"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Feint"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Speed Boost"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Power Thrust"));
-    party->AddMember(charahehe);
-    //testingBattle->partypew->AddMember(charahehe);
-
-    Player::GetInstance().SetParty(*party);
-
-    testingBattle->AssignPlayerParty();
+    //testingBattle->AssignPlayerParty();
+    testingBattle->PlayerInfoList.clear();
 
     efactory = new MonsterFactory();
 
@@ -253,4 +253,9 @@ void CBattleState::Exit()
     delete CommandBox;
 	// Detach camera from other entities
 	GraphicsManager::GetInstance()->DetachCamera();
+}
+
+void CBattleState::UnPause()
+{
+    testingBattle->AssignPlayerParty();
 }
