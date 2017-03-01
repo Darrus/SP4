@@ -1,6 +1,6 @@
 #include "PartySystem.h"
 #include "timer.h"
-
+#include <iostream>
 PartySystem::PartySystem() : 
 currPartySize(0)
 {
@@ -19,21 +19,29 @@ CharacterInfo* PartySystem::GetMember(int id)
 {
 	for (int i = 0; i < maxPartySize; ++i)
 	{
-		if (party[i]->id == id)
-			return party[i];
+            if (party[i]->id == id)
+                return party[i];
 	}
 }
 
-void PartySystem::AddMember(CharacterInfo* member)
+bool PartySystem::AddMember(CharacterInfo* member)
 {
+    if (!member)
+        return false;
+
+	std::cout << "Adding... " << member->id << std::endl;
 	for (int i = 0; i < maxPartySize; ++i)
 	{
 		if (party[i] == nullptr)
 		{
 			party[i] = member;
-			break;
+			std::cout << "Added!!" << member->id << std::endl;
+            currPartySize++;
+			return true;
 		}
 	}
+	std::cout << "Failed to add!! " << member->id << std::endl;
+	return false;
 }
 
 CharacterInfo* PartySystem::RemoveMember(int id)
@@ -44,9 +52,19 @@ CharacterInfo* PartySystem::RemoveMember(int id)
 		{
 			CharacterInfo* result = party[i];
 			party[i] = nullptr;
+            currPartySize--;
 			return result;
 		}
 	}
+}
+
+CharacterInfo* PartySystem::RemoveMemberByIndex(int index)
+{
+	CharacterInfo* result = party[index];
+
+	party[index] = nullptr;
+    currPartySize--;
+	return result;
 }
 
 vector<CharacterInfo*> PartySystem::GetParty()
@@ -61,10 +79,5 @@ vector<CharacterInfo*> PartySystem::GetParty()
 
 int PartySystem::memberCount()
 {
-    int count = 0;
-    for (int i = 0; i < maxPartySize; ++i)
-    {
-        count++;
-    }
-    return count;
+    return currPartySize;
 }

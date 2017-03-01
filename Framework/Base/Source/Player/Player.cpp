@@ -10,6 +10,7 @@
 
 // Skills
 #include "../Skills/SkillFunctions.h"
+#include "..\Scenes\BattleState.h"
 
 using std::stringstream;
 
@@ -25,7 +26,7 @@ Player::~Player()
 void Player::DoDie()
 {
 	//TODO:
-	//Reset values to previous saved game or respawn point or something I don't fucking know. Decide later.
+	//Most likely goto "You Died" scene and return to main menu to save
 }
 
 void Player::SaveGame(string fileName)
@@ -85,11 +86,12 @@ void Player::LoadGame(string fileName)
 	Vector3 position = Lua->GetVector3Values("Position");
 	OverworldBase* scene = dynamic_cast<OverworldBase*>(SceneManager::GetInstance()->SetActiveScene(sceneName));
 	scene->SetStartPos(position);
-
+    
 	// Load Party Info
-	for (int i = 0; i < m_party.GetMaxPartySize(); ++i)
+	for (int i = 0; i < (m_party.GetMaxPartySize()); ++i)
 	{
-		LoadCharacter(fileName, i + 1 );
+        m_party.AddMember(LoadCharacter(fileName, i));
+
 	}
 }
 
@@ -99,7 +101,7 @@ CharacterInfo* Player::LoadCharacter(string fileName, int index)
 	CharacterInfo* character = nullptr;
 	stringstream fileLoc;
 
-	fileLoc << "Savefiles//" << fileName << "//Character" << index;
+	fileLoc << "Savefiles//" << fileName << "//Character" << (index + 1);
 	if (Lua->LoadFile(fileLoc.str()))
 	{
 		character = new CharacterInfo();
@@ -112,14 +114,18 @@ CharacterInfo* Player::LoadCharacter(string fileName, int index)
 		}
 
 		character->stats.AddLevel(Lua->GetIntValue("Level"));
-		character->stats.AddStr(Lua->GetIntValue("Str"));
-		character->stats.AddVit(Lua->GetIntValue("Vit"));
-		character->stats.AddInt(Lua->GetIntValue("Int"));
-		character->stats.AddMind(Lua->GetIntValue("Mind"));
-		character->stats.AddDex(Lua->GetIntValue("Dex"));
-		character->stats.AddAgi(Lua->GetIntValue("Agi"));
-		character->stats.AddStatPoint(Lua->GetIntValue("StatPoint"));
-		character->stats.AddSkillPoint(Lua->GetIntValue("SkillPoint"));
+		character->stats.SetStr(Lua->GetIntValue("Str"));
+		character->stats.SetVit(Lua->GetIntValue("Vit"));
+		character->stats.SetInt(Lua->GetIntValue("Int"));
+		character->stats.SetMind(Lua->GetIntValue("Mind"));
+		character->stats.SetDex(Lua->GetIntValue("Dex"));
+		character->stats.SetAgi(Lua->GetIntValue("Agi"));
+        character->id = index;
+		character->stats.SetStatPoint(Lua->GetIntValue("StatPoint"));
+		character->stats.SetSkillPoint(Lua->GetIntValue("SkillPoint"));
+        character->stats.UpdateStats();
+        character->HP = character->stats.GetMaxHP();
+        character->MP = character->stats.GetMaxMP();
 
 		vector<string> skillNames = Lua->GetStringTable("Skills");
 		while (skillNames.size() > 0)
@@ -129,6 +135,10 @@ CharacterInfo* Player::LoadCharacter(string fileName, int index)
 			skillNames.pop_back();
 		}
 	}
-
 	return character;
+}
+
+void Player::Init()
+{
+	m_gold = 1000000;
 }

@@ -101,107 +101,76 @@ void CBattleState::Init()
 	entity.GetAnimator()->PlayAnimation("walk");
 
 	cout << "CBattleState loaded\n" << endl;
-   
-    //testEntity = new BattleEntity();
-    //testEntity->GetInfo()->stats.AddVit(50);
-    //testEntity->GetInfo()->stats.AddStr(40);
-    //testEntity->GetInfo()->stats.AddInt(5);
-    //testEntity->GetInfo()->stats.AddMind(20);
-    //testEntity->GetInfo()->stats.AddDex(10);
-    //testEntity->GetInfo()->stats.AddAgi(7);
-    //testEntity->GetInfo()->stats.AddLevel(2);
-    //testEntity->GetInfo()->name = "Triple H";
-    //testEntity->GetInfo()->id = 3;
-    //testEntity->enemyType = BattleEntity::ENEMY;
-    //testEntity->GetInfo()->stats.UpdateStats();
-    //testEntity->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.5f, 1.f));
-    //testEntity->GetInfo()->HP = testEntity->GetInfo()->stats.GetMaxHP();
-
-    //testEntity2 = new BattleEntity();
-    //testEntity2->GetInfo()->stats.AddVit(50);
-    //testEntity2->GetInfo()->stats.AddStr(50);
-    //testEntity2->GetInfo()->stats.AddInt(15);
-    //testEntity2->GetInfo()->stats.AddMind(50);
-    //testEntity2->GetInfo()->stats.AddDex(40);
-    //testEntity2->GetInfo()->stats.AddAgi(2);
-    //testEntity2->GetInfo()->stats.AddLevel(2);
-    //testEntity2->GetInfo()->name = "John Cena";
-    //testEntity2->GetInfo()->id = 4;
-    //testEntity2->enemyType = BattleEntity::ENEMY;
-    //testEntity2->GetInfo()->stats.UpdateStats();
-    //testEntity2->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * 0.25f, 1.f));
-    //testEntity2->GetInfo()->HP = testEntity2->GetInfo()->stats.GetMaxHP();
-
-    //BattleList.push_back(testEntity);
-    //BattleList.push_back(testEntity2);
-    //testEntity->GetInfo()->stats.UpdateStats();
-    //party = new PartySystem();
-
 
     testingBattle = new BattleSystem();
-    charahehe = new CharacterInfo();
-    party = new PartySystem();
+    //party = new PartySystem();
+    //charahehe->stats.AddLevel(1);
+    //charahehe->stats.SetVit(10);
+    //charahehe->stats.SetStr(10);
+    //charahehe->stats.SetInt(8);
+    //charahehe->stats.SetMind(5);
+    //charahehe->stats.SetDex(11);
+    //charahehe->stats.SetAgi(10);
+    //charahehe->name = "Randall";
+    //charahehe->id = 0;
+    //charahehe->stats.UpdateStats();
+    //charahehe->HP = charahehe->stats.GetMaxHP();
+    //charahehe->MP = charahehe->stats.GetMaxMP();
+    //SkillContainer::GetInstance()->Init();
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Curate"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Hero Maker"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Charisma"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Illusion"));
+    ////testingBattle->partypew->AddMember(charahehe);
+    //party->AddMember(charahehe);
 
-    charahehe->stats.AddVit(10);
-    charahehe->stats.AddStr(8);
-    charahehe->stats.AddInt(6);
-    charahehe->stats.AddMind(5);
-    charahehe->stats.AddDex(11);
-    charahehe->stats.AddAgi(3);
-    charahehe->stats.AddLevel(5);
-    charahehe->name = "Randall";
-    charahehe->id = 0;
-    charahehe->stats.UpdateStats();
-    charahehe->HP = charahehe->stats.GetMaxHP();
-    charahehe->MP = charahehe->stats.GetMaxMP();
-    SkillContainer::GetInstance()->Init();
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Fire Blast"));
+    //charahehe = new CharacterInfo();
+    //charahehe->stats.AddLevel(1);
+    //charahehe->stats.SetVit(6);
+    //charahehe->stats.SetStr(10);
+    //charahehe->stats.SetInt(10);
+    //charahehe->stats.SetMind(15);
+    //charahehe->stats.SetDex(8);
+    //charahehe->stats.SetAgi(8);
+    //charahehe->name = "Darrus";
+    //charahehe->id = 1;
+    //charahehe->stats.UpdateStats();
+    //charahehe->HP = charahehe->stats.GetMaxHP();
+    //charahehe->MP = charahehe->stats.GetMaxMP();
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Fire Blast"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Firaga"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Ice Blast"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Blizzaga"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("BliFirga"));
+    ////testingBattle->partypew->AddMember(charahehe);
+    //party->AddMember(charahehe);
+
+    //charahehe = new CharacterInfo();
+    //charahehe->stats.AddLevel(1);
+    //charahehe->stats.SetVit(10);
+    //charahehe->stats.SetStr(15);
+    //charahehe->stats.SetInt(4);
+    //charahehe->stats.SetMind(6);
+    //charahehe->stats.SetDex(4);
+    //charahehe->stats.SetAgi(7);
+    //charahehe->name = "Reuben";
+    //charahehe->id = 2;
+    //charahehe->stats.UpdateStats();
+    //charahehe->HP = charahehe->stats.GetMaxHP();
+    //charahehe->MP = charahehe->stats.GetMaxMP();
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Thrust"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Sweep"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Feint"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Speed Boost"));
+    //charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Power Thrust"));
+    //party->AddMember(charahehe);
     //testingBattle->partypew->AddMember(charahehe);
-    party->AddMember(charahehe);
 
-    charahehe = new CharacterInfo();
-    charahehe->stats.AddVit(4);
-    charahehe->stats.AddStr(6);
-    charahehe->stats.AddInt(7);
-    charahehe->stats.AddMind(15);
-    charahehe->stats.AddDex(8);
-    charahehe->stats.AddAgi(1);
-    charahehe->stats.AddLevel(5);
-    charahehe->name = "Darrus";
-    charahehe->id = 1;
-    charahehe->stats.UpdateStats();
-    charahehe->HP = charahehe->stats.GetMaxHP();
-    charahehe->MP = charahehe->stats.GetMaxMP();
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Hero Maker"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Fire Blast"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-    //testingBattle->partypew->AddMember(charahehe);
-    party->AddMember(charahehe);
+    //Player::GetInstance().SetParty(*party);
 
-    charahehe = new CharacterInfo();
-    charahehe->stats.AddVit(5);
-    charahehe->stats.AddStr(6);
-    charahehe->stats.AddInt(4);
-    charahehe->stats.AddMind(3);
-    charahehe->stats.AddDex(7);
-    charahehe->stats.AddAgi(10);
-    charahehe->stats.AddLevel(5);
-    charahehe->name = "Reuben";
-    charahehe->id = 2;
-    charahehe->stats.UpdateStats();
-    charahehe->HP = charahehe->stats.GetMaxHP();
-    charahehe->MP = charahehe->stats.GetMaxMP();
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Sweep"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Fire Blast"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Hero Maker"));
-    charahehe->skills.push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-    party->AddMember(charahehe);
-    //testingBattle->partypew->AddMember(charahehe);
-
-    Player::GetInstance().SetParty(*party);
-
-    testingBattle->AssignPlayerParty();
+    //testingBattle->AssignPlayerParty();
+    testingBattle->PlayerInfoList.clear();
 
     efactory = new MonsterFactory();
 
@@ -255,7 +224,7 @@ void CBattleState::Update()
 
         for (int rand = 0; rand < randenemy; rand++)
         {
-            enemyhehe = efactory->CreateRandomEnemy((Player::GetInstance().GetParty()->memberCount() - 1) + rand);
+            enemyhehe = efactory->CreateRandomEnemy((Player::GetInstance().GetParty()->memberCount()) + rand);
             testingBattle->EnemyInfoList.push_back(enemyhehe);
         }
         testingBattle->AssignEnemies();
@@ -284,4 +253,9 @@ void CBattleState::Exit()
     delete CommandBox;
 	// Detach camera from other entities
 	GraphicsManager::GetInstance()->DetachCamera();
+}
+
+void CBattleState::UnPause()
+{
+    testingBattle->AssignPlayerParty();
 }

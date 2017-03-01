@@ -1,3 +1,3 @@
-Scene = "Town"
-Position = {120.0000, 35.0000, 0.0000}
-Gold = 0
+Scene = "Overworld"
+Position = {-39.2759, 112.6246, 0.0000}
+Gold = 1000000

@@ -21,14 +21,13 @@ EnemyInfo* MonsterFactory::CreateEnemy1(int id)
 {
     LevelSync();
     EnemyInfo* newEnemy = new EnemyInfo("Carbonara");
-
-    newEnemy->stats.AddVit(1);
-    newEnemy->stats.AddStr(1);
-    newEnemy->stats.AddInt(3);
-    newEnemy->stats.AddMind(2);
-    newEnemy->stats.AddDex(6);
-    newEnemy->stats.AddAgi(8);
     newEnemy->stats.AddLevel(avgLvl);
+    newEnemy->stats.SetVit(6);
+    newEnemy->stats.SetStr(11);
+    newEnemy->stats.SetInt(3);
+    newEnemy->stats.SetMind(2);
+    newEnemy->stats.SetDex(6);
+    newEnemy->stats.SetAgi(7);
     newEnemy->name = "Carbonara";
     newEnemy->id = id;
     newEnemy->stats.UpdateStats();
@@ -42,14 +41,13 @@ EnemyInfo* MonsterFactory::CreateEnemy2(int id)
 {
     LevelSync();
     EnemyInfo* newEnemy = new EnemyInfo("Kayne West");
-
-    newEnemy->stats.AddVit(2);
-    newEnemy->stats.AddStr(3);
-    newEnemy->stats.AddInt(1);
-    newEnemy->stats.AddMind(2);
-    newEnemy->stats.AddDex(8);
-    newEnemy->stats.AddAgi(10);
     newEnemy->stats.AddLevel(avgLvl);
+    newEnemy->stats.SetVit(4);
+    newEnemy->stats.SetStr(13);
+    newEnemy->stats.SetInt(1);
+    newEnemy->stats.SetMind(2);
+    newEnemy->stats.SetDex(8);
+    newEnemy->stats.SetAgi(11);
     newEnemy->name = "Kayne West";
     newEnemy->id = id;
     //newEnemy->enemyType = BattleEntity::ENEMY;
@@ -65,14 +63,13 @@ EnemyInfo* MonsterFactory::CreateEnemy3(int id)
 {
     LevelSync();
     EnemyInfo* newEnemy = new EnemyInfo("Dwayne Johnson");
-
-    newEnemy->stats.AddVit(1);
-    newEnemy->stats.AddStr(2);
-    newEnemy->stats.AddInt(2);
-    newEnemy->stats.AddMind(5);
-    newEnemy->stats.AddDex(4);
-    newEnemy->stats.AddAgi(4);
     newEnemy->stats.AddLevel(avgLvl);
+    newEnemy->stats.SetVit(7);
+    newEnemy->stats.SetStr(10);
+    newEnemy->stats.SetInt(2);
+    newEnemy->stats.SetMind(5);
+    newEnemy->stats.SetDex(4);
+    newEnemy->stats.AddAgi(12);
     newEnemy->name = "Dwayne Johnson";
     newEnemy->id = id;
     newEnemy->stats.UpdateStats();
@@ -86,14 +83,13 @@ EnemyInfo* MonsterFactory::CreateBoss(int id)
 {
     LevelSync();
     EnemyInfo* newEnemy = new EnemyInfo("Alishpata");
-
+    newEnemy->stats.AddLevel(avgLvl + 2);
     newEnemy->stats.AddVit(2);
     newEnemy->stats.AddStr(2);
     newEnemy->stats.AddInt(2);
     newEnemy->stats.AddMind(5);
     newEnemy->stats.AddDex(7);
     newEnemy->stats.AddAgi(10);
-    newEnemy->stats.AddLevel(avgLvl + 2);
     newEnemy->name = "Alishpata";
     newEnemy->id = id;
     newEnemy->stats.UpdateStats();

@@ -341,10 +341,12 @@ void ShopScene::Render()
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	if (buying_tab)
 	{
-		//Page
 		modelStack.PushMatrix();
-		modelStack.Translate(465, 95, 0);
-		modelStack.Scale(70.f, 70.f, 1.f);
+		modelStack.Translate(510, 100, 0);
+		modelStack.Scale(100.f, 100.f, 1.f);
+		RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("button_background"));
+		modelStack.Translate(-0.45, 0, 0);
+		modelStack.Scale(0.75f, 0.75f, 1.f);
 		RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(currentPage + 1), Color(0, 1, 0));
 		modelStack.PopMatrix();
 	}

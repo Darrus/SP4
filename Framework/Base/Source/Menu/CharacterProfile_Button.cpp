@@ -1,7 +1,7 @@
 #include "CharacterProfile_Button.h"
 #include "../Scenes/CharacterProfileScene.h"
 
-CharacterProfile_Button::CharacterProfile_Button()
+CharacterProfile_Button::CharacterProfile_Button() : m_visable_skill_tree(false)
 {
 }
 
@@ -11,7 +11,8 @@ CharacterProfile_Button::~CharacterProfile_Button()
 
 void CharacterProfile_Button::RunFunction()
 {
-	dynamic_cast<CharacterProfileScene*>(SceneManager::GetInstance()->SetActiveScene("CharacterProfileScene", true))->SetCharacter(m_chara);
+	if (m_chara != nullptr)
+		dynamic_cast<CharacterProfileScene*>(SceneManager::GetInstance()->SetActiveScene("CharacterProfileScene", true))->SetCharacter(m_chara, m_visable_skill_tree);
 }
 
 void CharacterProfile_Button::Render()
@@ -29,7 +30,10 @@ void CharacterProfile_Button::Render()
 	modelStack.PopMatrix();
 
 	if (m_chara == nullptr)
+	{
+		modelStack.PopMatrix();
 		return;
+	}
 
 	modelStack.Translate(-m_scale_x * 0.5, 0, 1);
 

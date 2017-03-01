@@ -6,6 +6,7 @@
 #include "../Items/Inventory.h"
 #include "../../Common/Source/SceneManager.h"
 #include "../Skills/SkillFunctions.h"
+#include "../Player/Player.h"
 
 #include <iostream>
 #include <string>
@@ -21,15 +22,13 @@ enum BUTTON_MESH
 };
 
 //===============================================================//
-//Brief: A button object that does something on Press			 //
+//Brief: A abstract base Button class that defines it			 //
 //===============================================================//
 class Button : public GUIObject
 {
 protected:
 	//Holds the image and highlighted image
 	Mesh* m_meshList[NUM_IMAGES];
-
-	//boolean to set if the button is clickable
 
 public:
 	//To determine which mesh is rendered
@@ -57,7 +56,9 @@ public:
 class Toggle_Button : public Button
 {
 protected:
+	//Alternate text depending on toggle
 	string m_alt_text;
+
 	//Pointer that points to the address of the boolean to toggle
 	bool *m_toToggle;
 
@@ -234,10 +235,7 @@ public:
 	}
 	virtual void Render();
 
-	ShopItem_Button()
-	{
-		SetScale(650, 150);
-	};
+	ShopItem_Button(){ SetScale(650, 150); }
 	~ShopItem_Button(){};
 };
 
@@ -260,6 +258,42 @@ public:
 
 	Inventory_Button(){ SetScale(650, 150); }
 	~Inventory_Button(){};
+};
+
+//============================================================================//
+//Brief: A button object adds a CharacterInfo into the Player's Party.		  //
+//============================================================================//
+class Hire_Button : public Button
+{
+protected:
+
+public:
+	CharacterInfo* m_chara_to_add;
+	int m_gold_cost;
+	inline void SetGoldCost(int cost)
+	{ 
+		m_gold_cost = cost; 
+		SetTextOffset(40, 15);
+		m_text = " Hire Me\nfor" + std::to_string(m_gold_cost) + " gold!"; 
+	}
+	inline void SetCharacterToAdd(CharacterInfo* chara_to_add){ m_chara_to_add = chara_to_add; }
+	inline void RunFunction()
+	{
+		if (Player::GetInstance().m_gold < m_gold_cost)
+			return;
+		else if (Player::GetInstance().GetInstance().GetParty()->memberCount() == Player::GetInstance().GetInstance().GetParty()->GetMaxPartySize())
+			return;
+		else if (m_chara_to_add == nullptr)
+			return;
+		else
+		{
+			if(Player::GetInstance().GetParty()->AddMember(m_chara_to_add))
+				Player::GetInstance().m_gold -= m_gold_cost;
+		}
+	}
+
+	Hire_Button(){ SetScale(650, 150); }
+	~Hire_Button(){};
 };
 
 //============================================================================//
