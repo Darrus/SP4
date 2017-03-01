@@ -110,10 +110,6 @@ void ShopDialogueScene::Update()
 	{
 		text->SetText(dialogue[textPos]);
 	}
-
-	/*TODO:
-	Button to exit from chat. Remember to reset the message/dialogue vector
-	*/
 }
 
 void ShopDialogueScene::Render()

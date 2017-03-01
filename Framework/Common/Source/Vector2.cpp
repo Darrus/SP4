@@ -1,7 +1,5 @@
 #include "Vector2.h"
 
-// NOTE : TODO
-
 Vector2::Vector2( float a, float b )
 {
 }

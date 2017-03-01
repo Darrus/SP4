@@ -36,9 +36,6 @@ public:
 	inline int GetPhysicalDefense(){ return m_physical_def; }
 	inline int GetMagicDefense(){ return m_magic_def; }
 
-	//TODO:
-	//Do I make setters for equipment?
-
 	//Equipment(){};
 	Equipment(EQUIPMENT_TYPE type, int physDmg, int magicDmg, int physDef, int magicDef) : 
 		m_type(type), m_physical_dmg(physDmg), m_magic_dmg(magicDmg), m_physical_def(physDef), m_magic_def(magicDef){};

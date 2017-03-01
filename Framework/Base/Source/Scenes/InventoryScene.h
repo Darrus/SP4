@@ -29,6 +29,7 @@ public:
 	virtual void Render();
 	virtual void Exit();
 	virtual void Pause();
+	virtual void UnPause();
 
 private:
 	FPSCamera camera;
@@ -40,18 +41,21 @@ private:
 	Inventory_Menu* display_inventory;
 	int current_page;
 
-	CharacterInfo* dummy_party[4];
+	//Button to select which character to use the item on
 	SelectCharacterForItem_Button* chara_select_btn[4];
 	Menu* character_menu;
 
-	//for using items
+	//The item and and character to use it on
 	Item* item_holder;
 	CharacterInfo* chara_holder;
 	int item_index;
 
+	//prompts when button is used
 	PopUp_Button* used_item;
 
+	//utility buttons
 	Menu* utilitybuttons;
 
+	//initialise the buttons in the inventory
 	void init_inventory();
 };

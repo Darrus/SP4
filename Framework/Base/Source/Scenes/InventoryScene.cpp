@@ -55,20 +55,21 @@ void InventoryScene::Init()
 	item_holder = nullptr;
 
 	//Init inventory
-	player_inventory = new Inventory();
+	//player_inventory = new Inventory();
 
-	//Some items in the "Shop"
-	player_inventory->AddItem(new HealthPotion());
-	player_inventory->AddItem(new HealthPotion());
-	player_inventory->AddItem(new MaxHealthPotion());
-	player_inventory->AddItem(new HealthPotion());
-	player_inventory->AddItem(new HealthPotion());
-	player_inventory->AddItem(new MaxHealthPotion());
-	player_inventory->AddItem(new HealthPotion());
-	player_inventory->AddItem(new MaxHealthPotion());
-	player_inventory->AddItem(new MaxHealthPotion());
-	player_inventory->AddItem(new MaxHealthPotion());
-	player_inventory->AddItem(new MaxHealthPotion());
+	////Some items in the "Shop"
+	//player_inventory->AddItem(new HealthPotion());
+	//player_inventory->AddItem(new HealthPotion());
+	//player_inventory->AddItem(new MaxHealthPotion());
+	//player_inventory->AddItem(new HealthPotion());
+	//player_inventory->AddItem(new HealthPotion());
+	//player_inventory->AddItem(new MaxHealthPotion());
+	//player_inventory->AddItem(new HealthPotion()); 
+	//player_inventory->AddItem(new MaxHealthPotion());
+	//player_inventory->AddItem(new MaxHealthPotion());
+	//player_inventory->AddItem(new MaxHealthPotion());
+	//player_inventory->AddItem(new MaxHealthPotion());
+	player_inventory = Player::GetInstance().GetInventory();
 
 	//Init Menus
 	utilitybuttons = new Menu();
@@ -116,37 +117,13 @@ void InventoryScene::Init()
 	used_item->SetTextOffset(120, 0);
 	utilitybuttons->AddButton(used_item);
 
-	//Make dummy party
-	for (unsigned i = 0; i < 4; ++i)
-	{
-		CharacterInfo* charahehe = new CharacterInfo();
-		charahehe->stats.AddVit(Math::RandIntMinMax(10, 200));
-		charahehe->stats.AddStr(50);
-		charahehe->stats.AddInt(65);
-		charahehe->stats.AddMind(50);
-		charahehe->stats.AddDex(40);
-		charahehe->stats.AddAgi(3);
-		charahehe->stats.AddLevel(5);
-		charahehe->name = "Kek";
-		charahehe->id = 0;
-		charahehe->stats.UpdateStats();
-		charahehe->HP = charahehe->stats.GetMaxHP();
-		charahehe->skill_branch_index[0] = 0;
-		charahehe->skill_branch_index[1] = 0;
-		charahehe->skill_branch_index[2] = 0;
-		charahehe->skill_branch_index[3] = 0;
-		charahehe->anim.AddAnimation("walk");
-		charahehe->anim.PlayAnimation("walk");
-		dummy_party[i] = charahehe;
-	}
-
 	float offset_x = 1200.f;
 	float offset_y = 700.f;
 	for (unsigned i = 0; i < 4; ++i)
 	{
 		//Stop loop at the first empty slot it reaches
-		if (dummy_party[i] == nullptr)
-			break;
+		/*if (Player::GetInstance().GetParty()->GetMemberByIndex(i) == nullptr)
+			continue;*/
 
 		if (i == 2)
 		{
@@ -161,7 +138,7 @@ void InventoryScene::Init()
 		chara_select_btn[i]->SetScale(350, 350);
 		chara_select_btn[i]->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 		chara_select_btn[i]->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
-		chara_select_btn[i]->SetCharacter(dummy_party[i]);	//TODO: Use info from player's party class
+		chara_select_btn[i]->SetCharacter(Player::GetInstance().GetParty()->GetMemberByIndex(i));	
 		chara_select_btn[i]->SetCharacterHolder(chara_holder);
 		character_menu->AddButton(chara_select_btn[i]);
 
@@ -184,7 +161,7 @@ void InventoryScene::Update()
 	//Check for character button press
 	for (unsigned i = 0; i < 4; ++i)
 	{
-		if (chara_select_btn[i]->m_isHovered)
+		if (chara_select_btn[i]->m_isHovered && chara_select_btn[i]->m_chara != nullptr)
 			chara_select_btn[i]->UpdateAnimation();
 
 		if (chara_select_btn[i]->m_isPressed)
@@ -267,4 +244,9 @@ void InventoryScene::Pause()
 	chara_holder = nullptr;
 	item_holder = nullptr;
 	used_item->SetActive(false);
+}
+
+void InventoryScene::UnPause()
+{
+	display_inventory->UpdateButtonPositions(item_holder);
 }

@@ -61,12 +61,10 @@ void ShopScene::Init()
 	b_accept = false;
 	buying_tab = true;
 
-	//TODO:
-	//Use Player's actual inventory
 	//init inventory
 	shop_inventory = new Inventory();
 	cart_inventory = new Inventory();
-	player_inventory = new Inventory();
+	player_inventory = Player::GetInstance().GetInventory();
 
 	//init Menus
 	utilitybuttons = new Menu();
@@ -170,7 +168,6 @@ void ShopScene::Init()
 	changeScene->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 	utilitybuttons->AddButton(changeScene);
 
-	//TODO:
 	PreviousScene_Button* backbtn = new PreviousScene_Button();
 	backbtn->SetText("Back");
 	backbtn->SetTextOffset(50, 0);
@@ -334,10 +331,6 @@ void ShopScene::Render()
 	inventory_display->Render();
 
 	//============================================================================================//
-	/*TODO:
-	Hard code render for some stuff
-	Create to a Generic GUIObject
-	-That points to an int or something*/
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	if (buying_tab)
 	{

@@ -12,11 +12,6 @@ using std::string;
 class PauseScene : public Scene
 {
 protected:
-	PreviousScene_Button* unpause_btn;
-	ChangeScene_Button* inventory_btn;
-	ChangeScene_Button* party_btn;
-	ChangeScene_Button* options_btn;
-
 	Menu* pause_menu;
 
 public:

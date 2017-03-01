@@ -165,7 +165,8 @@ void ShopCart_Button::Render()
 	modelStack.Translate(0, 0, 0.1);
 
 	//Render item icon
-	RenderHelper::RenderMesh(m_targetInventory->m_inventoryList[m_item_index]->GetMesh());
+	if (m_targetInventory->m_inventoryList[m_item_index]->GetMesh())
+		RenderHelper::RenderMesh(m_targetInventory->m_inventoryList[m_item_index]->GetMesh());
 	modelStack.PopMatrix();
 
 	//Offset for text
@@ -228,7 +229,8 @@ void Inventory_Button::Render()
 	modelStack.PushMatrix();
 	modelStack.Translate(-0.375f, 0, 1);
 	modelStack.Scale(0.2f, 0.8f, 1);
-	RenderHelper::RenderMesh(m_item->GetMesh());
+	if (m_item->GetMesh() != nullptr)
+		RenderHelper::RenderMesh(m_item->GetMesh());
 	modelStack.PopMatrix();
 
 	//Render Item Name

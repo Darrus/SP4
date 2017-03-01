@@ -14,7 +14,6 @@ using std::list;
 class CharacterInfo : public InfoBase
 {
 public:
-	//TODO:
 	// Equipment System
     CharacterInfo(){}
     virtual ~CharacterInfo(){}

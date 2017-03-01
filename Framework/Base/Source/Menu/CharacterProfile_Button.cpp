@@ -98,7 +98,10 @@ void SelectCharacterForItem_Button::Render()
 	modelStack.PopMatrix();
 
 	if (m_chara == nullptr)
+	{
+		modelStack.PopMatrix();
 		return;
+	}
 
 	modelStack.Translate(-m_scale_x * 0.5, 0, 1);
 
@@ -120,7 +123,7 @@ void SelectCharacterForItem_Button::Render()
 	modelStack.Translate(m_scale_x * 0.5f, -90, 0);
 	modelStack.PushMatrix();
 	modelStack.Scale(175, 200, 1);
-	m_chara->anim.Render();
+	//m_chara->anim.Render();	//TODO: make sure characters have animations
 	modelStack.PopMatrix();
 
 	//HP

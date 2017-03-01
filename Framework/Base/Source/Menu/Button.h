@@ -153,6 +153,21 @@ public:
 	~PreviousScene_Button(){}
 };
 
+//============================================================================//
+//Brief: A button object that exits the game								  //
+//============================================================================//
+
+class ExitGame_Button : public Button
+{
+protected:
+
+public:
+	inline void RunFunction(){ SceneManager::GetInstance()->quit = true; }
+
+	ExitGame_Button(){}
+	~ExitGame_Button(){}
+};
+
 //===============================================================================//
 //Brief: A button object that changes the value of the target to a desired value.//
 //===============================================================================//
@@ -161,7 +176,7 @@ class ChangeValue_Button : public Button
 {
 protected:
 	//Pointer that points to the address of the value to increment
-	int *m_set_value;
+	int *m_set_value; 
 	//Amount to increament 
 	int m_target_value;
 

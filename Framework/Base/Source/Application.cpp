@@ -36,6 +36,7 @@
 #include "Scenes\PauseScene.h"
 #include "Scenes\InventoryScene.h"
 #include "Scenes\TavernScene.h"
+#include "Scenes\MainMenuScene.h"
 
 #include "Overworld\Overworld.h"
 #include "Overworld\Town.h"
@@ -164,6 +165,7 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("PauseScene", new PauseScene());
 	SceneManager::GetInstance()->AddScene("InventoryScene", new InventoryScene());
 	SceneManager::GetInstance()->AddScene("TavernScene", new TavernScene());
+	SceneManager::GetInstance()->AddScene("MainMenuScene", new MainMenuScene());
 
 	// Overworld Scenes
 	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
@@ -216,6 +218,9 @@ void Application::Run()
 		glfwPollEvents();
 		UpdateInput();
 		
+		if (KeyboardController::GetInstance()->IsKeyPressed(VK_F6))
+			std::cout << Player::GetInstance().GetInventory()->m_inventoryList.size();
+
 		SceneManager::GetInstance()->Update();
 		SceneManager::GetInstance()->Render();
 
