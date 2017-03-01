@@ -44,6 +44,7 @@ public:
 
     CharacterInfo* charahehe;
     EnemyInfo* enemyhehe;
+    MonsterFactory* efactory;
 
 private:
 	FPSCamera camera;
@@ -53,7 +54,6 @@ private:
 
     bool encounter;
     PartySystem* party;
-    MonsterFactory* efactory;
 };
 
 #endif /* BATTLESTATE_H */

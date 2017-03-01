@@ -57,6 +57,9 @@ void CBattleState::Init()
     MeshBuilder::GetInstance()->GenerateQuad("Carbonara", Color(1, 1, 1), 1.f);
     MeshBuilder::GetInstance()->GetMesh("Carbonara")->textureID = LoadTGA("Image//enemy3.tga");
 
+    MeshBuilder::GetInstance()->GenerateQuad("King Moogle", Color(1, 1, 1), 1.f);
+    MeshBuilder::GetInstance()->GetMesh("King Moogle")->textureID = LoadTGA("Image//enemy3.tga");
+
 
     MeshBuilder::GetInstance()->GenerateQuad("player1", Color(1, 1, 1), 1.f);
     MeshBuilder::GetInstance()->GetMesh("player1")->textureID = LoadTGA("Image//Player//player1.tga");
@@ -199,6 +202,7 @@ void CBattleState::Init()
     Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
     Player::GetInstance().GetInventory()->AddItem(new MaxHealthPotion());
 }
+
 void CBattleState::Update()
 {
     //if (testingBattle->CheckAnyAlive() != nullptr)

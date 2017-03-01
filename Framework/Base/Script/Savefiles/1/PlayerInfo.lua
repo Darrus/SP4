@@ -1,3 +1,3 @@
 Scene = "Overworld"
-Position = {-39.2759, 112.6246, 0.0000}
+Position = {83.5291, 58.1519, 0.0000}
 Gold = 1000000
