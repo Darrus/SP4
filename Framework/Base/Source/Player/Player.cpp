@@ -25,7 +25,7 @@ Player::~Player()
 void Player::DoDie()
 {
 	//TODO:
-	//Reset values to previous saved game or respawn point or something I don't fucking know. Decide later.
+	//Most likely goto "You Died" scene and return to main menu to save
 }
 
 void Player::SaveGame(string fileName)
@@ -131,4 +131,9 @@ CharacterInfo* Player::LoadCharacter(string fileName, int index)
 	}
 
 	return character;
+}
+
+void Player::Init()
+{
+	m_gold = 1000000;
 }

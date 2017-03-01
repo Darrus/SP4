@@ -241,6 +241,17 @@ void InventoryScene::Render()
 	utilitybuttons->Render();
 	display_inventory->Render();
 	character_menu->Render();
+
+	//Page
+	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
+	modelStack.PushMatrix();
+	modelStack.Translate(510, 100, 0);
+	modelStack.Scale(100.f, 100.f, 1.f);
+	RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	modelStack.Translate(-0.45, 0, 0);
+	modelStack.Scale(0.75f, 0.75f, 1.f);
+	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(current_page + 1), Color(0, 1, 0));
+	modelStack.PopMatrix();
 }
 
 void InventoryScene::Exit()

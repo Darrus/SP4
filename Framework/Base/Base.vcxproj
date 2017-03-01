@@ -74,6 +74,7 @@
     <ClCompile Include="Source\Scenes\ShopDialogueScene.cpp" />
     <ClCompile Include="Source\Scenes\ShopScene.cpp" />
     <ClCompile Include="Source\Scenes\SkillTreeScene.cpp" />
+    <ClCompile Include="Source\Scenes\TavernScene.cpp" />
     <ClCompile Include="Source\Skills\Skill.cpp" />
     <ClCompile Include="Source\Skills\SkillFunctions.cpp" />
     <ClCompile Include="Source\SpatialPartition\Grid.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Source\Scenes\ShopDialogueScene.h" />
     <ClInclude Include="Source\Scenes\ShopScene.h" />
     <ClInclude Include="Source\Scenes\SkillTreeScene.h" />
+    <ClInclude Include="Source\Scenes\TavernScene.h" />
     <ClInclude Include="Source\Skills\Skill.h" />
     <ClInclude Include="Source\Skills\SkillFunctions.h" />
     <ClInclude Include="Source\SpatialPartition\Grid.h" />

@@ -9,19 +9,17 @@ class Player
 {
 private:
 	PartySystem m_party;
-	int m_gold;
 	Inventory m_inventory;
 	string m_currentScene;
 	int m_hours, m_mins;
-	//float m_overworld_pos_x, m_overworld_pos_y;
 	Vector3 m_overworld_pos;
 
-	//TODO:
 	CharacterInfo* LoadCharacter(string fileName, int index);
 	void SaveCharacter(string fileName, CharacterInfo* character, int index);
-	//Store a respawnpoint?
 
 public:
+	int m_gold;
+
 	static Player& GetInstance()
 	{
 		static Player player;

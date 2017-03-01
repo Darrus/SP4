@@ -35,6 +35,7 @@
 #include "Scenes\CharacterProfileScene.h"
 #include "Scenes\PauseScene.h"
 #include "Scenes\InventoryScene.h"
+#include "Scenes\TavernScene.h"
 
 #include "Overworld\Overworld.h"
 #include "Overworld\Town.h"
@@ -148,11 +149,21 @@ void Application::Init()
 	// Init systems
 	GraphicsManager::GetInstance()->Init();
 
+	//Init Player
+	Player::GetInstance().Init();
+
 	SceneManager::GetInstance()->AddScene("IntroState", new CIntroState());
-    SceneManager::GetInstance()->AddScene("BattleScene", new CBattleState());
+	SceneManager::GetInstance()->AddScene("BattleScene", new CBattleState());
 	SceneManager::GetInstance()->AddScene("Shop", new ShopScene());
 	SceneManager::GetInstance()->AddScene("Dialogue", new DialogueScene());
 	SceneManager::GetInstance()->AddScene("ShopDialogue", new ShopDialogueScene());
+	
+	SceneManager::GetInstance()->AddScene("PartyScene", new PartyScene());
+	SceneManager::GetInstance()->AddScene("SkillTreeScene", new SkillTreeScene());
+	SceneManager::GetInstance()->AddScene("CharacterProfileScene", new CharacterProfileScene());
+	SceneManager::GetInstance()->AddScene("PauseScene", new PauseScene());
+	SceneManager::GetInstance()->AddScene("InventoryScene", new InventoryScene());
+	SceneManager::GetInstance()->AddScene("TavernScene", new TavernScene());
 
 	// Overworld Scenes
 	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
@@ -160,13 +171,6 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("TownShop", new TownShop());
 	SceneManager::GetInstance()->AddScene("TownTavern", new TownTavern());
 	SceneManager::GetInstance()->AddScene("Cave", new Cave());
-	SceneManager::GetInstance()->AddScene("PartyScene", new PartyScene());
-	
-
-	SceneManager::GetInstance()->AddScene("SkillTreeScene", new SkillTreeScene());
-	SceneManager::GetInstance()->AddScene("CharacterProfileScene", new CharacterProfileScene());
-	SceneManager::GetInstance()->AddScene("PauseScene", new PauseScene());
-	SceneManager::GetInstance()->AddScene("InventoryScene", new InventoryScene());
 
 	//Set the active scene
 	Player::GetInstance().LoadGame("1");

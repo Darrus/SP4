@@ -1,10 +1,10 @@
 Name = "Randall"
-Str = 0
-Vit = 0
-Int = 0
-Mind = 0
+Str = 8
+Vit = 10
+Int = 6
+Mind = 5
 Dex = 0
 Agi = 0
-StatPoint = 25
+StatPoint = -4
 SkillPoint = 5
-Skills = { "Heal", "Fire Blast" } 
+Skills = { "Heal", "Curate", "Hero Maker", "Charisma", "Illusion" } 

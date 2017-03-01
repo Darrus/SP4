@@ -98,14 +98,8 @@ void CharacterProfileScene::Update()
 void CharacterProfileScene::Render()
 {
 	GraphicsManager::GetInstance()->SetOrthographicProjection(0, Application::GetInstance().GetWindowWidth(), 0, Application::GetInstance().GetWindowHeight(), -10, 10);
-
-	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
-	modelStack.PushMatrix();
-	modelStack.Translate(0,0,1);
 	m_chara_stats->Render();
-	modelStack.Translate(0, 0, 4);
 	utility_menu->Render();
-	modelStack.PopMatrix();
 }
 
 void CharacterProfileScene::Exit()
