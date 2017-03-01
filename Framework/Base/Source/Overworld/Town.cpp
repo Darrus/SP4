@@ -74,6 +74,7 @@ void Town::Init()
 	camera.Init(80.f, 0.3f);
 	camera.SetRotSpeed(200.f);
 	camera.SetDistSpeed(100.f);
+	camera.SetGround(&background);
 
 	// Player Init
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("character", 4, 9)->textureID = LoadTGA("Image//character.tga");

@@ -70,7 +70,7 @@ bool OverworldPlayer::Controls()
 	if (velocity.LengthSquared() > 0)
 		velocity = velocity.Normalized() * moveSpeed * dt;
 
-	if (KeyboardController::GetInstance()->IsKeyPressed('E'))
+	if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
 	{
 		OverworldBase* scene = dynamic_cast<OverworldBase*>(SceneManager::GetInstance()->GetActiveScene());
 		if (scene)

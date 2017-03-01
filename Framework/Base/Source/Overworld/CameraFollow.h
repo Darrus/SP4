@@ -3,6 +3,7 @@
 #define ROTATION_SPEED 0.5
 
 #include "../Camera.h"
+#include "../Entity/SpriteEntity.h"
 
 class CameraFollow : public Camera
 {
@@ -36,9 +37,12 @@ public:
 	inline void SetState(CAMERA_STATE state) { this->state = state; }
 	inline CAMERA_STATE GetState() { return this->state; }
 
+	inline void SetGround(SpriteEntity* ground){ this->ground = ground; }
+
 private:
 	Vector3 entityPos;
 	CAMERA_STATE state;
+	SpriteEntity* ground;
 	float curDist;
 	float dist;
 	float distSpeed;
@@ -51,6 +55,6 @@ private:
 	double mouseX, mouseY;
 
 	void Control();
-
+	void HandleBoundary();
 };
 
