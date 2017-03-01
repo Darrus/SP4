@@ -26,8 +26,8 @@ EnemyInfo* MonsterFactory::CreateEnemy1(int id)
     newEnemy->stats.AddStr(1);
     newEnemy->stats.AddInt(3);
     newEnemy->stats.AddMind(2);
-    newEnemy->stats.AddDex(1);
-    newEnemy->stats.AddAgi(3);
+    newEnemy->stats.AddDex(6);
+    newEnemy->stats.AddAgi(8);
     newEnemy->stats.AddLevel(avgLvl);
     newEnemy->name = "Carbonara";
     newEnemy->id = id;

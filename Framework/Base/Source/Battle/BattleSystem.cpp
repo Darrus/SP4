@@ -38,7 +38,8 @@ itemselect(0),
 noMoreItems(false), 
 choosingSkill(false),
 escapeAnot(false),
-input(false)
+input(false),
+EXPGAIN(0)
 {
     float windowWidth = (float)Application::GetInstance().GetWindowWidth();
     float windowHeight = (float)Application::GetInstance().GetWindowHeight();
@@ -140,11 +141,10 @@ void BattleSystem::Update()
 
                 enemyAI->aggroLvl = EnemyAI::HIGH;
 
-                while (test->GetDead())
-                    test = FindTarget(Math::RandIntMinMax(0, playerPartySize));
-
                 if (test != nullptr)
+                {
                     enemyAI->DetermineAction((*itr), test);
+                }
             }
         }
 
@@ -197,7 +197,9 @@ void BattleSystem::CheckBattleEnd(BattleEntity* entity)
     {
         for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); i++)
         {
-            Player::GetInstance().GetParty()->GetMember(i)->EXP += Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel() * 4;
+            EXPGAIN = Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel() * (8 - (Player::GetInstance().GetParty()->memberCount()));
+            Player::GetInstance().GetParty()->GetMember(i)->EXP += EXPGAIN;
+
             if (Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel() < 100)
             {
                 Player::GetInstance().GetParty()->GetMember(i)->stats.AddLevel(Player::GetInstance().GetParty()->GetMember(i)->CheckLevelUp());
@@ -379,7 +381,11 @@ void BattleSystem::Attack(BattleEntity* entity, BattleEntity* targetEntity)
             enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
         }
         else
-            DamageDeal = 0;
+        {
+            DamageDeal = 3;
+            enemyAI->battlelog = new BattleLog(targetEntity, myEntity->name, DamageDeal, DamageDeal, iDodge, iCrit);
+            enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+        }
 
         if (targetEntity->GetHP() <= 0)
         {
@@ -407,10 +413,48 @@ The entity that unleashes the Spell
 ///< param targetEntity
 Target Entity which the Entity chosed to cast spell on.
 *****************************************/
-void BattleSystem::SpellCast(BattleEntity* entity, BattleEntity* targetEntity)
+void BattleSystem::SpellCast(BattleEntity* entity)
 {
     InfoBase* myEntity = entity->GetInfo();
-    InfoBase* targEntity = targetEntity->GetInfo();
+    int i = 0;
+
+    for (auto itritr = Player::GetInstance().GetParty()->GetMember(playerselect)->skills.begin(); itritr != Player::GetInstance().GetParty()->GetMember(playerselect)->skills.end(); ++itritr)
+    {
+        if (skillselect == i)
+        {
+            if ((*itritr)->IsAllyTargetable())
+            {
+                SkillParameters foo;
+                foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
+                for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
+                {
+                    if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
+                        foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
+                }
+                (*itritr)->UseSkill(foo);
+
+                enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
+                enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+                choosingSkill = false;
+            }
+            else if ((*itritr)->IsEnemyTargetable())
+            {
+                SkillParameters foo;
+                foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
+                for (auto it = EnemyInfoList.begin(); it != EnemyInfoList.end(); it++)
+                {
+                    if ((*it) != nullptr)
+                        foo.targetList.push_back((*it));
+                }
+                (*itritr)->UseSkill(foo);
+
+                enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
+                enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+                choosingSkill = false;
+            }
+        }
+        ++i;
+    }
 
     entity->DecreaseAttkTurnPt(1);
     //targEntity->HP - myEntity->stats.GetDamage();
@@ -680,7 +724,7 @@ void BattleSystem::RenderUIStuff()
             modelStack.PushMatrix();
             modelStack.Translate(windowWidth * 0.5f, windowHeight *  (DIST + (i * -0.05f)), 8.5f);
             modelStack.Scale(30.f, 30.f, 1.f);
-            RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itritr)->GetName(), Color(0, 1, 0));
+            RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itritr)->GetName() + " - Cost: " + std::to_string((*itritr)->GetManaCost()), Color(0, 1, 0));
             modelStack.PopMatrix();
             ++i;
         }
@@ -815,29 +859,36 @@ void BattleSystem::RenderInventory()
     RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
     modelStack.PopMatrix();
 
+    int tempMax = 9;
+    int pewpew = 0;
     for (unsigned i = 0; i < pewinventory->m_inventoryList.size(); ++i)
     {
         float FIRSTONE = 0.65;
-        modelStack.PushMatrix();
-        modelStack.Translate(windowWidth * 0.5, windowHeight * (0.7f + (i * -0.05f)), 9.f);
-        modelStack.Scale(35.f, 35.f, 1.f);
-        RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(i + 1) + ": "+ pewinventory->m_inventoryList[i]->GetName(), Color(0, 1, 0));
-        modelStack.PopMatrix();
+        if (itemselect > tempMax)
+        {
+            i = itemselect;
+            tempMax += 10;
+            pewpew = 0;
+        }
+        if (i < tempMax)
+        {
+            modelStack.PushMatrix();
+            modelStack.Translate(windowWidth * 0.5, windowHeight * (0.7f + (pewpew * -0.05f)), 9.f);
+            modelStack.Scale(35.f, 35.f, 1.f);
+            RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(pewpew + 1) + ": " + pewinventory->m_inventoryList[i]->GetName(), Color(0, 1, 0));
+            modelStack.PopMatrix();
+        }
+        pewpew++;
     }
 
     if (whichScreen == CHOOSEITEM)
     {
         float DIST = 0.75;
-        if (itemselect == 0)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.7, 10.f));
-        if (itemselect == 1)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.65, 10.f));
-        if (itemselect == 2)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.6, 10.f));
-        if (itemselect == 3)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.55, 10.f));
-        if (itemselect == 4)
-            Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * 0.5, 10.f));
+        for (int i = 0; i < (pewinventory->m_inventoryList.size() - 1); ++i)
+        {
+            if (itemselect == i)
+                Arrow->SetPosition(Vector3(windowWidth * DIST, windowHeight * (0.7 - (i * 0.05)), 10.f));
+        }
     }
 }
 
@@ -853,17 +904,25 @@ void BattleSystem::ShowBattleResults()
     RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
     modelStack.PopMatrix();
     
-    int expgain = 999;
     PartySystem* pew = Player::GetInstance().GetParty();
     for (auto it = PlayerInfoList.begin(); it != PlayerInfoList.end(); it++)
     {
         for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
         {
             modelStack.PushMatrix();
-            modelStack.Translate(windowWidth * 0.2, windowHeight * (0.8f + (i * -0.05)), 9.f);
-            modelStack.Scale(20.f, 20.f, 1.f);
+            modelStack.Translate(windowWidth * 0.2, windowHeight * (0.8f + (i * -0.1)), 9.f);
+            modelStack.Scale(40.f, 40.f, 1.f);
             if ((*it)->id == i)
-                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), Player::GetInstance().GetParty()->GetMember(i)->name + " has Earned: " + std::to_string(expgain) + " Experience Pts!  Lvl: " + std::to_string(Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel()), Color(0, 1, 0));
+                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), Player::GetInstance().GetParty()->GetMember(i)->name + " has Earned: " + std::to_string(EXPGAIN) + " EXP!", Color(0, 1, 0));
+            modelStack.PopMatrix();
+
+            modelStack.PushMatrix();
+
+            modelStack.Translate(windowWidth * 0.2, windowHeight * (0.75f + (i * -0.1)), 9.f);
+            modelStack.Scale(40.f, 40.f, 1.f);
+            if ((*it)->id == i)
+                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"),
+                "EXP: " + std::to_string(Player::GetInstance().GetParty()->GetMember(i)->EXP) + " / " + std::to_string(Player::GetInstance().GetParty()->GetMember(i)->stats.GetMaxEXP()) + " Lvl : " + std::to_string(Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel()), Color(0, 1, 0));
             modelStack.PopMatrix();
         }
     }
@@ -1036,7 +1095,7 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
             skillselect = 0;
 
         if (choosingSkill == true)
-            ChooseSkill();
+            SpellCast(entity);
     }
     if (screen == CHOOSEITEM)
     {
@@ -1100,50 +1159,6 @@ void BattleSystem::ChooseItems(BattleEntity* entity)
         chooseItem = false;
     }
 }
-
-void BattleSystem::ChooseSkill()
-{
-    int i = 0;
-
-    for (auto itritr = Player::GetInstance().GetParty()->GetMember(playerselect)->skills.begin(); itritr != Player::GetInstance().GetParty()->GetMember(playerselect)->skills.end(); ++itritr)
-    {
-        if (skillselect == i)
-        {
-            if ((*itritr)->IsAllyTargetable())
-            {
-                SkillParameters foo;
-                foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
-                for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
-                {
-                    if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
-                        foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
-                }
-                (*itritr)->UseSkill(foo);
-
-                enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
-                enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
-                choosingSkill = false;
-            }
-            else if ((*itritr)->IsEnemyTargetable())
-            {
-                SkillParameters foo;
-                foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
-                for (auto it = EnemyInfoList.begin(); it != EnemyInfoList.end(); it++)
-                {
-                    if ((*it) != nullptr)
-                        foo.targetList.push_back((*it));
-                }
-                (*itritr)->UseSkill(foo);
-
-                enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
-                enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
-                choosingSkill = false;
-            }
-        }
-        ++i;
-    }
-}
-
 void BattleSystem::Exit()
 {
     // Remove the meshes which are specific to CBattleState

@@ -21,6 +21,7 @@ public:
 
     virtual void Update();
 
+
     bool GetReady() { return isReady; }
     bool GetDead() { return isDead; }
     InfoBase* GetInfo() { return info; }
