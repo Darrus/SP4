@@ -187,6 +187,8 @@ void Overworld::Update()
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
 		SceneManager::GetInstance()->quit = true;
+    if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
+        Overworld::battle = true;
 
 	if (battle && camera.GetState() == CameraFollow::IDLE)
 	{

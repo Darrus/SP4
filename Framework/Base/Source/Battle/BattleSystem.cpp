@@ -410,10 +410,10 @@ void BattleSystem::SpellCast(BattleEntity* entity)
                 foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
                 if ((*itritr)->GetMaxNumberOfTargets() >= 4)
                 {
-                    for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount()); ++i)
+                    for (auto itritr = PlayerList.begin(); itritr != PlayerList.end(); itritr++)
                     {
-                        if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
-                            foo.targetList.push_back(Player::GetInstance().GetParty()->GetMember(i));
+                        if ((*itritr) != nullptr)
+                            foo.targetList.push_back((*itritr)->GetInfo());
                     }
                     (*itritr)->UseSkill(foo);
 
@@ -442,10 +442,10 @@ void BattleSystem::SpellCast(BattleEntity* entity)
 
                 if ((*itritr)->GetMaxNumberOfTargets() >= 4)
                 {
-                    for (auto it = EnemyInfoList.begin(); it != EnemyInfoList.end(); it++)
+                    for (auto it = EnemyList.begin(); it != EnemyList.end(); it++)
                     {
                         if ((*it) != nullptr)
-                            foo.targetList.push_back((*it));
+                            foo.targetList.push_back((*it)->GetInfo());
                     }
                     (*itritr)->UseSkill(foo);
 
