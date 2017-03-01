@@ -13,11 +13,13 @@ public:
 	~PartySystem();
 
 	CharacterInfo* GetMember(int id);
+	CharacterInfo* GetMemberByIndex(int index){ return party[index]; }
 	CharacterInfo* RemoveMember(int id);
+	CharacterInfo* RemoveMemberByIndex(int index);
 
 	CharacterInfo* GetParty();
 
-	void AddMember(CharacterInfo* member);
+	bool AddMember(CharacterInfo* member);
     int memberCount();
 
 	inline int GetMaxPartySize() { return maxPartySize; }

@@ -35,6 +35,7 @@
 #include "Scenes\CharacterProfileScene.h"
 #include "Scenes\PauseScene.h"
 #include "Scenes\InventoryScene.h"
+#include "Scenes\TavernScene.h"
 
 #include "Overworld\Overworld.h"
 #include "Overworld\Town.h"
@@ -147,8 +148,11 @@ void Application::Init()
 	// Init systems
 	GraphicsManager::GetInstance()->Init();
 
+	//Init Player
+	Player::GetInstance().Init();
+
 	SceneManager::GetInstance()->AddScene("IntroState", new CIntroState());
-    SceneManager::GetInstance()->AddScene("BattleScene", new CBattleState());
+   // SceneManager::GetInstance()->AddScene("BattleScene", new CBattleState());
 	SceneManager::GetInstance()->AddScene("Shop", new ShopScene());
 	SceneManager::GetInstance()->AddScene("Overworld", new Overworld());
 	SceneManager::GetInstance()->AddScene("Dialogue", new DialogueScene());
@@ -161,6 +165,7 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("CharacterProfileScene", new CharacterProfileScene());
 	SceneManager::GetInstance()->AddScene("PauseScene", new PauseScene());
 	SceneManager::GetInstance()->AddScene("InventoryScene", new InventoryScene());
+	SceneManager::GetInstance()->AddScene("TavernScene", new TavernScene());
 
 	//Set the active scene
 	SceneManager::GetInstance()->SetActiveScene("Overworld");

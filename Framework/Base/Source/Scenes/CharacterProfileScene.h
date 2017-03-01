@@ -35,10 +35,14 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	inline void SetCharacter(CharacterInfo* chara)
+	inline void SetCharacter(CharacterInfo* chara, bool show_skilltree)
 	{
 		current_character = chara;
 		m_chara_stats->SetTargetCharacter(current_character);
+
+		//Only activates the button for skill tree when it is a from a character currently in the party
+		//Beacuse sometimes the scene is accessed from Tavern
+		goto_skill_tree_scene_btn->SetActive(show_skilltree);
 	}
 };
 

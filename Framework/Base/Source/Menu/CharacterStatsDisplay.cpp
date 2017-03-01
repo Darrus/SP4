@@ -17,7 +17,7 @@ void CharacterStats_Display::Render()
 
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
-	modelStack.Translate(m_pos_x, m_pos_y, 3);
+	modelStack.Translate(m_pos_x, m_pos_y, 5);
 
 	modelStack.PushMatrix();
 	modelStack.Scale(m_scale_x, m_scale_y, 1);

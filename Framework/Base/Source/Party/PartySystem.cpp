@@ -1,6 +1,6 @@
 #include "PartySystem.h"
 #include "timer.h"
-
+#include <iostream>
 PartySystem::PartySystem() : 
 currPartySize(0)
 {
@@ -24,16 +24,20 @@ CharacterInfo* PartySystem::GetMember(int id)
 	}
 }
 
-void PartySystem::AddMember(CharacterInfo* member)
+bool PartySystem::AddMember(CharacterInfo* member)
 {
+	std::cout << "Adding... " << member->id << std::endl;
 	for (int i = 0; i < maxPartySize; ++i)
 	{
 		if (party[i] == nullptr)
 		{
 			party[i] = member;
-			break;
+			std::cout << "Added!!" << member->id << std::endl;
+			return true;
 		}
 	}
+	std::cout << "Failed to add!! " << member->id << std::endl;
+	return false;
 }
 
 CharacterInfo* PartySystem::RemoveMember(int id)
@@ -49,6 +53,15 @@ CharacterInfo* PartySystem::RemoveMember(int id)
 	}
 }
 
+CharacterInfo* PartySystem::RemoveMemberByIndex(int index)
+{
+	CharacterInfo* result = party[index];
+
+	party[index] = nullptr;
+
+	return result;
+}
+
 CharacterInfo* PartySystem::GetParty()
 {
 	return party[0];
@@ -59,7 +72,8 @@ int PartySystem::memberCount()
     int count = 0;
     for (int i = 0; i < maxPartySize; ++i)
     {
-        count++;
+		if (party[i] != nullptr)
+			count++;
     }
     return count;
 }
