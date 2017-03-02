@@ -18,6 +18,7 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
+	virtual void Pause();
 	virtual void UnPause();
 
 };

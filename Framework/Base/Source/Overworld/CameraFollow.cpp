@@ -214,6 +214,4 @@ void CameraFollow::HandleBoundary()
 		position.y = boundary.y - 1.f;
 	else if (position.y < -boundary.y + 1.f)
 		position.y = -boundary.y + 1.f;
-
-	std::cout << position << std::endl;
 }

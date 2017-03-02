@@ -31,6 +31,8 @@ public:
 	virtual void Update();
 	virtual void Render();
 	virtual void Exit();
+
+	virtual void Pause();
 	virtual void UnPause();
 	
 	static bool battle;

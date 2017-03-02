@@ -21,6 +21,7 @@
 #include "KeyboardController.h"
 #include "MatrixStack.h"
 #include "../Application.h"
+#include "SoundEngine\SoundEngine.h"
 
 // Player
 #include "../Player/Player.h"
@@ -39,6 +40,7 @@ Overworld::~Overworld()
 
 void Overworld::Init()
 {
+	SoundEngine::GetInstance()->AddRepeatSound("Terras Theme", "Sound/Terras Theme.mp3");
 	SetInit(true);
 
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("character", 4, 9)->textureID = LoadTGA("Image//character.tga");
@@ -222,6 +224,11 @@ void Overworld::Exit()
 	OverworldBase::Exit();
 }
 
+void Overworld::Pause()
+{
+	SoundEngine::GetInstance()->Pause("Terras Theme");
+}
+
 void Overworld::UnPause()
 {
 	// Camera Init
@@ -232,6 +239,8 @@ void Overworld::UnPause()
 
 	camera.SetCameraTarget(player.GetPosition());
 	battle = false;
+
+	SoundEngine::GetInstance()->Play("Terras Theme");
 }
 
 void Overworld::HandleEncounter(float dt)

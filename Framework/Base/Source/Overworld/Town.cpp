@@ -16,12 +16,13 @@
 #include "..\Application.h"
 #include "SceneManager.h"
 #include "KeyboardController.h"
+#include "SoundEngine\SoundEngine.h"
 
 // Entities
 #include "OverworldAsset.h"
 #include "OverworldEntity.h"
 #include "StaticAsset.h"
-#include "NPC.h"
+#include "../Entity/EntityFactory.h"
 
 // Trigger Areas
 #include "TriggerScene.h"
@@ -37,6 +38,8 @@ Town::~Town()
 
 void Town::Init()
 {
+	SoundEngine::GetInstance()->AddRepeatSound("A Place To Call Home", "Sound/A Place To Call Home.mp3");
+
 	// Skybox Init
 	MeshBuilder::GetInstance()->GenerateQuad("skybox_left", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//sky_left.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("skybox_right", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//sky_right.tga");
@@ -79,7 +82,6 @@ void Town::Init()
 	// Player Init
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("character", 4, 9)->textureID = LoadTGA("Image//character.tga");
 	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 1, 8, 1.f, -1));
-	AnimationsContainer::GetInstance()->AddAnimation("npc", new Animation("moogle", 0, 1, 1.f, -1));
 
 	player.GetAnimator()->AddAnimation("walk");
 	player.GetAnimator()->PlayAnimation("walk");
@@ -155,6 +157,11 @@ void Town::Exit()
 	OverworldBase::Exit();
 }
 
+void Town::Pause()
+{
+	SoundEngine::GetInstance()->Pause("A Place To Call Home");
+}
+
 void Town::UnPause()
 {
 	// Camera Init
@@ -163,6 +170,7 @@ void Town::UnPause()
 	camera.SetDistSpeed(100.f);
 
 	camera.SetCameraTarget(player.GetPosition());
+	SoundEngine::GetInstance()->Play("A Place To Call Home");
 }
 
 void Town::InitBuilding()
@@ -273,72 +281,46 @@ void Town::InitBuilding()
 
 void Town::InitNPC()
 {
+	MeshBuilder::GetInstance()->GenerateSpriteAnimation("NPC", 4, 4)->textureID = LoadTGA("Image/NPC/NPC.tga");
+	AnimationsContainer::GetInstance()->AddAnimation("npc_walk_front", new Animation("NPC", 0, 4, 0.5f, -1));
+	AnimationsContainer::GetInstance()->AddAnimation("npc_walk_back", new Animation("NPC", 4, 8, 0.5f, -1));
+	AnimationsContainer::GetInstance()->AddAnimation("npc_walk_right", new Animation("NPC", 8, 12, 0.5f, -1));
+	AnimationsContainer::GetInstance()->AddAnimation("npc_walk_left", new Animation("NPC", 12, 16, 0.5f, -1));
+
+
 	// NPC Init
-	NPC* npc = new NPC();
-	npc->GetAnimator()->AddAnimation("npc");
-	npc->GetAnimator()->PlayAnimation("npc");
-	npc->SetScale(Vector3(5.f, 5.f, 1.f));
-	npc->SetPosition(Vector3(50.f, -65.f, 1.f));
-	npc->LoadDialogue("TOWN_NPC_CHAT1");
-	npc->SetCollider(new CCollider_2DAABB());
+	NPC* npc = EntityFactory::GetInstance()->CreateMoogle(Vector3(50.f, -65.f, 1.f), "TOWN_NPC_CHAT1");
 	npc->AttachCamera(&camera);
-	npc->SetMoveSpeed(20.f);
 	npc->AddWaypoint(Vector3(50.f, -80.f, 1.f));
 	npc->AddWaypoint(Vector3(50.f, -65.f, 1.f));
 	spatial.Add(npc);
 	EManager.AddEntity(npc);
 
-	npc = new NPC();
-	npc->GetAnimator()->AddAnimation("npc");
-	npc->GetAnimator()->PlayAnimation("npc");
-	npc->SetScale(Vector3(5.f, 5.f, 1.f));
-	npc->SetPosition(Vector3(-70.f, 0.f, 1.f));
-	npc->LoadDialogue("TOWN_NPC_CHAT2");
-	npc->SetCollider(new CCollider_2DAABB());
+	npc = EntityFactory::GetInstance()->CreateMoogle(Vector3(-70.f, 0.f, 1.f), "TOWN_NPC_CHAT2");
 	npc->AttachCamera(&camera);
-	npc->SetMoveSpeed(20.f);
 	npc->AddWaypoint(Vector3(-50.f, 0.f, 1.f));
 	npc->AddWaypoint(Vector3(-70.f, 0.f, 1.f));
 	spatial.Add(npc);
 	EManager.AddEntity(npc);
 
-	npc = new NPC();
-	npc->GetAnimator()->AddAnimation("npc");
-	npc->GetAnimator()->PlayAnimation("npc");
-	npc->SetScale(Vector3(5.f, 5.f, 1.f));
-	npc->SetPosition(Vector3(30.f, 20.f, 1.f));
-	npc->LoadDialogue("TOWN_NPC_CHAT3");
-	npc->SetCollider(new CCollider_2DAABB());
+	npc = EntityFactory::GetInstance()->CreateMoogle(Vector3(30.f, 20.f, 1.f), "TOWN_NPC_CHAT3");
 	npc->AttachCamera(&camera);
-	npc->SetMoveSpeed(20.f);
 	npc->AddWaypoint(Vector3(40.f, 20.f, 1.f));
 	npc->AddWaypoint(Vector3(30.f, 20.f, 1.f));
 	spatial.Add(npc);
 	EManager.AddEntity(npc);
 
-	npc = new NPC();
-	npc->GetAnimator()->AddAnimation("npc");
-	npc->GetAnimator()->PlayAnimation("npc");
-	npc->SetScale(Vector3(5.f, 5.f, 1.f));
-	npc->SetPosition(Vector3(-70.f, -60.f, 1.f));
+	npc = EntityFactory::GetInstance()->CreateMoogle(Vector3(-70.f, -60.f, 1.f), "TOWN_NPC_CHAT4");
 	npc->LoadDialogue("TOWN_NPC_CHAT4");
-	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
-	npc->SetMoveSpeed(20.f);
 	npc->AddWaypoint(Vector3(-80.f, -30.f, 1.f));
 	npc->AddWaypoint(Vector3(-80.f, -60.f, 1.f));
 	spatial.Add(npc);
 	EManager.AddEntity(npc);
 
-	npc = new NPC();
-	npc->GetAnimator()->AddAnimation("npc");
-	npc->GetAnimator()->PlayAnimation("npc");
-	npc->SetScale(Vector3(5.f, 5.f, 1.f));
-	npc->SetPosition(Vector3(-30.f, 90.f, 1.f));
+	npc = EntityFactory::GetInstance()->CreateMoogle(Vector3(-30.f, 90.f, 1.f), "TOWN_NPC_CHAT5");
 	npc->LoadDialogue("TOWN_NPC_CHAT5");
-	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
-	npc->SetMoveSpeed(20.f);
 	npc->AddWaypoint(Vector3(-30.f, 70.f, 1.f));
 	npc->AddWaypoint(Vector3(-30.f, 90.f, 1.f));
 	spatial.Add(npc);

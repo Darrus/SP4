@@ -45,3 +45,19 @@ AssetEntity* EntityFactory::CreateAsset(const string& meshName, Vector3 position
 		manager->AddEntity(result);
 	return result;
 }
+
+NPC* EntityFactory::CreateMoogle(Vector3 position, string dialogue)
+{
+	NPC* npc = new NPC();
+	npc->GetAnimator()->AddAnimation("npc_walk_front");
+	npc->GetAnimator()->AddAnimation("npc_walk_back");
+	npc->GetAnimator()->AddAnimation("npc_walk_right");
+	npc->GetAnimator()->AddAnimation("npc_walk_left");
+	npc->GetAnimator()->PlayAnimation("npc_walk_front");
+	npc->SetScale(Vector3(5.f, 7.f, 1.f));
+	npc->SetPosition(position);
+	npc->LoadDialogue(dialogue);
+	npc->SetCollider(new CCollider_2DAABB());
+	npc->SetMoveSpeed(20.f);
+	return npc;
+}

@@ -16,6 +16,8 @@
 #include "..\Application.h"
 #include "SceneManager.h"
 #include "KeyboardController.h"
+#include "SoundEngine\SoundEngine.h"
+
 
 // Entities
 #include "OverworldAsset.h"
@@ -35,6 +37,8 @@ TownShop::~TownShop()
 
 void TownShop::Init()
 {
+	SoundEngine::GetInstance()->AddRepeatSound("Shop", "Sound/Shop.mp3");
+
 	// Skybox
 	MeshBuilder::GetInstance()->GenerateQuad("shop_left", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//shop_left.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("shop_right", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//shop_right.tga");
@@ -69,7 +73,6 @@ void TownShop::Init()
 	// Player Init
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("character", 4, 9)->textureID = LoadTGA("Image//character.tga");
 	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 1, 8, 1.f, -1));
-	AnimationsContainer::GetInstance()->AddAnimation("npc", new Animation("moogle", 0, 1, 1.f, -1));
 
 	player.GetAnimator()->AddAnimation("walk");
 	player.GetAnimator()->PlayAnimation("walk");
@@ -87,15 +90,18 @@ void TownShop::Init()
 	Math::InitRNG();
 	
 	// NPC Init
+	AnimationsContainer::GetInstance()->AddAnimation("moogle", new Animation("moogle", 0, 2, 0.2f, -1));
+	SoundEngine::GetInstance()->AddSound("moogle", "Sound/moogle.mp3", 0.5f);
 	ShopNPC* npc = new ShopNPC();
-	npc->GetAnimator()->AddAnimation("npc");
-	npc->GetAnimator()->PlayAnimation("npc");
-	npc->SetScale(Vector3(5.f, 5.f, 1.f));
+	npc->GetAnimator()->AddAnimation("moogle");
+	npc->GetAnimator()->PlayAnimation("moogle");
+	npc->SetScale(Vector3(5.f, 7.f, 1.f));
 	npc->SetPosition(Vector3(0.f, 20.f, 1.f));
 	npc->LoadDialogue("SHOP_NPC_SHOPKEEPER");
 	npc->SetTargetScene("Shop");
 	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
+	npc->AttachSFX("moogle");
 	npc->SetMoveSpeed(20.f);
 	spatial.Add(npc);
 	EManager.AddEntity(npc);
@@ -147,6 +153,11 @@ void TownShop::Exit()
 	OverworldBase::Exit();
 }
 
+void TownShop::Pause()
+{
+	SoundEngine::GetInstance()->Pause("Shop");
+}
+
 void TownShop::UnPause()
 {
 	// Camera Init
@@ -155,4 +166,5 @@ void TownShop::UnPause()
 	camera.SetDistSpeed(100.f);
 
 	camera.SetCameraTarget(player.GetPosition());
+	SoundEngine::GetInstance()->Play("Shop");
 }

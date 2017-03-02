@@ -4,6 +4,9 @@
 #include "SceneManager.h"
 #include "../Scenes/ShopDialogueScene.h"
 
+// Utilities
+#include "SoundEngine\SoundEngine.h"
+
 ShopNPC::ShopNPC()
 {
 }
@@ -20,5 +23,6 @@ void ShopNPC::Interact()
 	{
 		scene->SetDialogue(dialogue);
 		scene->SetTargetScene(targetScene);
+		SoundEngine::GetInstance()->Play(sfx);
 	}
 }

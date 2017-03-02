@@ -19,6 +19,7 @@ protected:
 
 	vector<string> dialogue;
 	vector<Vector3> waypoints;
+	string sfx;
 	NPC_STATES state;
 	int currentPoint;
 	float idleTime;
@@ -41,6 +42,8 @@ public:
 
 	inline void SetMoveSpeed(float speed){ moveSpeed = speed; }
 	void AddWaypoint(const Vector3& waypoint);
+
+	inline void AttachSFX(string name) { sfx = name; }
 };
 
 #endif

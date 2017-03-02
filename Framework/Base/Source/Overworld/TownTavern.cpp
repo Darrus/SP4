@@ -16,6 +16,7 @@
 #include "..\Application.h"
 #include "SceneManager.h"
 #include "KeyboardController.h"
+#include "SoundEngine\SoundEngine.h"
 
 // Entities
 #include "OverworldAsset.h"
@@ -69,7 +70,6 @@ void TownTavern::Init()
 	// Player Init
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("character", 4, 9)->textureID = LoadTGA("Image//character.tga");
 	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 1, 8, 1.f, -1));
-	AnimationsContainer::GetInstance()->AddAnimation("npc", new Animation("moogle", 0, 1, 1.f, -1));
 
 	player.GetAnimator()->AddAnimation("walk");
 	player.GetAnimator()->PlayAnimation("walk");
@@ -87,15 +87,18 @@ void TownTavern::Init()
 	Math::InitRNG();
 
 	// NPC Init
+	AnimationsContainer::GetInstance()->AddAnimation("moogle", new Animation("moogle", 0, 2, 1.f, -1));
+	SoundEngine::GetInstance()->AddSound("moogle", "Sound/moogle.mp3", 0.5f);
 	TavernNPC* npc = new TavernNPC();
-	npc->GetAnimator()->AddAnimation("npc");
-	npc->GetAnimator()->PlayAnimation("npc");
+	npc->GetAnimator()->AddAnimation("moogle");
+	npc->GetAnimator()->PlayAnimation("moogle");
 	npc->SetScale(Vector3(5.f, 5.f, 1.f));
 	npc->SetPosition(Vector3(0.f, 20.f, 1.f));
 	npc->LoadDialogue("TAVERN_NPC_SHOPKEEPER");
 	npc->SetTargetScene("TavernScene");
 	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
+	npc->AttachSFX("moogle");
 	npc->SetMoveSpeed(20.f);
 	spatial.Add(npc);
 	EManager.AddEntity(npc);

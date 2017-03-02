@@ -21,6 +21,7 @@ void AnimationsContainer::AddAnimation(string name, Animation* anim)
 	if (it != container.end())
 	{
 		std::cout << "Unable to add animation " << name << ". Already exist." << std::endl;
+		delete anim;
 		return;
 	}
 

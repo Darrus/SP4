@@ -1,5 +1,8 @@
 #include "TavernNPC.h"
 
+// Sound
+#include "SoundEngine\SoundEngine.h"
+
 // Scenes
 #include "SceneManager.h"
 #include "../Scenes/TavernDialogueScene.h"
@@ -20,5 +23,6 @@ void TavernNPC::Interact()
 	{
 		scene->SetDialogue(dialogue);
 		scene->SetTargetScene(targetScene);
+		SoundEngine::GetInstance()->Play(sfx);
 	}
 }
