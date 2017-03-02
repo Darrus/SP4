@@ -21,7 +21,7 @@ void EnemyNPC::Interact()
 		scene->testingBattle->EnemyInfoList.clear();
         scene->testingBattle->EnemyList.clear();
         scene->testingBattle->BattleList.clear();
-        scene->testingBattle->EnemyInfoList.push_back(scene->efactory->CreateBoss(3));
+        scene->testingBattle->EnemyInfoList.push_back(scene->efactory->CreateBoss(4));
         scene->testingBattle->AssignEnemies();
         Overworld::battle = true;
 	}
