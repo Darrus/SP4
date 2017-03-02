@@ -1,5 +1,5 @@
 Name = "Shadow"
-Level = 12
+Level = 10
 Str = 11
 Vit = 12
 Int = 7

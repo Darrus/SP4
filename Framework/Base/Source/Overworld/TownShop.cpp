@@ -17,11 +17,13 @@
 #include "SceneManager.h"
 #include "KeyboardController.h"
 #include "SoundEngine\SoundEngine.h"
+#include "../Player/Player.h"
 
 
 // Entities
 #include "OverworldAsset.h"
 #include "ShopNPC.h"
+#include "../Character/CharacterInfo.h"
 
 // Trigger Areas
 #include "TriggerScene.h"

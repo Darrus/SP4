@@ -22,10 +22,9 @@ public:
 
 	//Helper functions
 	void DoDie();
-	void SaveGame(string fileName);
-	void LoadGame(string fileName);
+	bool SaveGame(string fileName);
+	bool LoadGame(string fileName);
 
-	void Init();
 	void Update();
 
 	//Getters and Setters

@@ -173,9 +173,9 @@ void CameraFollow::Control()
 		state = TRANSITION;
 	}
 
-	if (KeyboardController::GetInstance()->IsKeyPressed('E'))
+	if (KeyboardController::GetInstance()->IsKeyPressed('Q'))
 		rotZ += 90;
-	else if (KeyboardController::GetInstance()->IsKeyPressed('Q'))
+	else if (KeyboardController::GetInstance()->IsKeyPressed('E'))
 		rotZ -= 90;
 
 	double scroll = MouseController::GetInstance()->GetMouseScrollStatus(MouseController::SCROLL_TYPE_YOFFSET);

@@ -9,9 +9,11 @@ class OverworldPlayer :	public OverworldEntity
 	Vector3 view, right;
 	Vector3 velocity;
 	SpriteEntity* ground;
+	string leaderName;
 	float moveSpeed;
 	
 	void HandleBoundary();
+	void HandleAnim();
 
 public:
 	OverworldPlayer();
@@ -23,5 +25,6 @@ public:
 	virtual void HandleCollision(EntityBase* entity);
 
 	inline void SetGround(SpriteEntity* ground){ this->ground = ground; }
+	inline void SetLeaderName(string name) { this->leaderName = name; }
 };
 

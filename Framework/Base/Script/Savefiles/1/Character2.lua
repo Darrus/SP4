@@ -1,5 +1,5 @@
 Name = "Terra"
-Level = 12
+Level = 10
 Str = 6
 Vit = 9
 Int = 7

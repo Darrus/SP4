@@ -55,7 +55,7 @@ void LoadGameScene::Init()
 		load_btn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 		load_btn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 		load_btn->SetTextOffset(110, 0);
-		load_btn->InitialiseSaveInfo();
+		//load_btn->InitialiseSaveInfo();
 
 		//Add the button to the menu
 		utility_menu->AddButton(load_btn);

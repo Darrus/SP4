@@ -1,5 +1,5 @@
 Name = "Edgar"
-Level = 12
+Level = 1
 Str = 8
 Vit = 10
 Int = 6

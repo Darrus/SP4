@@ -94,3 +94,11 @@ int PartySystem::memberCount()
 {
     return currPartySize;
 }
+
+CharacterInfo* PartySystem::GetLeader()
+{
+	for (int i = 0; i < maxPartySize; ++i)
+		if (party[i] != nullptr && party[i]->HP > 0)
+			return party[i];
+	return nullptr;
+}

@@ -145,10 +145,28 @@ void BattleSystem::Update()
                 if (CheckAnyPAlive() == nullptr)
                     CheckGameOver();
 
-                if (!(*itr)->GetReady())
-                    (*itr)->Update(); ///< Updates the player ATB;
-                else
-                    input = true;//ChoosePlayerInput();
+				if (!(*itr)->GetDead())
+				{
+					if (!(*itr)->GetReady())
+					{
+						(*itr)->Update(); ///< Updates the player ATB;
+						if ((*itr)->GetReady())
+						{
+							CharacterInfo* chara = (CharacterInfo*)(*itr)->GetInfo();
+							chara->anim.PlayAnimation(chara->name + "_ready");
+						}
+					}
+					else
+					{
+						(*itr)->Update();
+						input = true;//ChoosePlayerInput();
+					}
+				}
+				else
+				{
+					CharacterInfo* chara = (CharacterInfo*)(*itr)->GetInfo();
+					chara->anim.PlayAnimation(chara->name + "_dead");
+				}
             }
         }
     }
@@ -177,9 +195,6 @@ void BattleSystem::Update()
         if (commandselect >= 5)
             commandselect = 0;
 
-        if (ChooseAtkTarget(attkselect) == nullptr)
-            attkselect++;
-
         if (ChooseAtkTarget(attkselect) != nullptr)
         {
             if (ChooseAtkTarget(attkselect)->GetHP() <= 0)
@@ -199,22 +214,26 @@ void BattleSystem::CheckBattleEnd(BattleEntity* entity)
     {
         for (int i = 0; i < playerPartySize; i++)
         {
-            //Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel()
-            EXPGAIN = (int)((double)(EnemyList.size() * PlayerList.size()) * ((double)Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel()));
+			CharacterInfo* member = Player::GetInstance().GetParty()->GetMemberByIndex(i);
+			if (!member)
+				continue;
 
-			Player::GetInstance().GetParty()->GetMemberByIndex(i)->EXP += EXPGAIN;
+            EXPGAIN = (int)((double)(EnemyList.size() * PlayerList.size()) * ((double)member->stats.Getlevel()));
 
-			if (Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel() < 100)
+			member->EXP += EXPGAIN;
+
+			if (member->stats.Getlevel() < 100)
             {
-				Player::GetInstance().GetParty()->GetMemberByIndex(i)->CheckLevelUp();
+				member->CheckLevelUp();
             }
-			else if (Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel() >= 100)
+			else if (member->stats.Getlevel() >= 100)
             {
-				int testy = Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel() - 100;
-				Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.DeductLevel(testy);
+				int testy = member->stats.Getlevel() - 100;
+				member->stats.DeductLevel(testy);
             }
 
-			Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.UpdateStats();
+			member->stats.UpdateStats();
+			member->anim.PlayAnimation(member->name + "_walk_front");
         }
         addEXP = true;
 		id = 0;
@@ -330,6 +349,7 @@ BattleEntity* BattleSystem::CheckAnyPAlive()
 {
     for (std::list<BattleEntity*>::iterator itr = PlayerList.begin(); itr != PlayerList.end(); itr++)
     {
+
         if ((*itr)->GetHP() > 0)
         {
             return (*itr);
@@ -672,6 +692,10 @@ void BattleSystem::ResetATB(BattleEntity* entity)
     iCrit = false;
     input = false;
     whichScreen = NOTHING;
+
+	CharacterInfo* chara = dynamic_cast<CharacterInfo*>((entity)->GetInfo());
+	if (chara)
+		chara->anim.PlayAnimation(chara->name + "_walk_left");
     commandselect = 0;
     skillselect = 0;
     itemselect = 0;
@@ -935,27 +959,26 @@ void BattleSystem::RenderEntities()
     RenderNameHP();
     RenderATB();
 
-    // Entity Render
-    for (std::list<SpriteEntity*>::iterator itr = SpriteList.begin(); itr != SpriteList.end(); itr++)
+    int i = 5;
+    for (auto itrrr = EnemyInfoList.begin(); itrrr != EnemyInfoList.end(); itrrr++)
     {
-        (*itr)->RenderUI();
+        modelStack.PushMatrix();
+        modelStack.Translate(windowWidth * 0.27f, windowHeight * (0.06f *i), 5.f);
+        modelStack.Scale(150.f, 150.f, 1.f);
+        RenderHelper::RenderMesh((*itrrr)->mesh);
+        modelStack.PopMatrix();
+        i+= 3;
     }
-
-    //int p = 1;
-    //for (auto itrrr = PlayerInfoList.begin(); itrrr != PlayerInfoList.end(); itrrr++)
-    //{
-    //    modelStack.PushMatrix();
-    //    modelStack.Translate(windowWidth * 0.75f, windowHeight * (0.15f + (p*0.15f)), 5.f);
-    //    modelStack.Scale(150.f, 150.f, 1.f);
-    //    ((*itrrr)->anim.Render());
-    //    modelStack.PopMatrix();
-    //    ++p;
-    //}
-
-    //for (auto itrr = PlayerInfoList.begin(); itrr != PlayerInfoList.end(); itrr++)
-    //{
-    //    (*itrr)->anim.Update();
-    //}
+    int p = 1;
+    for (auto itrrr = PlayerInfoList.begin(); itrrr != PlayerInfoList.end(); itrrr++)
+    {
+        modelStack.PushMatrix();
+        modelStack.Translate(windowWidth * 0.75f, windowHeight * (0.15f + (p*0.15f)), 5.f);
+        modelStack.Scale(150.f, 150.f, 1.f);
+        ((*itrrr)->anim.Render());
+        modelStack.PopMatrix();
+        ++p;
+    }
 }
 
 void BattleSystem::RenderNameHP()
@@ -973,7 +996,7 @@ void BattleSystem::RenderNameHP()
         CharacterInfo * charapew = Player::GetInstance().GetParty()->GetMemberByIndex(i);
 
         modelStack.PushMatrix();
-        modelStack.Translate(windowWidth * 0.5, windowHeight * (0.05f * (i + 1)), 5.f);
+        modelStack.Translate(windowWidth * 0.5, windowHeight * 0.05f * i + 60, 5.f);
         modelStack.Scale(35.f, 35.f, 1.f);
         RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), charapew->name + " (HP:" + std::to_string(charapew->HP) + "/" + std::to_string(charapew->stats.GetMaxHP()) + ")(MP:" + std::to_string(charapew->MP) + "/" + std::to_string(charapew->stats.GetMaxMP()) + ")", Color(0, 1, 0));
         modelStack.PopMatrix();
@@ -1127,6 +1150,8 @@ void BattleSystem::AssignPlayerParty()
         MemberInfo->stats.UpdateStats();
         if (MemberInfo->HP > 0)
             PlayerInfoList.push_back(MemberInfo);
+
+		MemberInfo->anim.PlayAnimation(MemberInfo->name + "_walk_left");
 
         pewpewpew = new BattleEntity();
         pewpewpew->enemyType = BattleEntity::ALLY;
@@ -1424,8 +1449,15 @@ void BattleSystem::EscapeBattle()
     temp += (float)StopWatch::GetInstance()->GetDeltaTime();
     if (temp >= 3.f)
     {
+		for (std::list<CharacterInfo*>::iterator it = PlayerInfoList.begin(); it != PlayerInfoList.end(); ++it)
+		{
+			if ((*it)->HP > 0)
+				(*it)->anim.PlayAnimation((*it)->name + "_walk_front");
+		}
         EnemyList.clear();
         EnemyInfoList.clear();
+		PlayerList.clear();
+		PlayerInfoList.clear();
         anEntityTurn = false;
         isPassTurn = false;
         iCrit = false;

@@ -108,31 +108,7 @@ void CBattleState::Init()
     testingBattle = new BattleSystem();
     //testingBattle->PlayerInfoList.clear();
 
-    efactory = new MonsterFactory();
-
-    testingBattle->EnemyInfoList.push_back(efactory->CreateEnemy2(4));
-    testingBattle->EnemyInfoList.push_back(efactory->CreateEnemy1(5));
-    testingBattle->AssignEnemies();
-
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
-    Player::GetInstance().GetInventory()->AddItem(new MaxHealthPotion());
+	efactory = new MonsterFactory();
 }
 
 void CBattleState::Update()
@@ -193,5 +169,10 @@ void CBattleState::Exit()
 
 void CBattleState::UnPause()
 {
+	testingBattle->EnemyInfoList.push_back(efactory->CreateEnemy2(4));
+	testingBattle->EnemyInfoList.push_back(efactory->CreateEnemy1(5));
+	testingBattle->EnemyInfoList.push_back(efactory->CreateEnemy3(6));
+	testingBattle->EnemyInfoList.push_back(efactory->CreateEnemy1(7));
+	testingBattle->AssignEnemies();
     testingBattle->AssignPlayerParty();
 }

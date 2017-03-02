@@ -32,10 +32,15 @@ public:
 	inline int GetPlayCount() { return playCount; }
 	inline bool GetDone() { return isDone; }
 	inline int GetAnimatorSize(){ return animations.size(); }
+	inline AnimMap GetAnimations() { return animations; }
+	
 	// Remove animation from the animator
 	void RemoveAnimation(string name);
 	// Plays selected animation and resets the previous
 	void PlayAnimation(string name);
+	// Copy animations from another animator
+	void CopyAnimator(Animator& anim);
+
 };
 
 #endif

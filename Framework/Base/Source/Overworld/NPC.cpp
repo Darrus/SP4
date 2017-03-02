@@ -125,7 +125,6 @@ void NPC::Move()
 		velocity = dist.Normalized() * moveSpeed * dt;
 	}
 
-	//view = velocity.Normalized();
 	Vector3 dir = (camera->GetCameraPos() - position).Normalized();
 	view = velocity.Normalized();
 	float angle = Math::RadianToDegree(acos(dir.Dot(view)));
