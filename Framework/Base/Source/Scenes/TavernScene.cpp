@@ -23,6 +23,17 @@ TavernScene::TavernScene()
 
 TavernScene::~TavernScene()
 {
+	/*delete utility_menu;
+	delete prompt;
+	delete gold_display;
+	delete tavern_display;
+	for (int i = 0; i < 4; ++i)
+	{
+		if (hire_btn[i])
+			delete hire_btn[i];
+		if (chara_btn[i])
+			delete chara_btn[i];
+	}*/
 }
 
 void TavernScene::Init()
@@ -54,24 +65,6 @@ void TavernScene::Init()
 	//Dummy characters
 	for (unsigned i = 0; i < 4; ++i)
 	{
-		/*CharacterInfo* charahehe = new CharacterInfo();
-		charahehe->stats.AddVit(Math::RandIntMinMax(10, 200));
-		charahehe->stats.AddStr(50);
-		charahehe->stats.AddInt(65);
-		charahehe->stats.AddMind(50);
-		charahehe->stats.AddDex(40);
-		charahehe->stats.AddAgi(3);
-		charahehe->stats.AddLevel(5);
-		charahehe->name = "asdasd";
-		charahehe->id = 0;
-		charahehe->stats.UpdateStats();
-		charahehe->HP = charahehe->stats.GetMaxHP();
-		charahehe->skill_branch_index[0] = 0;
-		charahehe->skill_branch_index[1] = 0;
-		charahehe->skill_branch_index[2] = 0;
-		charahehe->skill_branch_index[3] = 0;
-		charahehe->anim.AddAnimation("walk");
-		charahehe->anim.PlayAnimation("walk");*/
 		tavern_slots[i] = CharacterFactory::GetInstance()->CreateCharacter();
 	}
 

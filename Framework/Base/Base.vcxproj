@@ -57,6 +57,7 @@
     <ClCompile Include="Source\Overworld\OverworldPlayer.cpp" />
     <ClCompile Include="Source\Overworld\ShopNPC.cpp" />
     <ClCompile Include="Source\Overworld\StaticAsset.cpp" />
+    <ClCompile Include="Source\Overworld\TavernNPC.cpp" />
     <ClCompile Include="Source\Overworld\TownShop.cpp" />
     <ClCompile Include="Source\Overworld\Town.cpp" />
     <ClCompile Include="Source\Overworld\TownTavern.cpp" />
@@ -80,6 +81,7 @@
     <ClCompile Include="Source\Scenes\ShopDialogueScene.cpp" />
     <ClCompile Include="Source\Scenes\ShopScene.cpp" />
     <ClCompile Include="Source\Scenes\SkillTreeScene.cpp" />
+    <ClCompile Include="Source\Scenes\TavernDialogueScene.cpp" />
     <ClCompile Include="Source\Scenes\TavernScene.cpp" />
     <ClCompile Include="Source\Skills\Skill.cpp" />
     <ClCompile Include="Source\Skills\SkillFunctions.cpp" />
@@ -137,6 +139,7 @@
     <ClInclude Include="Source\Overworld\OverworldPlayer.h" />
     <ClInclude Include="Source\Overworld\ShopNPC.h" />
     <ClInclude Include="Source\Overworld\StaticAsset.h" />
+    <ClInclude Include="Source\Overworld\TavernNPC.h" />
     <ClInclude Include="Source\Overworld\TownShop.h" />
     <ClInclude Include="Source\Overworld\Town.h" />
     <ClInclude Include="Source\Overworld\TownTavern.h" />
@@ -160,6 +163,7 @@
     <ClInclude Include="Source\Scenes\ShopDialogueScene.h" />
     <ClInclude Include="Source\Scenes\ShopScene.h" />
     <ClInclude Include="Source\Scenes\SkillTreeScene.h" />
+    <ClInclude Include="Source\Scenes\TavernDialogueScene.h" />
     <ClInclude Include="Source\Scenes\TavernScene.h" />
     <ClInclude Include="Source\Skills\Skill.h" />
     <ClInclude Include="Source\Skills\SkillFunctions.h" />

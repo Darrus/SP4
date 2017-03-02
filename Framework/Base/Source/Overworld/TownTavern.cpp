@@ -19,7 +19,7 @@
 
 // Entities
 #include "OverworldAsset.h"
-#include "ShopNPC.h"
+#include "TavernNPC.h"
 
 // Trigger Areas
 #include "TriggerScene.h"
@@ -87,12 +87,12 @@ void TownTavern::Init()
 	Math::InitRNG();
 
 	// NPC Init
-	ShopNPC* npc = new ShopNPC();
+	TavernNPC* npc = new TavernNPC();
 	npc->GetAnimator()->AddAnimation("npc");
 	npc->GetAnimator()->PlayAnimation("npc");
 	npc->SetScale(Vector3(5.f, 5.f, 1.f));
 	npc->SetPosition(Vector3(0.f, 20.f, 1.f));
-	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
+	npc->LoadDialogue("TAVERN_NPC_SHOPKEEPER");
 	npc->SetTargetScene("TavernScene");
 	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
