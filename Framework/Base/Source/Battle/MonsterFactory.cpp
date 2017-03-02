@@ -7,7 +7,7 @@ avgLvl(0)
 {
     for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
     {
-        avgLvl += Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel();
+		avgLvl += Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel();
     }
     avgLvl /= (Player::GetInstance().GetParty()->memberCount() - 1);
 }
@@ -117,7 +117,7 @@ void MonsterFactory::LevelSync()
 {
     for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount() - 1); ++i)
     {
-        avgLvl += Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel();
+		avgLvl += Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel();
     }
     avgLvl /= (Player::GetInstance().GetParty()->memberCount() - 1);
 }

@@ -16,6 +16,8 @@ class BattleEntity : public EntityBase
     char AttkTurnPt;
 
 public:
+	int id;
+
     BattleEntity();
     virtual ~BattleEntity();
 

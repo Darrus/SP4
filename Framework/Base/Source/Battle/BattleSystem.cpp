@@ -38,7 +38,8 @@ choosingSkill(false),
 escapeAnot(false),
 input(false),
 EXPGAIN(0),
-tempCast(0)
+tempCast(0),
+id(0)
 {
     float windowWidth = (float)Application::GetInstance().GetWindowWidth();
     float windowHeight = (float)Application::GetInstance().GetWindowHeight();
@@ -200,31 +201,29 @@ void BattleSystem::CheckBattleEnd(BattleEntity* entity)
     {
         for (int i = 0; i < playerPartySize; i++)
         {
-            EXPGAIN = Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel() * (8 - (Player::GetInstance().GetParty()->memberCount()));
-            Player::GetInstance().GetParty()->GetMember(i)->EXP += EXPGAIN;
+            EXPGAIN = Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel() * (8 - (Player::GetInstance().GetParty()->memberCount()));
+			Player::GetInstance().GetParty()->GetMemberByIndex(i)->EXP += EXPGAIN;
 
-            if (Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel() < 100)
+			if (Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel() < 100)
             {
-                Player::GetInstance().GetParty()->GetMember(i)->CheckLevelUp();
-
-                 // Add the Health Back
-                Player::GetInstance().GetParty()->GetMember(i)->HP = Player::GetInstance().GetParty()->GetMember(i)->stats.GetMaxHP();
-                Player::GetInstance().GetParty()->GetMember(i)->MP = Player::GetInstance().GetParty()->GetMember(i)->stats.GetMaxMP();
+				Player::GetInstance().GetParty()->GetMemberByIndex(i)->CheckLevelUp();
             }
-            else if (Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel() >= 100)
+			else if (Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel() >= 100)
             {
-                int testy = Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel() - 100;
-                Player::GetInstance().GetParty()->GetMember(i)->stats.DeductLevel(testy);
+				int testy = Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel() - 100;
+				Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.DeductLevel(testy);
             }
 
-            Player::GetInstance().GetParty()->GetMember(i)->stats.UpdateStats();
+			Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.UpdateStats();
         }
         addEXP = true;
+		id = 0;
     }
     if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
     {
         Overworld::battle = false;
         addEXP = false;
+		id = 0;
         Player::GetInstance().DoDie();
 
         for (std::list<BattleEntity*>::iterator itr = EnemyList.begin(); itr != EnemyList.end(); itr++)
@@ -297,9 +296,9 @@ BattleEntity* BattleSystem::CheckAnyAlive()
 
 BattleEntity* BattleSystem::FindTarget(int selection)
 {
-    for (std::list<BattleEntity*>::iterator itr = PlayerList.begin(); itr != PlayerList.end(); itr++)
+     for (std::list<BattleEntity*>::iterator itr = PlayerList.begin(); itr != PlayerList.end(); itr++)
     {
-        if ((*itr)->GetInfo()->id == selection)
+         if ((*itr)->id == selection)
         {
             return (*itr);
         }
@@ -399,15 +398,18 @@ void BattleSystem::SpellCast(BattleEntity* entity)
 {
     InfoBase* myEntity = entity->GetInfo();
     int i = 0;
+	CharacterInfo* chara = dynamic_cast<CharacterInfo*>(FindTarget(playerselect)->GetInfo());
+	if (!chara)
+		return;
 
-    for (auto itritr = Player::GetInstance().GetParty()->GetMember(playerselect)->skills.begin(); itritr != Player::GetInstance().GetParty()->GetMember(playerselect)->skills.end(); ++itritr)
+	for (auto itritr = chara->skills.begin(); itritr != chara->skills.end(); ++itritr)
     {
         if (skillselect == i)
         {
             if ((*itritr)->IsAllyTargetable())
             {
                 SkillParameters foo;
-                foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
+				foo.caster = chara;
                 if ((*itritr)->GetMaxNumberOfTargets() >= 4)
                 {
                     for (auto itritr = PlayerList.begin(); itritr != PlayerList.end(); itritr++)
@@ -445,7 +447,7 @@ void BattleSystem::SpellCast(BattleEntity* entity)
             else if ((*itritr)->IsEnemyTargetable())
             {
                 SkillParameters foo;
-                foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
+				foo.caster = chara;
 
                 if ((*itritr)->GetMaxNumberOfTargets() >= 4)
                 {
@@ -741,8 +743,11 @@ void BattleSystem::RenderSkillInterface()
             modelStack.PopMatrix();
         }
     }
-    CharacterInfo *pewchara = Player::GetInstance().GetParty()->GetMember(playerselect);
-    ///< Arrow
+    //CharacterInfo *pewchara = Player::GetInstance().GetParty()->GetMember(playerselect);
+    
+	CharacterInfo *pewchara = dynamic_cast<CharacterInfo*>(FindTarget(playerselect)->GetInfo());
+
+	///< Arrow
     float DIST = 0.65;
     for (int i = 0; i < (pewchara->skills.size()); i++)
         if (skillselect == i)
@@ -832,10 +837,10 @@ void BattleSystem::RenderNameHP()
     // Player UI - Name and HP
     for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount()); i++)
     {
-        CharacterInfo * charapew = Player::GetInstance().GetParty()->GetMember(i);
+        CharacterInfo * charapew = Player::GetInstance().GetParty()->GetMemberByIndex(i);
 
         modelStack.PushMatrix();
-        modelStack.Translate(windowWidth * 0.5, windowHeight * (0.05f * (Player::GetInstance().GetParty()->GetMember(i)->id + 1)), 5.f);
+        modelStack.Translate(windowWidth * 0.5, windowHeight * (0.05f * (Player::GetInstance().GetParty()->GetMemberByIndex(i)->id + 1)), 5.f);
         modelStack.Scale(35.f, 35.f, 1.f);
         RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), charapew->name + " (HP:" + std::to_string(charapew->HP) + "/" + std::to_string(charapew->stats.GetMaxHP()) + ")(MP:" + std::to_string(charapew->MP) + "/" + std::to_string(charapew->stats.GetMaxMP()) + ")", Color(0, 1, 0));
         modelStack.PopMatrix();
@@ -998,12 +1003,10 @@ void BattleSystem::AssignPlayerParty()
         pewpewpew = new BattleEntity();
         pewpewpew->enemyType = BattleEntity::ALLY;
         pewpewpew->SetInfo(MemberInfo);
-        if (MemberInfo != nullptr)
-        {
-            pewpewpew->SetPosition((Vector3(windowWidth * 0.75f, windowHeight * (0.15f * (i + 1.5)), 1.f)));
-            BattleList.push_back(pewpewpew);
-            PlayerList.push_back(pewpewpew);
-        }
+        pewpewpew->SetPosition((Vector3(windowWidth * 0.75f, windowHeight * (0.15f * (i + 1.5)), 1.f)));
+		pewpewpew->id = GetID();
+        BattleList.push_back(pewpewpew);
+        PlayerList.push_back(pewpewpew);
     }
 }
 
@@ -1113,34 +1116,47 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
             whichScreen = NOTHING;
         }
         break;
-    case CHOOSESKILL:
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
-            choosingSkill = true;
+	case CHOOSESKILL:
+	{
+		if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
+			choosingSkill = true;
 
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_DOWN))
-            skillselect++;
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_UP))
-            skillselect--;
+		if (KeyboardController::GetInstance()->IsKeyPressed(VK_DOWN))
+			skillselect++;
+		if (KeyboardController::GetInstance()->IsKeyPressed(VK_UP))
+			skillselect--;
 
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
-        {
-            whichScreen = CHOOSEDOWAT;
-            choosingSkill = false;
-        }
+		if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
+		{
+			whichScreen = CHOOSEDOWAT;
+			choosingSkill = false;
+		}
 
-        if (KeyboardController::GetInstance()->IsKeyPressed(VK_RIGHT))
-        {
-            whichScreen = CHOOSEDOWAT;
-            choosingSkill = false;
-        }
+		if (KeyboardController::GetInstance()->IsKeyPressed(VK_RIGHT))
+		{
+			whichScreen = CHOOSEDOWAT;
+			choosingSkill = false;
+		}
 
-        if (skillselect < 0)
-            skillselect = (Player::GetInstance().GetParty()->GetMember(playerselect)->skills.size() - 1);
-        if (skillselect >(Player::GetInstance().GetParty()->GetMember(playerselect)->skills.size() - 1))
-            skillselect = 0;
+		/* if (skillselect < 0)
+			 skillselect = (Player::GetInstance().GetParty()->GetMember(playerselect)->skills.size() - 1);
+			 if (skillselect >(Player::GetInstance().GetParty()->GetMember(playerselect)->skills.size() - 1))
+			 skillselect = 0;*/
 
-        if (choosingSkill == true)
-            SpellCast(entity);
+		CharacterInfo* chara = (CharacterInfo*)FindTarget(playerselect)->GetInfo();
+
+		if (skillselect < 0)
+		{
+			skillselect = chara->skills.size() - 1;
+		}
+		if (skillselect > chara->skills.size() - 1)
+		{
+			skillselect = 0;
+		}
+
+		if (choosingSkill == true)
+			SpellCast(entity);
+	}
         break;
     case CHOOSESKILLTE:
     {
@@ -1148,10 +1164,11 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
         {
             int i = 0;
             SkillParameters foo;
-            foo.caster = Player::GetInstance().GetParty()->GetMember(playerselect);
+			CharacterInfo* chara = (CharacterInfo*)FindTarget(playerselect)->GetInfo();
+            foo.caster = chara;
             if (ChooseSkillTarget() != nullptr)
             {
-                for (auto itritr = Player::GetInstance().GetParty()->GetMember(playerselect)->skills.begin(); itritr != Player::GetInstance().GetParty()->GetMember(playerselect)->skills.end(); ++itritr)
+				for (auto itritr = chara->skills.begin(); itritr != chara->skills.end(); ++itritr)
                 {
                     if (skillselect == i)
                     {
@@ -1206,11 +1223,12 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
         {
             int i = 0;
             SkillParameters foo;
-            foo.caster = Player::GetInstance().GetParty()->GetMember(tempCast);
+			CharacterInfo* chara = (CharacterInfo*)FindTarget(tempCast)->GetInfo();
+            foo.caster = chara;
 
             if (ChooseSkillTarget() != nullptr)
             {
-                for (auto itritr = Player::GetInstance().GetParty()->GetMember(tempCast)->skills.begin(); itritr != Player::GetInstance().GetParty()->GetMember(tempCast)->skills.end(); ++itritr)
+				for (auto itritr = chara->skills.begin(); itritr != chara->skills.end(); ++itritr)
                 {
                     if (skillselect == i)
                     {

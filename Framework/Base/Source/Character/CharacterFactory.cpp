@@ -13,7 +13,8 @@
 #include "../Animation/AnimationsContainer.h"
 #include "../Animation/Animation.h"
 
-CharacterFactory::CharacterFactory()
+CharacterFactory::CharacterFactory() :
+id(0)
 {
 	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Moogle", 1, 2)->textureID = LoadTGA("Image//moogle.tga");
 	names.push_back("Moogle");
@@ -34,13 +35,14 @@ CharacterInfo* CharacterFactory::CreateCharacter()
 	string name = names[Math::RandIntMinMax(0, names.size() - 1)];
 
 	CharacterInfo* character = new CharacterInfo();
-	character->stats.AddLevel(Math::RandIntMinMax(0, 20));
+	character->stats.AddLevel(Math::RandIntMinMax(1, 100));
 	character->name = name;
 	character->anim.AddAnimation(name + "_walk_front");
 	character->anim.AddAnimation(name + "_walk_left");
 	character->anim.AddAnimation(name + "_walk_right");
 	character->anim.AddAnimation(name + "_walk_down");
 	character->anim.AddAnimation(name + "_idle");
+	character->id = GenerateID();
 	RandomStat(character);
 	return character;
 }
@@ -76,4 +78,6 @@ void CharacterFactory::RandomStat(CharacterInfo* character)
 	character->stats.AddDex(container[4]);
 	character->stats.AddAgi(container[5]);
 	character->stats.UpdateStats();
+	character->HP = character->stats.GetMaxHP();
+	character->MP = character->stats.GetMaxMP();
 }

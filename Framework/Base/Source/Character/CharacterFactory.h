@@ -12,6 +12,7 @@ using std::vector;
 class CharacterFactory : public Singleton<CharacterFactory>
 {
 private:
+	int id;
 	vector<string> names;
 	void RandomStat(CharacterInfo* character);
 
@@ -22,5 +23,7 @@ public:
 	~CharacterFactory();
 
 	CharacterInfo* CreateCharacter();
+
+	inline int GenerateID() { return id++; }
 };
 
