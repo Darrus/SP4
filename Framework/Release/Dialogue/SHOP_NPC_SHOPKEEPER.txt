@@ -1,0 +1,4 @@
+Hello, how may i help you?
+What would you like to buy?
+We got potions to help you on your journey.
+Thank you, please come again.
