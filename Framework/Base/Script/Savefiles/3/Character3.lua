@@ -1,10 +1,12 @@
-Name = "Reuben"
-Str = 99
-Vit = 999
-Int = 99
-Mind = 99
-Dex = 99
-Agi = 69
-StatPoint = -714
-SkillPoint = 57
-Skills = { "Power Thrust", "Speed Boost", "Feint", "Sweep", "Thrust" } 
+`Name = ""
+Level = 5
+Str = 5
+Vit = 5
+Int = 5
+Mind = 0
+Dex = 0
+Agi = 0
+StatPoint = 0
+SkillPoint = 0
+
+Skills = {"Heal", "Heal", "Heal"}
