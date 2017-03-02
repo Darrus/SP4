@@ -29,7 +29,7 @@ void MainMenuScene::Init()
 	// Create and attach the camera to the scene
 	utility_menu = new Menu();
 
-	ChangeScene_Button* new_game = new ChangeScene_Button();
+	NewGame_Button* new_game = new NewGame_Button();
 	new_game->SetActive(true);
 	new_game->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5f, Application::GetInstance().GetWindowHeight() * 0.5f - 100.f);
 	new_game->SetScale(400, 100);

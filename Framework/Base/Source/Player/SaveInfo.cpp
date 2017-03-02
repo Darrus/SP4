@@ -125,6 +125,7 @@ bool SaveInfo::LoadGame(string fileName)
 		return false;
 
 	m_overworld_pos = Lua->GetVector3Values("Position");
+	m_gold = Lua->GetIntValue("Gold");
 
 	// Load Party Info
 	for (int i = 0; i < (m_party.GetMaxPartySize()); ++i)
@@ -135,6 +136,7 @@ bool SaveInfo::LoadGame(string fileName)
 	// Load Inventory
 	fileLoc = "Savefiles//" + fileName + "//Inventory";
 	Lua->LoadFile(fileLoc);
+	Lua->DoActiveState();
 	vector<string> itemNames = Lua->GetStringTable("Inventory");
 	while (itemNames.size() > 0)
 	{
@@ -145,6 +147,7 @@ bool SaveInfo::LoadGame(string fileName)
 	// Load Events
 	fileLoc = "Savefiles//" + fileName + "//Events";
 	Lua->LoadFile(fileLoc);
+	Lua->DoActiveState();
 	vector<bool> eventVec = Lua->GetBoolTable("Events");
 	int i = 0;
 	while (eventVec.size() > 0)
@@ -165,6 +168,7 @@ CharacterInfo* SaveInfo::LoadCharacter(string fileName, int index)
 	fileLoc << "Savefiles//" << fileName << "//Character" << (index + 1);
 	if (Lua->LoadFile(fileLoc.str()))
 	{
+		Lua->DoActiveState();
 		string name = Lua->GetStringValue("Name");
 
 		if (name == "")
