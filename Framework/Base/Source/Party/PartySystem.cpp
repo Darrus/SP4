@@ -34,7 +34,7 @@ bool PartySystem::AddMember(CharacterInfo* member)
 		if (party[i] == nullptr)
 		{
 			party[i] = member;
-			std::cout << "Added!!" << member->id << std::endl;
+			std::cout << "Added!!" << member->stats.Getlevel() << std::endl;
 			currPartySize++;
 			return true;
 		}
@@ -45,10 +45,13 @@ bool PartySystem::AddMember(CharacterInfo* member)
 
 bool PartySystem::AddMember(CharacterInfo* member, int index)
 {
-	party[index] = member;
-	if (party[index] != nullptr)
+	if (!member)
+		return false;
+
+	if (party[index] == nullptr)
 	{
 		std::cout << "Added!!" << member->id << std::endl;
+		party[index] = member;
 		currPartySize++;
 		return true;
 	}
@@ -72,7 +75,6 @@ CharacterInfo* PartySystem::RemoveMember(int id)
 CharacterInfo* PartySystem::RemoveMemberByIndex(int index)
 {
 	CharacterInfo* result = party[index];
-
 	party[index] = nullptr;
     currPartySize--;
 	return result;

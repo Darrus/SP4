@@ -23,6 +23,17 @@ TavernScene::TavernScene()
 
 TavernScene::~TavernScene()
 {
+	/*delete utility_menu;
+	delete prompt;
+	delete gold_display;
+	delete tavern_display;
+	for (int i = 0; i < 4; ++i)
+	{
+		if (hire_btn[i])
+			delete hire_btn[i];
+		if (chara_btn[i])
+			delete chara_btn[i];
+	}*/
 }
 
 void TavernScene::Init()
@@ -48,30 +59,13 @@ void TavernScene::Init()
 	prompt->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 	prompt->SetScale(1000, 600);
 	prompt->SetPosition(900, 540);
+	prompt->SetTextOffset(200, 0);
 	utility_menu->AddButton(prompt);
 
 	//TODO: Generate the random characters here
 	//Dummy characters
 	for (unsigned i = 0; i < 4; ++i)
 	{
-		/*CharacterInfo* charahehe = new CharacterInfo();
-		charahehe->stats.AddVit(Math::RandIntMinMax(10, 200));
-		charahehe->stats.AddStr(50);
-		charahehe->stats.AddInt(65);
-		charahehe->stats.AddMind(50);
-		charahehe->stats.AddDex(40);
-		charahehe->stats.AddAgi(3);
-		charahehe->stats.AddLevel(5);
-		charahehe->name = "asdasd";
-		charahehe->id = 0;
-		charahehe->stats.UpdateStats();
-		charahehe->HP = charahehe->stats.GetMaxHP();
-		charahehe->skill_branch_index[0] = 0;
-		charahehe->skill_branch_index[1] = 0;
-		charahehe->skill_branch_index[2] = 0;
-		charahehe->skill_branch_index[3] = 0;
-		charahehe->anim.AddAnimation("walk");
-		charahehe->anim.PlayAnimation("walk");*/
 		tavern_slots[i] = CharacterFactory::GetInstance()->CreateCharacter();
 	}
 
@@ -110,15 +104,15 @@ void TavernScene::Init()
 		utility_menu->AddButton(chara_btn[i]);
 
 		//Add the hire button
-		Math::InitRNG();
 		hire_btn[i] = new Hire_Button();
 		hire_btn[i]->SetActive(true);
 		hire_btn[i]->SetPosition(offset_x, 100);
 		hire_btn[i]->SetScale(300, 100);
 		hire_btn[i]->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 		hire_btn[i]->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
-		hire_btn[i]->SetCharacterToAdd(tavern_slots[i]);
-		hire_btn[i]->SetGoldCost(Math::RandIntMinMax(400, 2000));
+		hire_btn[i]->SetCharacterToAdd(chara_btn[i]);
+		hire_btn[i]->SetGoldCost(tavern_slots[i]->stats.Getlevel() * Math::RandIntMinMax(250, 500));
+		hire_btn[i]->SetPopUp(prompt);
 
 		//Add the button to the menu list
 		utility_menu->AddButton(hire_btn[i]);
@@ -136,35 +130,17 @@ void TavernScene::Update()
 		if (chara_btn[i]->m_chara != nullptr && chara_btn[i]->m_isHovered)
 			chara_btn[i]->UpdateAnimation();
 
-		if (hire_btn[i]->m_isPressed && hire_btn[i]->m_chara_to_add)
+		if (hire_btn[i]->m_isPressed && hire_btn[i]->GetCharacterToAdd() != nullptr)
 		{
-			//if full party
-			if (Player::GetInstance().GetInstance().GetParty()->memberCount() == Player::GetInstance().GetInstance().GetParty()->GetMaxPartySize())
-			{
-				prompt->SetActive(true);
-				prompt->SetText("Your Party is full!");
-			}
-			//If not enough gold
-			else if (Player::GetInstance().m_gold < hire_btn[i]->m_gold_cost)
-			{
-				prompt->SetActive(true);
-				prompt->SetText("You do not have enough gold!");
-			}
-			else
-			{
-				prompt->SetActive(true);
-				prompt->SetText(chara_btn[i]->m_chara->name + " has joined the party!");
-				chara_btn[i]->SetCharacter(nullptr);
-				hire_btn[i]->SetCharacterToAdd(nullptr);
-				hire_btn[i]->SetText("Nobody Here");
-				gold_display->SetText("Your Gold:" + std::to_string(Player::GetInstance().m_gold));
-			}
+			gold_display->SetText("Your Gold:" + std::to_string(Player::GetInstance().m_gold));
 		}
 	}
 }
 
 void TavernScene::Render()
 {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	GraphicsManager::GetInstance()->SetOrthographicProjection(0, Application::GetInstance().GetWindowWidth(), 0, Application::GetInstance().GetWindowHeight(), -10, 10);
 
 	utility_menu->Render();
@@ -185,11 +161,13 @@ CharacterInfo* TavernScene::generate_random_character()
 
 void TavernScene::UnPause()
 {
-	//TODO:
 	//Generate random characters in the tavern slot 
 	for (unsigned i = 0; i < 4; ++i)
 	{
 		tavern_slots[i] = CharacterFactory::GetInstance()->CreateCharacter();
+		chara_btn[i]->m_chara = tavern_slots[i];
+		hire_btn[i]->SetCharacterToAdd(chara_btn[i]);
+		hire_btn[i]->SetGoldCost(tavern_slots[i]->stats.Getlevel() * Math::RandIntMinMax(250, 500));
 	}
 	gold_display->SetText("Your Gold:" + std::to_string(Player::GetInstance().m_gold));
 }
@@ -200,6 +178,9 @@ void TavernScene::Pause()
 	for (unsigned i = 0; i < 4; ++i)
 	{
 		if (chara_btn[i]->m_chara != nullptr)
-			delete chara_btn[i];
+		{
+			delete chara_btn[i]->m_chara;
+			chara_btn[i]->m_chara = nullptr;
+		}
 	}
 }

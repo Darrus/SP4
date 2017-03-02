@@ -36,6 +36,7 @@
 #include "Scenes\PauseScene.h"
 #include "Scenes\InventoryScene.h"
 #include "Scenes\TavernScene.h"
+#include "Scenes\TavernDialogueScene.h"
 
 #include "Scenes\MainMenuScene.h"
 #include "Scenes\LoadGameScene.h"
@@ -180,6 +181,7 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("Shop", new ShopScene());
 	SceneManager::GetInstance()->AddScene("Dialogue", new DialogueScene());
 	SceneManager::GetInstance()->AddScene("ShopDialogue", new ShopDialogueScene());
+	SceneManager::GetInstance()->AddScene("TavernDialogue", new TavernDialogueScene());
 
 	//Save Load Game
 	SceneManager::GetInstance()->AddScene("SaveGameScene", new SaveGameScene());
@@ -199,6 +201,7 @@ void Application::Init()
 	LoadFontData("FontData//pixelFontData.csv");
 
 	StopWatch::GetInstance()->startTimer();
+	Math::InitRNG();
 }
 
 void Application::Run()

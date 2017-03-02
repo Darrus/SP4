@@ -128,7 +128,7 @@ void SkillTreeScene::Init()
 	p_def->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	p_def->SetPosition(410, 665);
 	p_def->SetScale(650, 60);
-	p_def->SetText("Physical Defense Branch");
+	p_def->SetText("Physical Defence Branch");
 	GUIObject_list.push_back(p_def);
 
 	GUIObject* m_atk = new GUIObject();
@@ -142,7 +142,7 @@ void SkillTreeScene::Init()
 	m_def->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	m_def->SetPosition(410, 215);
 	m_def->SetScale(650, 60);
-	m_def->SetText("Magical Defense Branch");
+	m_def->SetText("Magical Defence Branch");
 	GUIObject_list.push_back(m_def);
 
 	//Character info display stuff

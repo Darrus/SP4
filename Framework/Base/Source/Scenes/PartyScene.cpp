@@ -25,30 +25,6 @@ void PartyScene::Init()
 
 	utility_menu = new Menu();
 
-	//Dummy characters
-	for (unsigned i = 0; i < 0; ++i)
-	{
-		CharacterInfo* charahehe = new CharacterInfo();
-		charahehe->stats.AddVit(Math::RandIntMinMax(10, 200));
-		charahehe->stats.AddStr(50);
-		charahehe->stats.AddInt(65);
-		charahehe->stats.AddMind(50);
-		charahehe->stats.AddDex(40);
-		charahehe->stats.AddAgi(3);
-		charahehe->stats.AddLevel(5);
-		charahehe->name = "Kek";
-		charahehe->id = i;
-		charahehe->stats.UpdateStats();
-		charahehe->HP = charahehe->stats.GetMaxHP();
-		charahehe->skill_branch_index[0] = 0;
-		charahehe->skill_branch_index[1] = 0;
-		charahehe->skill_branch_index[2] = 0;
-		charahehe->skill_branch_index[3] = 0;
-		charahehe->anim.AddAnimation("walk");
-		charahehe->anim.PlayAnimation("walk");
-		Player::GetInstance().GetParty()->AddMember(charahehe);
-	}
-
 	//Make the character buttons
 	InitialiseCharacterButtons();
 }
@@ -102,6 +78,7 @@ void PartyScene::InitialiseCharacterButtons()
 	backbtn->SetPosition(50, 1000);
 	backbtn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	backbtn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+	backbtn->SetPriority(4);
 	utility_menu->AddButton(backbtn);
 
 	//Loop take makes buttons for every slot that isn't empty or if it finished the loop

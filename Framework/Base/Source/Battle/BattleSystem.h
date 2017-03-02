@@ -37,10 +37,13 @@ private:
     int EXPGAIN;
     int playerPartySize, enemyStart, enemyEnd;
     int tempCast;
+	int id;
 
     MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
     float windowWidth = (float)Application::GetInstance().GetWindowWidth();
     float windowHeight = (float)Application::GetInstance().GetWindowHeight();
+
+	inline int GetID() { return id++; }
 
 public:
     BattleSystem();                                                             ///< Default Constructor

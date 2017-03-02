@@ -82,3 +82,69 @@ public:
 	RemoveMember_Button(){ SetScale(650, 150); }
 	~RemoveMember_Button(){};
 };
+
+//============================================================================//
+//Brief: A button object adds a CharacterInfo into the Player's Party.		  //
+//============================================================================//
+
+class Hire_Button : public Button
+{
+protected:
+	//NOTE TO SELF: I'M GRABBING THE CHARACTER INFO FROM THE CHARACTER PROFILE BUTTON INSTEAD
+	//AND THEN CHARACTERPROFILE IS POINTING TO TAVERN_SLOT
+	//CharacterInfo* m_chara_to_add;
+
+	int m_gold_cost;
+
+	PopUp_Button* m_popup;
+	CharacterProfile_Button* m_target_chara;
+public:
+
+	inline void SetGoldCost(int cost)
+	{
+		m_gold_cost = cost;
+		SetTextOffset(40, 15);
+		m_text = " Hire Me\nfor" + std::to_string(m_gold_cost) + " gold!";
+	}
+
+	inline void SetPopUp(PopUp_Button* popup){ m_popup = popup; }
+	inline void SetCharacterToAdd(CharacterProfile_Button* chara_to_add){ m_target_chara = chara_to_add; }
+	inline CharacterProfile_Button* GetCharacterToAdd(){ return m_target_chara; }
+
+	inline void RunFunction()
+	{
+		if (&m_target_chara->m_chara == nullptr)
+			return;
+
+		//If player's party is full
+		if (Player::GetInstance().GetInstance().GetParty()->memberCount() == Player::GetInstance().GetInstance().GetParty()->GetMaxPartySize())
+		{
+			m_popup->SetActive(true);
+			m_popup->SetText("Your Party is full!");
+			return;
+		}
+		//if player can afford the character
+		else if (Player::GetInstance().m_gold < m_gold_cost)
+		{
+			m_popup->SetActive(true);
+			m_popup->SetText("You do not have enough gold!");
+			return;
+		}
+		//If OK, then just add
+		else
+		{
+			if (Player::GetInstance().GetParty()->AddMember(m_target_chara->m_chara))
+			{
+				m_popup->SetActive(true);
+				m_popup->SetText(m_target_chara->m_chara->name + " has joined the Party!");
+
+				m_target_chara->m_chara = nullptr;
+				Player::GetInstance().m_gold -= m_gold_cost;
+				m_text = "Nobody Here";
+			}
+		}
+	}
+
+	Hire_Button(){ SetScale(650, 150); }
+	~Hire_Button(){};
+};

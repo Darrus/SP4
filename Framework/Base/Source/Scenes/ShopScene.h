@@ -52,7 +52,6 @@ private:
 	GUIObject* inventory_display;
 
 	int cart_cost;
-	int temp_player_gold;
 
 	//Not enough gold pop button
 	PopUp_Button* prompt;

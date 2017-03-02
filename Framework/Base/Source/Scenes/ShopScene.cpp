@@ -210,8 +210,6 @@ void ShopScene::Init()
 	inventory_display->SetTextOffset(150, 0);
 	inventory_display->SetScale(600, 80);
 	inventory_display->SetPosition(500, 900);
-
-	temp_player_gold = 9999;
 }
 void ShopScene::Update()
 {
@@ -236,11 +234,11 @@ void ShopScene::Update()
 		//If player accepts the purchase
 		if (b_accept)
 		{
-			if (cart_cost > temp_player_gold)
+			if (cart_cost > Player::GetInstance().m_gold)
 				prompt->SetActive(true);
 			else
 			{
-				temp_player_gold -= cart_cost;
+				Player::GetInstance().m_gold -= cart_cost;
 
 				for (unsigned i = 0; i < cart_inventory->m_inventoryList.size(); ++i)
 					player_inventory->AddCopy(cart_inventory->m_inventoryList[i]);
@@ -267,7 +265,7 @@ void ShopScene::Update()
 
 		if (b_accept)
 		{
-			temp_player_gold += cart_cost;
+			Player::GetInstance().m_gold += cart_cost;
 
 			cart_inventory->ClearInventory();
 
@@ -321,7 +319,7 @@ void ShopScene::Render()
 	if (buying_tab)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(510, 100, 0);
+		modelStack.Translate(510, 100, 2);
 		modelStack.Scale(100.f, 100.f, 1.f);
 		RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("button_background"));
 		modelStack.Translate(-0.45, 0, 0);
@@ -331,17 +329,17 @@ void ShopScene::Render()
 	}
 	//Cart cost
 	modelStack.PushMatrix();
-	modelStack.Translate(1050, 900, 0);
+	modelStack.Translate(1050, 900, 2);
 	modelStack.Scale(50.f, 50.f, 1.f);
 	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(cart_cost), Color(0, 1, 0));
 	modelStack.PopMatrix();
 
 	//Player gold
 	modelStack.PushMatrix();
-	modelStack.Translate(1500, 880, 0);
+	modelStack.Translate(1400, 880, 2);
 	modelStack.Scale(50.f, 50.f, 1.f);
 	//RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(Player::GetInstance().), Color(0, 1, 0));
-	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(temp_player_gold), Color(0, 1, 0));
+	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), std::to_string(Player::GetInstance().m_gold), Color(0, 1, 0));
 	modelStack.PopMatrix();
 	//============================================================================================//
 

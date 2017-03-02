@@ -21,7 +21,7 @@ void CharacterProfile_Button::Render()
 		return;
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
-	modelStack.Translate(m_pos_x, m_pos_y, 1);
+	modelStack.Translate(m_pos_x, m_pos_y, m_priority);
 
 	modelStack.PushMatrix();
 	modelStack.Scale(m_scale_x, m_scale_y, 1);
@@ -89,7 +89,7 @@ void SelectCharacterForItem_Button::Render()
 		return;
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
-	modelStack.Translate(m_pos_x, m_pos_y, 1);
+	modelStack.Translate(m_pos_x, m_pos_y, m_priority);
 
 	modelStack.PushMatrix();
 	modelStack.Scale(m_scale_x, m_scale_y, 1);

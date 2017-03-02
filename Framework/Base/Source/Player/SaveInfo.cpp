@@ -8,6 +8,7 @@
 #include "../Lua/LuaInterface.h"
 #include "SceneManager.h"
 #include "../Items/ItemFactory.h"
+#include "../Character/CharacterFactory.h"
 
 // Skills
 #include "../Skills/SkillFunctions.h"
@@ -81,6 +82,9 @@ void SaveInfo::SaveCharacter(string fileName, CharacterInfo* character, int inde
 	Lua->SaveIntValue(fileLoc.str().c_str(), "Agi", character->stats.GetAgi());
 	Lua->SaveIntValue(fileLoc.str().c_str(), "StatPoint", character->stats.GetStatPoints());
 	Lua->SaveIntValue(fileLoc.str().c_str(), "SkillPoint", character->stats.GetSkillPoints());
+	Lua->SaveIntValue(fileLoc.str().c_str(), "HP", character->HP);
+	Lua->SaveIntValue(fileLoc.str().c_str(), "MP", character->MP);
+	Lua->SaveIntValue(fileLoc.str().c_str(), "EXP", character->EXP);
 	Lua->SaveIntValue(fileLoc.str().c_str(), "BRANCH_P_ATK", character->skill_branch_index[BRANCH_P_ATK]);
 	Lua->SaveIntValue(fileLoc.str().c_str(), "BRANCH_M_ATK", character->skill_branch_index[BRANCH_M_ATK]);
 	Lua->SaveIntValue(fileLoc.str().c_str(), "BRANCH_P_DEF", character->skill_branch_index[BRANCH_P_DEF]);
@@ -167,7 +171,10 @@ CharacterInfo* SaveInfo::LoadCharacter(string fileName, int index)
 		character->stats.SetMind(Lua->GetIntValue("Mind"));
 		character->stats.SetDex(Lua->GetIntValue("Dex"));
 		character->stats.SetAgi(Lua->GetIntValue("Agi"));
-		character->id = index;
+		character->HP = Lua->GetIntValue("HP");
+		character->MP = Lua->GetIntValue("MP");
+		character->EXP = Lua->GetIntValue("EXP");
+		character->id = CharacterFactory::GetInstance()->GenerateID();
 		character->stats.SetStatPoint(Lua->GetIntValue("StatPoint"));
 		character->stats.SetSkillPoint(Lua->GetIntValue("SkillPoint"));
 		character->stats.UpdateStats();
