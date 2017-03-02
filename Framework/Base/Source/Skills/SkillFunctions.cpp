@@ -38,6 +38,27 @@ void SkillContainer::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("skill_18", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_18.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("skill_19", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_19.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("skill_20", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_20.tga");
+
+	MeshBuilder::GetInstance()->GenerateQuad("skill_1_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_1_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_2_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_2_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_3_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_3_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_4_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_4_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_5_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_5_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_6_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_6_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_7_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_7_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_8_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_8_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_9_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_9_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_10_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_10_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_11_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_11_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_12_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_12_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_13_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_13_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_14_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_14_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_15_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_15_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_16_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_16_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_17_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_17_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_18_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_18_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_19_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_19_alt.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("skill_20_alt", Color(1, 1, 1), 1.f)->textureID = LoadTGA("Image//Skills//skill_20_alt.tga");
 	
 	Heal* heal = new Heal();
 	m_skill_container.insert(std::make_pair(heal->GetName(), heal));

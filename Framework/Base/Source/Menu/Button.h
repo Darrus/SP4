@@ -419,6 +419,16 @@ protected:
 
 public:
 	inline void SetLoadSlotIndex(int index){ load_index = index; }
+	SaveInfo* save_info;
+	inline void InitialiseSaveInfo()
+	{
+		if (save_info != nullptr)
+			delete save_info;
+
+		save_info = new SaveInfo();
+
+		save_info->LoadGame(std::to_string(load_index));	//Need some way to check if it's nullptr
+	}
 
 	inline void RunFunction()
 	{
@@ -427,9 +437,9 @@ public:
 		scene->SetStartPos(Player::GetInstance().GetOverworldPosition());
 	}
 
-	//virtual void Render();
+	virtual void Render();
 
-	LoadGame_Button(){};
+	LoadGame_Button() : save_info(nullptr){};
 	~LoadGame_Button(){};
 };
 
@@ -440,18 +450,30 @@ class SaveGame_Button : public Button
 {
 protected:
 	int save_index;
-
+	bool empty_slot;
 public:
 	inline void SetSaveSlotIndex(int index){ save_index = index; }
+	SaveInfo* save_info;
+	inline void InitialiseSaveInfo()
+	{ 
+		if (save_info != nullptr)
+			delete save_info;
+
+		save_info = new SaveInfo();
+
+		save_info->LoadGame(std::to_string(save_index));	//Need some way to check if it's nullptr
+	}
+	PopUp_Button* m_popup;
 
 	inline void RunFunction()
 	{
+		m_popup->SetActive(true);
 		Player::GetInstance().SaveGame(std::to_string(save_index));
 	}
 
-	//virtual void Render();
+	virtual void Render();
 
-	SaveGame_Button(){};
+	SaveGame_Button() : save_info(nullptr){};
 	~SaveGame_Button(){};
 };
 

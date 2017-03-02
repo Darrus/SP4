@@ -38,7 +38,7 @@ void CharacterProfile_Button::Render()
 	modelStack.Translate(-m_scale_x * 0.5, 0, 1);
 
 	//Name
-	modelStack.Translate(0, 325, 0);
+	modelStack.Translate(0, 300, 0);
 	modelStack.PushMatrix();
 	modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
 	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), m_chara->name, Color(1, 0, 0));
@@ -52,29 +52,29 @@ void CharacterProfile_Button::Render()
 	modelStack.PopMatrix();
 
 	//Character animation/portrait goes here
-	modelStack.Translate(m_scale_x * 0.5f, -175, 0);
+	modelStack.Translate(m_scale_x * 0.5f, -250, 0);
 	modelStack.PushMatrix();
-	modelStack.Scale(m_scale_x + 50, 350, 1);
+	modelStack.Scale(m_scale_x - 50, 350, 1);
 	if(m_chara->anim.GetAnimatorSize())
 		m_chara->anim.Render(); //TODO: Make sure the characters have animation (TO:REUBEN)
 	modelStack.PopMatrix();
 
 	//HP
-	modelStack.Translate(-m_scale_x * 0.5f, -325, 0);
+	modelStack.Translate(-m_scale_x * 0.5f, -250, 0);
 	modelStack.PushMatrix();
 	modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
 	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "HP: " + std::to_string(m_chara->HP) + "/" + std::to_string(m_chara->stats.GetMaxHP()), Color(1, 0, 0));
 	modelStack.PopMatrix();
 
 	//MP
-	modelStack.Translate(0, -50, 0);
+	modelStack.Translate(0, -25, 0);
 	modelStack.PushMatrix();
 	modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
 	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "MP: " + std::to_string(m_chara->MP) + "/" + std::to_string(m_chara->stats.GetMaxMP()), Color(1, 0, 0));
 	modelStack.PopMatrix();
 
 	//EXP
-	modelStack.Translate(0, -50, 0);
+	modelStack.Translate(0, -25, 0);
 	modelStack.PushMatrix();
 	modelStack.Scale(m_text_scale_x, m_text_scale_y, 1);
 	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "EXP: " + std::to_string(m_chara->EXP) + "/" + std::to_string(m_chara->stats.GetMaxEXP()), Color(1, 0, 0));
@@ -123,8 +123,9 @@ void SelectCharacterForItem_Button::Render()
 	//Character animation/portrait goes here
 	modelStack.Translate(m_scale_x * 0.5f, -90, 0);
 	modelStack.PushMatrix();
-	modelStack.Scale(175, 200, 1);
-	//m_chara->anim.Render();	//TODO: make sure characters have animations
+	modelStack.Scale(100, 150, 1);
+	if (m_chara->anim.GetAnimatorSize())
+		m_chara->anim.Render();	//TODO: make sure characters have animations
 	modelStack.PopMatrix();
 
 	//HP

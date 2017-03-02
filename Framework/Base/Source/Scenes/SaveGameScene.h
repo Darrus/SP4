@@ -19,9 +19,12 @@ public:
 	virtual void Update();
 	virtual void Render();
 	virtual void Exit();
+	virtual void UnPause();
 
 private:
 	FPSCamera camera;
+
+	SaveGame_Button* save_slots_btn[3];
 
 	//Menus
 	Menu* utility_menu;	

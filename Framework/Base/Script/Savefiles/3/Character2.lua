@@ -1,12 +1,25 @@
-`Name = ""
-Level = 5
-Str = 5
-Vit = 5
-Int = 5
-Mind = 0
-Dex = 0
-Agi = 0
-StatPoint = 0
-SkillPoint = 0
-
-Skills = {"Heal", "Heal", "Heal"}
+Name = "Terra"
+Level = 12
+Str = 6
+Vit = 9
+Int = 7
+Mind = 20
+Dex = 8
+Agi = 8
+StatPoint = 55
+SkillPoint = 11
+HP = 1050
+MP = 640
+EXP = 12
+BRANCH_P_ATK = 0
+BRANCH_M_ATK = 0
+BRANCH_P_DEF = 0
+BRANCH_P_DEF = 0
+Skills = 
+{
+"Fire Blast",
+"Firaga",
+"Ice Blast",
+"Blizzaga",
+"BliFirga"
+} 

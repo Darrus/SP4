@@ -79,8 +79,9 @@ void TavernScene::Init()
 	tavern_display = new GUIObject();
 	tavern_display->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	tavern_display->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5f + 10.f , 1000);
-	tavern_display->SetScale(350, 60);
+	tavern_display->SetScale(350, 100);
 	tavern_display->SetText("Tavern");
+	tavern_display->SetTextOffset(100, 0);
 
 	//Loop take makes buttons for every slot that isn't empty or if it finished the loop
 	float offset_x = 375.f;
@@ -119,6 +120,15 @@ void TavernScene::Init()
 
 		offset_x += 425;
 	}
+
+	MeshBuilder::GetInstance()->GenerateQuad("tavern_bg", Color(1, 1, 1), 1)->textureID = LoadTGA("Image//tavern_bg.tga");
+
+	background = new GUIObject();
+	background->SetActive(true);
+	background->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5f, Application::GetInstance().GetWindowHeight() * 0.5f);
+	background->SetScale(Application::GetInstance().GetWindowWidth(), Application::GetInstance().GetWindowHeight());
+	background->SetImage(MeshBuilder::GetInstance()->GetMesh("tavern_bg"));
+	background->SetPriority(-1);
 }
 
 void TavernScene::Update()
@@ -146,6 +156,7 @@ void TavernScene::Render()
 	utility_menu->Render();
 	gold_display->Render();
 	tavern_display->Render();
+	background->Render();
 }
 
 void TavernScene::Exit()

@@ -1,12 +1,25 @@
-`Name = ""
-Level = 5
-Str = 5
-Vit = 5
-Int = 5
-Mind = 0
-Dex = 0
-Agi = 0
-StatPoint = 0
-SkillPoint = 0
-
-Skills = {"Heal", "Heal", "Heal"}
+Name = "Shadow"
+Level = 12
+Str = 11
+Vit = 12
+Int = 7
+Mind = 10
+Dex = 7
+Agi = 7
+StatPoint = 55
+SkillPoint = 11
+HP = 1200
+MP = 440
+EXP = 12
+BRANCH_P_ATK = 0
+BRANCH_M_ATK = 0
+BRANCH_P_DEF = 0
+BRANCH_P_DEF = 0
+Skills = 
+{
+"Thrust",
+"Sweep",
+"Feint",
+"Speed Boost",
+"Power Thrust"
+} 

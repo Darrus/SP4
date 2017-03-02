@@ -18,6 +18,9 @@ using namespace std;
 
 LoadGameScene::LoadGameScene()
 {
+	load_slot[0] = nullptr;
+	load_slot[1] = nullptr;
+	load_slot[2] = nullptr;
 }
 
 LoadGameScene::~LoadGameScene()
@@ -45,14 +48,20 @@ void LoadGameScene::Init()
 		LoadGame_Button* load_btn = new LoadGame_Button();
 
 		load_btn->SetActive(true);
-		load_btn->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5f, Application::GetInstance().GetWindowHeight() - i * 150.f - 300);
-		load_btn->SetScale(400, 100);
+		load_btn->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5f, Application::GetInstance().GetWindowHeight() - i * 300.f);
+		load_btn->SetScale(700, 250);
 		load_btn->SetText(std::to_string(i));
 		load_btn->SetLoadSlotIndex(i);
 		load_btn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 		load_btn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 		load_btn->SetTextOffset(110, 0);
+		load_btn->InitialiseSaveInfo();
+
+		//Add the button to the menu
 		utility_menu->AddButton(load_btn);
+
+		//To keep track of them
+		load_slot[i - 1] = load_btn;
 	}
 
 	//Background
@@ -91,4 +100,15 @@ void LoadGameScene::Exit()
 {
 	// Detach camera from other entities
 	GraphicsManager::GetInstance()->DetachCamera();
+
+	delete utility_menu;
+}
+
+void LoadGameScene::UnPause()
+{
+	int NUM_OF_SAVE_SLOTS = 3;
+	for (unsigned i = 0; i < NUM_OF_SAVE_SLOTS; ++i)
+	{
+		load_slot[i]->InitialiseSaveInfo();
+	}
 }

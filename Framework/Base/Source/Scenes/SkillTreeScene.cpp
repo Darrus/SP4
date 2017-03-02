@@ -220,7 +220,7 @@ void SkillTreeScene::init_skills()
 			skill_btn->SetPosition(index_in_branch * 150.f + 150.f, offset_y);
 			skill_btn->SetScale(125.f, 125.f);
 			skill_btn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh(skill_branch[currentBranch][index_in_branch]->GetIconName()));
-			skill_btn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh(skill_branch[currentBranch][index_in_branch]->GetIconName()));
+			skill_btn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh(skill_branch[currentBranch][index_in_branch]->GetIconName()+"_alt"));
 
 			//Skill pointer stuff
 			skill_btn->SetIsSkillLearnt(skill_learnt);

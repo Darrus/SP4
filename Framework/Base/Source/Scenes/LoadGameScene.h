@@ -20,9 +20,11 @@ public:
 	virtual void Update();
 	virtual void Render();
 	virtual void Exit();
-
+	virtual void UnPause();
 private:
 	FPSCamera camera;
+
+	LoadGame_Button* load_slot[3];
 
 	//Menus
 	Menu* utility_menu;	

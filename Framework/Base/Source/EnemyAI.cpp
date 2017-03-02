@@ -66,7 +66,7 @@ void EnemyAI::HighAggression(BattleEntity* entityAI, BattleEntity* player)
         else
                 AttackPlayer(entityAI, player);
     }
-    else if (entityAI->GetHP() <= AIStats.GetMaxHP() * 0.5)
+    else if (entityAI->GetHP() <= AIStats.GetMaxHP() * 0.75)
     {
         if (entityAI->GetAttkTurnPt() < 2)
             Defend(entityAI);
@@ -76,16 +76,14 @@ void EnemyAI::HighAggression(BattleEntity* entityAI, BattleEntity* player)
     }
     else if (player->GetHP() <= playerStats.GetMaxHP() * 0.5)
     {
-        if (entityAI->GetAttkTurnPt() < 2)
-            Defend(entityAI);
-        else
-            while (entityAI->GetAttkTurnPt() > 0)
-                AttackPlayer(entityAI, player);
+        while (entityAI->GetAttkTurnPt() > 0)
+            AttackPlayer(entityAI, player);
     }
     else
     {
         //use skill
-        AttackPlayer(entityAI, player);
+        while (entityAI->GetAttkTurnPt() > 0)
+            AttackPlayer(entityAI, player);
         //Defend(entityAI);
     }
 }
@@ -126,14 +124,11 @@ void EnemyAI::LowAggression(BattleEntity* entityAI, BattleEntity* player)
     {
         if (entityAI->GetAttkTurnPt() >= 2)
         {
-            // Use Skill Here to heal
-
             while (entityAI->GetAttkTurnPt() > 0)
                 AttackPlayer(entityAI, player);
         }
         else
             Defend(entityAI);
-        
     }
     else
     {
@@ -142,6 +137,8 @@ void EnemyAI::LowAggression(BattleEntity* entityAI, BattleEntity* player)
             while (entityAI->GetAttkTurnPt() > 0)
                 AttackPlayer(entityAI, player);
         }
+        else
+            Defend(entityAI);
     }
 }
 void EnemyAI::NeutralAggression(BattleEntity* entityAI, BattleEntity* player)
@@ -149,7 +146,7 @@ void EnemyAI::NeutralAggression(BattleEntity* entityAI, BattleEntity* player)
     StatSystem AIStats = entityAI->GetInfo()->stats;
     StatSystem playerStats = player->GetInfo()->stats;
 
-    if (entityAI->GetHP() <= (AIStats.GetMaxHP() * 0.5) && entityAI->GetAttkTurnPt() < 5)
+    if (entityAI->GetHP() <= (AIStats.GetMaxHP() * 0.5) && entityAI->GetAttkTurnPt() < 3)
         Defend(entityAI);
     else
         while (entityAI->GetAttkTurnPt() > 0)
