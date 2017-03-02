@@ -148,7 +148,7 @@ void SkillTreeScene::Init()
 	//Character info display stuff
 	display_skill_points = new SkillPoint_Display();
 	display_skill_points->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
-	display_skill_points->SetPosition(1800, 1000);
+	display_skill_points->SetPosition(1700, 1000);
 	display_skill_points->SetScale(350, 60);
 	display_skill_points->SetText("Skill Points");
 	display_skill_points->SetTargetCharacter(character);
@@ -161,6 +161,15 @@ void SkillTreeScene::Init()
 	display_character_name->SetTargetCharacter(character);
 	GUIObject_list.push_back(display_character_name);
 
+	MeshBuilder::GetInstance()->GenerateQuad("skilltree_bg", Color(1, 1, 1), 1)->textureID = LoadTGA("Image//skilltree_bg.tga");
+
+	background = new GUIObject();
+	background->SetActive(true);
+	background->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5f, Application::GetInstance().GetWindowHeight() * 0.5f);
+	background->SetScale(Application::GetInstance().GetWindowWidth(), Application::GetInstance().GetWindowHeight());
+	background->SetImage(MeshBuilder::GetInstance()->GetMesh("skilltree_bg"));
+	background->SetPriority(-1);
+	GUIObject_list.push_back(background);
 
 	//Init the skill buttons
 	init_skills();

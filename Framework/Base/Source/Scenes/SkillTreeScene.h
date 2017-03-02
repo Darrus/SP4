@@ -44,6 +44,7 @@ private:
 	PopUp_Button* m_popup;
 	SkillPoint_Display* display_skill_points;
 	CharacterName_Display* display_character_name;
+	GUIObject* background;
 
 	//Holds the GUIObjects
 	vector<GUIObject*>GUIObject_list;
