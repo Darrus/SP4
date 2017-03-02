@@ -120,6 +120,8 @@ public:
     inline void DeductMaxHP(int amt) { sub.MaxHP -= amt; }
     inline void DeductMaxMP(int amt){ sub.MaxMP -= amt; }
 
+    inline void SetRechargeRate(int amt){ sub.RechargeRate = amt; }
+
 	void UpdateStats()
 	{
 		sub.MaxEXP = main.Level * MAX_EXP_MULTIPLIER;

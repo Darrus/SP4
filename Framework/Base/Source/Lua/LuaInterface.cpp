@@ -139,7 +139,7 @@ void CLuaInterface::SaveStringTable(const char *fileName, const char* varName, c
 	char file[80];
 	sprintf(file, "Script/%s.lua", fileName);
 	string outputString = varName;
-	outputString += "= \n{\n";
+	outputString += " = \n{\n";
 	outputString += value;
 	outputString += "\n} \n";
 	lua_pushstring(functions, file);
