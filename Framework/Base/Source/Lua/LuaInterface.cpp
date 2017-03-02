@@ -161,10 +161,54 @@ void CLuaInterface::SaveVector3Values(const char *fileName, const char* varName,
 	lua_call(functions, 3, 0); cout << "..................";
 }
 
+void CLuaInterface::SaveBoolTable(const char *fileName, const char* varName, bool value[], int size, const bool bOverwrite)
+{
+	lua_getglobal(functions, "SaveToLuaFile");
+	char file[80];
+	sprintf(file, "Script/%s.lua", fileName);
+	string outputString = varName;
+	outputString += " = \n{\n";
+	for (int i = 0; i < size; ++i)
+	{
+		if (value[i] == false)
+			outputString += "false,\n";
+		else
+			outputString += "true,\n";
+	}
+
+	outputString.pop_back();
+	outputString.pop_back();
+
+	outputString += "\n} \n";
+	lua_pushstring(functions, file);
+	lua_pushstring(functions, outputString.c_str());
+	lua_pushinteger(functions, bOverwrite);
+	lua_call(functions, 3, 0); cout << "..................";
+}
+
 bool CLuaInterface::GetBoolValue(const char* varName)
 {
 	lua_getglobal(currentState.second, varName);
 	return lua_toboolean(currentState.second, -1);
+}
+
+vector<bool> CLuaInterface::GetBoolTable(const char* varName)
+{
+	vector<bool> container;
+	lua_getglobal(currentState.second, varName);
+	if (lua_isnil(currentState.second, -1)) {
+		return container;
+	}
+	lua_pushnil(currentState.second);
+
+	while (lua_next(currentState.second, -2))
+	{
+		bool temp = lua_toboolean(currentState.second, -1);
+		container.push_back(temp);
+		lua_pop(currentState.second, 1);
+	}
+
+	return container;
 }
 
 void CLuaInterface::error(const char *errorCode)

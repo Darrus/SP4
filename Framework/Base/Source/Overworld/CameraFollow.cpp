@@ -181,7 +181,7 @@ void CameraFollow::Control()
 	double scroll = MouseController::GetInstance()->GetMouseScrollStatus(MouseController::SCROLL_TYPE_YOFFSET);
 	if (scroll != 0.0)
 	{
-		dist -= scroll * 2.0;
+		dist -= (float)scroll * 2.0f;
 		if (dist < 10.f)
 			dist = 10.f;
 		else if (dist > 80.f)

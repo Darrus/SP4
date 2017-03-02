@@ -83,7 +83,7 @@ void TownTavern::Init()
 	spatial.Add(&player);
 
 	// Assets Init
-	OverworldAsset* asset;
+	OverworldAsset* asset = nullptr;
 	Math::InitRNG();
 
 	// NPC Init
@@ -93,7 +93,7 @@ void TownTavern::Init()
 	npc->SetScale(Vector3(5.f, 5.f, 1.f));
 	npc->SetPosition(Vector3(0.f, 20.f, 1.f));
 	npc->LoadDialogue("NPC_TOWN_SHOPKEEPER");
-	npc->SetTargetScene("Shop");
+	npc->SetTargetScene("TavernScene");
 	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
 	npc->SetMoveSpeed(20.f);

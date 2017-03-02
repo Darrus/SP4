@@ -7,6 +7,7 @@
 // Utilities
 #include "../Lua/LuaInterface.h"
 #include "SceneManager.h"
+#include "../Items/ItemFactory.h"
 
 // Skills
 #include "../Skills/SkillFunctions.h"
@@ -39,13 +40,32 @@ void SaveInfo::SaveGame(string fileName)
 	Lua->SaveVector3Values(fileLoc.c_str(), "Position", scene->GetPlayerPos());
 	Lua->SaveIntValue(fileLoc.c_str(), "Gold", m_gold);
 
+	// Save Party
 	vector<CharacterInfo*> partyVec = m_party.GetParty();
-
 	for (int i = 0; i < partyVec.size(); ++i)
 	{
 		if (partyVec[i])
 			SaveCharacter(fileName, partyVec[i], i);
 	}
+
+	// Save Inventory
+	fileLoc = "Savefiles//" + fileName + "//Inventory";
+	vector<Item*> itemList = m_inventory.GetItemList();
+	string itemNames;
+	for (int i = 0; i < itemList.size(); ++i)
+	{
+		itemNames += ("\"" + itemList[i]->GetName() + ",\n");
+	}
+	if (itemNames != "")
+	{
+		itemNames.pop_back();
+		itemNames.pop_back();
+	}
+	Lua->SaveStringTable(fileLoc.c_str(), "Inventory", itemNames.c_str(), true);
+
+	// Save Events
+	fileLoc = "Savefiles//" + fileName + "//Events";
+	Lua->SaveBoolTable(fileLoc.c_str(), "Events", eventSystem.events, Events::NUM_EVENTS, true);
 }
 
 void SaveInfo::SaveCharacter(string fileName, CharacterInfo* character, int index)
@@ -61,17 +81,25 @@ void SaveInfo::SaveCharacter(string fileName, CharacterInfo* character, int inde
 	Lua->SaveIntValue(fileLoc.str().c_str(), "Agi", character->stats.GetAgi());
 	Lua->SaveIntValue(fileLoc.str().c_str(), "StatPoint", character->stats.GetStatPoints());
 	Lua->SaveIntValue(fileLoc.str().c_str(), "SkillPoint", character->stats.GetSkillPoints());
+	Lua->SaveIntValue(fileLoc.str().c_str(), "BRANCH_P_ATK", character->skill_branch_index[BRANCH_P_ATK]);
+	Lua->SaveIntValue(fileLoc.str().c_str(), "BRANCH_M_ATK", character->skill_branch_index[BRANCH_M_ATK]);
+	Lua->SaveIntValue(fileLoc.str().c_str(), "BRANCH_P_DEF", character->skill_branch_index[BRANCH_P_DEF]);
+	Lua->SaveIntValue(fileLoc.str().c_str(), "BRANCH_P_DEF", character->skill_branch_index[BRANCH_M_DEF]);
+
 
 	CharacterInfo::SkillList::iterator it = character->skills.begin();
 	string skillNames;
 	while (it != character->skills.end())
 	{
-		skillNames += ("\"" + (*it)->GetName() + "\", ");
+		skillNames += ("\"" + (*it)->GetName() + ",\n");
 		it++;
 	}
 
-	skillNames.pop_back();
-	skillNames.pop_back();
+	if (skillNames != "")
+	{
+		skillNames.pop_back();
+		skillNames.pop_back();
+	}
 
 	Lua->SaveStringTable(fileLoc.str().c_str(), "Skills", skillNames.c_str());
 }
@@ -81,6 +109,7 @@ void SaveInfo::LoadGame(string fileName)
 	// Load SaveInfo Info
 	string fileLoc = "Savefiles//" + fileName + "//PlayerInfo";
 	Lua->LoadFile(fileLoc);
+	Lua->DoActiveState();
 
 	m_currentScene = Lua->GetStringValue("Scene");
 	m_overworld_pos = Lua->GetVector3Values("Position");
@@ -89,6 +118,27 @@ void SaveInfo::LoadGame(string fileName)
 	for (int i = 0; i < (m_party.GetMaxPartySize()); ++i)
 	{
 		m_party.AddMember(LoadCharacter(fileName, i), i);
+	}
+
+	// Load Inventory
+	fileLoc = "Savefiles//" + fileName + "//Inventory";
+	Lua->LoadFile(fileLoc);
+	vector<string> itemNames = Lua->GetStringTable("Inventory");
+	while (itemNames.size() > 0)
+	{
+		m_inventory.AddItem(ItemFactory::CreateItem(itemNames.back()));
+		itemNames.pop_back();
+	}
+
+	// Load Events
+	fileLoc = "Savefiles//" + fileName + "//Events";
+	Lua->LoadFile(fileLoc);
+	vector<bool> eventVec = Lua->GetBoolTable("Events");
+	int i = 0;
+	while (eventVec.size() > 0)
+	{
+		eventSystem.events[i] = eventVec.back();
+		eventVec.pop_back();
 	}
 }
 
@@ -121,8 +171,14 @@ CharacterInfo* SaveInfo::LoadCharacter(string fileName, int index)
 		character->stats.SetStatPoint(Lua->GetIntValue("StatPoint"));
 		character->stats.SetSkillPoint(Lua->GetIntValue("SkillPoint"));
 		character->stats.UpdateStats();
+
 		character->HP = character->stats.GetMaxHP();
 		character->MP = character->stats.GetMaxMP();
+
+		character->skill_branch_index[BRANCH_P_ATK] = Lua->GetIntValue("BRANCH_P_ATK");
+		character->skill_branch_index[BRANCH_M_ATK] = Lua->GetIntValue("BRANCH_M_ATK");
+		character->skill_branch_index[BRANCH_P_DEF] = Lua->GetIntValue("BRANCH_P_DEF");
+		character->skill_branch_index[BRANCH_M_DEF] = Lua->GetIntValue("BRANCH_M_DEF");
 
 		vector<string> skillNames = Lua->GetStringTable("Skills");
 		while (skillNames.size() > 0)

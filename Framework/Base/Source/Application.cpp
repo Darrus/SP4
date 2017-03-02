@@ -162,7 +162,7 @@ void Application::Init()
 
 	//Init Player
 	Player::GetInstance().Init();
-	Player::GetInstance().LoadGame("1");
+	//Player::GetInstance().LoadGame("1");
 
 	SceneManager::GetInstance()->AddScene("IntroState", new CIntroState());
 
@@ -193,8 +193,7 @@ void Application::Init()
 	SceneManager::GetInstance()->AddScene("Cave", new Cave());
 
 	//Set the active scene
-	OverworldBase* scene = dynamic_cast<OverworldBase*>(SceneManager::GetInstance()->SetActiveScene(Player::GetInstance().GetScene()));
-	scene->SetStartPos(Player::GetInstance().GetOverworldPosition());
+	SceneManager::GetInstance()->SetActiveScene("MainMenuScene");
 
 	//Load Font Data
 	LoadFontData("FontData//pixelFontData.csv");

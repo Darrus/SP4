@@ -21,7 +21,7 @@
 #include "../Animation/AnimationsContainer.h"
 #include "KeyboardController.h"
 #include "MatrixStack.h"
-#include "../Application.h"+
+#include "../Application.h"
 
 Cave::Cave()
 {

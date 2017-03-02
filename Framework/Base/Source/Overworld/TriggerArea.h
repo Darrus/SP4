@@ -12,6 +12,7 @@ class TriggerArea : public EntityBase
 protected:
 	bool trigger;
 	bool active;
+	bool* eventTrigger;
 
 	virtual void OnTrigger();
 
@@ -20,5 +21,7 @@ public:
 	~TriggerArea();
 
 	virtual void HandleCollision(EntityBase* entity);
+
+	inline void AttachEvent(bool* eventTrigger){ this->eventTrigger = eventTrigger; }
 };
 

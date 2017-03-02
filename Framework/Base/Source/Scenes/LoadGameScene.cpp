@@ -40,7 +40,7 @@ void LoadGameScene::Init()
 	utility_menu->AddButton(backbtn);
 
 	int NUM_OF_SAVE_SLOTS = 3;
-	for (unsigned i = 0; i < NUM_OF_SAVE_SLOTS+1; ++i)
+	for (unsigned i = 1; i < NUM_OF_SAVE_SLOTS+1; ++i)
 	{
 		LoadGame_Button* load_btn = new LoadGame_Button();
 

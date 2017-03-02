@@ -19,8 +19,8 @@ CharacterInfo* PartySystem::GetMember(int id)
 {
 	for (int i = 0; i < maxPartySize; ++i)
 	{
-            if (party[i]->id == id)
-                return party[i];
+        if (party[i] && party[i]->id == id)
+            return party[i];
 	}
 }
 

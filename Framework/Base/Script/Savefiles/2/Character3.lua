@@ -1,10 +1,21 @@
 Name = "Reuben"
-Str = 0
-Vit = 0
-Int = 0
-Mind = 0
-Dex = 0
-Agi = 0
-StatPoint = 25
-SkillPoint = 5
-Skills = { "Sweep", "Sweep", "Fire Blast", "Hero Maker", "Heal" } 
+Str = 99
+Vit = 999
+Int = 99
+Mind = 99
+Dex = 99
+Agi = 69
+StatPoint = -714
+SkillPoint = 57
+BRANCH_P_ATK = 0
+BRANCH_M_ATK = 0
+BRANCH_P_DEF = 0
+BRANCH_P_DEF = 0
+Skills= 
+{
+"Power Thrust,
+"Speed Boost,
+"Feint,
+"Sweep,
+"Thrust
+} 

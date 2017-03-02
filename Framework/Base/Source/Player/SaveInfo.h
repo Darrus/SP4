@@ -2,7 +2,8 @@
 
 #include "../Party/PartySystem.h"
 #include "../Items/Inventory.h"
-#include "../../Common/Source/Vector3.h";
+#include "Events.h"
+#include "Vector3.h"
 
 class SaveInfo
 {
@@ -17,6 +18,7 @@ protected:
 
 public:
 	int m_gold;
+	Events eventSystem;
 
 	//Helper functions
 	void DoDie();

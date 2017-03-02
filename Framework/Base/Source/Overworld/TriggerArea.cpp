@@ -2,9 +2,9 @@
 
 #include "OverworldPlayer.h"
 
-
 TriggerArea::TriggerArea() :
-trigger(false), active(true)
+trigger(false), active(true),
+eventTrigger(nullptr)
 {
 }
 
@@ -18,11 +18,18 @@ void TriggerArea::HandleCollision(EntityBase* entity)
 	if (!active)
 		return;
 
+	if (eventTrigger)
+		if (*eventTrigger == true)
+			return;
+
 	OverworldPlayer* player = dynamic_cast<OverworldPlayer*>(entity);
 	if (player)
 	{
 		OnTrigger();
 		trigger = true;
+
+		if (eventTrigger)
+			*eventTrigger = true;
 	}
 }
 

@@ -13,11 +13,14 @@ class CharacterFactory : public Singleton<CharacterFactory>
 {
 private:
 	vector<string> names;
+	void RandomStat(CharacterInfo* character);
 
 public:
 	friend Singleton<CharacterFactory>;
 
-	void Init();
-	CharacterInfo* CreateCharacter(string name);
+	CharacterFactory();
+	~CharacterFactory();
+
+	CharacterInfo* CreateCharacter();
 };
 

@@ -8,7 +8,6 @@
 #include "Vector3.h"
 
 
-
 #define Lua CLuaInterface::GetInstance()
 
 using std::vector;
@@ -63,9 +62,12 @@ public:
 	// Save Vector3 value
 	void SaveVector3Values(const char *fileName, const char* varName, Vector3 value, const bool bOverwrite = NULL);
 
-
+	// Save bool table
+	void SaveBoolTable(const char *fileName, const char* varName, bool value[], int size, const bool bOverwrite = NULL);
 	// Get Bool Value
 	bool GetBoolValue(const char* varName);
+	// Get Bool table
+	vector<bool> GetBoolTable(const char* varName);
 };
 
 

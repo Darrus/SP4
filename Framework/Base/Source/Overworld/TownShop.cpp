@@ -83,7 +83,7 @@ void TownShop::Init()
 	spatial.Add(&player);
 
 	// Assets Init
-	OverworldAsset* asset;
+	OverworldAsset* asset = nullptr;
 	Math::InitRNG();
 	
 	// NPC Init

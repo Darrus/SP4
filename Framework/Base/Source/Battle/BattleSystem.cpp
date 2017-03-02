@@ -998,7 +998,10 @@ void BattleSystem::AssignPlayerParty()
 
     for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount()); ++i)
     {
-        CharacterInfo* MemberInfo = Player::GetInstance().GetParty()->GetMember(i);
+        CharacterInfo* MemberInfo = Player::GetInstance().GetParty()->GetMemberByIndex(i);
+		if (!MemberInfo)
+			continue;
+
         MemberInfo->stats.UpdateStats();
         if (MemberInfo->HP > 0)
             PlayerInfoList.push_back(MemberInfo);

@@ -9,6 +9,7 @@
 #include "../Application.h"
 #include "KeyboardController.h"
 #include "SceneManager.h"
+#include "../Character/CharacterFactory.h"
 
 TavernScene::TavernScene()
 {
@@ -53,7 +54,7 @@ void TavernScene::Init()
 	//Dummy characters
 	for (unsigned i = 0; i < 4; ++i)
 	{
-		CharacterInfo* charahehe = new CharacterInfo();
+		/*CharacterInfo* charahehe = new CharacterInfo();
 		charahehe->stats.AddVit(Math::RandIntMinMax(10, 200));
 		charahehe->stats.AddStr(50);
 		charahehe->stats.AddInt(65);
@@ -70,8 +71,8 @@ void TavernScene::Init()
 		charahehe->skill_branch_index[2] = 0;
 		charahehe->skill_branch_index[3] = 0;
 		charahehe->anim.AddAnimation("walk");
-		charahehe->anim.PlayAnimation("walk");
-		tavern_slots[i] = charahehe;
+		charahehe->anim.PlayAnimation("walk");*/
+		tavern_slots[i] = CharacterFactory::GetInstance()->CreateCharacter();
 	}
 
 	//Displays the amount of gold the player has
@@ -109,6 +110,7 @@ void TavernScene::Init()
 		utility_menu->AddButton(chara_btn[i]);
 
 		//Add the hire button
+		Math::InitRNG();
 		hire_btn[i] = new Hire_Button();
 		hire_btn[i]->SetActive(true);
 		hire_btn[i]->SetPosition(offset_x, 100);
@@ -116,7 +118,7 @@ void TavernScene::Init()
 		hire_btn[i]->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 		hire_btn[i]->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 		hire_btn[i]->SetCharacterToAdd(tavern_slots[i]);
-		hire_btn[i]->SetGoldCost(10);
+		hire_btn[i]->SetGoldCost(Math::RandIntMinMax(400, 2000));
 
 		//Add the button to the menu list
 		utility_menu->AddButton(hire_btn[i]);
@@ -177,8 +179,7 @@ void TavernScene::Exit()
 CharacterInfo* TavernScene::generate_random_character()
 {
 	//Generate Level and auto update the stats
-	CharacterInfo* chara = new CharacterInfo();
-
+	CharacterInfo* chara = CharacterFactory::GetInstance()->CreateCharacter();
 	return chara;
 }
 
@@ -186,7 +187,10 @@ void TavernScene::UnPause()
 {
 	//TODO:
 	//Generate random characters in the tavern slot 
-
+	for (unsigned i = 0; i < 4; ++i)
+	{
+		tavern_slots[i] = CharacterFactory::GetInstance()->CreateCharacter();
+	}
 	gold_display->SetText("Your Gold:" + std::to_string(Player::GetInstance().m_gold));
 }
 

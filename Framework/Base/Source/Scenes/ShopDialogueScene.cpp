@@ -101,10 +101,8 @@ void ShopDialogueScene::Update()
 	//Check if done with dialogue
 	if (textPos >= dialogue.size())
 	{
-		if (targetScene != "")
-			SceneManager::GetInstance()->SetActiveScene(targetScene);
-		else
-			SceneManager::GetInstance()->PreviousScene();
+		textPos = 2;
+		//SceneManager::GetInstance()->PreviousScene();
 	}
 	else
 	{

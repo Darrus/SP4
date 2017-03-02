@@ -424,6 +424,8 @@ public:
 
 };
 
+#include "../Overworld/OverworldBase.h"
+
 //============================================================================//
 //Brief: A button object that loads a Save Slot into the current game session //
 //============================================================================//
@@ -438,6 +440,8 @@ public:
 	inline void RunFunction()
 	{
 		Player::GetInstance().LoadGame(std::to_string(load_index));
+		OverworldBase* scene = dynamic_cast<OverworldBase*>(SceneManager::GetInstance()->SetActiveScene(Player::GetInstance().GetScene()));
+		scene->SetStartPos(Player::GetInstance().GetOverworldPosition());
 	}
 
 	//virtual void Render();

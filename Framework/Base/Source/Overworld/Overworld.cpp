@@ -118,6 +118,7 @@ void Overworld::Init()
 	trigger2->SetScale(Vector3(10.f, 10.f, 1.f));
 	trigger2->SetCollider(new CCollider_2DAABB());
 	trigger2->LoadDialogue("START");
+	trigger2->AttachEvent(&Player::GetInstance().eventSystem.events[Events::START_GAME]);
 	EManager.AddEntity(trigger2);
 	spatial.Add(trigger2);
 
