@@ -31,7 +31,7 @@ critical_(critical)
     defend_ = false;
 }
 
-BattleLog::BattleLog(BattleEntity* entity, bool defend):
+BattleLog::BattleLog(BattleEntity* entity, bool defend) :
 entity_(entity),
 defend_(defend)
 {
@@ -41,11 +41,12 @@ defend_(defend)
     m_entity_ = nullptr;
 }
 
-BattleLog::BattleLog(CharacterInfo* entity, std::string skillname) :
+BattleLog::BattleLog(CharacterInfo* entity, std::string skillname, std::string targetname, bool AoEAnot) :
 m_entity_(entity),
-enemyname_(skillname)
+enemyname_(targetname),
+skillname_(skillname),
+AoEAnot_(AoEAnot)
 {
-
     displayTime = 3;
     DMGRecv = false;
     DMGDeal = false;
@@ -90,7 +91,7 @@ void BattleLog::Render()
             modelStack.PopMatrix();
 
             if ((*itr)->DMGRecv)
-            {   
+            {
                 modelStack.PushMatrix();
                 modelStack.Translate(windowWidth * 0.32f, windowHeight * 0.9f, 8.f);
                 modelStack.Scale(25.f, 25.f, 1.f);
@@ -104,11 +105,22 @@ void BattleLog::Render()
             }
             else if ((*itr)->m_entity_ != nullptr)
             {
-                modelStack.PushMatrix();
-                modelStack.Translate(windowWidth * 0.32f, windowHeight * 0.9f, 8.f);
-                modelStack.Scale(25.f, 25.f, 1.f);
-                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->m_entity_->name + " casted " + enemyname_ + "!.", Color(0, 1, 0));
-                modelStack.PopMatrix();
+                if (AoEAnot_)
+                {
+                    modelStack.PushMatrix();
+                    modelStack.Translate(windowWidth * 0.32f, windowHeight * 0.9f, 8.f);
+                    modelStack.Scale(25.f, 25.f, 1.f);
+                    RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->m_entity_->name + " used " + skillname_, Color(0, 1, 0));
+                    modelStack.PopMatrix();
+                }
+                else
+                {
+                    modelStack.PushMatrix();
+                    modelStack.Translate(windowWidth * 0.32f, windowHeight * 0.9f, 8.f);
+                    modelStack.Scale(25.f, 25.f, 1.f);
+                    RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->m_entity_->name + " used " + skillname_ + " on " + enemyname_, Color(0, 1, 0));
+                    modelStack.PopMatrix();
+                }
             }
             else if ((*itr)->defend_)
             {

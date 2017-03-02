@@ -57,7 +57,7 @@ public:
 	inline bool IsEnemyTargetable() { return m_enemy_targetable; }
 
 	//Uses the skill 
-	virtual void UseSkill(SkillParameters param) = 0;
+    virtual bool UseSkill(SkillParameters param) = 0;
 
 	Skill() : m_name(""){}
 	virtual ~Skill(){}

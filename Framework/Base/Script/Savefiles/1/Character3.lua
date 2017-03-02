@@ -7,4 +7,4 @@ Dex = 99
 Agi = 69
 StatPoint = -714
 SkillPoint = 57
-Skills = { "Power Thrust", "Speed Boost", "Feint", "Sweep", "Thrust" } 
+Skills = { "Thrust", "Sweep", "Feint", "Speed Boost", "Power Thrust" } 

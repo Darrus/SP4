@@ -104,6 +104,21 @@ public:
 
     inline void AddDamage(int amt) { sub.Damage += amt; }
     inline void AddSpellDamage(int amt){ sub.SpellDamage += amt; }
+    inline void AddDefence(int amt) { sub.Defence += amt; }
+    inline void AddDodgeRate(int amt){ sub.DodgeRate += amt; }
+    inline void AddCritRate(int amt) { sub.CritRate += amt; }
+    inline void AddRechargeRate(int amt){ sub.RechargeRate += amt; }
+    inline void AddMaxHP(int amt) { sub.MaxHP += amt; }
+    inline void AddMaxMP(int amt){ sub.MaxMP += amt; }
+
+    inline void DeductDamage(int amt) { sub.Damage -= amt; }
+    inline void DeductSpellDamage(int amt){ sub.SpellDamage -= amt; }
+    inline void DeductDefence(int amt) { sub.Defence -= amt; }
+    inline void DeductDodgeRate(int amt){ sub.DodgeRate -= amt; }
+    inline void DeductCritRate(int amt) { sub.CritRate -= amt; }
+    inline void DeductRechargeRate(int amt){ sub.RechargeRate -= amt; }
+    inline void DeductMaxHP(int amt) { sub.MaxHP -= amt; }
+    inline void DeductMaxMP(int amt){ sub.MaxMP -= amt; }
 
 	void UpdateStats()
 	{

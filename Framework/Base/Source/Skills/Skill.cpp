@@ -7,36 +7,36 @@
 class Heal : public Skill
 {
 private:
-	int m_heal_value;
+    int m_heal_value;
 
 public:
-	inline void UseSkill(SkillParameters param)
-	{
+    inline bool UseSkill(SkillParameters param)
+    {
         if (param.caster->MP >= m_mana_cost)
         {
             param.caster->MP -= m_mana_cost;
             param.targetList[0]->HP += m_heal_value * param.caster->stats.GetInt();
             if (param.targetList[0]->HP > param.targetList[0]->stats.GetMaxHP())
                 param.targetList[0]->HP = param.targetList[0]->stats.GetMaxHP();
+
+            return true;
         }
         else
-        {
-            std::cout << "Not Enough Mana" << std::endl;
-        }
-	}
+            return false;
+    }
 
-	//TODO:
-	//Get these values from Lua/Text file
-	Heal() : Skill()
-	{
-		m_name = "Heal";
-		m_heal_value = 75;
-		m_mana_cost = 60;
-		m_max_target_num = 1;
-		m_ally_targetable = true;
-		m_enemy_targetable = false;
-	};
-	~Heal(){};
+    //TODO:
+    //Get these values from Lua/Text file
+    Heal() : Skill()
+    {
+        m_name = "Heal";
+        m_heal_value = 75;
+        m_mana_cost = 60;
+        m_max_target_num = 1;
+        m_ally_targetable = true;
+        m_enemy_targetable = false;
+    };
+    ~Heal(){};
 };
 
 ///< Heals all Ally
@@ -46,7 +46,7 @@ private:
     int m_heal_value;
 
 public:
-    inline void UseSkill(SkillParameters param)
+    inline bool UseSkill(SkillParameters param)
     {
         int i = 0;
         if (param.caster->MP >= m_mana_cost)
@@ -59,10 +59,11 @@ public:
                     param.targetList[i]->HP = param.targetList[i]->stats.GetMaxHP();
                 ++i;
             }
+            return true;
         }
         else
         {
-            std::cout << "Not Enough Mana" << std::endl;
+            return false;
         }
     }
 
@@ -88,20 +89,21 @@ private:
     int m_dmg_boost;
 
 public:
-    inline void UseSkill(SkillParameters param)
+    inline bool UseSkill(SkillParameters param)
     {
         if (param.caster->MP >= m_mana_cost)
         {
             param.caster->MP -= m_mana_cost;
             param.targetList[0]->HP += m_heal_value * param.caster->stats.GetInt();
             param.targetList[0]->stats.AddDamage(m_dmg_boost);
-            
+
             if (param.targetList[0]->HP > param.targetList[0]->stats.GetMaxHP())
                 param.targetList[0]->HP = param.targetList[0]->stats.GetMaxHP();
+            return true;
         }
         else
         {
-            std::cout << "Not Enough Mana" << std::endl;
+            return false;
         }
     }
 
@@ -127,7 +129,7 @@ private:
     double m_dmg_boost;
 
 public:
-    inline void UseSkill(SkillParameters param)
+    inline bool UseSkill(SkillParameters param)
     {
         int i = 0;
         if (param.caster->MP >= m_mana_cost)
@@ -138,10 +140,11 @@ public:
                 param.targetList[i]->stats.AddDamage(m_dmg_boost);
                 ++i;
             }
+            return true;
         }
         else
         {
-            std::cout << "Not Enough Mana" << std::endl;
+            return false;
         }
     }
 
@@ -166,7 +169,7 @@ private:
     double m_drop_rate;
 
 public:
-    inline void UseSkill(SkillParameters param)
+    inline bool UseSkill(SkillParameters param)
     {
         int i = 0;
         if (param.caster->MP >= m_mana_cost)
@@ -174,19 +177,14 @@ public:
             param.caster->MP -= m_mana_cost;
             for (auto itr = param.targetList.begin(); itr != param.targetList.end(); itr++)
             {
-                param.targetList[i]->stats.SetDex(param.targetList[i]->stats.GetDex() - (m_drop_rate * param.caster->stats.GetInt()));
-
-                if (param.targetList[i]->stats.GetDex() < 0)
-                    param.targetList[i]->stats.SetDex(0);
-
-                param.targetList[i]->stats.UpdateStats();
-
+                param.targetList[i]->stats.AddDodgeRate(param.targetList[i]->stats.GetDex() - (m_drop_rate * param.caster->stats.GetInt()));
                 ++i;
             }
+            return true;
         }
         else
         {
-            std::cout << "Not Enough Mana" << std::endl;
+            return false;
         }
     }
 
@@ -213,7 +211,7 @@ private:
     double m_dmg_ratio;
 
 public:
-    inline void UseSkill(SkillParameters param)
+    inline bool UseSkill(SkillParameters param)
     {
         if (param.caster->MP >= m_mana_cost)
         {
@@ -221,10 +219,12 @@ public:
             param.targetList[0]->HP -= ((m_dmg_ratio * param.caster->stats.GetDamage()) - param.targetList[0]->stats.GetDefence());
             if (param.targetList[0]->HP <= 0)
                 param.targetList[0]->HP = 0;
+
+            return true;
         }
         else
         {
-            std::cout << "Not Enough Mana" << std::endl;
+            return false;
         }
     }
 
@@ -249,7 +249,7 @@ private:
     double m_dmg_ratio;
 
 public:
-    inline void UseSkill(SkillParameters param)
+    inline bool UseSkill(SkillParameters param)
     {
         int i = 0;
         if (param.caster->MP >= m_mana_cost)
@@ -262,10 +262,11 @@ public:
                     param.targetList[i]->HP = 0;
                 ++i;
             }
+            return true;
         }
         else
         {
-            std::cout << "Not Enough Mana" << std::endl;
+            return false;
         }
     }
 
@@ -291,32 +292,26 @@ private:
     double m_slow_ratio;
 
 public:
-    inline void UseSkill(SkillParameters param)
+    inline bool UseSkill(SkillParameters param)
     {
-        int i = 0;
         if (param.caster->MP >= m_mana_cost)
         {
             param.caster->MP -= m_mana_cost;
-            for (auto itr = param.targetList.begin(); itr != param.targetList.end(); itr++)
-            {
-                param.targetList[i]->HP -= (m_dmg_ratio * (float)param.caster->stats.GetDamage());
+            param.targetList[0]->HP -= (m_dmg_ratio * (float)param.caster->stats.GetDamage());
 
-                param.targetList[i]->stats.SetAgi(param.targetList[i]->stats.GetAgi() - (m_slow_ratio * param.caster->stats.GetAgi()));
+            param.targetList[0]->stats.DeductRechargeRate(param.targetList[0]->stats.GetAgi() - (m_slow_ratio * param.caster->stats.GetAgi()));
 
-                if (param.targetList[i]->HP <= 0)
-                    param.targetList[i]->HP = 0;
+            if (param.targetList[0]->HP <= 0)
+                param.targetList[0]->HP = 0;
 
-                if (param.targetList[i]->stats.GetAgi() < 0)
-                    param.targetList[i]->stats.SetAgi(0);
+            if (param.targetList[0]->stats.GetRechargeRate() < 0)
+                param.targetList[0]->stats.AddRechargeRate(1);
 
-                param.targetList[i]->stats.UpdateStats();
-
-                ++i;
-            }
+            return true;
         }
         else
         {
-            std::cout << "Not Enough Mana" << std::endl;
+            return false;
         }
     }
 
@@ -342,7 +337,7 @@ private:
     double m_boost_rate;
 
 public:
-    inline void UseSkill(SkillParameters param)
+    inline bool UseSkill(SkillParameters param)
     {
         int i = 0;
         if (param.caster->MP >= m_mana_cost)
@@ -350,20 +345,17 @@ public:
             param.caster->MP -= m_mana_cost;
             for (auto itr = param.targetList.begin(); itr != param.targetList.end(); itr++)
             {
-                param.targetList[i]->stats.SetAgi(param.targetList[i]->stats.GetAgi() - (m_boost_rate * param.caster->stats.GetInt()));
-
-                param.targetList[i]->stats.UpdateStats();
+                param.targetList[i]->stats.AddRechargeRate(param.targetList[i]->stats.GetAgi() - (m_boost_rate * param.caster->stats.GetInt()));
                 ++i;
             }
+            return true;
         }
         else
         {
-            std::cout << "Not Enough Mana" << std::endl;
+            return false;
         }
     }
 
-    //TODO:
-    //Get these values from Lua/Text file
     SpeedBoost() : Skill()
     {
         m_name = "Speed Boost";
@@ -383,7 +375,7 @@ private:
     float m_dmg_ratio;
 
 public:
-    inline void UseSkill(SkillParameters param)
+    inline bool UseSkill(SkillParameters param)
     {
         int i = 0;
         if (param.caster->MP >= m_mana_cost)
@@ -392,10 +384,12 @@ public:
             param.targetList[0]->HP -= ((m_dmg_ratio * param.caster->stats.GetDamage()) - param.targetList[0]->stats.GetDefence());
             if (param.targetList[0]->HP <= 0)
                 param.targetList[0]->HP = 0;
+
+            return true;
         }
         else
         {
-            std::cout << "Not Enough Mana" << std::endl;
+            return false;
         }
     }
 
@@ -421,7 +415,7 @@ class FireBlast : public Skill
 private:
     float m_dmg_multi;
 public:
-    inline void UseSkill(SkillParameters param)
+    inline bool UseSkill(SkillParameters param)
     {
         if (param.caster->MP >= m_mana_cost)
         {
@@ -429,10 +423,11 @@ public:
             param.targetList[0]->HP -= (m_dmg_multi * (float)param.caster->stats.GetSpellDamage());
             if (param.targetList[0]->HP <= 0)
                 param.targetList[0]->HP = 0;
+            return true;
         }
         else
         {
-            std::cout << "Not Enough Mana" << std::endl;
+            return false;
         }
     }
 
@@ -456,7 +451,7 @@ class Firaga : public Skill
 private:
     float m_dmg_multi;
 public:
-    inline void UseSkill(SkillParameters param)
+    inline bool UseSkill(SkillParameters param)
     {
         int i = 0;
         if (param.caster->MP >= m_mana_cost)
@@ -470,10 +465,11 @@ public:
                     param.targetList[i]->HP = 0;
                 ++i;
             }
+            return true;
         }
         else
         {
-            std::cout << "Not Enough Mana" << std::endl;
+            return false;
         }
     }
 
@@ -498,26 +494,25 @@ private:
     double m_dmg_multi;
     double m_drop_rate;
 public:
-    inline void UseSkill(SkillParameters param)
+    inline bool UseSkill(SkillParameters param)
     {
         if (param.caster->MP >= m_mana_cost)
         {
             param.caster->MP -= m_mana_cost;
             param.targetList[0]->HP -= (m_dmg_multi * (float)param.caster->stats.GetSpellDamage());
-            
-            param.targetList[0]->stats.SetAgi(param.targetList[0]->stats.GetAgi() - (m_drop_rate * param.caster->stats.GetInt()));
-            
-            if (param.targetList[0]->stats.GetAgi() < 0)
-                param.targetList[0]->stats.SetAgi(0);
-            
+
+            param.targetList[0]->stats.DeductRechargeRate(param.targetList[0]->stats.GetRechargeRate() - (m_drop_rate * param.caster->stats.GetInt()));
+
+            if (param.targetList[0]->stats.GetRechargeRate() < 0)
+                param.targetList[0]->stats.AddRechargeRate(1);
+
             if (param.targetList[0]->HP <= 0)
                 param.targetList[0]->HP = 0;
-            
-            param.targetList[0]->stats.UpdateStats();
+            return true;
         }
         else
         {
-            std::cout << "Not Enough Mana" << std::endl;
+            return false;
         }
     }
 
@@ -543,7 +538,7 @@ private:
     int m_dmg_multi;
     double m_drop_rate;
 public:
-    inline void UseSkill(SkillParameters param)
+    inline bool UseSkill(SkillParameters param)
     {
         int i = 0;
         if (param.caster->MP >= m_mana_cost)
@@ -553,22 +548,25 @@ public:
             {
                 param.targetList[i]->HP -= (m_dmg_multi * (float)param.caster->stats.GetSpellDamage());
 
-                param.targetList[i]->stats.SetAgi(param.targetList[i]->stats.GetAgi() - (m_drop_rate * param.caster->stats.GetInt()));
+                int deductrate = param.targetList[i]->stats.GetRechargeRate() - (m_drop_rate * param.caster->stats.GetInt());
 
-                if (param.targetList[i]->stats.GetAgi() < 0)
-                    param.targetList[i]->stats.SetAgi(0);
+                //if (param.targetList[i]->stats.GetRechargeRate() - deductrate <= 0)
+                //    deductrate = 0;
+                param.targetList[i]->stats.DeductRechargeRate(param.targetList[i]->stats.GetRechargeRate() - (m_drop_rate * param.caster->stats.GetInt()));
+
+                if (param.targetList[i]->stats.GetRechargeRate() < 0)
+                    param.targetList[i]->stats.AddRechargeRate(1);
 
                 if (param.targetList[i]->HP <= 0)
                     param.targetList[i]->HP = 0;
-
-                param.targetList[i]->stats.UpdateStats();
-
                 ++i;
             }
+
+            return true;
         }
         else
         {
-            std::cout << "Not Enough Mana" << std::endl;
+            return false;
         }
     }
 
@@ -594,7 +592,7 @@ private:
     int m_dmg_multi;
     double m_drop_rate;
 public:
-    inline void UseSkill(SkillParameters param)
+    inline bool UseSkill(SkillParameters param)
     {
         int i = 0;
         if (param.caster->MP >= m_mana_cost)
@@ -604,10 +602,11 @@ public:
             {
                 param.targetList[i]->HP -= (m_dmg_multi * (float)param.caster->stats.GetSpellDamage());
 
-                param.targetList[i]->stats.SetAgi(param.targetList[i]->stats.GetAgi() - (m_drop_rate * param.caster->stats.GetInt()));
+                param.targetList[i]->stats.DeductRechargeRate(param.targetList[i]->stats.GetRechargeRate() - (m_drop_rate * param.caster->stats.GetInt()));
 
-                if (param.targetList[i]->stats.GetAgi() < 0)
-                    param.targetList[i]->stats.SetAgi(0);
+                if (param.targetList[i]->stats.GetRechargeRate() < 0)
+                    param.targetList[i]->stats.AddRechargeRate(1);
+
                 if (param.targetList[i]->HP <= 0)
                     param.targetList[i]->HP = 0;
 
@@ -615,10 +614,12 @@ public:
 
                 ++i;
             }
+
+            return true;
         }
         else
         {
-            std::cout << "Not Enough Mana" << std::endl;
+            return false;
         }
     }
 
@@ -639,13 +640,45 @@ public:
 ///> End of Spell dmg Skills
 
 /////< Random Skills
-/////< Blasts an  with intense heat
-//class FireBlast : public Skill
+/////< Reduces Enemy Damage for a turn
+//class ATBBoost : public Skill
+//{
+//private:
+//    int m_atb_pt;
+//public:
+//    inline bool UseSkill(SkillParameters param)
+//    {
+//        if (param.caster->MP >= m_mana_cost)
+//        {
+//            param.caster->MP -= m_mana_cost;
+//            //param.targetList[0]->stats.ded -= (m_atb_pt * (float)param.caster->stats.GetSpellDamage());
+//        }
+//        else
+//        {
+//            return false;
+//        }
+//    }
+//
+//    //TODO:
+//    //Get these values from Lua/Text file
+//    ATBBoost() : Skill()
+//    {
+//        m_name = "ATBBoost";
+//        m_atb_pt = 2;
+//        m_mana_cost = 200;
+//        m_max_target_num = 1;
+//        m_ally_targetable = false;
+//        m_enemy_targetable = true;
+//    };
+//    ~ATBBoost(){};
+//};
+//
+//class Sabotage : public Skill
 //{
 //private:
 //    float m_dmg_multi;
 //public:
-//    inline void UseSkill(SkillParameters param)
+//    inline bool UseSkill(SkillParameters param)
 //    {
 //        int i = 0;
 //        if (param.caster->MP >= m_mana_cost)
@@ -659,20 +692,20 @@ public:
 //        }
 //        else
 //        {
-//            std::cout << "Not Enough Mana" << std::endl;
+//            return false;
 //        }
 //    }
 //
 //    //TODO:
 //    //Get these values from Lua/Text file
-//    FireBlast() : Skill()
+//    Sabotage() : Skill()
 //    {
-//        m_name = "Fire Blast";
+//        m_name = "Sabotage";
 //        m_dmg_multi = 1.7;
 //        m_mana_cost = 150;
 //        m_max_target_num = 1;
 //        m_ally_targetable = false;
 //        m_enemy_targetable = true;
 //    };
-//    ~FireBlast(){};
+//    ~Sabotage(){};
 //};

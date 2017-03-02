@@ -11,4 +11,4 @@ BRANCH_P_ATK = 0
 BRANCH_M_ATK = 0
 BRANCH_P_DEF = 0
 BRANCH_M_DEF = 0
-Skills = {  } 
+Skills = { "Heal", "Curate", "Hero Maker", "Charisma", "Illusion" } 

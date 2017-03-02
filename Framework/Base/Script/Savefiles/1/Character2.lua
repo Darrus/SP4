@@ -7,3 +7,4 @@ Dex = 99
 Agi = 69
 StatPoint = 253
 SkillPoint = 57
+Skills = { "Fire Blast", "Firaga", "Ice Blast", "Blizzaga", "BliFirga" } 

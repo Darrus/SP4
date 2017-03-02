@@ -415,18 +415,25 @@ void BattleSystem::SpellCast(BattleEntity* entity)
                         if ((*itritr) != nullptr)
                             foo.targetList.push_back((*itritr)->GetInfo());
                     }
-                    (*itritr)->UseSkill(foo);
+                    if ((*itritr)->UseSkill(foo))
+                    {
+                        enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName(), foo.targetList[0]->name, true);
+                        enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+                        choosingSkill = false;
+                        entity->DecreaseAttkTurnPt(1);
+                        //targEntity->HP - myEntity->stats.GetDamage();
 
-                    enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
-                    enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
-                    choosingSkill = false;
-                    entity->DecreaseAttkTurnPt(1);
-                    //targEntity->HP - myEntity->stats.GetDamage();
-
-                    if (entity->GetAttkTurnPt() > 0)
-                        std::cout << "You gain another turn!" << std::endl << std::endl;
+                        if (entity->GetAttkTurnPt() > 0)
+                        {
+                            whichScreen = NOTHING;
+                        }
+                        else
+                            ResetATB(entity);
+                    }
                     else
-                        ResetATB(entity);
+                    {
+
+                    }
                 }
                 else if ((*itritr)->GetMaxNumberOfTargets() <= 1)
                 {
@@ -447,18 +454,26 @@ void BattleSystem::SpellCast(BattleEntity* entity)
                         if ((*it) != nullptr)
                             foo.targetList.push_back((*it)->GetInfo());
                     }
-                    (*itritr)->UseSkill(foo);
 
-                    enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
-                    enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
-                    choosingSkill = false;
-                    entity->DecreaseAttkTurnPt(1);
-                    //targEntity->HP - myEntity->stats.GetDamage();
+                    if ((*itritr)->UseSkill(foo))
+                    {
+                        enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName(), foo.targetList[0]->name, true);
+                        enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+                        choosingSkill = false;
+                        entity->DecreaseAttkTurnPt(1);
+                        //targEntity->HP - myEntity->stats.GetDamage();
 
-                    if (entity->GetAttkTurnPt() > 0)
-                        std::cout << "You gain another turn!" << std::endl << std::endl;
+                        if (entity->GetAttkTurnPt() > 0)
+                        {
+                            whichScreen = NOTHING;
+                        }
+                        else
+                            ResetATB(entity);
+                    }
                     else
-                        ResetATB(entity);
+                    {
+
+                    }
                 }
                 else if ((*itritr)->GetMaxNumberOfTargets() <= 1)
                 {
@@ -471,6 +486,7 @@ void BattleSystem::SpellCast(BattleEntity* entity)
         ++i;
     }
 }
+
 
 EnemyInfo* BattleSystem::ChooseSkillTarget()
 {
@@ -969,33 +985,6 @@ void BattleSystem::AssignPlayerParty()
     float windowWidth = Application::GetInstance().GetWindowWidth();
     float windowHeight = Application::GetInstance().GetWindowHeight();
 
-    /*std::vector<CharacterInfo*> party = Player::GetInstance().GetParty()->GetParty();
-    std::vector<CharacterInfo*>::iterator it, end;
-    it = party.begin();
-    end = party.end();
-    int i = 0;
-    while (it != end)
-    {
-        if (*it)
-        {
-            CharacterInfo* MemberInfo = (*it);
-            (*it)->stats.UpdateStats();
-
-            PlayerInfoList.push_back(MemberInfo);
-
-            pewpewpew = new BattleEntity();
-            pewpewpew->enemyType = BattleEntity::ALLY;
-            pewpewpew->SetInfo(MemberInfo);
-            if (MemberInfo != nullptr)
-            {
-                pewpewpew->SetPosition((Vector3(windowWidth * 0.75f, windowHeight * (0.15f * (i + 1.5)), 1.f)));
-                BattleList.push_back(pewpewpew);
-                PlayerList.push_back(pewpewpew);
-            }
-            ++i;
-        }
-    }*/
-
     for (int i = 0; i < (Player::GetInstance().GetParty()->memberCount()); ++i)
     {
         CharacterInfo* MemberInfo = Player::GetInstance().GetParty()->GetMemberByIndex(i);
@@ -1168,20 +1157,26 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
                     {
                         foo.targetList.push_back(ChooseSkillTarget());
 
-                        (*itritr)->UseSkill(foo);
+                        if ((*itritr)->UseSkill(foo))
+                        {
+                            enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName(), foo.targetList[0]->name, false);
+                            enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+                            choosingSkill = false;
+                            //whichScreen = NOTHING;
 
-                        enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
-                        enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
-                        choosingSkill = false;
-                        //whichScreen = NOTHING;
-                        
-                        entity->DecreaseAttkTurnPt(1);
-                        //targEntity->HP - myEntity->stats.GetDamage();
-
-                        if (entity->GetAttkTurnPt() > 0)
-                            std::cout << "You gain another turn!" << std::endl << std::endl;
+                            entity->DecreaseAttkTurnPt(1);
+                            if (entity->GetAttkTurnPt() > 0)
+                            {
+                                whichScreen = NOTHING;
+                            }
+                            else
+                                ResetATB(entity);
+                        }
                         else
-                            ResetATB(entity);
+                        {
+
+                        }
+
                     }
                     ++i;
                 }
@@ -1221,18 +1216,25 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
                     {
                         foo.targetList.push_back(ChooseSkillTargetP());
 
-                        (*itritr)->UseSkill(foo);
+                        if ((*itritr)->UseSkill(foo))
+                        {
+                            enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName(), foo.targetList[0]->name, false);
+                            enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+                            choosingSkill = false;
+                            //whichScreen = NOTHING;
+                            FindTarget(tempCast)->DecreaseAttkTurnPt(1);
 
-                        enemyAI->battlelog = new BattleLog(foo.caster, (*itritr)->GetName());
-                        enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
-                        choosingSkill = false;
-                        //whichScreen = NOTHING;
-                        FindTarget(tempCast)->DecreaseAttkTurnPt(1);
-
-                        if (FindTarget(tempCast)->GetAttkTurnPt() > 0)
-                            std::cout << "You gain another turn!" << std::endl << std::endl;
+                            if (FindTarget(tempCast)->GetAttkTurnPt() > 0)
+                            {
+                                whichScreen = NOTHING;
+                            }
+                            else
+                                ResetATB(FindTarget(tempCast));
+                        }
                         else
-                            ResetATB(FindTarget(tempCast));
+                        {
+
+                        }
                     }
                     ++i;
                 }
