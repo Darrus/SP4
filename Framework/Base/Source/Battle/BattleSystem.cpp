@@ -108,8 +108,10 @@ void BattleSystem::Update()
     //if (!battlelog->Update())
     enemyAI->battlelog->Update();
     playerPartySize = (Player::GetInstance().GetParty()->memberCount());
-    enemyStart = (Player::GetInstance().GetParty()->memberCount());
-    enemyEnd = ((Player::GetInstance().GetParty()->memberCount()) + (EnemyList.size() - 1));
+    //enemyStart = (Player::GetInstance().GetParty()->memberCount());
+    //enemyEnd = ((Player::GetInstance().GetParty()->memberCount()) + (EnemyList.size() - 1));
+    enemyStart = 4;
+    enemyEnd = enemyStart + EnemyList.size() + 1;
 
     if (escapeAnot)
         EscapeBattle();
@@ -770,11 +772,11 @@ void BattleSystem::RenderUIStuff()
         break;
     case CHOOSETARGET:
     {
-        int p = 0;
-        for (int i = 3; i < 7; i++)
+                         int p = 0;
+        for (int i = enemyStart; i < enemyEnd; i++)
         {
             if (attkselect == i)
-                Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * (0.1f * (i + p)), 5.f));
+                Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * (0.09f * (i - 1 + p)), 5.f));
             p++;
         }
         
@@ -783,13 +785,13 @@ void BattleSystem::RenderUIStuff()
         break;
     case CHOOSESKILLTE:
     {
-        int p = 0;
-        for (int i = 3; i < 7; i++)
+                          int p = 0;
+        for (int i = enemyStart; i < enemyEnd; i++)
         {
             if (attkselect == i)
-                Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * (0.1f * (i + p)), 5.f));
+                Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * (0.09f * (i - 1 + p)), 5.f));
             p++;
-        }
+        }//0.3, 0.5, 0.7
         
         RenderTargetChoose();
     }
@@ -980,7 +982,7 @@ void BattleSystem::RenderNameHP()
     for (std::list<BattleEntity*>::iterator it = EnemyList.begin(); it != EnemyList.end(); it++)
     {
         modelStack.PushMatrix();
-        modelStack.Translate(windowWidth * 0.05f, windowHeight * (0.05f * (float)((*it)->GetInfo()->id - 2)), 5.f);
+        modelStack.Translate(windowWidth * 0.05f, windowHeight * (0.05f * (float)((*it)->GetInfo()->id - 3)), 5.f);
         modelStack.Scale(35.f, 35.f, 1.f);
         RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*it)->GetInfo()->name + " (HP:" + std::to_string((*it)->GetHP()) + "/" + std::to_string((*it)->GetInfo()->stats.GetMaxHP()) + ")", Color(0, 1, 0));
         modelStack.PopMatrix();
@@ -1140,7 +1142,7 @@ void BattleSystem::AssignEnemies()
 
         if (MonsterInfo != nullptr)
         {
-            pewpewpew->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * (0.15f * MonsterInfo->id), 1.f));
+            pewpewpew->SetPosition(Vector3(windowWidth * 0.25f, windowHeight * (0.15f * (MonsterInfo->id - 1)), 1.f));
 
             BattleList.push_back(pewpewpew);
             EnemyList.push_back(pewpewpew);
@@ -1191,6 +1193,7 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
             attkselect = enemyStart;
         if (attkselect < enemyStart)
             attkselect = enemyEnd;
+
         break;
     case CHOOSEDOWAT:
         if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))

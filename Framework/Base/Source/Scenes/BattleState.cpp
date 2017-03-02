@@ -110,8 +110,10 @@ void CBattleState::Init()
 
     efactory = new MonsterFactory();
 
-    testingBattle->EnemyInfoList.push_back(efactory->CreateEnemy2(3));
-    testingBattle->EnemyInfoList.push_back(efactory->CreateEnemy1(4));
+    testingBattle->EnemyInfoList.push_back(efactory->CreateEnemy2(4));
+    testingBattle->EnemyInfoList.push_back(efactory->CreateEnemy1(5));
+    testingBattle->EnemyInfoList.push_back(efactory->CreateEnemy3(6));
+    testingBattle->EnemyInfoList.push_back(efactory->CreateEnemy1(7));
     testingBattle->AssignEnemies();
 
     Player::GetInstance().GetInventory()->AddItem(new HealthPotion());
@@ -160,7 +162,7 @@ void CBattleState::Update()
 
         for (int rand = 0; rand < randenemy; rand++)
         {
-            enemyhehe = efactory->CreateRandomEnemy((Player::GetInstance().GetParty()->memberCount()) + rand);
+            enemyhehe = efactory->CreateRandomEnemy(4 + rand);
             testingBattle->EnemyInfoList.push_back(enemyhehe);
         }
         testingBattle->AssignEnemies();
