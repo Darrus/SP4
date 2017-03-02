@@ -973,7 +973,7 @@ void BattleSystem::RenderNameHP()
         CharacterInfo * charapew = Player::GetInstance().GetParty()->GetMemberByIndex(i);
 
         modelStack.PushMatrix();
-        modelStack.Translate(windowWidth * 0.5, windowHeight * (0.05f * (Player::GetInstance().GetParty()->GetMemberByIndex(i)->id - 3)), 5.f);
+        modelStack.Translate(windowWidth * 0.5, windowHeight * (0.05f * (i + 1)), 5.f);
         modelStack.Scale(35.f, 35.f, 1.f);
         RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), charapew->name + " (HP:" + std::to_string(charapew->HP) + "/" + std::to_string(charapew->stats.GetMaxHP()) + ")(MP:" + std::to_string(charapew->MP) + "/" + std::to_string(charapew->stats.GetMaxMP()) + ")", Color(0, 1, 0));
         modelStack.PopMatrix();
