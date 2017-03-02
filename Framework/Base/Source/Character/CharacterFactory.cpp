@@ -85,7 +85,7 @@ CharacterInfo* CharacterFactory::CreateCharacter()
 	character->anim.AddAnimation(name + "_idle_back");
 	character->anim.AddAnimation(name + "_idle_left");
 	character->anim.AddAnimation(name + "_idle_right");
-	character->anim.PlayAnimation(name + "_idle_front");
+	character->anim.PlayAnimation(name + "_walk_front");
 	character->id = GenerateID();
 	RandomStat(character);
 	return character;
@@ -103,6 +103,7 @@ CharacterInfo* CharacterFactory::GetCharacter(string name)
 	character->anim.AddAnimation(name + "_idle_back");
 	character->anim.AddAnimation(name + "_idle_left");
 	character->anim.AddAnimation(name + "_idle_right");
+	character->anim.PlayAnimation(name + "_walk_front");
 	character->id = GenerateID();
 	return character;
 }
