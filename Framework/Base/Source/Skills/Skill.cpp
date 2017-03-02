@@ -309,11 +309,8 @@ public:
             param.caster->MP -= m_mana_cost;
             param.targetList[0]->HP -= (m_dmg_ratio * (float)param.caster->stats.GetDamage());
             std::cout << param.targetList[0]->stats.GetRechargeRate() << std::endl;
-            param.targetList[0]->stats.SetRechargeRate(param.targetList[0]->stats.GetRechargeRate() - (m_slow_ratio * param.caster->stats.GetAgi()));
-
-            if (param.targetList[0]->stats.GetRechargeRate() < 5)
-                param.targetList[0]->stats.SetRechargeRate(5);
-
+            param.targetList[0]->stats.DeductRechargeRate(param.targetList[0]->stats.GetRechargeRate() * m_slow_ratio);
+            std::cout << param.targetList[0]->stats.GetRechargeRate() << std::endl;
             if (param.targetList[0]->HP <= 0)
                 param.targetList[0]->HP = 0;
 
@@ -333,7 +330,7 @@ public:
 		m_icon_name = "skill_7";
         m_name = "Feint";
         m_dmg_ratio = 1.2;
-        m_slow_ratio = 0.5;
+        m_slow_ratio = 0.4;
         m_mana_cost = 80;
         m_max_target_num = 1;
         m_ally_targetable = false;
@@ -357,7 +354,7 @@ public:
             param.caster->MP -= m_mana_cost;
             for (auto itr = param.targetList.begin(); itr != param.targetList.end(); itr++)
             {
-                param.targetList[i]->stats.AddRechargeRate(param.targetList[i]->stats.GetRechargeRate() - (m_boost_rate * param.caster->stats.GetInt()));
+                param.targetList[i]->stats.AddRechargeRate(param.targetList[i]->stats.GetRechargeRate() * m_boost_rate);
                 ++i;
             }
             return true;
@@ -372,7 +369,7 @@ public:
     {
 		m_icon_name = "skill_7";
         m_name = "Speed Boost";
-        m_boost_rate = 0.15;
+        m_boost_rate = 0.5;
         m_mana_cost = 150;
         m_max_target_num = 4;
         m_ally_targetable = true;
@@ -517,7 +514,7 @@ public:
             param.caster->MP -= m_mana_cost;
             param.targetList[0]->HP -= (m_dmg_multi * (float)param.caster->stats.GetSpellDamage());
 
-            param.targetList[0]->stats.SetRechargeRate(param.targetList[0]->stats.GetRechargeRate() - (m_drop_rate * param.caster->stats.GetInt()));
+            param.targetList[0]->stats.DeductRechargeRate((m_drop_rate * param.caster->stats.GetSpellDamage()));
 
             if (param.targetList[0]->stats.GetRechargeRate() < 5)
                 param.targetList[0]->stats.SetRechargeRate(5);
@@ -565,7 +562,7 @@ public:
             {
                 param.targetList[i]->HP -= (m_dmg_multi * (float)param.caster->stats.GetSpellDamage());
 
-                param.targetList[i]->stats.SetRechargeRate(param.targetList[i]->stats.GetRechargeRate() - (m_drop_rate * param.caster->stats.GetInt()));
+                param.targetList[i]->stats.DeductRechargeRate((m_drop_rate * param.caster->stats.GetSpellDamage()));
 
                 if (param.targetList[i]->stats.GetRechargeRate() < 5)
                     param.targetList[i]->stats.SetRechargeRate(5);
@@ -616,7 +613,7 @@ public:
             {
                 param.targetList[i]->HP -= (m_dmg_multi * (float)param.caster->stats.GetSpellDamage());
 
-                param.targetList[i]->stats.SetRechargeRate(param.targetList[i]->stats.GetRechargeRate() - (m_drop_rate * param.caster->stats.GetInt()));
+                param.targetList[i]->stats.DeductRechargeRate((m_drop_rate * param.caster->stats.GetSpellDamage()));
 
                 if (param.targetList[i]->stats.GetRechargeRate() < 5)
                     param.targetList[i]->stats.SetRechargeRate(5);

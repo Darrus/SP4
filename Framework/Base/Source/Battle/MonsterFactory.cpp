@@ -28,7 +28,7 @@ EnemyInfo* MonsterFactory::CreateEnemy1(int id)
     newEnemy->stats.SetMind(2);
     newEnemy->stats.SetDex(6);
     newEnemy->stats.SetAgi(4);
-    newEnemy->name = "Carbonara";
+    newEnemy->name = "Big Fish";
     newEnemy->id = id;
     newEnemy->stats.UpdateStats();
     newEnemy->HP = newEnemy->stats.GetMaxHP();
@@ -64,13 +64,13 @@ EnemyInfo* MonsterFactory::CreateEnemy3(int id)
     LevelSync();
     EnemyInfo* newEnemy = new EnemyInfo("Dwayne Johnson");
     newEnemy->stats.AddLevel(avgLvl);
-    newEnemy->stats.SetVit(10);
+    newEnemy->stats.SetVit(8);
     newEnemy->stats.SetStr(5);
     newEnemy->stats.SetInt(2);
     newEnemy->stats.SetMind(5);
     newEnemy->stats.SetDex(4);
-    newEnemy->stats.AddAgi(2);
-    newEnemy->name = "Parpar";
+    newEnemy->stats.AddAgi(5);
+    newEnemy->name = "Golem";
     newEnemy->id = id;
     newEnemy->stats.UpdateStats();
     newEnemy->HP = newEnemy->stats.GetMaxHP();
@@ -83,9 +83,9 @@ EnemyInfo* MonsterFactory::CreateBoss(int id)
 {
     LevelSync();
     EnemyInfo* newEnemy = new EnemyInfo("Moogle");
-    newEnemy->stats.AddLevel(avgLvl + 5);
-    newEnemy->stats.SetVit(20);
-    newEnemy->stats.SetStr(18);
+    newEnemy->stats.AddLevel(avgLvl + 15);
+    newEnemy->stats.SetVit(10);
+    newEnemy->stats.SetStr(12);
     newEnemy->stats.SetInt(10);
     newEnemy->stats.SetMind(9);
     newEnemy->stats.SetDex(15);
