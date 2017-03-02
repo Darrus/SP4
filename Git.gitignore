@@ -23,7 +23,3 @@
 *.exe
 *.out
 *.app
-
-# Sound files
-*.mp3
-*.wav

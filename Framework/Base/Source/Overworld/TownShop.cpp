@@ -91,7 +91,7 @@ void TownShop::Init()
 	
 	// NPC Init
 	AnimationsContainer::GetInstance()->AddAnimation("moogle", new Animation("moogle", 0, 2, 0.2f, -1));
-	SoundEngine::GetInstance()->AddSound("moogle", "Sound/moogle.mp3", 0.5f);
+	SoundEngine::GetInstance()->AddSound("Moogle", "Sound/Moogle.mp3", 0.5f);
 	ShopNPC* npc = new ShopNPC();
 	npc->GetAnimator()->AddAnimation("moogle");
 	npc->GetAnimator()->PlayAnimation("moogle");
@@ -101,7 +101,7 @@ void TownShop::Init()
 	npc->SetTargetScene("Shop");
 	npc->SetCollider(new CCollider_2DAABB());
 	npc->AttachCamera(&camera);
-	npc->AttachSFX("moogle");
+	npc->AttachSFX("Moogle");
 	npc->SetMoveSpeed(20.f);
 	spatial.Add(npc);
 	EManager.AddEntity(npc);
