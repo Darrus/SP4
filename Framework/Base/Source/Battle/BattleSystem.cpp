@@ -184,7 +184,9 @@ void BattleSystem::CheckBattleEnd(BattleEntity* entity)
     {
         for (int i = 0; i < playerPartySize; i++)
         {
-            EXPGAIN = Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel() * (8 - (Player::GetInstance().GetParty()->memberCount()));
+            //Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel()
+            EXPGAIN = (int)((double)(EnemyList.size() * PlayerList.size()) * ((double)Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel() * 0.25));
+
 			Player::GetInstance().GetParty()->GetMemberByIndex(i)->EXP += EXPGAIN;
 
 			if (Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel() < 100)
@@ -978,16 +980,16 @@ void BattleSystem::ShowBattleResults()
             modelStack.PushMatrix();
             modelStack.Translate(windowWidth * 0.2f, windowHeight * (0.8f + (i * -0.1f)), 9.f);
             modelStack.Scale(40.f, 40.f, 1.f);
-            if ((*it)->id == i)
-                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), Player::GetInstance().GetParty()->GetMember(i)->name + " has Earned: " + std::to_string(EXPGAIN) + " EXP!", Color(0, 1, 0));
+            //if ((*it)->id == i)
+                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), Player::GetInstance().GetParty()->GetMemberByIndex(i)->name + " has Earned: " + std::to_string(EXPGAIN) + " EXP!", Color(0, 1, 0));
             modelStack.PopMatrix();
 
             modelStack.PushMatrix();
             modelStack.Translate(windowWidth * 0.2f, windowHeight * (0.75f + (i * -0.1f)), 9.f);
             modelStack.Scale(40.f, 40.f, 1.f);
-            if ((*it)->id == i)
+            //if ((*it)->id == i)
                 RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"),
-                "EXP: " + std::to_string(Player::GetInstance().GetParty()->GetMember(i)->EXP) + " / " + std::to_string(Player::GetInstance().GetParty()->GetMember(i)->stats.GetMaxEXP()) + " Lvl : " + std::to_string(Player::GetInstance().GetParty()->GetMember(i)->stats.Getlevel()), Color(0, 1, 0));
+                    "EXP: " + std::to_string(Player::GetInstance().GetParty()->GetMemberByIndex(i)->EXP) + " / " + std::to_string(Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.GetMaxEXP()) + " Lvl : " + std::to_string(Player::GetInstance().GetParty()->GetMemberByIndex(i)->stats.Getlevel()), Color(0, 1, 0));
             modelStack.PopMatrix();
         }
     }

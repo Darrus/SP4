@@ -47,7 +47,7 @@ EnemyInfo* MonsterFactory::CreateEnemy2(int id)
     newEnemy->stats.SetInt(1);
     newEnemy->stats.SetMind(2);
     newEnemy->stats.SetDex(8);
-    newEnemy->stats.SetAgi(11);
+    newEnemy->stats.SetAgi(4);
     newEnemy->name = "Kayne West";
     newEnemy->id = id;
     //newEnemy->enemyType = BattleEntity::ENEMY;
@@ -64,12 +64,12 @@ EnemyInfo* MonsterFactory::CreateEnemy3(int id)
     LevelSync();
     EnemyInfo* newEnemy = new EnemyInfo("Dwayne Johnson");
     newEnemy->stats.AddLevel(avgLvl);
-    newEnemy->stats.SetVit(7);
-    newEnemy->stats.SetStr(10);
+    newEnemy->stats.SetVit(10);
+    newEnemy->stats.SetStr(7);
     newEnemy->stats.SetInt(2);
     newEnemy->stats.SetMind(5);
     newEnemy->stats.SetDex(4);
-    newEnemy->stats.AddAgi(12);
+    newEnemy->stats.AddAgi(6);
     newEnemy->name = "Dwayne Johnson";
     newEnemy->id = id;
     newEnemy->stats.UpdateStats();
@@ -82,14 +82,14 @@ EnemyInfo* MonsterFactory::CreateEnemy3(int id)
 EnemyInfo* MonsterFactory::CreateBoss(int id)
 {
     LevelSync();
-    EnemyInfo* newEnemy = new EnemyInfo("King Moogle");
+    EnemyInfo* newEnemy = new EnemyInfo("Moogle");
     newEnemy->stats.AddLevel(avgLvl + 5);
     newEnemy->stats.SetVit(20);
     newEnemy->stats.SetStr(18);
     newEnemy->stats.SetInt(10);
     newEnemy->stats.SetMind(9);
     newEnemy->stats.SetDex(15);
-    newEnemy->stats.SetAgi(17);
+    newEnemy->stats.SetAgi(3);
     newEnemy->name = "King Moogle";
     newEnemy->id = id;
     newEnemy->stats.UpdateStats();

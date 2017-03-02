@@ -74,6 +74,7 @@ void SaveInfo::SaveCharacter(string fileName, CharacterInfo* character, int inde
 	stringstream fileLoc;
 	fileLoc << "Savefiles//" << fileName << "//Character" << index + 1;
 	Lua->SaveStringValue(fileLoc.str().c_str(), "Name", character->name.c_str(), true);
+    Lua->SaveIntValue(fileLoc.str().c_str(), "Level", character->stats.Getlevel());
 	Lua->SaveIntValue(fileLoc.str().c_str(), "Str", character->stats.GetStr());
 	Lua->SaveIntValue(fileLoc.str().c_str(), "Vit", character->stats.GetVit());
 	Lua->SaveIntValue(fileLoc.str().c_str(), "Int", character->stats.GetInt());
@@ -95,7 +96,7 @@ void SaveInfo::SaveCharacter(string fileName, CharacterInfo* character, int inde
 	string skillNames;
 	while (it != character->skills.end())
 	{
-		skillNames += ("\"" + (*it)->GetName() + ",\n");
+		skillNames += ("\"" + (*it)->GetName() + "\",\n");
 		it++;
 	}
 
