@@ -23,6 +23,7 @@ public:
 	~CharacterFactory();
 
 	CharacterInfo* CreateCharacter();
+	CharacterInfo* GetCharacter(string name);
 
 	inline int GenerateID() { return id++; }
 };

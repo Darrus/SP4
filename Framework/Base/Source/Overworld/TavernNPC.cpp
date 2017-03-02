@@ -16,6 +16,11 @@ TavernNPC::~TavernNPC()
 {
 }
 
+void TavernNPC::Update()
+{
+	anim.Update();
+}
+
 void TavernNPC::Interact()
 {
 	TavernDialogueScene* scene = dynamic_cast<TavernDialogueScene*>(SceneManager::GetInstance()->SetActiveScene("TavernDialogue", true));

@@ -156,15 +156,14 @@ CharacterInfo* SaveInfo::LoadCharacter(string fileName, int index)
 	fileLoc << "Savefiles//" << fileName << "//Character" << (index + 1);
 	if (Lua->LoadFile(fileLoc.str()))
 	{
-		character = new CharacterInfo();
-		character->name = Lua->GetStringValue("Name");
+		string name = Lua->GetStringValue("Name");
 
-		if (character->name == "")
+		if (name == "")
 		{
-			delete character;
 			return nullptr;
 		}
 
+		character = CharacterFactory::GetInstance()->GetCharacter(name);
 		character->stats.AddLevel(Lua->GetIntValue("Level"));
 		character->stats.SetStr(Lua->GetIntValue("Str"));
 		character->stats.SetVit(Lua->GetIntValue("Vit"));

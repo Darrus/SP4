@@ -17,27 +17,29 @@
 class BattleSystem
 {
 private:
-    bool anEntityTurn;                                                          ///< Boolean to check if it's an Entitys' Turn
-    bool iCrit, iDodge;                                                         ///< Boolean to check if Unit Crit/Dodged
     SpriteEntity* CommandBox;                                                   ///< Sprite Entity for the Command Box
-    bool isPassTurn;                                                            ///< Boolean to check if the Entity passed the turn
-    bool battleEnded;                                                           ///< Boolean to check if battle has ended
     BattleEntity* pewpewpew;                                                    ///< Temporary Battle entity storage for players/enemies
     SpriteEntity* Arrow;                                                        ///< Sprite Entity for the Arrow
     EnemyAI* enemyAI;                                                           ///< Handles the A.I. of the enemy.
-    bool addEXP;                                                                ///< Boolean to check if EXP is added
     CharacterInfo* playerInfo;                                                  ///< Character Info's such as stats, HP, EXP
-    bool chooseItem;
-    int turnPt;
-    bool noMoreItems;
-    bool choosingSkill;
-    bool escapeAnot;
     float temp = 0;
-    bool input;
     int EXPGAIN;
     int playerPartySize, enemyStart, enemyEnd;
     int tempCast;
-	int id;
+    int id;
+    int turnPt;
+
+    bool isPassTurn;                                                            ///< Boolean to check if the Entity passed the turn
+    bool battleEnded;                                                           ///< Boolean to check if battle has ended
+    bool chooseItem;
+    bool noMoreItems;
+    bool choosingSkill;
+    bool escapeAnot;
+    bool input;
+    bool anEntityTurn;                                                          ///< Boolean to check if it's an Entitys' Turn
+    bool iCrit, iDodge;                                                         ///< Boolean to check if Unit Crit/Dodged
+    bool addEXP;                                                                ///< Boolean to check if EXP is added
+    bool checkGO;
 
     MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
     float windowWidth = (float)Application::GetInstance().GetWindowWidth();
@@ -63,11 +65,13 @@ public:
     void RenderSkillInterface();
     void RenderBattleInterface();
     void RenderTargetChoose();
+    void RenderGameOver();
 
     ///< Choosing Target and checking if entity is alive
     BattleEntity* ChooseAtkTarget(int selection);                               ///< Returns a Target for the player to attack base on the selection
     BattleEntity* FindTarget(int selection);                                    ///< Returns a 
     BattleEntity* CheckAnyAlive();
+    BattleEntity* CheckAnyPAlive();
 
     ///< Battle Command Moves
     void EntityTurn(BattleEntity* entity);      ///< Give an Entity the Turn
@@ -97,6 +101,7 @@ public:
 
     ///< Battle End Check
     void CheckBattleEnd(BattleEntity* entity);
+    void CheckGameOver();
 
     ///< Check
     void NoMoreItems();

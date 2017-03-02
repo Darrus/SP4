@@ -16,6 +16,16 @@ EnemyAI::~EnemyAI()
 void EnemyAI::DetermineAction(BattleEntity* entityAI, BattleEntity* player)
 {
     entityAI->AddAttkTurnPt(1);
+    int partySize = Player::GetInstance().GetParty()->memberCount();
+    
+    if (partySize <= 1)
+        aggroLvl = HIGH;
+    if (partySize <= 2)
+        aggroLvl = MODERATE;
+    if (partySize <= 3)
+        aggroLvl = LOW;
+    else
+        aggroLvl = NEUTRAL;
 
     switch (aggroLvl)
     {

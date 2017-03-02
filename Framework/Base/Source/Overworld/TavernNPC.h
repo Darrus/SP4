@@ -11,6 +11,7 @@ public:
 	TavernNPC();
 	virtual ~TavernNPC();
 
+	virtual void Update();
 	virtual void Interact();
 
 	inline void SetTargetScene(const string& scene){ targetScene = scene; }

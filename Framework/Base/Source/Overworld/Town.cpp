@@ -281,18 +281,22 @@ void Town::InitBuilding()
 
 void Town::InitNPC()
 {
-	MeshBuilder::GetInstance()->GenerateSpriteAnimation("NPC", 4, 4)->textureID = LoadTGA("Image/NPC/NPC.tga");
+	MeshBuilder::GetInstance()->GenerateSpriteAnimation("NPC", 5, 4)->textureID = LoadTGA("Image/NPC/NPC.tga");
 	AnimationsContainer::GetInstance()->AddAnimation("npc_walk_front", new Animation("NPC", 0, 4, 0.5f, -1));
 	AnimationsContainer::GetInstance()->AddAnimation("npc_walk_back", new Animation("NPC", 4, 8, 0.5f, -1));
 	AnimationsContainer::GetInstance()->AddAnimation("npc_walk_right", new Animation("NPC", 8, 12, 0.5f, -1));
 	AnimationsContainer::GetInstance()->AddAnimation("npc_walk_left", new Animation("NPC", 12, 16, 0.5f, -1));
-
+	AnimationsContainer::GetInstance()->AddAnimation("npc_idle_front", new Animation("NPC", 16, 16, 1.f, -1));
+	AnimationsContainer::GetInstance()->AddAnimation("npc_idle_back", new Animation("NPC", 17, 17, 1.f, -1));
+	AnimationsContainer::GetInstance()->AddAnimation("npc_idle_left", new Animation("NPC", 18, 18, 1.f, -1));
+	AnimationsContainer::GetInstance()->AddAnimation("npc_idle_right", new Animation("NPC", 19, 19, 1.f, -1));
+	SoundEngine::GetInstance()->AddSound("Moogle", "Sound/Moogle.mp3", 0.5f);
 
 	// NPC Init
-	NPC* npc = EntityFactory::GetInstance()->CreateMoogle(Vector3(50.f, -65.f, 1.f), "TOWN_NPC_CHAT1");
+	NPC* npc = EntityFactory::GetInstance()->CreateMoogle(Vector3(40.f, -65.f, 1.f), "TOWN_NPC_CHAT1");
 	npc->AttachCamera(&camera);
-	npc->AddWaypoint(Vector3(50.f, -80.f, 1.f));
-	npc->AddWaypoint(Vector3(50.f, -65.f, 1.f));
+	npc->AddWaypoint(Vector3(40.f, -80.f, 1.f));
+	npc->AddWaypoint(Vector3(40.f, -65.f, 1.f));
 	spatial.Add(npc);
 	EManager.AddEntity(npc);
 
@@ -311,7 +315,6 @@ void Town::InitNPC()
 	EManager.AddEntity(npc);
 
 	npc = EntityFactory::GetInstance()->CreateMoogle(Vector3(-70.f, -60.f, 1.f), "TOWN_NPC_CHAT4");
-	npc->LoadDialogue("TOWN_NPC_CHAT4");
 	npc->AttachCamera(&camera);
 	npc->AddWaypoint(Vector3(-80.f, -30.f, 1.f));
 	npc->AddWaypoint(Vector3(-80.f, -60.f, 1.f));
@@ -319,7 +322,6 @@ void Town::InitNPC()
 	EManager.AddEntity(npc);
 
 	npc = EntityFactory::GetInstance()->CreateMoogle(Vector3(-30.f, 90.f, 1.f), "TOWN_NPC_CHAT5");
-	npc->LoadDialogue("TOWN_NPC_CHAT5");
 	npc->AttachCamera(&camera);
 	npc->AddWaypoint(Vector3(-30.f, 70.f, 1.f));
 	npc->AddWaypoint(Vector3(-30.f, 90.f, 1.f));
