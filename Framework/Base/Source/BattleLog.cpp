@@ -29,16 +29,7 @@ critical_(critical)
 
     m_entity_ = nullptr;
     defend_ = false;
-}
-
-BattleLog::BattleLog(BattleEntity* entity, bool defend) :
-entity_(entity),
-defend_(defend)
-{
-    displayTime = 3;
-    DMGRecv = false;
-    DMGDeal = false;
-    m_entity_ = nullptr;
+    manaNotEnough_ = false;
 }
 
 BattleLog::BattleLog(CharacterInfo* entity, std::string skillname, std::string targetname, bool AoEAnot) :
@@ -51,6 +42,28 @@ AoEAnot_(AoEAnot)
     DMGRecv = false;
     DMGDeal = false;
     defend_ = false;
+    manaNotEnough_ = false;
+}
+
+BattleLog::BattleLog(BattleEntity* entity, bool defend) :
+entity_(entity),
+defend_(defend)
+{
+    displayTime = 3;
+    DMGRecv = false;
+    DMGDeal = false;
+    m_entity_ = nullptr;
+    manaNotEnough_ = false;
+}
+
+BattleLog::BattleLog(CharacterInfo* entity, bool manaNotEnough) :
+m_entity_(entity),
+manaNotEnough_(manaNotEnough)
+{
+    displayTime = 3;
+    DMGRecv = false;
+    DMGDeal = false;
+    m_entity_ = nullptr;
 }
 
 BattleLog::BattleLog(bool escapeAttempt) :
@@ -61,6 +74,7 @@ escapeAttempt_(escapeAttempt)
     DMGDeal = false;
     m_entity_ = nullptr;
     defend_ = false;
+    manaNotEnough_ = false;
 }
 
 BattleLog::~BattleLog()
@@ -103,7 +117,7 @@ void BattleLog::Render()
                     RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->enemyname_ + " has dealt " + std::to_string((*itr)->damagedealt_) + " damage to " + (*itr)->entity_->GetInfo()->name, Color(0, 1, 0));
                 modelStack.PopMatrix();
             }
-            else if ((*itr)->m_entity_ != nullptr)
+            else if ((*itr)->m_entity_ != nullptr && !manaNotEnough_)
             {
                 if (AoEAnot_)
                 {
@@ -121,6 +135,14 @@ void BattleLog::Render()
                     RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), (*itr)->m_entity_->name + " used " + skillname_ + " on " + enemyname_, Color(0, 1, 0));
                     modelStack.PopMatrix();
                 }
+            }
+            else if ((*itr)->manaNotEnough_)
+            {
+                modelStack.PushMatrix();
+                modelStack.Translate(windowWidth * 0.32f, windowHeight * 0.9f, 8.f);
+                modelStack.Scale(25.f, 25.f, 1.f);
+                RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Not Enough Mana.", Color(0, 1, 0));
+                modelStack.PopMatrix();
             }
             else if ((*itr)->defend_)
             {

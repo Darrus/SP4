@@ -17,11 +17,13 @@ private:
     bool DMGRecv, DMGDeal, dodged_, critical_, defend_;
     bool playerRender, enemyRender;
     bool escapeAttempt_;
-    bool AoEAnot_;
+    bool AoEAnot_, manaNotEnough_;
+
 public:
     BattleLog();
     BattleLog(BattleEntity* entity, std::string enemyname, int damagedealt, int damagereceived, bool dodged, bool critical);
     BattleLog(CharacterInfo* entity, std::string skillname, std::string targetname, bool AoEAnot);
+    BattleLog(CharacterInfo* entity, bool manaNotEnough);
     BattleLog(BattleEntity* entity, bool defend);
     BattleLog(bool escapeAttempt);
     ~BattleLog();

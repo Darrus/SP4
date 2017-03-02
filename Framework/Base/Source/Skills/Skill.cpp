@@ -299,13 +299,14 @@ public:
             param.caster->MP -= m_mana_cost;
             param.targetList[0]->HP -= (m_dmg_ratio * (float)param.caster->stats.GetDamage());
 
-            param.targetList[0]->stats.DeductRechargeRate(param.targetList[0]->stats.GetAgi() - (m_slow_ratio * param.caster->stats.GetAgi()));
+            param.targetList[0]->stats.DeductRechargeRate(param.targetList[0]->stats.GetRechargeRate() - (m_slow_ratio * param.caster->stats.GetAgi()));
+
+            if (param.targetList[0]->stats.GetRechargeRate() < 0)
+                param.targetList[0]->stats.AddRechargeRate(1);
 
             if (param.targetList[0]->HP <= 0)
                 param.targetList[0]->HP = 0;
 
-            if (param.targetList[0]->stats.GetRechargeRate() < 0)
-                param.targetList[0]->stats.AddRechargeRate(1);
 
             return true;
         }
@@ -321,7 +322,7 @@ public:
     {
         m_name = "Feint";
         m_dmg_ratio = 1.2;
-        m_slow_ratio = 0.15;
+        m_slow_ratio = 100;
         m_mana_cost = 80;
         m_max_target_num = 1;
         m_ally_targetable = false;

@@ -39,8 +39,8 @@ private:
     int tempCast;
 
     MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
-    float windowWidth = Application::GetInstance().GetWindowWidth();
-    float windowHeight = Application::GetInstance().GetWindowHeight();
+    float windowWidth = (float)Application::GetInstance().GetWindowWidth();
+    float windowHeight = (float)Application::GetInstance().GetWindowHeight();
 
 public:
     BattleSystem();                                                             ///< Default Constructor
@@ -112,7 +112,6 @@ public:
     std::list<EnemyInfo*> EnemyInfoList;
 
     // U.I. Stuff, in testintg
-    int selection[5];
     int playerselect;
     int attkselect;
     int commandselect;
