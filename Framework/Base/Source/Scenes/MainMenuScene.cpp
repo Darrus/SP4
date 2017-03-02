@@ -68,7 +68,7 @@ void MainMenuScene::Init()
 	background = new GUIObject();
 	background->SetActive(true);
 	background->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5f, Application::GetInstance().GetWindowHeight() * 0.5f);
-	background->SetScale(1920, 1080);
+	background->SetScale(Application::GetInstance().GetWindowWidth(), Application::GetInstance().GetWindowHeight());
 	background->SetImage(MeshBuilder::GetInstance()->GetMesh("mainmenubg"));
 	background->SetTextOffset(110, 0);
 	background->SetPriority(-1);

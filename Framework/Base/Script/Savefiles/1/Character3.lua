@@ -17,9 +17,9 @@ BRANCH_P_DEF = 0
 BRANCH_P_DEF = 0
 Skills = 
 {
-"Power Thrust",
-"Speed Boost",
-"Feint",
+"Thrust",
 "Sweep",
-"Thrust"
+"Feint",
+"Speed Boost",
+"Power Thrust"
 } 

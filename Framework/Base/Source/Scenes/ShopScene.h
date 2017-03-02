@@ -50,6 +50,7 @@ private:
 	GUIObject* cart_amount;
 	GUIObject* player_gold_amount;
 	GUIObject* inventory_display;
+	GUIObject* background;
 
 	int cart_cost;
 

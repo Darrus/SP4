@@ -210,6 +210,15 @@ void ShopScene::Init()
 	inventory_display->SetTextOffset(150, 0);
 	inventory_display->SetScale(600, 80);
 	inventory_display->SetPosition(500, 900);
+
+	MeshBuilder::GetInstance()->GenerateQuad("shop_bg", Color(1,1,1), 1)->textureID = LoadTGA("Image//shop_bg.tga");
+
+	background = new GUIObject();
+	background->SetActive(true);
+	background->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5f, Application::GetInstance().GetWindowHeight() * 0.5f);
+	background->SetScale(Application::GetInstance().GetWindowWidth(), Application::GetInstance().GetWindowHeight());
+	background->SetImage(MeshBuilder::GetInstance()->GetMesh("shop_bg"));
+	background->SetPriority(-1);
 }
 void ShopScene::Update()
 {
@@ -313,7 +322,7 @@ void ShopScene::Render()
 	cart_amount->Render();
 	player_gold_amount->Render();
 	inventory_display->Render();
-
+	background->Render();
 	//============================================================================================//
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	if (buying_tab)

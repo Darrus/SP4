@@ -1,4 +1,4 @@
-`Name = ""
+Name = ""
 Level = 5
 Str = 5
 Vit = 5
@@ -9,4 +9,9 @@ Agi = 0
 StatPoint = 0
 SkillPoint = 0
 
-Skills = {"Heal", "Heal", "Heal"}
+Skills = 
+{
+"Heal", 
+"Heal", 
+"Heal"
+}

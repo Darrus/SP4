@@ -28,12 +28,6 @@ void InventoryScene::Init()
 	camera.Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
 	GraphicsManager::GetInstance()->AttachCamera(&camera);
 
-	MeshBuilder::GetInstance()->GenerateQuad("button_background", Color(1, 1, 1), 1.f);
-	MeshBuilder::GetInstance()->GetMesh("button_background")->textureID = LoadTGA("Image//Buttons//button_background.tga");
-
-	MeshBuilder::GetInstance()->GenerateQuad("button_background_alt", Color(1, 1, 1), 1.f);
-	MeshBuilder::GetInstance()->GetMesh("button_background_alt")->textureID = LoadTGA("Image//Buttons//button_background_alt.tga");
-
 	MeshBuilder::GetInstance()->GenerateQuad("Gold", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GetMesh("Gold")->textureID = LoadTGA("Image//Gold.tga");
 
@@ -232,4 +226,9 @@ void InventoryScene::Pause()
 void InventoryScene::UnPause()
 {
 	display_inventory->UpdateButtonPositions(item_holder);
+
+	for (unsigned i = 0; i < 4; ++i)
+	{
+		chara_select_btn[i]->SetCharacter(Player::GetInstance().GetParty()->GetMemberByIndex(i));
+	}
 }

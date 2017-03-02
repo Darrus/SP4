@@ -17,9 +17,9 @@ BRANCH_P_DEF = 0
 BRANCH_P_DEF = 0
 Skills = 
 {
-"Illusion",
-"Charisma",
-"Hero Maker",
+"Heal",
 "Curate",
-"Heal"
+"Hero Maker",
+"Charisma",
+"Illusion"
 } 

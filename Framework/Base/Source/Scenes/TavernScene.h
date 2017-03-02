@@ -28,6 +28,7 @@ protected:
 	//GUIObjects
 	GUIObject* gold_display;
 	GUIObject* tavern_display;
+	GUIObject* background;
 
 	//Menu to holdsome utility buttons
 	Menu* utility_menu;
