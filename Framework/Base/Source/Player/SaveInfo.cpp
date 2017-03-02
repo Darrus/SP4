@@ -31,12 +31,14 @@ void SaveInfo::DoDie()
 	//Most likely goto "You Died" scene and return to main menu to save
 }
 
-void SaveInfo::SaveGame(string fileName)
+bool SaveInfo::SaveGame(string fileName)
 {
 	// Save SaveInfo Info
 	OverworldBase* scene = dynamic_cast<OverworldBase*>(SceneManager::GetInstance()->GetActiveScene());
 	string fileLoc = "Savefiles//" + fileName + "//PlayerInfo";
-	Lua->LoadFile(fileLoc);
+	if (!Lua->LoadFile(fileLoc))
+		return false;
+	
 	Lua->SaveStringValue(fileLoc.c_str(), "Scene", SceneManager::GetInstance()->GetActiveSceneName().c_str(), true);
 	Lua->SaveVector3Values(fileLoc.c_str(), "Position", scene->GetPlayerPos());
 	Lua->SaveIntValue(fileLoc.c_str(), "Gold", m_gold);
@@ -67,6 +69,7 @@ void SaveInfo::SaveGame(string fileName)
 	// Save Events
 	fileLoc = "Savefiles//" + fileName + "//Events";
 	Lua->SaveBoolTable(fileLoc.c_str(), "Events", eventSystem.events, Events::NUM_EVENTS, true);
+	return true;
 }
 
 void SaveInfo::SaveCharacter(string fileName, CharacterInfo* character, int index)
@@ -109,7 +112,7 @@ void SaveInfo::SaveCharacter(string fileName, CharacterInfo* character, int inde
 	Lua->SaveStringTable(fileLoc.str().c_str(), "Skills", skillNames.c_str());
 }
 
-void SaveInfo::LoadGame(string fileName)
+bool SaveInfo::LoadGame(string fileName)
 {
 	// Load SaveInfo Info
 	string fileLoc = "Savefiles//" + fileName + "//PlayerInfo";
@@ -117,6 +120,10 @@ void SaveInfo::LoadGame(string fileName)
 	Lua->DoActiveState();
 
 	m_currentScene = Lua->GetStringValue("Scene");
+
+	if (m_currentScene == "")
+		return false;
+
 	m_overworld_pos = Lua->GetVector3Values("Position");
 
 	// Load Party Info
@@ -145,6 +152,8 @@ void SaveInfo::LoadGame(string fileName)
 		eventSystem.events[i] = eventVec.back();
 		eventVec.pop_back();
 	}
+
+	return true;
 }
 
 CharacterInfo* SaveInfo::LoadCharacter(string fileName, int index)
@@ -196,9 +205,4 @@ CharacterInfo* SaveInfo::LoadCharacter(string fileName, int index)
 		}
 	}
 	return character;
-}
-
-void SaveInfo::Init()
-{
-	m_gold = 1000000;
 }

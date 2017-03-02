@@ -22,7 +22,6 @@ void SceneManager::Update()
 		}
 		else
 			std::cout << "There is no previous scene to go back to." << std::endl;
-		
 		back = false;
 	}
 

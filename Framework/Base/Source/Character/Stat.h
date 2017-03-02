@@ -13,6 +13,8 @@
 #define DODGE_RATE_MULTIPLIER 0.2f
 #define RECHARGE_RATE_MULTIPLIER 1
 
+#include "MyMath.h"
+
 struct MainStat
 {
 	int Level = 0;
@@ -44,6 +46,38 @@ class StatSystem
 	MainStat main;
 	SubStat sub;
 
+	void RandomStat()
+	{
+		int stats[6] = { 0 };
+		int sum = 0;
+		for (int i = 0; i < 6; ++i)
+		{
+			stats[i] = Math::RandIntMinMax(0, main.StatPoints);
+			sum += stats[i];
+		}
+
+		int container[6] = { 0 };
+		int leftOver = 0;
+		for (int i = 0; i < 6; ++i)
+		{
+			container[i] = (int)(((float)stats[i] / (float)sum) * (float)main.StatPoints);
+			leftOver += container[i];
+		}
+		leftOver = main.StatPoints - leftOver;
+		if (leftOver > 0)
+		{
+			container[5] += leftOver;
+		}
+
+		AddStr(container[0]);
+		AddVit(container[1]);
+		AddInt(container[2]);
+		AddMind(container[3]);
+		AddDex(container[4]);
+		AddAgi(container[5]);
+		UpdateStats();
+	}
+
 public:
     StatSystem(){}
     ~StatSystem(){}
@@ -53,6 +87,7 @@ public:
 		main.Level += amt; 
 		main.StatPoints += amt * STAT_PER_LEVEL; 
 		main.SkillPoints += amt * SKILL_PER_LEVEL;
+		RandomStat();
 	}
 	void AddStr(int amt){ if (main.StatPoints > 0) { main.Str += amt; DeductStatPoint(amt); } }
 	void AddVit(int amt){ if (main.StatPoints > 0) { main.Vit += amt; DeductStatPoint(amt); } }

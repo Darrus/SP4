@@ -139,6 +139,25 @@ public:
 };
 
 //============================================================================//
+//Brief: A button object that calls player init and launches a new game		  //
+//============================================================================//
+
+class NewGame_Button : public ChangeScene_Button
+{
+protected:
+
+public:
+	inline void RunFunction()
+	{ 
+		Player::GetInstance().Init();
+		ChangeScene_Button::RunFunction();
+	}
+
+	NewGame_Button() : ChangeScene_Button(){}
+	~NewGame_Button(){}
+};
+
+//============================================================================//
 //Brief: A button object that goes back to the previous scene.				  //
 //============================================================================//
 

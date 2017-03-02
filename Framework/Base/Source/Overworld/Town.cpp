@@ -17,12 +17,14 @@
 #include "SceneManager.h"
 #include "KeyboardController.h"
 #include "SoundEngine\SoundEngine.h"
+#include "../Player/Player.h"
 
 // Entities
 #include "OverworldAsset.h"
 #include "OverworldEntity.h"
 #include "StaticAsset.h"
 #include "../Entity/EntityFactory.h"
+#include "../Character/CharacterInfo.h"
 
 // Trigger Areas
 #include "TriggerScene.h"
@@ -38,7 +40,7 @@ Town::~Town()
 
 void Town::Init()
 {
-	SoundEngine::GetInstance()->AddRepeatSound("A Place To Call Home", "Sound/A Place To Call Home.mp3");
+	SoundEngine::GetInstance()->AddRepeatSound("Windy Meadows", "Sound/Windy Meadows.mp3");
 
 	// Skybox Init
 	MeshBuilder::GetInstance()->GenerateQuad("skybox_left", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//sky_left.tga");
@@ -159,7 +161,7 @@ void Town::Exit()
 
 void Town::Pause()
 {
-	SoundEngine::GetInstance()->Pause("A Place To Call Home");
+	SoundEngine::GetInstance()->Pause("Windy Meadows");
 }
 
 void Town::UnPause()
@@ -170,7 +172,7 @@ void Town::UnPause()
 	camera.SetDistSpeed(100.f);
 
 	camera.SetCameraTarget(player.GetPosition());
-	SoundEngine::GetInstance()->Play("A Place To Call Home");
+	SoundEngine::GetInstance()->Play("Windy Meadows");
 }
 
 void Town::InitBuilding()

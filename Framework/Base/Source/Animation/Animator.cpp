@@ -78,6 +78,17 @@ void Animator::PlayAnimation(string name)
 	}
 }
 
+void Animator::CopyAnimator(Animator& anim)
+{
+	AnimMap animMap = anim.GetAnimations();
+	AnimMap::iterator it = animMap.begin();
+	while (it != animMap.end())
+	{
+		animations[(*it).first] = (*it).second;
+		it++;
+	}
+}
+
 void Animator::Reset()
 {
 	currentFrame = activeAnim->startFrame;

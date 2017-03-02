@@ -1,5 +1,5 @@
 Name = "Edgar"
-Level = 12
+Level = 1
 Str = 8
 Vit = 10
 Int = 6
@@ -17,9 +17,9 @@ BRANCH_P_DEF = 0
 BRANCH_P_DEF = 0
 Skills = 
 {
-"Illusion",
-"Charisma",
-"Hero Maker",
+"Heal",
 "Curate",
-"Heal"
+"Hero Maker",
+"Charisma",
+"Illusion"
 } 

@@ -27,6 +27,7 @@ public:
     int memberCount();
 
 	inline int GetMaxPartySize() { return maxPartySize; }
+	CharacterInfo* GetLeader();
 
     //void UpdateMemberInfo(CharacterInfo* info);
 };

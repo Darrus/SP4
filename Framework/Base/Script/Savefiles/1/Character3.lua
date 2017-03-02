@@ -1,5 +1,5 @@
 Name = "Shadow"
-Level = 12
+Level = 10
 Str = 11
 Vit = 12
 Int = 7
@@ -17,9 +17,9 @@ BRANCH_P_DEF = 0
 BRANCH_P_DEF = 0
 Skills = 
 {
-"Power Thrust",
-"Speed Boost",
-"Feint",
+"Thrust",
 "Sweep",
-"Thrust"
+"Feint",
+"Speed Boost",
+"Power Thrust"
 } 

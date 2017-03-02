@@ -15,6 +15,7 @@ public:
 	Player();
 	virtual ~Player();
 
+	void Init();
 	void CopyInfo(SaveInfo* save);
 };
 

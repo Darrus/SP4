@@ -13,7 +13,7 @@
 #include "SceneManager.h"
 #include "OverworldBase.h"
 #include "Overworld.h"
-
+#include "../Player/Player.h"
 
 OverworldPlayer::OverworldPlayer() :
 moveSpeed(25.f)
@@ -39,6 +39,13 @@ void OverworldPlayer::Update()
 
 bool OverworldPlayer::Controls()
 {
+	CharacterInfo* leader = Player::GetInstance().GetParty()->GetLeader();
+	if (leader->name != leaderName)
+	{
+		anim.CopyAnimator(leader->anim);
+		leaderName = leader->name;
+	}
+
 	bool moving = false;
 	float dt = (float)StopWatch::GetInstance()->GetDeltaTime();
 	Mtx44 mx;
@@ -50,25 +57,37 @@ bool OverworldPlayer::Controls()
     {
         velocity += view;
 		moving = true;
+		if(!KeyboardController::GetInstance()->IsKeyDown('D') &&
+			!KeyboardController::GetInstance()->IsKeyDown('A'))
+			anim.PlayAnimation(leaderName + "_walk_back");
     }
     else if (KeyboardController::GetInstance()->IsKeyDown('S'))
     {
         velocity -= view;
 		moving = true;
+		if (!KeyboardController::GetInstance()->IsKeyDown('D') &&
+			!KeyboardController::GetInstance()->IsKeyDown('A'))
+			anim.PlayAnimation(leaderName + "_walk_front");
     }
     if (KeyboardController::GetInstance()->IsKeyDown('D'))
     {
         velocity += right;
 		moving = true;
+		anim.PlayAnimation(leaderName + "_walk_right");
     }
     else if (KeyboardController::GetInstance()->IsKeyDown('A'))
     {
         velocity -= right;
 		moving = true;
+		anim.PlayAnimation(leaderName + "_walk_left");
     }
 
 	if (velocity.LengthSquared() > 0)
+	{
 		velocity = velocity.Normalized() * moveSpeed * dt;
+	}
+
+
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_SPACE))
 	{
@@ -96,7 +115,9 @@ bool OverworldPlayer::Controls()
 			}
 		}
 	}
-
+	if (!moving)
+		anim.PlayAnimation(leaderName + "_idle_front");
+	
 	collider->SetOffset(velocity);
 	return moving;
 }
@@ -131,4 +152,43 @@ void OverworldPlayer::HandleBoundary()
 		velocity.x = 0.f;
 	if (newPos.y + scale.y * 0.5f > boundary.y || newPos.y - scale.y * 0.5f < -boundary.y)
 		velocity.y = 0.f;
+}
+
+void OverworldPlayer::HandleAnim()
+{
+	if (velocity.LengthSquared() > 0)
+	{
+		Vector3 dir = (camera->GetCameraPos() - position).Normalized();
+		view = velocity.Normalized();
+		float angle = Math::RadianToDegree(acos(dir.Dot(view)));
+		Vector3 test = view.Cross(dir);
+		if (test.z < 0)
+			angle = -angle;
+
+		if (angle < 45 && angle > -45)
+			anim.PlayAnimation(leaderName + "_walk_front");
+		else if (angle > 135 || angle < -135)
+			anim.PlayAnimation(leaderName + "_walk_back");
+		else if (angle < 0 && angle > -135)
+			anim.PlayAnimation(leaderName + "_walk_right");
+		else if (angle > 0 && angle < 135)
+			anim.PlayAnimation(leaderName + "_walk_left");
+	}
+	else
+	{
+		Vector3 dir = (camera->GetCameraPos() - position).Normalized();
+		float angle = Math::RadianToDegree(acos(dir.Dot(view)));
+		Vector3 test = view.Cross(dir);
+		if (test.z < 0)
+			angle = -angle;
+
+		if (angle < 45 && angle > -45)
+			anim.PlayAnimation(leaderName + "_idle_front");
+		else if (angle > 135 || angle < -135)
+			anim.PlayAnimation(leaderName + "_idle_back");
+		else if (angle < 0 && angle > -135)
+			anim.PlayAnimation(leaderName + "_idle_right");
+		else if (angle > 0 && angle < 135)
+			anim.PlayAnimation(leaderName + "_idle_left");
+	}
 }

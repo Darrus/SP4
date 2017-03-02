@@ -17,7 +17,8 @@ CharacterFactory::CharacterFactory() :
 id(0)
 {
 	// Shadow
-	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Shadow", 5, 4)->textureID = LoadTGA("Image//Characters//Shadow.tga");
+	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Shadow", 6, 4)->textureID = LoadTGA("Image//Characters//Shadow.tga");
+	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Shadow_Dead", 1, 1)->textureID = LoadTGA("Image//Characters//Shadow_Dead.tga");
 	names.push_back("Shadow");
 	AnimationsContainer::GetInstance()->AddAnimation("Shadow_walk_front", new Animation("Shadow", 0, 4, 0.5f, -1.f));
 	AnimationsContainer::GetInstance()->AddAnimation("Shadow_walk_back", new Animation("Shadow", 4, 8, 0.5f, -1.f));
@@ -27,9 +28,12 @@ id(0)
 	AnimationsContainer::GetInstance()->AddAnimation("Shadow_idle_back", new Animation("Shadow", 17, 17, 0.5f, -1.f));
 	AnimationsContainer::GetInstance()->AddAnimation("Shadow_idle_left", new Animation("Shadow", 18, 18, 0.5f, -1.f));
 	AnimationsContainer::GetInstance()->AddAnimation("Shadow_idle_right", new Animation("Shadow", 19, 19, 0.5f, -1.f));
+	AnimationsContainer::GetInstance()->AddAnimation("Shadow_ready", new Animation("Shadow", 20, 22, 0.5f, -1.f));
+	AnimationsContainer::GetInstance()->AddAnimation("Shadow_dead", new Animation("Shadow_Dead", 0, 1, 1.f, -1.f));
 
 	// Terra
-	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Terra", 5, 4)->textureID = LoadTGA("Image//Characters//Terra.tga");
+	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Terra", 6, 4)->textureID = LoadTGA("Image//Characters//Terra.tga");
+	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Terra_Dead", 1, 1)->textureID = LoadTGA("Image//Characters//Terra_Dead.tga");
 	names.push_back("Terra");
 	AnimationsContainer::GetInstance()->AddAnimation("Terra_walk_front", new Animation("Terra", 0, 4, 0.5f, -1.f));
 	AnimationsContainer::GetInstance()->AddAnimation("Terra_walk_back", new Animation("Terra", 4, 8, 0.5f, -1.f));
@@ -39,9 +43,12 @@ id(0)
 	AnimationsContainer::GetInstance()->AddAnimation("Terra_idle_back", new Animation("Terra", 17, 17, 0.5f, -1.f));
 	AnimationsContainer::GetInstance()->AddAnimation("Terra_idle_left", new Animation("Terra", 18, 18, 0.5f, -1.f));
 	AnimationsContainer::GetInstance()->AddAnimation("Terra_idle_right", new Animation("Terra", 19, 19, 0.5f, -1.f));
+	AnimationsContainer::GetInstance()->AddAnimation("Terra_ready", new Animation("Terra", 20, 22, 0.5f, -1.f));
+	AnimationsContainer::GetInstance()->AddAnimation("Terra_dead", new Animation("Terra_Dead", 0, 1, 1.f, -1.f));
 
 	// Celes
-	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Celes", 5, 4)->textureID = LoadTGA("Image//Characters//Celes.tga");
+	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Celes", 6, 4)->textureID = LoadTGA("Image//Characters//Celes.tga");
+	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Celes_Dead", 1, 1)->textureID = LoadTGA("Image//Characters//Celes_Dead.tga");
 	names.push_back("Celes");
 	AnimationsContainer::GetInstance()->AddAnimation("Celes_walk_front", new Animation("Celes", 0, 4, 0.5f, -1.f));
 	AnimationsContainer::GetInstance()->AddAnimation("Celes_walk_back", new Animation("Celes", 4, 8, 0.5f, -1.f));
@@ -51,9 +58,12 @@ id(0)
 	AnimationsContainer::GetInstance()->AddAnimation("Celes_idle_back", new Animation("Celes", 17, 17, 0.5f, -1.f));
 	AnimationsContainer::GetInstance()->AddAnimation("Celes_idle_left", new Animation("Celes", 18, 18, 0.5f, -1.f));
 	AnimationsContainer::GetInstance()->AddAnimation("Celes_idle_right", new Animation("Celes", 19, 19, 0.5f, -1.f));
+	AnimationsContainer::GetInstance()->AddAnimation("Celes_ready", new Animation("Celes", 20, 22, 0.5f, -1.f));
+	AnimationsContainer::GetInstance()->AddAnimation("Celes_dead", new Animation("Celes_Dead", 0, 1, 1.f, -1.f));
 
 	// Edgar
-	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Edgar", 5, 4)->textureID = LoadTGA("Image//Characters//Edgar.tga");
+	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Edgar", 6, 4)->textureID = LoadTGA("Image//Characters//Edgar.tga");
+	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Edgar_Dead", 1, 1)->textureID = LoadTGA("Image//Characters//Edgar_Dead.tga");
 	names.push_back("Edgar");
 	AnimationsContainer::GetInstance()->AddAnimation("Edgar_walk_front", new Animation("Edgar", 0, 4, 0.5f, -1.f));
 	AnimationsContainer::GetInstance()->AddAnimation("Edgar_walk_back", new Animation("Edgar", 4, 8, 0.5f, -1.f));
@@ -63,6 +73,9 @@ id(0)
 	AnimationsContainer::GetInstance()->AddAnimation("Edgar_idle_back", new Animation("Edgar", 17, 17, 0.5f, -1.f));
 	AnimationsContainer::GetInstance()->AddAnimation("Edgar_idle_left", new Animation("Edgar", 18, 18, 0.5f, -1.f));
 	AnimationsContainer::GetInstance()->AddAnimation("Edgar_idle_right", new Animation("Edgar", 19, 19, 0.5f, -1.f));
+	AnimationsContainer::GetInstance()->AddAnimation("Edgar_ready", new Animation("Edgar", 20, 22, 0.5f, -1.f));
+	AnimationsContainer::GetInstance()->AddAnimation("Edgar_dead", new Animation("Edgar_Dead", 0, 1, 1.f, -1.f));
+
 }
 
 CharacterFactory::~CharacterFactory()
@@ -85,6 +98,31 @@ CharacterInfo* CharacterFactory::CreateCharacter()
 	character->anim.AddAnimation(name + "_idle_back");
 	character->anim.AddAnimation(name + "_idle_left");
 	character->anim.AddAnimation(name + "_idle_right");
+	character->anim.AddAnimation(name + "_ready");
+	character->anim.AddAnimation(name + "_dead");
+	character->anim.PlayAnimation(name + "_walk_front");
+	character->id = GenerateID();
+	RandomStat(character);
+	return character;
+}
+
+CharacterInfo* CharacterFactory::CreateCharacter(int level)
+{
+	string name = names[Math::RandIntMinMax(0, names.size() - 1)];
+
+	CharacterInfo* character = new CharacterInfo();
+	character->stats.AddLevel(level);
+	character->name = name;
+	character->anim.AddAnimation(name + "_walk_front");
+	character->anim.AddAnimation(name + "_walk_back");
+	character->anim.AddAnimation(name + "_walk_left");
+	character->anim.AddAnimation(name + "_walk_right");
+	character->anim.AddAnimation(name + "_idle_front");
+	character->anim.AddAnimation(name + "_idle_back");
+	character->anim.AddAnimation(name + "_idle_left");
+	character->anim.AddAnimation(name + "_idle_right");
+	character->anim.AddAnimation(name + "_ready");
+	character->anim.AddAnimation(name + "_dead");
 	character->anim.PlayAnimation(name + "_walk_front");
 	character->id = GenerateID();
 	RandomStat(character);
@@ -103,6 +141,8 @@ CharacterInfo* CharacterFactory::GetCharacter(string name)
 	character->anim.AddAnimation(name + "_idle_back");
 	character->anim.AddAnimation(name + "_idle_left");
 	character->anim.AddAnimation(name + "_idle_right");
+	character->anim.AddAnimation(name + "_ready");
+	character->anim.AddAnimation(name + "_dead");
 	character->anim.PlayAnimation(name + "_walk_front");
 	character->id = GenerateID();
 	return character;

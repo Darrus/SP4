@@ -1,5 +1,5 @@
 Name = "Terra"
-Level = 12
+Level = 10
 Str = 6
 Vit = 9
 Int = 7
@@ -17,9 +17,9 @@ BRANCH_P_DEF = 0
 BRANCH_P_DEF = 0
 Skills = 
 {
-"BliFirga",
-"Blizzaga",
-"Ice Blast",
+"Fire Blast",
 "Firaga",
-"Fire Blast"
+"Ice Blast",
+"Blizzaga",
+"BliFirga"
 } 

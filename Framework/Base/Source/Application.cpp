@@ -166,7 +166,7 @@ void Application::Init()
 	SkillContainer::GetInstance()->Init();
 
 	//Init Player
-	Player::GetInstance().Init();
+	//Player::GetInstance().Init();
 	//Player::GetInstance().LoadGame("1");
 
 	SceneManager::GetInstance()->AddScene("IntroState", new CIntroState());
