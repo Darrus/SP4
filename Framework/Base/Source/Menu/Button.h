@@ -276,47 +276,6 @@ public:
 };
 
 //============================================================================//
-//Brief: A button object adds a CharacterInfo into the Player's Party.		  //
-//============================================================================//
-class Hire_Button : public Button
-{
-protected:
-
-public:
-	CharacterInfo* m_chara_to_add;
-	int m_gold_cost;
-	inline void SetGoldCost(int cost)
-	{ 
-		m_gold_cost = cost; 
-		SetTextOffset(40, 15);
-		m_text = " Hire Me\nfor" + std::to_string(m_gold_cost) + " gold!"; 
-	}
-	inline void SetCharacterToAdd(CharacterInfo* chara_to_add){ m_chara_to_add = chara_to_add; }
-	inline void RunFunction()
-	{
-		if (m_chara_to_add == nullptr)
-			return;
-
-		if (Player::GetInstance().GetInstance().GetParty()->memberCount() == Player::GetInstance().GetInstance().GetParty()->GetMaxPartySize())
-		{
-			return;
-		}
-		else if (Player::GetInstance().m_gold < m_gold_cost)
-		{
-			return;
-		}
-		else
-		{
-			if(Player::GetInstance().GetParty()->AddMember(m_chara_to_add))
-				Player::GetInstance().m_gold -= m_gold_cost;
-		}
-	}
-
-	Hire_Button(){ SetScale(650, 150); }
-	~Hire_Button(){};
-};
-
-//============================================================================//
 //Brief: A button object that hold the index of an Item object and			  //
 //		 then disappears when pressed.										  //
 //============================================================================//

@@ -33,8 +33,8 @@ public:
 	inline int GetPhysicalDamage(){ return m_physical_dmg; }
 	inline int GetMagicDamage(){ return m_magic_dmg; }
 
-	inline int GetPhysicalDefense(){ return m_physical_def; }
-	inline int GetMagicDefense(){ return m_magic_def; }
+	inline int GetPhysicalDefence(){ return m_physical_def; }
+	inline int GetMagicDefence(){ return m_magic_def; }
 
 	//Equipment(){};
 	Equipment(EQUIPMENT_TYPE type, int physDmg, int magicDmg, int physDef, int magicDef) : 

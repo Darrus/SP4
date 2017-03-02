@@ -31,7 +31,7 @@ void Button::Render()
 		return;
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
-	modelStack.Translate(m_pos_x, m_pos_y, 0);
+	modelStack.Translate(m_pos_x, m_pos_y, m_priority);
 
 	modelStack.PushMatrix();
 	modelStack.Scale(m_scale_x, m_scale_y, 1);
@@ -57,7 +57,7 @@ void Toggle_Button::Render()
 		return;
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
-	modelStack.Translate(m_pos_x, m_pos_y, 0);
+	modelStack.Translate(m_pos_x, m_pos_y, m_priority);
 
 	modelStack.PushMatrix();
 	modelStack.Scale(m_scale_x, m_scale_y, 1);
@@ -101,7 +101,7 @@ void ShopItem_Button::Render()
 
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
-	modelStack.Translate(m_pos_x, m_pos_y, 0);
+	modelStack.Translate(m_pos_x, m_pos_y, m_priority);
 
 	//Render Background image
 	modelStack.Scale(m_scale_x, m_scale_y, 1);
@@ -156,7 +156,7 @@ void ShopCart_Button::Render()
 
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
-	modelStack.Translate(m_pos_x, m_pos_y, 0);
+	modelStack.Translate(m_pos_x, m_pos_y, m_priority);
 
 	modelStack.PushMatrix();
 	modelStack.Scale(m_scale_x, m_scale_y, 1);
@@ -184,7 +184,7 @@ void Skill_Button::Render()
 		return;
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
-	modelStack.Translate(m_pos_x, m_pos_y, 0);
+	modelStack.Translate(m_pos_x, m_pos_y, m_priority);
 
 	modelStack.PushMatrix();
 	modelStack.Scale(m_scale_x, m_scale_y, 1);
@@ -218,7 +218,7 @@ void Inventory_Button::Render()
 
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
-	modelStack.Translate(m_pos_x, m_pos_y, 0);
+	modelStack.Translate(m_pos_x, m_pos_y, m_priority);
 
 	//Render Background image
 	modelStack.Scale(m_scale_x, m_scale_y, 1);

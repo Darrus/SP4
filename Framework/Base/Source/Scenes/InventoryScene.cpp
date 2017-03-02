@@ -70,6 +70,7 @@ void InventoryScene::Init()
 	backbtn->SetPosition(50, 1000);
 	backbtn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	backbtn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+	backbtn->SetPriority(5);
 	utilitybuttons->AddButton(backbtn);
 
 	Increment_Button* nextpage = new Increment_Button();

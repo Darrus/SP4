@@ -29,6 +29,9 @@ protected:
 	float m_screen_pos_x, m_screen_pos_y;
 	float m_screen_scale_x, m_screen_scale_y;
 
+	//For when there are overlays
+	float m_priority;
+
 	//boolean to set if the GUI Object is active
 	bool m_isActive;
 
@@ -72,6 +75,7 @@ public:
 	inline void SetTextScale(float text_x, float text_y){ m_text_scale_x = text_x; m_text_scale_y = text_y; };
 	inline void SetText(string text) { m_text = text; }
 	inline void SetActive(bool active){ m_isActive = active; }
+	inline void SetPriority(float priority){ m_priority = priority; }	// -9 to 9 only. Take note of Orthographic view near and far
 
 	//Each derived class should have their own Render
 	virtual void Render()
@@ -80,7 +84,7 @@ public:
 			return;
 		MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 		modelStack.PushMatrix();
-		modelStack.Translate(m_pos_x, m_pos_y, 0);
+		modelStack.Translate(m_pos_x, m_pos_y, m_priority);
 
 		modelStack.PushMatrix();
 		modelStack.Scale(m_scale_x, m_scale_y, 1);
@@ -102,6 +106,7 @@ public:
 	GUIObject() :
 		m_pos_x(500.0f),
 		m_pos_y(500.0f),
+		m_priority(1.0f),
 		m_scale_x(100.f),
 		m_scale_y(100.f), 
 		m_text(""),

@@ -57,6 +57,7 @@ void CharacterProfileScene::Init()
 	backbtn->SetPosition(50, 1000);
 	backbtn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 	backbtn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+	backbtn->SetPriority(8);
 	utility_menu->AddButton(backbtn);
 
 	//GUIObjects
@@ -83,6 +84,7 @@ void CharacterProfileScene::Init()
 	goto_skill_tree_scene_btn->SetScale(475, 75);
 	goto_skill_tree_scene_btn->SetDesiredScene("SkillTreeScene");
 	goto_skill_tree_scene_btn->SetIsOverlay(true);
+	goto_skill_tree_scene_btn->SetPriority(8);
 	utility_menu->AddButton(goto_skill_tree_scene_btn);
 }
 
