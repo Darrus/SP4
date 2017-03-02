@@ -416,7 +416,7 @@ class LoadGame_Button : public Button
 {
 protected:
 	int load_index;
-
+	bool empty_slot;
 public:
 	inline void SetLoadSlotIndex(int index){ load_index = index; }
 	SaveInfo* save_info;
@@ -427,11 +427,17 @@ public:
 
 		save_info = new SaveInfo();
 
-		save_info->LoadGame(std::to_string(load_index));	//Need some way to check if it's nullptr
+		if (save_info->LoadGame(std::to_string(load_index)))	//If data was successfully loaded
+			empty_slot = false;
+		else
+			empty_slot = true;
 	}
 
 	inline void RunFunction()
 	{
+		if (empty_slot)
+			return;
+
 		Player::GetInstance().LoadGame(std::to_string(load_index));
 		OverworldBase* scene = dynamic_cast<OverworldBase*>(SceneManager::GetInstance()->SetActiveScene(Player::GetInstance().GetScene()));
 		scene->SetStartPos(Player::GetInstance().GetOverworldPosition());
@@ -439,7 +445,7 @@ public:
 
 	virtual void Render();
 
-	LoadGame_Button() : save_info(nullptr){};
+	LoadGame_Button() : save_info(nullptr), empty_slot(true){};
 	~LoadGame_Button(){};
 };
 

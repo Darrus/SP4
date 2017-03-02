@@ -283,7 +283,7 @@ void LoadGame_Button::Render()
 		RenderHelper::RenderMesh(m_meshList[m_isHovered]);
 	modelStack.PopMatrix();
 
-	if (save_info == nullptr)	//Check if slot is empty
+	if (empty_slot)	//Check if slot is empty
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(-m_scale_x * 0.5, 0, 1);
