@@ -15,7 +15,8 @@ public:
         if (param.caster->MP >= m_mana_cost)
         {
             param.caster->MP -= m_mana_cost;
-            param.targetList[0]->HP += m_heal_value * param.caster->stats.GetInt();
+            if (param.targetList[0]->HP > 10)
+                param.targetList[0]->HP += m_heal_value * param.caster->stats.GetInt();
             if (param.targetList[0]->HP > param.targetList[0]->stats.GetMaxHP())
                 param.targetList[0]->HP = param.targetList[0]->stats.GetMaxHP();
 
@@ -54,7 +55,9 @@ public:
             param.caster->MP -= m_mana_cost;
             for (auto itr = param.targetList.begin(); itr != param.targetList.end(); itr++)
             {
-                param.targetList[i]->HP += m_heal_value * param.caster->stats.GetInt();
+                if (param.targetList[i]->HP > 10)
+                    param.targetList[i]->HP += m_heal_value * param.caster->stats.GetInt();
+
                 if (param.targetList[i]->HP > param.targetList[i]->stats.GetMaxHP())
                     param.targetList[i]->HP = param.targetList[i]->stats.GetMaxHP();
                 ++i;
@@ -113,7 +116,7 @@ public:
     {
         m_name = "Hero Maker";
         m_heal_value = 50;
-        m_dmg_boost = 250;
+        m_dmg_boost = 500;
         m_mana_cost = 200;
         m_max_target_num = 1;
         m_ally_targetable = true;
@@ -153,8 +156,8 @@ public:
     Charisma() : Skill()
     {
         m_name = "Charisma";
-        m_dmg_boost = 400;
-        m_mana_cost = 170;
+        m_dmg_boost = 300;
+        m_mana_cost = 150;
         m_max_target_num = 4;
         m_ally_targetable = true;
         m_enemy_targetable = false;
@@ -166,7 +169,7 @@ public:
 class Illusion : public Skill
 {
 private:
-    double m_drop_rate;
+    double m_dodge_rate;
 
 public:
     inline bool UseSkill(SkillParameters param)
@@ -177,7 +180,7 @@ public:
             param.caster->MP -= m_mana_cost;
             for (auto itr = param.targetList.begin(); itr != param.targetList.end(); itr++)
             {
-                param.targetList[i]->stats.AddDodgeRate(param.targetList[i]->stats.GetDex() - (m_drop_rate * param.caster->stats.GetInt()));
+                param.targetList[i]->stats.AddDodgeRate(param.targetList[i]->stats.GetDex() + (m_dodge_rate * param.caster->stats.GetInt()));
                 ++i;
             }
             return true;
@@ -193,7 +196,7 @@ public:
     Illusion() : Skill()
     {
         m_name = "Illusion";
-        m_drop_rate = 0.2;
+        m_dodge_rate = 0.4;
         m_mana_cost = 150;
         m_max_target_num = 4;
         m_ally_targetable = false;
@@ -275,7 +278,7 @@ public:
     Sweep() : Skill()
     {
         m_name = "Sweep";
-        m_dmg_ratio = 0.8;
+        m_dmg_ratio = 0.6;
         m_mana_cost = 55;
         m_max_target_num = 4;
         m_ally_targetable = false;
@@ -298,11 +301,11 @@ public:
         {
             param.caster->MP -= m_mana_cost;
             param.targetList[0]->HP -= (m_dmg_ratio * (float)param.caster->stats.GetDamage());
+            std::cout << param.targetList[0]->stats.GetRechargeRate() << std::endl;
+            param.targetList[0]->stats.SetRechargeRate(param.targetList[0]->stats.GetRechargeRate() - (m_slow_ratio * param.caster->stats.GetAgi()));
 
-            param.targetList[0]->stats.DeductRechargeRate(param.targetList[0]->stats.GetRechargeRate() - (m_slow_ratio * param.caster->stats.GetAgi()));
-
-            if (param.targetList[0]->stats.GetRechargeRate() < 0)
-                param.targetList[0]->stats.AddRechargeRate(1);
+            if (param.targetList[0]->stats.GetRechargeRate() < 5)
+                param.targetList[0]->stats.SetRechargeRate(5);
 
             if (param.targetList[0]->HP <= 0)
                 param.targetList[0]->HP = 0;
@@ -322,7 +325,7 @@ public:
     {
         m_name = "Feint";
         m_dmg_ratio = 1.2;
-        m_slow_ratio = 100;
+        m_slow_ratio = 0.5;
         m_mana_cost = 80;
         m_max_target_num = 1;
         m_ally_targetable = false;
@@ -346,7 +349,7 @@ public:
             param.caster->MP -= m_mana_cost;
             for (auto itr = param.targetList.begin(); itr != param.targetList.end(); itr++)
             {
-                param.targetList[i]->stats.AddRechargeRate(param.targetList[i]->stats.GetAgi() - (m_boost_rate * param.caster->stats.GetInt()));
+                param.targetList[i]->stats.AddRechargeRate(param.targetList[i]->stats.GetRechargeRate() - (m_boost_rate * param.caster->stats.GetInt()));
                 ++i;
             }
             return true;
@@ -502,10 +505,10 @@ public:
             param.caster->MP -= m_mana_cost;
             param.targetList[0]->HP -= (m_dmg_multi * (float)param.caster->stats.GetSpellDamage());
 
-            param.targetList[0]->stats.DeductRechargeRate(param.targetList[0]->stats.GetRechargeRate() - (m_drop_rate * param.caster->stats.GetInt()));
+            param.targetList[0]->stats.SetRechargeRate(param.targetList[0]->stats.GetRechargeRate() - (m_drop_rate * param.caster->stats.GetInt()));
 
-            if (param.targetList[0]->stats.GetRechargeRate() < 0)
-                param.targetList[0]->stats.AddRechargeRate(1);
+            if (param.targetList[0]->stats.GetRechargeRate() < 5)
+                param.targetList[0]->stats.SetRechargeRate(5);
 
             if (param.targetList[0]->HP <= 0)
                 param.targetList[0]->HP = 0;
@@ -523,7 +526,7 @@ public:
     {
         m_name = "Ice Blast";
         m_dmg_multi = 1.2;
-        m_drop_rate = 0.2;
+        m_drop_rate = 0.85;
         m_mana_cost = 180;
         m_max_target_num = 1;
         m_ally_targetable = false;
@@ -549,14 +552,10 @@ public:
             {
                 param.targetList[i]->HP -= (m_dmg_multi * (float)param.caster->stats.GetSpellDamage());
 
-                int deductrate = param.targetList[i]->stats.GetRechargeRate() - (m_drop_rate * param.caster->stats.GetInt());
+                param.targetList[i]->stats.SetRechargeRate(param.targetList[i]->stats.GetRechargeRate() - (m_drop_rate * param.caster->stats.GetInt()));
 
-                //if (param.targetList[i]->stats.GetRechargeRate() - deductrate <= 0)
-                //    deductrate = 0;
-                param.targetList[i]->stats.DeductRechargeRate(param.targetList[i]->stats.GetRechargeRate() - (m_drop_rate * param.caster->stats.GetInt()));
-
-                if (param.targetList[i]->stats.GetRechargeRate() < 0)
-                    param.targetList[i]->stats.AddRechargeRate(1);
+                if (param.targetList[i]->stats.GetRechargeRate() < 5)
+                    param.targetList[i]->stats.SetRechargeRate(5);
 
                 if (param.targetList[i]->HP <= 0)
                     param.targetList[i]->HP = 0;
@@ -577,7 +576,7 @@ public:
     {
         m_name = "Blizzaga";
         m_dmg_multi = 1;
-        m_drop_rate = 0.15;
+        m_drop_rate = 0.7;
         m_mana_cost = 250;
         m_max_target_num = 4;
         m_ally_targetable = false;
@@ -603,10 +602,10 @@ public:
             {
                 param.targetList[i]->HP -= (m_dmg_multi * (float)param.caster->stats.GetSpellDamage());
 
-                param.targetList[i]->stats.DeductRechargeRate(param.targetList[i]->stats.GetRechargeRate() - (m_drop_rate * param.caster->stats.GetInt()));
+                param.targetList[i]->stats.SetRechargeRate(param.targetList[i]->stats.GetRechargeRate() - (m_drop_rate * param.caster->stats.GetInt()));
 
-                if (param.targetList[i]->stats.GetRechargeRate() < 0)
-                    param.targetList[i]->stats.AddRechargeRate(1);
+                if (param.targetList[i]->stats.GetRechargeRate() < 5)
+                    param.targetList[i]->stats.SetRechargeRate(5);
 
                 if (param.targetList[i]->HP <= 0)
                     param.targetList[i]->HP = 0;
@@ -630,7 +629,7 @@ public:
     {
         m_name = "BliFirga";
         m_dmg_multi = 2;
-        m_drop_rate = 0.2;
+        m_drop_rate = 0.5;
         m_mana_cost = 325;
         m_max_target_num = 4;
         m_ally_targetable = false;
@@ -640,73 +639,76 @@ public:
 };
 ///> End of Spell dmg Skills
 
-/////< Random Skills
-/////< Reduces Enemy Damage for a turn
-//class ATBBoost : public Skill
-//{
-//private:
-//    int m_atb_pt;
-//public:
-//    inline bool UseSkill(SkillParameters param)
-//    {
-//        if (param.caster->MP >= m_mana_cost)
-//        {
-//            param.caster->MP -= m_mana_cost;
-//            //param.targetList[0]->stats.ded -= (m_atb_pt * (float)param.caster->stats.GetSpellDamage());
-//        }
-//        else
-//        {
-//            return false;
-//        }
-//    }
-//
-//    //TODO:
-//    //Get these values from Lua/Text file
-//    ATBBoost() : Skill()
-//    {
-//        m_name = "ATBBoost";
-//        m_atb_pt = 2;
-//        m_mana_cost = 200;
-//        m_max_target_num = 1;
-//        m_ally_targetable = false;
-//        m_enemy_targetable = true;
-//    };
-//    ~ATBBoost(){};
-//};
-//
-//class Sabotage : public Skill
-//{
-//private:
-//    float m_dmg_multi;
-//public:
-//    inline bool UseSkill(SkillParameters param)
-//    {
-//        int i = 0;
-//        if (param.caster->MP >= m_mana_cost)
-//        {
-//            param.caster->MP -= m_mana_cost;
-//            for (auto itr = param.targetList.begin(); itr != param.targetList.end(); itr++)
-//            {
-//                param.targetList[i]->HP -= (m_dmg_multi * (float)param.caster->stats.GetSpellDamage());
-//                ++i;
-//            }
-//        }
-//        else
-//        {
-//            return false;
-//        }
-//    }
-//
-//    //TODO:
-//    //Get these values from Lua/Text file
-//    Sabotage() : Skill()
-//    {
-//        m_name = "Sabotage";
-//        m_dmg_multi = 1.7;
-//        m_mana_cost = 150;
-//        m_max_target_num = 1;
-//        m_ally_targetable = false;
-//        m_enemy_targetable = true;
-//    };
-//    ~Sabotage(){};
-//};
+///< Random Skills
+///< Attacks All Enemy and reduce Damage by 300 for a turn
+class ATKBoost : public Skill
+{
+private:
+    int m_atb_pt;
+public:
+    inline bool UseSkill(SkillParameters param)
+    {
+        if (param.caster->MP >= m_mana_cost)
+        {
+            param.caster->MP -= m_mana_cost;
+            param.targetList[0]->stats.AddDamage(m_atb_pt * param.caster->stats.GetInt());
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    //TODO:
+    //Get these values from Lua/Text file
+    ATKBoost() : Skill()
+    {
+        m_name = "ATBBoost";
+        m_atb_pt = 2;
+        m_mana_cost = 200;
+        m_max_target_num = 4;
+        m_ally_targetable = true;
+        m_enemy_targetable = false;
+    };
+    ~ATKBoost(){};
+};
+
+class Sabotage : public Skill
+{
+private:
+    double m_dmg_multi;
+    double m_dmg_reduce;
+public:
+    inline bool UseSkill(SkillParameters param)
+    {
+        int i = 0;
+        if (param.caster->MP >= m_mana_cost)
+        {
+            param.caster->MP -= m_mana_cost;
+            for (auto itr = param.targetList.begin(); itr != param.targetList.end(); itr++)
+            {
+                param.targetList[i]->HP -= (m_dmg_multi * (float)param.caster->stats.GetSpellDamage());
+                param.targetList[i]->stats.DeductDamage(m_dmg_reduce);
+                ++i;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    //TODO:
+    //Get these values from Lua/Text file
+    Sabotage() : Skill()
+    {
+        m_name = "Sabotage";
+        m_dmg_multi = 0.5;
+        m_mana_cost = 100;
+        m_dmg_reduce = 300;
+        m_max_target_num = 4;
+        m_ally_targetable = false;
+        m_enemy_targetable = true;
+    };
+    ~Sabotage(){};
+};

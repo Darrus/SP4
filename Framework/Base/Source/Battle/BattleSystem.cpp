@@ -488,8 +488,8 @@ CharacterInfo* BattleSystem::ChooseSkillTargetP()
     {
         if (playerselect == i)
         {
-            if (Player::GetInstance().GetParty()->GetMember(i) != nullptr)
-                return (Player::GetInstance().GetParty()->GetMember(i));
+            if (Player::GetInstance().GetParty()->GetMemberByIndex(i) != nullptr)
+                return (Player::GetInstance().GetParty()->GetMemberByIndex(i));
         }
     }
     return nullptr;
@@ -584,6 +584,7 @@ bool BattleSystem::FleeBattle(int playerLevel)
     {
         enemyAI->battlelog = new BattleLog(true);
         enemyAI->battlelog->battleloglist.push_back(enemyAI->battlelog);
+        id = 0;
         return true;
     }
     else
@@ -672,22 +673,30 @@ void BattleSystem::RenderUIStuff()
         }
         break;
     case CHOOSESKILLTP:
+    {
         for (int i = 0; i < playerPartySize; ++i)
         {
             if (playerselect == i)
                 Arrow->SetPosition((Vector3(windowWidth * 0.85f, windowHeight * (0.3f + ((i)* 0.15f)), 1.f)));
         }
+        RenderTargetChoose();
+    }
         break;
     case CHOOSETARGET:
         for (int i = 3; i < 7; i++)
             if (attkselect == i)
                 Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * (0.25f + (0.1f * (i - 3.f))), 10.f));
+        RenderTargetChoose();
         break;
     case CHOOSESKILLTE:
+    {
         for (int i = 3; i < 7; i++)
             if (attkselect == i)
                 Arrow->SetPosition(Vector3(windowWidth * 0.35f, windowHeight * (0.25f + (0.1f * (i - 3.f))), 10.f));
+
+        RenderTargetChoose();
         break;
+    }
     case CHOOSEDOWAT:
     {
         float DIST = 0.95f;
@@ -703,10 +712,25 @@ void BattleSystem::RenderUIStuff()
         break;
     }
 
-    if (anEntityTurn && !escapeAnot)
+    if (anEntityTurn && !escapeAnot && whichScreen != CHOOSESKILLTP && whichScreen != CHOOSESKILLTE)
         RenderBattleInterface();
 
     Arrow->RenderUI();
+}
+
+void BattleSystem::RenderTargetChoose()
+{
+    modelStack.PushMatrix();
+    modelStack.Translate(windowWidth * 0.5f, windowHeight * 0.75f, 5.f);
+    modelStack.Scale(windowWidth *0.2f, windowHeight *0.1f, 1.f);
+    RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
+    modelStack.PopMatrix();
+
+    modelStack.PushMatrix();
+    modelStack.Translate(windowWidth * 0.425f, windowHeight * 0.75f, 8.f);
+    modelStack.Scale(25.f, 25.f, 1.f);
+    RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Choose A Target", Color(0, 1, 0));
+    modelStack.PopMatrix();
 }
 
 void BattleSystem::RenderSkillInterface()
@@ -850,7 +874,7 @@ void BattleSystem::RenderNameHP()
         CharacterInfo * charapew = Player::GetInstance().GetParty()->GetMemberByIndex(i);
 
         modelStack.PushMatrix();
-        modelStack.Translate(windowWidth * 0.5, windowHeight * (0.05f * (Player::GetInstance().GetParty()->GetMemberByIndex(i)->id + 1)), 5.f);
+        modelStack.Translate(windowWidth * 0.5, windowHeight * (0.05f * (Player::GetInstance().GetParty()->GetMemberByIndex(i)->id - 3)), 5.f);
         modelStack.Scale(35.f, 35.f, 1.f);
         RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), charapew->name + " (HP:" + std::to_string(charapew->HP) + "/" + std::to_string(charapew->stats.GetMaxHP()) + ")(MP:" + std::to_string(charapew->MP) + "/" + std::to_string(charapew->stats.GetMaxMP()) + ")", Color(0, 1, 0));
         modelStack.PopMatrix();
@@ -941,7 +965,7 @@ void BattleSystem::RenderInventory()
 void BattleSystem::ShowBattleResults()
 {
     modelStack.PushMatrix();
-    modelStack.Translate(windowWidth * 0.5f, windowHeight * 0.5f, 8.5f);
+    modelStack.Translate(windowWidth * 0.5f, windowHeight * 0.5f, 8.0f);
     modelStack.Scale(windowWidth *0.8f, windowHeight * 0.8f, 1.f);
     RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("Commandselect"));
     modelStack.PopMatrix();
@@ -1159,7 +1183,7 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
             {
 				for (auto itritr = chara->skills.begin(); itritr != chara->skills.end(); ++itritr)
                 {
-                    if (skillselect == i)
+                    if (skillselect == i && ChooseSkillTarget()->HP > 0)
                     {
                         foo.targetList.push_back(ChooseSkillTarget());
 
@@ -1219,7 +1243,7 @@ void BattleSystem::GetInputSelection(BattleEntity* entity, SELECTIONAT screen, i
             {
 				for (auto itritr = chara->skills.begin(); itritr != chara->skills.end(); ++itritr)
                 {
-                    if (skillselect == i)
+                    if (skillselect == i && ChooseSkillTargetP()->HP > 0)
                     {
                         foo.targetList.push_back(ChooseSkillTargetP());
 

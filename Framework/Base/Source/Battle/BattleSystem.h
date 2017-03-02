@@ -62,6 +62,7 @@ public:
     void RenderNameHP();
     void RenderSkillInterface();
     void RenderBattleInterface();
+    void RenderTargetChoose();
 
     ///< Choosing Target and checking if entity is alive
     BattleEntity* ChooseAtkTarget(int selection);                               ///< Returns a Target for the player to attack base on the selection
