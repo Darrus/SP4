@@ -88,7 +88,8 @@ public:
 
 		modelStack.PushMatrix();
 		modelStack.Scale(m_scale_x, m_scale_y, 1);
-		RenderHelper::RenderMesh(m_image);
+		if (m_image != nullptr)
+			RenderHelper::RenderMesh(m_image);
 		modelStack.PopMatrix();
 
 		if (m_text != "")
@@ -114,7 +115,8 @@ public:
 		m_text_offset_y(0),
 		m_text_scale_x(30),
 		m_text_scale_y(30.f),
-		m_isActive(true){}
+		m_isActive(true),
+		m_image(nullptr){}
 	virtual ~GUIObject(){}
 };
 

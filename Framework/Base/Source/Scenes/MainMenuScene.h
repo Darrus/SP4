@@ -14,6 +14,7 @@ class MainMenuScene : public Scene
 {
 public:
 	GUIObject* background;
+	GUIObject* title;
 
 	MainMenuScene();
 	~MainMenuScene();

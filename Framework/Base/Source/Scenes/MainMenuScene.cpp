@@ -73,6 +73,15 @@ void MainMenuScene::Init()
 	background->SetImage(MeshBuilder::GetInstance()->GetMesh("mainmenubg"));
 	background->SetTextOffset(110, 0);
 	background->SetPriority(-1);
+
+	title = new GUIObject();
+	title->SetActive(true);
+	title->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5f, 800.f);
+	title->SetScale(1400.f, 200.f);
+	title->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
+	title->SetTextScale(200.f, 200.f);
+	title->SetTextOffset(50.f, 0.f);
+	title->SetText("Once More!");
 }
 
 void MainMenuScene::Update()
@@ -95,6 +104,7 @@ void MainMenuScene::Render()
 
 	utility_menu->Render();
 	background->Render();
+	title->Render();
 }
 
 void MainMenuScene::UnPause()
@@ -108,4 +118,5 @@ void MainMenuScene::Exit()
 	GraphicsManager::GetInstance()->DetachCamera();
 	delete background;
 	delete utility_menu;
+	delete title;
 }
