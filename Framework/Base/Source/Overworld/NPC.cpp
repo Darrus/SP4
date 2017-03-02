@@ -9,6 +9,7 @@
 #include "TriggerArea.h"
 #include "Collider\Collider_2DAABB.h"
 #include "timer.h"
+#include "SoundEngine\SoundEngine.h"
 
 NPC::NPC() :
 currentPoint(0),
@@ -17,6 +18,7 @@ moveSpeed(1.f)
 {
 	idleDuration = 0.f;
 	idleTime = idleDuration;
+	view.Set(0.f, 1.f, 0.f);
 }
 
 
@@ -51,6 +53,7 @@ void NPC::Interact()
 	DialogueScene* scene = dynamic_cast<DialogueScene*>(SceneManager::GetInstance()->SetActiveScene("Dialogue", true));
 	if (scene)
 	{
+		SoundEngine::GetInstance()->Play(sfx);
 		scene->SetDialogue(dialogue);
 	}
 }
@@ -77,6 +80,21 @@ void NPC::AddWaypoint(const Vector3& waypoint)
 
 void NPC::Idle()
 {
+	Vector3 dir = (camera->GetCameraPos() - position).Normalized();
+	float angle = Math::RadianToDegree(acos(dir.Dot(view)));
+	Vector3 test = view.Cross(dir);
+	if (test.z < 0)
+		angle = -angle;
+
+	if (angle < 45 && angle > -45)
+		anim.PlayAnimation("npc_idle_front");
+	else if (angle > 135 || angle < -135)
+		anim.PlayAnimation("npc_idle_back");
+	else if (angle < 0 && angle > -135)
+		anim.PlayAnimation("npc_idle_right");
+	else if (angle > 0 && angle < 135)
+		anim.PlayAnimation("npc_idle_left");
+
 	float dt = (float)StopWatch::GetInstance()->GetDeltaTime();
 	idleTime -= dt;
 	if (idleTime < 0.f && waypoints.size() > 0)
@@ -97,6 +115,7 @@ void NPC::Move()
 	if (dist.LengthSquared() < speed * speed)
 	{
 		state = IDLE;
+		view = dist.Normalized();
 		velocity.SetZero();
 		currentPoint = (currentPoint + 1) % waypoints.size();
 		return;
@@ -105,6 +124,23 @@ void NPC::Move()
 	{
 		velocity = dist.Normalized() * moveSpeed * dt;
 	}
+
+	//view = velocity.Normalized();
+	Vector3 dir = (camera->GetCameraPos() - position).Normalized();
+	view = velocity.Normalized();
+	float angle = Math::RadianToDegree(acos(dir.Dot(view)));
+	Vector3 test = view.Cross(dir);
+	if (test.z < 0)
+		angle = -angle;
+
+	if (angle < 45 && angle > -45)
+		anim.PlayAnimation("npc_walk_front");
+	else if (angle > 135 || angle < -135)
+		anim.PlayAnimation("npc_walk_back");
+	else if (angle < 0 && angle > -135)
+		anim.PlayAnimation("npc_walk_right");
+	else if (angle > 0 && angle < 135)
+		anim.PlayAnimation("npc_walk_left");
 }
 
 void NPC::HandleCollision(EntityBase* entity)

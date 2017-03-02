@@ -1,4 +1,4 @@
-Name = "Darrus"
+Name = "Terra"
 Level = 1
 Str = 6
 Vit = 9

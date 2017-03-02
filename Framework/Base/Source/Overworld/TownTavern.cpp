@@ -36,6 +36,8 @@ TownTavern::~TownTavern()
 
 void TownTavern::Init()
 {
+	SoundEngine::GetInstance()->AddRepeatSound("Shop", "Sound/Shop.mp3");
+
 	// Skybox
 	MeshBuilder::GetInstance()->GenerateQuad("shop_left", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//shop_left.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("shop_right", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Town//shop_right.tga");
@@ -92,7 +94,7 @@ void TownTavern::Init()
 	TavernNPC* npc = new TavernNPC();
 	npc->GetAnimator()->AddAnimation("moogle");
 	npc->GetAnimator()->PlayAnimation("moogle");
-	npc->SetScale(Vector3(5.f, 5.f, 1.f));
+	npc->SetScale(Vector3(5.f, 7.f, 1.f));
 	npc->SetPosition(Vector3(0.f, 20.f, 1.f));
 	npc->LoadDialogue("TAVERN_NPC_SHOPKEEPER");
 	npc->SetTargetScene("TavernScene");
@@ -150,6 +152,11 @@ void TownTavern::Exit()
 	OverworldBase::Exit();
 }
 
+void TownTavern::Pause()
+{
+	SoundEngine::GetInstance()->Pause("Shop");
+}
+
 void TownTavern::UnPause()
 {
 	// Camera Init
@@ -158,4 +165,5 @@ void TownTavern::UnPause()
 	camera.SetDistSpeed(100.f);
 
 	camera.SetCameraTarget(player.GetPosition());
+	SoundEngine::GetInstance()->Play("Shop");
 }

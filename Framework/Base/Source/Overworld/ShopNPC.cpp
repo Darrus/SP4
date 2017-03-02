@@ -16,6 +16,11 @@ ShopNPC::~ShopNPC()
 {
 }
 
+void ShopNPC::Update()
+{
+	anim.Update();
+}
+
 void ShopNPC::Interact()
 {
 	ShopDialogueScene* scene = dynamic_cast<ShopDialogueScene*>(SceneManager::GetInstance()->SetActiveScene("ShopDialogue", true));

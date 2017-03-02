@@ -19,6 +19,7 @@ protected:
 
 	vector<string> dialogue;
 	vector<Vector3> waypoints;
+	Vector3 view;
 	string sfx;
 	NPC_STATES state;
 	int currentPoint;

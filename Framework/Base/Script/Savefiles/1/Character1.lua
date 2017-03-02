@@ -1,4 +1,4 @@
-Name = "Randall"
+Name = "Edgar"
 Level = 1
 Str = 8
 Vit = 10

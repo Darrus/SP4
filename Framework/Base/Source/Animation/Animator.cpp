@@ -70,8 +70,12 @@ void Animator::RemoveAnimation(string name)
 
 void Animator::PlayAnimation(string name)
 {
-	activeAnim = animations.find(name)->second;
-	Reset();
+	Animation* anim = animations.find(name)->second;
+	if (activeAnim != anim)
+	{
+		activeAnim = anim;
+		Reset();
+	}
 }
 
 void Animator::Reset()

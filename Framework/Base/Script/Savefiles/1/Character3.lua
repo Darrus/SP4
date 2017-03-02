@@ -1,4 +1,4 @@
-Name = "Reuben"
+Name = "Shadow"
 Level = 1
 Str = 11
 Vit = 12

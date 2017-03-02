@@ -53,11 +53,16 @@ NPC* EntityFactory::CreateMoogle(Vector3 position, string dialogue)
 	npc->GetAnimator()->AddAnimation("npc_walk_back");
 	npc->GetAnimator()->AddAnimation("npc_walk_right");
 	npc->GetAnimator()->AddAnimation("npc_walk_left");
+	npc->GetAnimator()->AddAnimation("npc_idle_front");
+	npc->GetAnimator()->AddAnimation("npc_idle_back");
+	npc->GetAnimator()->AddAnimation("npc_idle_right");
+	npc->GetAnimator()->AddAnimation("npc_idle_left");
 	npc->GetAnimator()->PlayAnimation("npc_walk_front");
 	npc->SetScale(Vector3(5.f, 7.f, 1.f));
 	npc->SetPosition(position);
 	npc->LoadDialogue(dialogue);
 	npc->SetCollider(new CCollider_2DAABB());
+	npc->AttachSFX("Moogle");
 	npc->SetMoveSpeed(20.f);
 	return npc;
 }
