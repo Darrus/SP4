@@ -201,6 +201,7 @@ void Application::Init()
 	LoadFontData("FontData//pixelFontData.csv");
 
 	StopWatch::GetInstance()->startTimer();
+	Math::InitRNG();
 }
 
 void Application::Run()

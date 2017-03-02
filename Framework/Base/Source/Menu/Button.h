@@ -294,12 +294,17 @@ public:
 	inline void SetCharacterToAdd(CharacterInfo* chara_to_add){ m_chara_to_add = chara_to_add; }
 	inline void RunFunction()
 	{
-		if (Player::GetInstance().m_gold < m_gold_cost)
+		if (m_chara_to_add == nullptr)
 			return;
-		else if (Player::GetInstance().GetInstance().GetParty()->memberCount() == Player::GetInstance().GetInstance().GetParty()->GetMaxPartySize())
+
+		if (Player::GetInstance().GetInstance().GetParty()->memberCount() == Player::GetInstance().GetInstance().GetParty()->GetMaxPartySize())
+		{
 			return;
-		else if (m_chara_to_add == nullptr)
+		}
+		else if (Player::GetInstance().m_gold < m_gold_cost)
+		{
 			return;
+		}
 		else
 		{
 			if(Player::GetInstance().GetParty()->AddMember(m_chara_to_add))

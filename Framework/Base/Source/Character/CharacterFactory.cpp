@@ -31,7 +31,6 @@ CharacterFactory::~CharacterFactory()
 
 CharacterInfo* CharacterFactory::CreateCharacter()
 {
-	Math::InitRNG();
 	string name = names[Math::RandIntMinMax(0, names.size() - 1)];
 
 	CharacterInfo* character = new CharacterInfo();
@@ -51,7 +50,6 @@ void CharacterFactory::RandomStat(CharacterInfo* character)
 	int statPoint = character->stats.GetStatPoints();
 	int stats[6] = { 0 };
 	int sum = 0;
-	Math::InitRNG();
 	for (int i = 0; i < 6; ++i)
 	{
 		stats[i] = Math::RandIntMinMax(0, statPoint);

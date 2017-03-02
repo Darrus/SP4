@@ -103,7 +103,6 @@ void TavernScene::Init()
 		utility_menu->AddButton(chara_btn[i]);
 
 		//Add the hire button
-		Math::InitRNG();
 		hire_btn[i] = new Hire_Button();
 		hire_btn[i]->SetActive(true);
 		hire_btn[i]->SetPosition(offset_x, 100);
@@ -111,7 +110,7 @@ void TavernScene::Init()
 		hire_btn[i]->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 		hire_btn[i]->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
 		hire_btn[i]->SetCharacterToAdd(tavern_slots[i]);
-		hire_btn[i]->SetGoldCost(Math::RandIntMinMax(400, 2000));
+		hire_btn[i]->SetGoldCost(tavern_slots[i]->stats.Getlevel() * Math::RandIntMinMax(250, 500));
 
 		//Add the button to the menu list
 		utility_menu->AddButton(hire_btn[i]);
@@ -138,7 +137,7 @@ void TavernScene::Update()
 				prompt->SetText("Your Party is full!");
 			}
 			//If not enough gold
-			else if (Player::GetInstance().m_gold < hire_btn[i]->m_gold_cost)
+			if (Player::GetInstance().m_gold < hire_btn[i]->m_gold_cost)
 			{
 				prompt->SetActive(true);
 				prompt->SetText("You do not have enough gold!");
@@ -178,11 +177,13 @@ CharacterInfo* TavernScene::generate_random_character()
 
 void TavernScene::UnPause()
 {
-	//TODO:
 	//Generate random characters in the tavern slot 
 	for (unsigned i = 0; i < 4; ++i)
 	{
 		tavern_slots[i] = CharacterFactory::GetInstance()->CreateCharacter();
+		chara_btn[i]->m_chara = tavern_slots[i];
+		hire_btn[i]->m_chara_to_add = tavern_slots[i];
+		hire_btn[i]->SetGoldCost(tavern_slots[i]->stats.Getlevel() * Math::RandIntMinMax(250, 500));
 	}
 	gold_display->SetText("Your Gold:" + std::to_string(Player::GetInstance().m_gold));
 }
@@ -193,6 +194,9 @@ void TavernScene::Pause()
 	for (unsigned i = 0; i < 4; ++i)
 	{
 		if (chara_btn[i]->m_chara != nullptr)
-			delete chara_btn[i];
+		{
+			delete chara_btn[i]->m_chara;
+			chara_btn[i]->m_chara = nullptr;
+		}
 	}
 }
