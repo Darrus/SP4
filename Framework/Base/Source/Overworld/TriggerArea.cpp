@@ -1,6 +1,7 @@
 #include "TriggerArea.h"
 
 #include "OverworldPlayer.h"
+#include "../Player/Events.h"
 
 TriggerArea::TriggerArea() :
 trigger(false), active(true),
@@ -15,9 +16,6 @@ TriggerArea::~TriggerArea()
 
 void TriggerArea::HandleCollision(EntityBase* entity)
 {
-	if (!active)
-		return;
-
 	if (eventTrigger)
 		if (*eventTrigger == true)
 			return;
@@ -29,7 +27,9 @@ void TriggerArea::HandleCollision(EntityBase* entity)
 		trigger = true;
 
 		if (eventTrigger)
+		{
 			*eventTrigger = true;
+		}
 	}
 }
 

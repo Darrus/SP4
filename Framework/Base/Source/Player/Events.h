@@ -10,9 +10,10 @@ public:
 		START_GAME,
 		NUM_EVENTS
 	};
-	Events();
-	~Events();
 
 	bool events[NUM_EVENTS];
+
+	Events();
+	~Events();
 };
 

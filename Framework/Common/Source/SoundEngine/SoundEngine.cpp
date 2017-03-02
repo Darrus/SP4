@@ -53,15 +53,25 @@ void SoundEngine::Play(string name)
 		return;
 	}
 
-	map<string, ISound*>::iterator it = sounds.find(name);
-	if (it != sounds.end())
+	map<string, ISound*>::iterator it2 = sounds.find(name);
+	if (it2 != sounds.end())
 	{
-		if (it->second->getIsPaused())
-			it->second->setIsPaused(false);
-		
-		it->second->setPlayPosition(0);
-		return;
+		if (!it2->second->getIsPaused())
+			return;
+
+		map<string, ISound*>::iterator it = sounds.begin();
+		while (it != sounds.end())
+		{
+			(*it).second->setIsPaused(true);
+			++it;
+		}
+
+		if (it2->second->getIsPaused())
+			it2->second->setIsPaused(false);
+		it2->second->setPlayPosition(0);
 	}
+
+	
 
 	std::cout << "Error playing" << name << " sound. Check filename." << std::endl;
 }

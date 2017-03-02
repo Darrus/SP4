@@ -8,6 +8,7 @@ public:
 	EnemyNPC();
 	virtual ~EnemyNPC();
 
+	virtual void Update();
 	virtual void Interact();
 };
 

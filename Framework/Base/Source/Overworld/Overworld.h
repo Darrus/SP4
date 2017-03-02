@@ -36,6 +36,8 @@ public:
 	virtual void UnPause();
 	
 	static bool battle;
+
+	bool tree;
 private:
 	SkyBoxEntity mountain;
     CBattleState* battlestate;

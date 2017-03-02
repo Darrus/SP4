@@ -119,7 +119,7 @@ void TownTavern::Init()
 void TownTavern::Update()
 {
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
-		SceneManager::GetInstance()->quit = true;
+		SceneManager::GetInstance()->SetActiveScene("PauseScene", true);
 
 	player.Controls();
 	spatial.Update();

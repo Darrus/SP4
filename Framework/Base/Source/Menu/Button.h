@@ -141,6 +141,7 @@ public:
 //============================================================================//
 //Brief: A button object that calls player init and launches a new game		  //
 //============================================================================//
+#include "../Overworld/OverworldBase.h"
 
 class NewGame_Button : public ChangeScene_Button
 {
@@ -150,7 +151,8 @@ public:
 	inline void RunFunction()
 	{ 
 		Player::GetInstance().Init();
-		ChangeScene_Button::RunFunction();
+		OverworldBase* scene = dynamic_cast<OverworldBase*>(SceneManager::GetInstance()->SetActiveScene(Player::GetInstance().GetScene()));
+		scene->SetStartPos(Player::GetInstance().GetOverworldPosition());
 	}
 
 	NewGame_Button() : ChangeScene_Button(){}
@@ -407,8 +409,6 @@ public:
 
 };
 
-#include "../Overworld/OverworldBase.h"
-
 //============================================================================//
 //Brief: A button object that loads a Save Slot into the current game session //
 //============================================================================//
@@ -438,7 +438,8 @@ public:
 		if (empty_slot)
 			return;
 
-		Player::GetInstance().LoadGame(std::to_string(load_index));
+		//Player::GetInstance().LoadGame(std::to_string(load_index));
+		Player::GetInstance().CopyInfo(save_info);
 		OverworldBase* scene = dynamic_cast<OverworldBase*>(SceneManager::GetInstance()->SetActiveScene(Player::GetInstance().GetScene()));
 		scene->SetStartPos(Player::GetInstance().GetOverworldPosition());
 	}

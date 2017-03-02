@@ -29,7 +29,8 @@
 bool Overworld::battle = false;
 
 Overworld::Overworld() :
-encounterRate(0.f)
+encounterRate(0.f),
+tree(false)
 {
 }
 
@@ -161,10 +162,6 @@ void Overworld::Init()
 	trigger->SetCollider(new CCollider_2DAABB());
 	EManager.AddEntity(trigger);
 	spatial.Add(trigger);
-
-	// Assets Init
-	//SpawnTrees(50.f, Vector3(30.f, 30.f, 1.f), 100);
-	SpawnTrees(Vector3(-50.f, -50.f, 1.f), Vector3(50.f, 50.f, 1.f), 100);
 }
 
 void Overworld::Update()
@@ -178,7 +175,7 @@ void Overworld::Update()
 	camera.Update();
 
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
-		SceneManager::GetInstance()->quit = true;
+		SceneManager::GetInstance()->SetActiveScene("PauseScene", true);
 
 	if (battle && camera.GetState() == CameraFollow::IDLE)
 	{
@@ -188,10 +185,7 @@ void Overworld::Update()
     else
     {
         player.SetRenderFlag(true);
-    }
-
-	if (KeyboardController::GetInstance()->IsKeyPressed(VK_F10))
-		SceneManager::GetInstance()->SetActiveScene("PauseScene", true);
+    }	
 }
 
 void Overworld::Render()
@@ -239,6 +233,16 @@ void Overworld::UnPause()
 	battle = false;
 
 	SoundEngine::GetInstance()->Play("Terras Theme");
+
+	if (!tree)
+	{
+		SpawnTrees(Vector3(-100.f, -100.f, 1.f), Vector3(100.f, 100.f, 1.f), 200);
+		SpawnTrees(50.f, Vector3(100.f, 100.f, 1.f), 50);
+		SpawnTrees(50.f, Vector3(100.f, -100.f, 1.f), 50);
+		SpawnTrees(50.f, Vector3(-100.f, 100.f, 1.f), 50);
+		SpawnTrees(50.f, Vector3(-100.f, -100.f, 1.f), 50);
+		tree = true;
+	}
 }
 
 void Overworld::HandleEncounter(float dt)

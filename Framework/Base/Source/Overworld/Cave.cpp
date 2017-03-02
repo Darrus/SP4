@@ -21,6 +21,7 @@
 #include "../Animation/AnimationsContainer.h"
 #include "KeyboardController.h"
 #include "MatrixStack.h"
+#include "SoundEngine\SoundEngine.h"
 #include "../Application.h"
 
 Cave::Cave()
@@ -34,6 +35,8 @@ Cave::~Cave()
 
 void Cave::Init()
 {
+	SoundEngine::GetInstance()->AddRepeatSound("Struggle For Freedom", "Sound/Struggle For Freedom.mp3", 0.4f);
+
 	// Background Init
 	MeshBuilder::GetInstance()->GenerateQuad("cave_background", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Cave//cave_background.tga");
 	background.SetMesh(MeshBuilder::GetInstance()->GetMesh("cave_background"));
@@ -45,6 +48,7 @@ void Cave::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("cave", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Cave//cave.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("cave_top", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Cave//cave_top.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("landscape", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Skybox//mountain.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("Goddess", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image/Cave/goddess.tga");
 
 	skybox.SetMesh(SkyBoxEntity::FRONT, MeshBuilder::GetInstance()->GetMesh("cave"));
 	skybox.SetMesh(SkyBoxEntity::BACK, MeshBuilder::GetInstance()->GetMesh("cave"));
@@ -73,11 +77,6 @@ void Cave::Init()
 	camera.SetGround(&background);
 
 	// Player Init
-	AnimationsContainer::GetInstance()->AddAnimation("walk", new Animation("character", 1, 8, 1.f, -1));
-	AnimationsContainer::GetInstance()->AddAnimation("npc", new Animation("moogle", 0, 1, 1.f, -1));
-
-	player.GetAnimator()->AddAnimation("walk");
-	player.GetAnimator()->PlayAnimation("walk");
 	player.SetScale(Vector3(5.f, 5.f, 1.f));
 	player.SetPosition(Vector3(0.f, 0.f, 1.f));
 	player.AttachCamera(&camera);
@@ -88,9 +87,11 @@ void Cave::Init()
 	spatial.Add(&player);
 
 	// NPC Init
+	MeshBuilder::GetInstance()->GenerateSpriteAnimation("Statue", 1, 1)->textureID = LoadTGA("Image/Cave/statue.tga");
+	AnimationsContainer::GetInstance()->AddAnimation("Statue", new Animation("Statue", 0, 1, 1.f, -1));
 	EnemyNPC* npc = new EnemyNPC();
-	npc->GetAnimator()->AddAnimation("npc");
-	npc->GetAnimator()->PlayAnimation("npc");
+	npc->GetAnimator()->AddAnimation("Statue");
+	npc->GetAnimator()->PlayAnimation("Statue");
 	npc->SetScale(Vector3(20.f, 20.f, 1.f));
 	npc->SetPosition(Vector3(0.f, 80.f, 1.f));
 	npc->LoadDialogue("CAVE_NPC_BOSS");
@@ -157,7 +158,7 @@ void Cave::Init()
 void Cave::Update()
 {
 	if (KeyboardController::GetInstance()->IsKeyPressed(VK_ESCAPE))
-		SceneManager::GetInstance()->quit = true;
+		SceneManager::GetInstance()->SetActiveScene("PauseScene", true);
 
 	float dt = StopWatch::GetInstance()->GetDeltaTime();
 
@@ -203,4 +204,5 @@ void Cave::UnPause()
 	camera.SetDistSpeed(100.f);
 
 	camera.SetCameraTarget(player.GetPosition());
+	SoundEngine::GetInstance()->Play("Struggle For Freedom");
 }

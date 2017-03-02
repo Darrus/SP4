@@ -13,6 +13,11 @@ EnemyNPC::~EnemyNPC()
 {
 }
 
+void EnemyNPC::Update()
+{
+
+}
+
 void EnemyNPC::Interact()
 {
 	CBattleState* scene = dynamic_cast<CBattleState*>(SceneManager::GetInstance()->SetActiveScene("BattleScene", true));

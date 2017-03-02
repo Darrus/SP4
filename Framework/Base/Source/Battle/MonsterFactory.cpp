@@ -82,7 +82,7 @@ EnemyInfo* MonsterFactory::CreateEnemy3(int id)
 EnemyInfo* MonsterFactory::CreateBoss(int id)
 {
     LevelSync();
-    EnemyInfo* newEnemy = new EnemyInfo("Moogle");
+    EnemyInfo* newEnemy = new EnemyInfo("Goddess");
     newEnemy->stats.SetVit(10);
     newEnemy->stats.SetStr(12);
     newEnemy->stats.SetInt(10);
@@ -90,7 +90,7 @@ EnemyInfo* MonsterFactory::CreateBoss(int id)
     newEnemy->stats.SetDex(15);
     newEnemy->stats.SetAgi(10);
     newEnemy->stats.AddLevel(avgLvl + 15);
-    newEnemy->name = "King Moogle";
+    newEnemy->name = "Goddess";
     newEnemy->id = id;
     newEnemy->stats.UpdateStats();
     newEnemy->HP = newEnemy->stats.GetMaxHP();

@@ -26,6 +26,7 @@ MainMenuScene::~MainMenuScene()
 
 void MainMenuScene::Init()
 {
+	SoundEngine::GetInstance()->AddRepeatSound("Prelude", "Sound/Prelude.mp3");
 	// Create and attach the camera to the scene
 	utility_menu = new Menu();
 
@@ -94,6 +95,11 @@ void MainMenuScene::Render()
 
 	utility_menu->Render();
 	background->Render();
+}
+
+void MainMenuScene::UnPause()
+{
+	SoundEngine::GetInstance()->Play("Prelude");
 }
 
 void MainMenuScene::Exit()
