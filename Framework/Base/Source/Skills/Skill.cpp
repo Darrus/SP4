@@ -30,6 +30,7 @@ public:
     //Get these values from Lua/Text file
     Heal() : Skill()
     {
+		m_icon_name = "skill_1";
         m_name = "Heal";
         m_heal_value = 75;
         m_mana_cost = 60;
@@ -74,6 +75,7 @@ public:
     //Get these values from Lua/Text file
     Curate() : Skill()
     {
+		m_icon_name = "skill_2";
         m_name = "Curate";
         m_heal_value = 25;
         m_mana_cost = 80;
@@ -114,6 +116,7 @@ public:
     //Get these values from Lua/Text file
     HeroMaker() : Skill()
     {
+		m_icon_name = "skill_3";
         m_name = "Hero Maker";
         m_heal_value = 50;
         m_dmg_boost = 500;
@@ -155,6 +158,7 @@ public:
     //Get these values from Lua/Text file
     Charisma() : Skill()
     {
+		m_icon_name = "skill_4";
         m_name = "Charisma";
         m_dmg_boost = 300;
         m_mana_cost = 150;
@@ -195,6 +199,7 @@ public:
     //Get these values from Lua/Text file
     Illusion() : Skill()
     {
+		m_icon_name = "skill_5";
         m_name = "Illusion";
         m_dodge_rate = 0.4;
         m_mana_cost = 150;
@@ -235,6 +240,7 @@ public:
     //Get these values from Lua/Text file
     Thrust() : Skill()
     {
+		m_icon_name = "skill_6";
         m_name = "Thrust";
         m_dmg_ratio = 1.8;
         m_mana_cost = 30;
@@ -277,6 +283,7 @@ public:
     //Get these values from Lua/Text file
     Sweep() : Skill()
     {
+		m_icon_name = "skill_16";
         m_name = "Sweep";
         m_dmg_ratio = 0.6;
         m_mana_cost = 55;
@@ -323,6 +330,7 @@ public:
     //Get these values from Lua/Text file
     Feint() : Skill()
     {
+		m_icon_name = "skill_7";
         m_name = "Feint";
         m_dmg_ratio = 1.2;
         m_slow_ratio = 0.5;
@@ -362,6 +370,7 @@ public:
 
     SpeedBoost() : Skill()
     {
+		m_icon_name = "skill_7";
         m_name = "Speed Boost";
         m_boost_rate = 0.15;
         m_mana_cost = 150;
@@ -401,6 +410,7 @@ public:
     //Get these values from Lua/Text file
     PowerThrust() : Skill()
     {
+		m_icon_name = "skill_8";
         m_name = "Power Thrust";
         m_dmg_ratio = 2.5;
         m_mana_cost = 80;
@@ -439,6 +449,7 @@ public:
     //Get these values from Lua/Text file
     FireBlast() : Skill()
     {
+		m_icon_name = "skill_9";
         m_name = "Fire Blast";
         m_dmg_multi = 1.7;
         m_mana_cost = 150;
@@ -481,6 +492,7 @@ public:
     //Get these values from Lua/Text file
     Firaga() : Skill()
     {
+		m_icon_name = "skill_10";
         m_name = "Firaga";
         m_dmg_multi = 1.1;
         m_mana_cost = 200;
@@ -524,6 +536,7 @@ public:
     //Get these values from Lua/Text file
     IceBlast() : Skill()
     {
+		m_icon_name = "skill_11";
         m_name = "Ice Blast";
         m_dmg_multi = 1.2;
         m_drop_rate = 0.85;
@@ -574,6 +587,7 @@ public:
     //Get these values from Lua/Text file
     Blizzaga() : Skill()
     {
+		m_icon_name = "skill_12";
         m_name = "Blizzaga";
         m_dmg_multi = 1;
         m_drop_rate = 0.7;
@@ -627,6 +641,7 @@ public:
     //Get these values from Lua/Text file
     BliFirga() : Skill()
     {
+		m_icon_name = "skill_13";
         m_name = "BliFirga";
         m_dmg_multi = 2;
         m_drop_rate = 0.5;
@@ -663,6 +678,7 @@ public:
     //Get these values from Lua/Text file
     ATKBoost() : Skill()
     {
+		m_icon_name = "skill_14";
         m_name = "ATBBoost";
         m_atb_pt = 2;
         m_mana_cost = 200;
@@ -702,6 +718,7 @@ public:
     //Get these values from Lua/Text file
     Sabotage() : Skill()
     {
+		m_icon_name = "skill_15";
         m_name = "Sabotage";
         m_dmg_multi = 0.5;
         m_mana_cost = 100;

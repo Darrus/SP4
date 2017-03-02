@@ -33,7 +33,8 @@ void CharacterStats_Display::Render()
 	modelStack.Translate(-400, 100, 1);
 	modelStack.PushMatrix();
 	modelStack.Scale(400, 450, 1);
-	//m_chara->anim.Render();//TODO: Make sure the characters have animation (TO:REUBEN)
+	if (m_chara->anim.GetAnimatorSize())
+		m_chara->anim.Render();//TODO: Make sure the characters have animation (TO:REUBEN)
 	modelStack.PopMatrix();
 
 	//HP

@@ -45,7 +45,7 @@ void LoadGameScene::Init()
 		LoadGame_Button* load_btn = new LoadGame_Button();
 
 		load_btn->SetActive(true);
-		load_btn->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5f, Application::GetInstance().GetWindowHeight() - i * 200.f - 400.f);
+		load_btn->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5f, Application::GetInstance().GetWindowHeight() - i * 150.f - 300);
 		load_btn->SetScale(400, 100);
 		load_btn->SetText(std::to_string(i));
 		load_btn->SetLoadSlotIndex(i);
@@ -54,6 +54,15 @@ void LoadGameScene::Init()
 		load_btn->SetTextOffset(110, 0);
 		utility_menu->AddButton(load_btn);
 	}
+
+	//Background
+	background = new GUIObject();
+	background->SetActive(true);
+	background->SetPosition(Application::GetInstance().GetWindowWidth() * 0.5f, Application::GetInstance().GetWindowHeight() * 0.5f);
+	background->SetScale(1920, 1080);
+	background->SetImage(MeshBuilder::GetInstance()->GetMesh("mainmenubg"));
+	background->SetTextOffset(110, 0);
+	background->SetPriority(-1);
 }
 
 void LoadGameScene::Update()
@@ -75,6 +84,7 @@ void LoadGameScene::Render()
 	GraphicsManager::GetInstance()->DetachCamera();
 
 	utility_menu->Render();
+	background->Render();
 }
 
 void LoadGameScene::Exit()

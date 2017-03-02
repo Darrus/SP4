@@ -31,7 +31,7 @@ public:
 	inline int GetCurrentFrame() { return currentFrame; };
 	inline int GetPlayCount() { return playCount; }
 	inline bool GetDone() { return isDone; }
-
+	inline int GetAnimatorSize(){ return animations.size(); }
 	// Remove animation from the animator
 	void RemoveAnimation(string name);
 	// Plays selected animation and resets the previous

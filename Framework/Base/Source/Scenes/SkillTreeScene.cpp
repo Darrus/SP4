@@ -49,36 +49,36 @@ void SkillTreeScene::Init()
 	m_display->SetImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
 
 	//Initialise the Skill Container
-	SkillContainer::GetInstance()->Init();
+	//SkillContainer::GetInstance()->Init();
 
 	//Add some dummy skills
-	skill_branch[BRANCH_P_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_P_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_P_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_P_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_P_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_P_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+	skill_branch[BRANCH_P_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Thrust"));
+	skill_branch[BRANCH_P_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Sweep"));
+	skill_branch[BRANCH_P_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Feint"));
+	skill_branch[BRANCH_P_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Speed Boost"));
+	skill_branch[BRANCH_P_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Power Thrust"));
+	skill_branch[BRANCH_P_ATK].push_back(SkillContainer::GetInstance()->GetSkill("ATBBoost"));
 
-	skill_branch[BRANCH_M_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_M_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_M_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_M_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_M_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_M_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+	skill_branch[BRANCH_M_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Fire Blast"));
+	skill_branch[BRANCH_M_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Firaga"));
+	skill_branch[BRANCH_M_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Ice Blast"));
+	skill_branch[BRANCH_M_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Blizzaga"));
+	skill_branch[BRANCH_M_ATK].push_back(SkillContainer::GetInstance()->GetSkill("BliFirga"));
+	skill_branch[BRANCH_M_ATK].push_back(SkillContainer::GetInstance()->GetSkill("Sabotage"));
 
+	skill_branch[BRANCH_P_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Sabotage"));
+	skill_branch[BRANCH_P_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Charisma"));
 	skill_branch[BRANCH_P_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_P_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_P_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_P_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_P_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_P_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-
+	skill_branch[BRANCH_P_DEF].push_back(SkillContainer::GetInstance()->GetSkill("ATBBoost"));
+	skill_branch[BRANCH_P_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Firaga"));
+	skill_branch[BRANCH_P_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Speed Boost"));
+																				  
 	skill_branch[BRANCH_M_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_M_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_M_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_M_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_M_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
-	skill_branch[BRANCH_M_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Heal"));
+	skill_branch[BRANCH_M_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Curate"));
+	skill_branch[BRANCH_M_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Hero Maker"));
+	skill_branch[BRANCH_M_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Charisma"));
+	skill_branch[BRANCH_M_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Illusion"));
+	skill_branch[BRANCH_M_DEF].push_back(SkillContainer::GetInstance()->GetSkill("Thrust"));
 
 	//A dummy character for placeholder
 	dummy_values();
@@ -216,11 +216,11 @@ void SkillTreeScene::init_skills()
 				skill_learnt = false;
 
 			Skill_Button* skill_btn = new Skill_Button();
-			skill_btn->SetText(skill_branch[currentBranch][index_in_branch]->GetName());
+			//skill_btn->SetText(skill_branch[currentBranch][index_in_branch]->GetName());
 			skill_btn->SetPosition(index_in_branch * 150.f + 150.f, offset_y);
 			skill_btn->SetScale(125.f, 125.f);
-			skill_btn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh("button_background"));
-			skill_btn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh("button_background_alt"));
+			skill_btn->SetButtonImage(MeshBuilder::GetInstance()->GetMesh(skill_branch[currentBranch][index_in_branch]->GetIconName()));
+			skill_btn->SetHighlightedImage(MeshBuilder::GetInstance()->GetMesh(skill_branch[currentBranch][index_in_branch]->GetIconName()));
 
 			//Skill pointer stuff
 			skill_btn->SetIsSkillLearnt(skill_learnt);
@@ -245,7 +245,7 @@ void SkillTreeScene::dummy_values()
 	character->skill_branch_index[BRANCH_P_DEF] = 2;
 	character->skill_branch_index[BRANCH_M_DEF] = 3;
 	character->stats.AddSkillPoint(3);
-	character->name = "Dogshit";
+	character->name = "YOU ARE USING TEST CHARACTER";
 }
 
 void SkillTreeScene::SetCharacter(CharacterInfo* chara)

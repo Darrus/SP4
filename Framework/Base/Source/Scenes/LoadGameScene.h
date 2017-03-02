@@ -14,6 +14,7 @@ class LoadGameScene : public Scene
 public:
 	LoadGameScene();
 	~LoadGameScene();
+	GUIObject* background;
 
 	virtual void Init();
 	virtual void Update();

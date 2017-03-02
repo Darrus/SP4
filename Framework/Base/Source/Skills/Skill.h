@@ -31,7 +31,7 @@ class Skill
 {
 protected:
 	string m_name;
-	Mesh* m_icon;
+	string m_icon_name;
 	string m_description;
 
 	int m_max_target_num;
@@ -47,8 +47,8 @@ public:
 	inline void SetDescription(string desc){ m_description = desc; }
 	inline string GetDescription(){	return m_description; }
 
-	inline void SetIcon(Mesh* icon){ m_icon = icon; }
-	inline Mesh* GetIcon(){ return m_icon; }
+	inline void SetIconName(string icon){ m_icon_name = icon; }
+	inline string GetIconName(){ return m_icon_name; }
 
 	inline int GetManaCost(){ return m_mana_cost; }
 
@@ -59,7 +59,7 @@ public:
 	//Uses the skill 
     virtual bool UseSkill(SkillParameters param) = 0;
 
-	Skill() : m_name(""){}
+	Skill(){}
 	virtual ~Skill(){}
 };
 

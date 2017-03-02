@@ -42,8 +42,8 @@ void SkillDisplay::Render()
 	//Placeholder for icon
 	modelStack.PushMatrix();
 	modelStack.Translate(-0.35, 0.35, 0);
-	modelStack.Scale(0.2, 0.2, 1);
-	RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh("text"));
+	modelStack.Scale(0.15, 0.2, 1);
+	RenderHelper::RenderMesh(MeshBuilder::GetInstance()->GetMesh(m_skill->GetIconName()));
 	modelStack.PopMatrix();
 
 	////////////////////////////////////////
@@ -98,7 +98,7 @@ void SkillDisplay::Render()
 	modelStack.PushMatrix();
 	modelStack.Translate(-0.45, -0.035, 0);
 	modelStack.Scale(0.035, 0.065, 1);
-	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "NO DESCRIPTION FUCKING SHIT WTF", Color(1, 0, 0));
+	RenderHelper::RenderText(MeshBuilder::GetInstance()->GetMesh("text"), "Skill Description here.", Color(1, 0, 0));
 	modelStack.PopMatrix();
 
 	modelStack.PopMatrix();

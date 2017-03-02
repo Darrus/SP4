@@ -155,11 +155,15 @@ void Application::Init()
 
 	// Init systems
 	GraphicsManager::GetInstance()->Init();
+
+	//Item icons
 	MeshBuilder::GetInstance()->GenerateQuad("health_potion", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Items//health_potion.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("max_health_potion", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Items//max_health_potion.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("mana_potion", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Items//mana_potion.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("max_mana_potion", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Items//max_mana_potion.tga");
 	MeshBuilder::GetInstance()->GenerateQuad("stat_potion", Color(1.f, 1.f, 1.f))->textureID = LoadTGA("Image//Items//stat_potion.tga");
+
+	SkillContainer::GetInstance()->Init();
 
 	//Init Player
 	Player::GetInstance().Init();
